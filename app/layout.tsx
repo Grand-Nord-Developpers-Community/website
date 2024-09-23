@@ -7,8 +7,8 @@ import "./globals.css";
 
 
 export const metadata: Metadata = {
-  title: "GNDC",
-  description: "This is the starting point of the GNDC website",
+  title: "Grand Nord Developers Community",
+  description: "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-        <body className="w-full bg-gray-900 min-h-screen">
+        <body className="w-full bg-white">
         {children}
       </body>     
     </html>
