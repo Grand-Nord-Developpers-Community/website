@@ -1,6 +1,16 @@
 const HomePage = () => {
   return (
-    <div>HomePage</div>
+    <main className="w-full container">
+      {/* Navbar */}
+      {/* Hero */}
+      {/* OurSponsors  */}
+      {/* LatestPublications  */}
+      {/* ActivitiesAndEvents  */}
+      {/* BannerToBecomeSponsor  */}
+      {/* OurLeaders  */}
+      {/* AboutUs  */}
+      {/* Footer */}
+    </main>
   )
 }
 
