@@ -18,3 +18,10 @@ Nous allons commencer le travail avec la Landing Page et étant repartie en plus
 * Nos sponsors et Publications : Gongmoga Stéphane
 * Activités et évenements + Bannière et nos leaders: Oumarou Sanda Souley
 * A propos et Footer: Fotsing Soh Wilfred
+
+### Répartitions du 27 Septembre 2024.
+* Login and Singup pages: Mohammed El Bachir
+PS: 
+- Tu dois innover pour la signup page et le responsive design.
+- Tu vas aussi créer les routes adéquates pour ça dans le dossier `app`
+- Travail à remettre au maximum Lundi le 30 Septembre.
