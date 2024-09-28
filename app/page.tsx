@@ -1,6 +1,6 @@
 import {
   // ActivitiesAndEventsSection,
-  // LatestPublicationsSection,
+  LatestPublicationsSection,
   OurSponsorsSection,
 } from "@/sections/home";
 
@@ -10,7 +10,7 @@ const HomePage = () => {
       {/* Navbar */}
       {/* Hero */}
       <OurSponsorsSection />
-      {/* <LatestPublicationsSection /> */}
+      <LatestPublicationsSection />
       {/* <ActivitiesAndEventsSection /> */}
       {/* BannerToBecomeSponsor  */}
       {/* OurLeaders  */}
