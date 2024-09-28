@@ -17,7 +17,7 @@ const OurSponsors: FC = () => {
         les compétences dans le Grand Nord Cameroun.
       </p>
 
-      <div className="flex gap-4 w-full justify-around flex-wrap my-12 mx-2">
+      <div className="flex gap-6 w-full justify-center flex-wrap my-12 mx-2">
         {sponsors.map((sponsor, index) => {
           return (
             <a href={sponsor.url} key={sponsor.name + index}>
@@ -26,7 +26,7 @@ const OurSponsors: FC = () => {
                 width={sponsor.logo.width}
                 height={sponsor.logo.height}
                 alt={"logo " + sponsor.name}
-                className="w-auto h-16"
+                className="w-auto h-14"
               />
             </a>
           );
