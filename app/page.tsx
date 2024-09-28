@@ -1,17 +1,23 @@
+import {
+  ActivitiesAndEventsSection,
+  LatestPublicationsSection,
+  OurSponsorsSection,
+} from "@/sections/home";
+
 const HomePage = () => {
   return (
     <main className="w-full container">
       {/* Navbar */}
       {/* Hero */}
-      {/* OurSponsors  */}
-      {/* LatestPublications  */}
-      {/* ActivitiesAndEvents  */}
+      <OurSponsorsSection />
+      <LatestPublicationsSection />
+      <ActivitiesAndEventsSection />
       {/* BannerToBecomeSponsor  */}
       {/* OurLeaders  */}
       {/* AboutUs  */}
       {/* Footer */}
     </main>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
