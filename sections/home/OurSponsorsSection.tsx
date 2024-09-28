@@ -12,7 +12,7 @@ const OurSponsors: FC = () => {
   return (
     <section className="my-12">
       <p>
-        Notre communauté s&apo;associe à des entreprise, institutions et des
+        Notre communauté s&apos;associe à des entreprise, institutions et des
         communautés technologiques pour stimuler l&apos;innovation et renforcer
         les compétences dans le Grand Nord Cameroun.
       </p>
