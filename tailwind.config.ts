@@ -23,6 +23,7 @@ const config = {
         primary: "#002A52",
         secondary: "#C08541",
         black: "#2b2b2b",
+        lightGray: "#AEAEB2"
       },
     },
   },

@@ -1,5 +1,6 @@
 import {
   ActivitiesAndEventsSection,
+  BannerToBecomeSponsor,
   LatestPublicationsSection,
   OurSponsorsSection,
 } from "@/sections/home";
@@ -12,7 +13,7 @@ const HomePage = () => {
       <OurSponsorsSection />
       <LatestPublicationsSection />
       <ActivitiesAndEventsSection />
-      {/* BannerToBecomeSponsor  */}
+      <BannerToBecomeSponsor /> 
       {/* OurLeaders  */}
       {/* AboutUs  */}
       {/* Footer */}
