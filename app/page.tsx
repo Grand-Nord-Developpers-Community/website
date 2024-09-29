@@ -1,3 +1,4 @@
+import Line from "@/components/Line";
 import {
   ActivitiesAndEventsSection,
   BannerToBecomeSponsor,
@@ -13,6 +14,7 @@ const HomePage = () => {
       <OurSponsorsSection />
       <LatestPublicationsSection />
       <ActivitiesAndEventsSection />
+      <Line /> {/* This component is Used to divide some sections from others as metionned in the Figma Design */}
       <BannerToBecomeSponsor /> 
       {/* OurLeaders  */}
       {/* AboutUs  */}
