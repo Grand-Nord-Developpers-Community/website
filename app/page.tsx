@@ -5,6 +5,7 @@ import {
   LatestPublicationsSection,
   OurSponsorsSection,
 } from "@/sections/home";
+import OurLeadersSection from "@/sections/home/OurLeadersSection";
 
 const HomePage = () => {
   return (
@@ -14,9 +15,8 @@ const HomePage = () => {
       <OurSponsorsSection />
       <LatestPublicationsSection />
       <ActivitiesAndEventsSection />
-      <Line /> {/* This component is Used to divide some sections from others as metionned in the Figma Design */}
       <BannerToBecomeSponsor /> 
-      {/* OurLeaders  */}
+      <OurLeadersSection /> 
       {/* AboutUs  */}
       {/* Footer */}
     </main>
