@@ -1,14 +1,15 @@
 import {
   ActivitiesAndEventsSection,
+  HeroSection,
   LatestPublicationsSection,
   OurSponsorsSection,
 } from "@/sections/home";
 
 const HomePage = () => {
   return (
-    <main className="w-full container">
+    <main className="w-full">
       {/* Navbar */}
-      {/* Hero */}
+      <HeroSection />
       <OurSponsorsSection />
       <LatestPublicationsSection />
       <ActivitiesAndEventsSection />
