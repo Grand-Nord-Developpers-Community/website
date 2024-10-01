@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { usePublication } from "@/hooks/publication";
 import { LatestPublicationCard } from "@/components/cards";
-import Publication from "@/intefaces/publication";
+import Publication from "@/interfaces/publication";
 
 const OurSponsorsSection: FC = () => {
   const publications = usePublication({ limit: 6 });

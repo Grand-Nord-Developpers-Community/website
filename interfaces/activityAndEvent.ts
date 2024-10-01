@@ -1,4 +1,4 @@
-import User from "@/intefaces/user";
+import User from "@/interfaces/user";
 
 export default interface Activity {
   featured_image: {

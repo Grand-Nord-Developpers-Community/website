@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useActivitiesAndEvents } from "@/hooks/activitiesAndEvents";
 import { ActivityAndEventCard } from "@/components/cards";
-import ActivityAndEvent from "@/intefaces/activityAndEvent";
+import ActivityAndEvent from "@/interfaces/activityAndEvent";
 
 const ActivitiesAndEventsSection: FC = () => {
   const activitiesAndEvents = useActivitiesAndEvents({ limit: 3 });
