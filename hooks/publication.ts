@@ -1,6 +1,6 @@
 import publications from "@/data/publication";
 
-import Publication from "@/intefaces/publication";
+import Publication from "@/interfaces/publication";
 
 export const usePublication: (options?: {
   offset?: number;

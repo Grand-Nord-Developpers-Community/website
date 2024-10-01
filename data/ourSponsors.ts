@@ -1,4 +1,4 @@
-import OurSponsors from "@/intefaces/ourSponsors";
+import OurSponsors from "@/interfaces/ourSponsors";
 
 import logo2zaLab from "@/assets/images/sponsors/logo_2zaLab.png";
 import logoCITS from "@/assets/images/sponsors/logo_CITS.png";

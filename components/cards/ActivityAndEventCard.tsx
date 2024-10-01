@@ -7,7 +7,7 @@ import { Card, CardTitle, CardFooter, CardHeader } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
-import ActivityAndEvent from "@/intefaces/activityAndEvent";
+import ActivityAndEvent from "@/interfaces/activityAndEvent";
 
 type ActvityAndEventCardProps = {
   activityAndEvent: Omit<ActivityAndEvent, "created_at">;

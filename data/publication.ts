@@ -1,4 +1,4 @@
-import Publication from "@/intefaces/publication";
+import Publication from "@/interfaces/publication";
 
 const date = new Date();
 

@@ -7,7 +7,7 @@ import { Card, CardTitle, CardFooter, CardHeader } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
-import Publication from "@/intefaces/publication";
+import Publication from "@/interfaces/publication";
 
 type PublicationCardProps = { publication: Omit<Publication, "created_at"> };
 

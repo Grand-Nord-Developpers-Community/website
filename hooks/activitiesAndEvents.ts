@@ -1,6 +1,6 @@
 import activities from "@/data/publication";
 
-import ActivityAndEvents from "@/intefaces/activityAndEvent";
+import ActivityAndEvents from "@/interfaces/activityAndEvent";
 
 export const useActivitiesAndEvents: (options?: {
   offset?: number;

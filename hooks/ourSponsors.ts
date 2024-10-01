@@ -1,6 +1,6 @@
 import ourSponsors from "@/data/ourSponsors";
 
-import OurSponsors from "@/intefaces/ourSponsors";
+import OurSponsors from "@/interfaces/ourSponsors";
 
 export const useSponsors: (options?: {
   offset?: number;
