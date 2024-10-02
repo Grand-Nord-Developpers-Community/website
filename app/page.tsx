@@ -1,11 +1,9 @@
-import Line from "@/components/Line";
 import {
   ActivitiesAndEventsSection,
   HeroSection,
   LatestPublicationsSection,
   OurSponsorsSection,
 } from "@/sections/home";
-import OurLeadersSection from "@/sections/home/OurLeadersSection";
 
 const HomePage = () => {
   return (
@@ -15,8 +13,8 @@ const HomePage = () => {
       <OurSponsorsSection />
       <LatestPublicationsSection />
       <ActivitiesAndEventsSection />
-      <BannerToBecomeSponsor />
-      <OurLeadersSection />
+      {/* BannerToBecomeSponsor  */}
+      {/* OurLeaders  */}
       {/* AboutUs  */}
       {/* Footer */}
     </main>
