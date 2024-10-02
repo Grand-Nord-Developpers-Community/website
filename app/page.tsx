@@ -1,7 +1,7 @@
 import Line from "@/components/Line";
 import {
   ActivitiesAndEventsSection,
-  BannerToBecomeSponsor,
+  HeroSection,
   LatestPublicationsSection,
   OurSponsorsSection,
 } from "@/sections/home";
@@ -9,14 +9,14 @@ import OurLeadersSection from "@/sections/home/OurLeadersSection";
 
 const HomePage = () => {
   return (
-    <main className="w-full container">
+    <main className="w-full">
       {/* Navbar */}
-      {/* Hero */}
+      <HeroSection />
       <OurSponsorsSection />
       <LatestPublicationsSection />
       <ActivitiesAndEventsSection />
-      <BannerToBecomeSponsor /> 
-      <OurLeadersSection /> 
+      <BannerToBecomeSponsor />
+      <OurLeadersSection />
       {/* AboutUs  */}
       {/* Footer */}
     </main>

@@ -7,3 +7,8 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+:root {
+  --primary-color: #c08541;
+  --secondary-color: #0a436c;
+}
