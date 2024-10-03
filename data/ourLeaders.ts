@@ -3,7 +3,7 @@ import leader2 from '../assets/images/leaders/leader2.png'
 import leader3 from '../assets/images/leaders/leader3.png'
 import leader4 from '../assets/images/leaders/leader4.png'
 import leader5 from '../assets/images/leaders/leader5.png'
-import OurLeaders from '@/intefaces/ourLeaders'
+import OurLeaders from '@/interfaces/ourLeaders'
 
 
 const leaders:OurLeaders[] = [
