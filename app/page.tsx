@@ -9,7 +9,7 @@ import OurLeadersSection from "@/sections/home/OurLeadersSection";
 
 const HomePage = () => {
   return (
-    <main className="w-full">
+    <main className="w-full max-w-[1440px] px-4">
       {/* Navbar */}
       <HeroSection />
       <OurSponsorsSection />
