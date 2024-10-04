@@ -15,12 +15,12 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <>
-      <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container px-5 flex max-lg:mx-auto relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/sign-in"
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "absolute right-4 top-4 md:right-8 md:top-8"
+            "absolute right-4 top-4 md:right-8 md:top-8 max-lg:hidden",
           )}
         >
           Se connecter
@@ -52,7 +52,13 @@ export default function AuthenticationPage() {
             </blockquote>
           </div>
         </div>
-        <div className="lg:p-8">
+        <div className="lg:p-8 max-lg:mt-10">
+          <div className="absolute top-5 left-5 z-20 flex items-center text-lg font-medium hidden max-lg:block">
+            <span className="sr-only">GNDC</span>
+            <Link href={"/"}>
+              <Image src={Logo} alt="logo GNDC" width={150} />
+            </Link>
+          </div>
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">
@@ -63,6 +69,16 @@ export default function AuthenticationPage() {
               </p>
             </div>
             <UserAuthForm />
+            <p className="hidden max-lg:block mx-auto">
+              {" "}
+              <Link
+                href="#"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Se connecter
+              </Link>{" "}
+              , si vous aviez déjà un compte
+            </p>
             <p className="px-8 text-center text-sm text-muted-foreground">
               En cliquant sur continuez, vous acceptez notre{" "}
               <Link

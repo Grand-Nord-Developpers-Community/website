@@ -9,8 +9,8 @@ const OurSponsorsSection: FC = () => {
   const isEmpty = publications.length === 0;
 
   return (
-    <section className="my-12">
-      <h2 className="text-3xl font-semibold mb-4">Publications populaires</h2>
+    <section className="my-12 screen-wrapper">
+      <h2 className="text-3xl font-semibold mb-4  ">Publications populaires</h2>
       <p>
         Decouvrez nos articles populaires pour vous tenir informé des dernières
         tendances, évènements et ressources qui faconnent l&apos;écosystème
