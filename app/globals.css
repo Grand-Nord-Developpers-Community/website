@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  .screen-wrapper {
+    @apply max-w-[var(--max-width)] px-3 mx-auto max-xl:px-5 max-sm:w-full max-sm:px-3;
+  }
+}
 
 * {
   margin: 0;
@@ -11,4 +16,5 @@
 :root {
   --primary-color: #c08541;
   --secondary-color: #0a436c;
+  --max-width: 1320px;
 }

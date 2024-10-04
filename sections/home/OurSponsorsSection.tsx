@@ -12,14 +12,16 @@ const OurSponsors: FC = () => {
     <section className="bg-[#F9FAFB] py-8">
       <Link
         href="#"
-        className="text-sm w-fit mx-auto border border-primary rounded-full px-4 py-1 flex items-center mb-10 max-sm:text-sm"
+        className="text-sm max-sm:hidden block w-fit mx-auto border border-primary rounded-full px-3 py-1  mb-10 max-sm:text-sm"
       >
         <span className="text-secondary">
           Notre communauté s&apos;associe à des entreprise, pour innover.
         </span>
         &ensp;
-        <span className="text-primary">Devenir sponsor</span>&ensp;
-        <ArrowRight className="size-4 text-primary" />
+        <span className="text-primary inline-flex items-center">
+          Devenir sponsor&ensp;
+          <ArrowRight className="size-4 text-primary" />
+        </span>
       </Link>
 
       <div className="relative flex w-full items-center justify-center overflow-hidden">
@@ -32,7 +34,7 @@ const OurSponsors: FC = () => {
                   width={sponsor.logo.width}
                   height={sponsor.logo.height}
                   alt={"logo " + sponsor.name}
-                  className="w-auto h-10 mx-5"
+                  className="w-auto h-10 mx-5 max-sm:h-9"
                 />
               </a>
             );

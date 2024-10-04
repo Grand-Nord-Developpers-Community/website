@@ -67,7 +67,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx("w-full bg-white", montserra.className)}>
+      <body
+        className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
+      >
         <Header />
         {children}
       </body>

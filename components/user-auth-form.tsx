@@ -46,7 +46,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </Button>
         </div>
       </form>
-      <div className="relative">
+      <div className="relative ">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
@@ -56,7 +56,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <Button
+        variant="outline"
+        className="border-black text-black hover:bg-black hover:text-white"
+        type="button"
+        disabled={isLoading}
+      >
         {isLoading ? (
           <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
         ) : (
