@@ -43,12 +43,12 @@ export default function AuthenticationPage() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg text-left">
-                &ldquo;Communautés des développeurs du Grand Nord Cameroun pour
+                "Communauté des développeurs du Grand Nord Cameroun pour
                 promouvoir l&apos;innovation, partager les compétences
                 technologiques, et résoudre les défis locaux à travers des
-                solutions collaboratives.&rdquo;
+                solutions collaboratives."
               </p>
-              <footer className="text-sm">Touza Isaac</footer>
+              <footer className="text-sm">Touza Isaac, Leader de la communauté</footer>
             </blockquote>
           </div>
         </div>
@@ -59,24 +59,24 @@ export default function AuthenticationPage() {
                 Créer un compte
               </h1>
               <p className="text-sm text-muted-foreground">
-                Entrez votre email pour crée un compte
+                Entrez votre email pour créer un compte
               </p>
             </div>
             <UserAuthForm />
             <p className="px-8 text-center text-sm text-muted-foreground">
-              En cliquant sur continuez, vous acceptez notre{" "}
+              En cliquant sur continuer, vous acceptez nos{" "}
               <Link
                 href="/terms"
                 className="underline underline-offset-4 hover:text-primary"
               >
-                Terms de Service
+                Termes de Service
               </Link>{" "}
-              et{" "}
+              et notre{" "}
               <Link
                 href="/privacy"
                 className="underline underline-offset-4 hover:text-primary"
               >
-                Politique privée
+                Politique de confidentialité
               </Link>
               .
             </p>
