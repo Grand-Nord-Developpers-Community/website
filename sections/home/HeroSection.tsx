@@ -25,7 +25,7 @@ function HeroSection() {
             </h1>
             <div className="flex gap-5 mt-[22%]">
               <Button className="rounded-none" asChild>
-                <Link href="/sign-in">Réjoindre la communauté</Link>
+                <Link href="/sign-in">Rejoindre la communauté</Link>
               </Button>
               <Button
                 className="text-white rounded-none   border border-primary"
@@ -38,7 +38,7 @@ function HeroSection() {
           </div>
           <div className="w-[40%] flex flex-col items-end">
             <p className="text-right">
-              Communautés des développeurs du Grand Nord Cameroun pour
+              Communauté des développeurs du Grand Nord Cameroun pour
               promouvoir l&apos;innovation, partager les compétences
               technologiques, et résoudre les défis locaux à travers des
               solutions collaboratives.
@@ -73,7 +73,7 @@ function HeroSection() {
           Grand Nord Developers Community
         </h1>
         <p className="text-sm  w-full px-3 text-center mt-5">
-          Communautés des développeurs du{" "}
+          Communauté des développeurs du{" "}
           <mark className="skew-x-2 bg-primary text-white px-2 font-bold">
             Grand Nord Cameroun
           </mark>{" "}

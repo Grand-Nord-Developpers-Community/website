@@ -15,7 +15,7 @@ const OurSponsors: FC = () => {
         className="text-sm max-sm:hidden block w-fit mx-auto border border-primary rounded-full px-3 py-1  mb-10 max-sm:text-sm"
       >
         <span className="text-secondary">
-          Notre communauté s&apos;associe à des entreprise, pour innover.
+          Notre communauté s&apos;associe à des entreprises, pour innover.
         </span>
         &ensp;
         <span className="text-primary inline-flex items-center">
