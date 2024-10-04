@@ -44,6 +44,7 @@ const OurLeadersSection = () => {
                   className="w-auto p-4 border-1 border-gray-300 flex flex-col justify-center items-center cursor-pointer"
                   onMouseLeave={() => handleMouseLeave(index)}
                   onMouseEnter={() => handleMouseEnter(index)}
+                  key={index}
                 >
                   <div className="relative z-10">
                     <Image
