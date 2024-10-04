@@ -4,6 +4,8 @@ import {
   LatestPublicationsSection,
   OurSponsorsSection,
 } from "@/sections/home";
+import BannerToBecomeSponsor from "@/sections/home/BannerToBecomeSponsor";
+import OurLeadersSection from "@/sections/home/OurLeadersSection";
 
 const HomePage = () => {
   return (
@@ -13,8 +15,8 @@ const HomePage = () => {
       <OurSponsorsSection />
       <LatestPublicationsSection />
       <ActivitiesAndEventsSection />
-      {/* BannerToBecomeSponsor  */}
-      {/* OurLeaders  */}
+      <BannerToBecomeSponsor /> 
+      <OurLeadersSection /> 
       {/* AboutUs  */}
       {/* Footer */}
     </main>
