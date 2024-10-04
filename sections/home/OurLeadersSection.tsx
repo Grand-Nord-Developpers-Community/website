@@ -1,7 +1,6 @@
 "use client"
 
 import leaders from "@/data/ourLeaders"
-import OurLeaders from "@/intefaces/ourLeaders"
 import { cn } from "@/lib/utils"
 import { Facebook, Linkedin, Mail } from "lucide-react"
 import Image from "next/image"
@@ -38,7 +37,8 @@ const OurLeadersSection = () => {
                             return (
                                 <div className="w-auto p-4 border-1 border-gray-300 flex flex-col justify-center items-center cursor-pointer" 
                                     onMouseLeave={() => handleMouseLeave(index)}
-                                    onMouseEnter={() => handleMouseEnter(index)} >
+                                    onMouseEnter={() => handleMouseEnter(index)}
+                                    key={index} >
                                     <div className="relative z-10">
                                         <Image src={leader.url} alt={leader.name} className="w-20" />
                                     </div>
