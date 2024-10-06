@@ -5,14 +5,16 @@ import Publication from "@/interfaces/publication";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const OurSponsorsSection: FC = () => {
+const LatestPublicationsSection: FC = () => {
   const publications = usePublication({ limit: 5 });
 
   const isEmpty = publications.length === 0;
 
   return (
     <section className="my-12 screen-wrapper">
-      <h2 className="text-3xl font-semibold mb-4  ">Publications populaires</h2>
+      <h2 className="text-3xl font-semibold mb-4 text-primary">
+        Publications populaires
+      </h2>
       <p>
         Decouvrez nos articles populaires pour vous tenir informé des dernières
         tendances, évènements et ressources qui faconnent l&apos;écosystème
@@ -74,4 +76,4 @@ const OurPublicationsGrid: FC<{ publications: Publication[] }> = ({
   );
 };
 
-export default OurSponsorsSection;
+export default LatestPublicationsSection;
