@@ -9,7 +9,7 @@ const ActivitiesAndEventsSection: FC = () => {
   const isEmpty = activitiesAndEvents.length === 0;
 
   return (
-    <section className="my-12">
+    <section className="my-12 screen-wrapper">
       <h2 className="text-3xl font-semibold mb-4 text-primary">
         Nos activités et événements
       </h2>
