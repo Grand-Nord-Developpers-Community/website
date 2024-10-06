@@ -1,10 +1,15 @@
 import { FC } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { Image as ImageIcon, CircleUser } from "lucide-react";
+import { CalendarClock, CalendarDays } from "lucide-react";
 
-import { Card, CardTitle, CardFooter, CardHeader } from "../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  Card,
+  CardTitle,
+  CardFooter,
+  CardHeader,
+  CardContent,
+  CardDescription,
+} from "../ui/card";
 import { Button } from "../ui/button";
 
 import ActivityAndEvent from "@/interfaces/activityAndEvent";
@@ -13,80 +18,46 @@ type ActvityAndEventCardProps = {
   activityAndEvent: Omit<ActivityAndEvent, "created_at">;
 };
 
+type IconForTypeProps = Pick<ActivityAndEvent, "type">;
+
+const IconForType: FC<IconForTypeProps> = ({ type }) => {
+  const commonProps = { strokeWidth: 2, className: "h-auto w-full" };
+
+  switch (type) {
+    case "activity":
+      return <CalendarClock {...commonProps} />;
+
+    case "event":
+    default:
+      return <CalendarDays {...commonProps} />;
+  }
+};
+
 const ActivityAndEventCard: FC<ActvityAndEventCardProps> = ({
-  activityAndEvent: {
-    category,
-    published_by,
-    title,
-    updated_at,
-    featured_image,
-  },
+  activityAndEvent: { title, summary, type },
 }) => {
   return (
-    <Card>
-      <CardHeader className="p-2">
-        <figure className="rounded-md overflow-hidden aspect-video">
-          {featured_image?.src ? (
-            <Image
-              src={featured_image.src}
-              alt={featured_image.title || title}
-              width={featured_image.width}
-              height={featured_image.height}
-            />
-          ) : (
-            <div>
-              <ImageIcon
-                strokeWidth={1}
-                className="h-auto w-full bg-gray-200"
-              />
-            </div>
-          )}
-        </figure>
+    <Card className="p-4">
+      <figure className="rounded-md p-2 text-primary border border-primary flex w-16 h-16">
+        <IconForType type={type} />
+      </figure>
 
-        <div className="p-4">
-          <Button
-            asChild
-            variant="ghost"
-            className="bg-blue-50 text-blue-700 mb-2"
-            size="sm"
-          >
-            <Link href={""} className="hover:underline">
-              {category}
-            </Link>
-          </Button>
-
-          <CardTitle>
-            <Link href={""} className="hover:underline">
-              {title}
-            </Link>
-          </CardTitle>
-        </div>
+      <CardHeader className="p-0 py-3">
+        <CardTitle>
+          <Link href={""} className="hover:underline">
+            {title}
+          </Link>
+        </CardTitle>
       </CardHeader>
 
-      <CardFooter className="px-4 justify-between items-center">
-        <Link
-          href={""}
-          className="flex items-center gap-1 text-blue-950 hover:underline"
-        >
-          <Avatar>
-            <AvatarImage asChild>
-              <Image
-                src={published_by.profile_image}
-                alt={"profile image of: " + published_by.name}
-              />
-            </AvatarImage>
-            <AvatarFallback>
-              <CircleUser strokeWidth={1.25} />
-            </AvatarFallback>
-          </Avatar>
-          <span>{published_by.name}</span>
-        </Link>
+      <CardContent className="p-0 line-clamp-3">
+        <CardDescription>{summary}</CardDescription>
+      </CardContent>
 
-        <span>
-          {Intl.DateTimeFormat(undefined, { dateStyle: "long" }).format(
-            updated_at
-          )}
-        </span>
+      <CardFooter className="p-0 justify-between items-center">
+        <Button asChild variant="link" className="p-0">
+          <Link href={""}>En apprendre plus</Link>
+        </Button>
       </CardFooter>
     </Card>
   );
