@@ -10,11 +10,11 @@ const ActivitiesAndEventsSection: FC = () => {
 
   return (
     <section className="my-12 screen-wrapper">
-      <h2 className="text-3xl font-semibold mb-4 text-primary">
+      <h2 className="text-3xl font-semibold mb-4 text-primary text-center">
         Nos activités et événements
       </h2>
 
-      <p>
+      <p className="text-center">
         Découvrez dans cette section nos différentes activités, conférences,
         formations, atéliers et d&apos;autres évènements que nous organisons.
       </p>

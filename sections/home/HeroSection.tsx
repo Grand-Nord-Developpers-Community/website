@@ -10,18 +10,21 @@ import AnimatedShinyText from "@/components/ui/animated-shiny-text";
 function HeroSection() {
   return (
     <>
-      <div className="w-full h-[370px] relative max-md:hidden ">
-        <div className="absolute inset-0 -z-[1]">
+      <div className="w-full h-[370px] screen-wrapper relative max-md:hidden ">
+        <div className="absolute inset-0 -z-[1] bg-secondary ">
           <Image
             src={Slider}
             className="w-full h-full object-cover object-top"
             alt="slide image"
           />
         </div>
-        <div className="flex screen-wrapper py-5 max-lg:pt-9 text-white items-center">
+        <div className="flex py-5 max-lg:pt-9 text-white items-center">
           <div className="w-[60%] mt-5">
             <h1 className="font-extrabold text-4xl w-2/3">
-              Grand Nord Developers Community
+              <span className="text-primary">G</span>rand{" "}
+              <span className="text-primary">N</span>ord{" "}
+              <span className="text-primary">D</span>evelopers{" "}
+              <span className="text-primary">C</span>ommunity
             </h1>
             <div className="flex gap-5 mt-[22%]">
               <Button className="rounded-none" asChild>
@@ -38,10 +41,9 @@ function HeroSection() {
           </div>
           <div className="w-[40%] flex flex-col items-end">
             <p className="text-right">
-              Communauté des développeurs du Grand Nord Cameroun pour
-              promouvoir l&apos;innovation, partager les compétences
-              technologiques, et résoudre les défis locaux à travers des
-              solutions collaboratives.
+              Communauté des développeurs du Grand Nord Cameroun pour promouvoir
+              l&apos;innovation, partager les compétences technologiques, et
+              résoudre les défis locaux à travers des solutions collaboratives.
             </p>
             <Button
               className="pr-0 font-semibold text-lg"
@@ -50,7 +52,7 @@ function HeroSection() {
             >
               <Link href="#">
                 Devenir sponsor{" "}
-                <ChevronRight className="text-primary" strokeWidth={4} />
+                <ChevronRight className="text-primary -mr-2" strokeWidth={4} />
               </Link>
             </Button>
           </div>
@@ -60,7 +62,7 @@ function HeroSection() {
         <div className="flex items-center justify-center my-5">
           <div
             className={cn(
-              "group rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800",
+              "group rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800"
             )}
           >
             <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
@@ -94,7 +96,7 @@ function HeroSection() {
           y={-1}
           strokeDasharray={"4 2"}
           className={cn(
-            "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]",
+            "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
           )}
         />
       </div>
