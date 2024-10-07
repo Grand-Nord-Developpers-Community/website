@@ -26,14 +26,14 @@ const OurLeadersSection = () => {
   };
 
   return (
-    <section className="my-14 bg-white px-4">
+    <section className="screen-wrapper my-14 bg-white px-4">
       <div className="grid sm:grid-cols-12 items-start gap-4">
         <div className="sm:col-span-5">
           <h2 className="text-black text-3xl font-bold mb-4">Nos leaders</h2>
           <p className="text-xl leading-normal">
             GNDC est dirigée par une équipe de leaders passionnés et
-            visionnaires, dévoués à l'innovation technologique et à
-            l'enseignement dans le Grand Nord Cameroun.
+            visionnaires, dévoués à l&apos;innovation technologique et à
+            l&apos;enseignement dans le Grand Nord Cameroun.
           </p>
         </div>
         <div className="sm:col-span-7 flex justify-center">
