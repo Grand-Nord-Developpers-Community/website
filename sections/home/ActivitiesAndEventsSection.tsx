@@ -9,8 +9,15 @@ const ActivitiesAndEventsSection: FC = () => {
   const isEmpty = activitiesAndEvents.length === 0;
 
   return (
-    <section className="my-12">
-      <h2 className="text-3xl font-semibold mb-4">Nos activités</h2>
+    <section className="my-12 screen-wrapper">
+      <h2 className="text-3xl font-semibold mb-4 text-primary">
+        Nos activités et événements
+      </h2>
+
+      <p>
+        Découvrez dans cette section nos différentes activités, conférences,
+        formations, atéliers et d&apos;autres évènements que nous organisons.
+      </p>
 
       {isEmpty ? (
         <EmptyActivityAndEventPlaceholder />
@@ -33,12 +40,12 @@ const ActivitiesAndEventsGrid: FC<{
   activitiesAndEvents: ActivityAndEvent[];
 }> = ({ activitiesAndEvents: activitiesAndEvents }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 px-4 md:px-8 lg:px-16 pt-6 pb-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 pt-6 pb-8">
       {activitiesAndEvents.map((activityAndEvent, index) => {
         return (
           <ActivityAndEventCard
             activityAndEvent={activityAndEvent}
-            key={activityAndEvent.category + index + activityAndEvent.title}
+            key={index + activityAndEvent.title}
           />
         );
       })}

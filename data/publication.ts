@@ -1,4 +1,5 @@
 import Publication from "@/interfaces/publication";
+import FeaturedImage from "@/assets/images/login.jpg";
 
 const date = new Date();
 
@@ -10,15 +11,17 @@ const publications: Publication[] = [
     created_at: date,
     updated_at: date,
     published_by: {
-      name: "Touza",
+      name: "Admin",
       profile_image: "",
     },
     featured_image: {
-      src: "",
-      height: 300,
-      width: 600,
+      src: FeaturedImage.src,
+      height: FeaturedImage.height,
+      width: FeaturedImage.width,
       title: "A blog image",
     },
+    summary:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
     category: "Technollogy",
@@ -36,6 +39,8 @@ const publications: Publication[] = [
       width: 600,
       title: "A blog image",
     },
+    summary:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
     category: "Technollogy",
@@ -53,6 +58,8 @@ const publications: Publication[] = [
       width: 600,
       title: "A blog image",
     },
+    summary:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
     category: "Technollogy",
@@ -70,6 +77,8 @@ const publications: Publication[] = [
       width: 600,
       title: "A blog image",
     },
+    summary:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
     category: "Technollogy",
@@ -87,6 +96,8 @@ const publications: Publication[] = [
       width: 600,
       title: "A blog image",
     },
+    summary:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
     category: "Technollogy",
@@ -104,6 +115,8 @@ const publications: Publication[] = [
       width: 600,
       title: "A blog image",
     },
+    summary:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
     category: "Technollogy",
@@ -121,6 +134,8 @@ const publications: Publication[] = [
       width: 600,
       title: "A blog image",
     },
+    summary:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
     category: "Technollogy",
@@ -138,6 +153,8 @@ const publications: Publication[] = [
       width: 600,
       title: "A blog image",
     },
+    summary:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
 ];
 
