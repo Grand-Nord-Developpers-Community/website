@@ -57,7 +57,7 @@ function Header() {
               <MenuIcon />
             </Button>
           </SheetTrigger>
-          <SheetContent className="bg-white pt-5 mt-0 max-sm:w-2/3 w-[540px] max-sm:px-3 px-5">
+          <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
             <SheetHeader>
               <SheetTitle>
                 <Image src={Logo} alt="logo GNDC" width={115} />

@@ -12,25 +12,26 @@ const LatestPublicationsSection: FC = () => {
 
   return (
     <section className="my-12 screen-wrapper">
-      <h2 className="text-3xl font-semibold mb-4 text-primary">
+      <h2 className="text-3xl font-semibold mb-4 text-primary text-center">
         Publications populaires
       </h2>
-      <p>
+      <p className="text-center">
         Decouvrez nos articles populaires pour vous tenir informé des dernières
         tendances, évènements et ressources qui faconnent l&apos;écosystème
         technologique du Grand Nord Cameroun.
       </p>
 
-      <p className="flex justify-end">
-        <Button asChild variant="link" className="p-0 mt-2">
-          <Link href="">Voir tout</Link>
-        </Button>
-      </p>
-
       {isEmpty ? (
         <EmptyPublicationPlaceHolder />
       ) : (
-        <OurPublicationsGrid publications={publications} />
+        <>
+          <OurPublicationsGrid publications={publications} />
+          <p className="flex justify-center">
+            <Button asChild className="text-white">
+              <Link href="">Voir toutes les publications &rsaquo;</Link>
+            </Button>
+          </p>
+        </>
       )}
     </section>
   );
