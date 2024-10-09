@@ -2,12 +2,13 @@ import { StaticImageData } from "next/image";
 
 export default interface OurLeaders {
     name: string;
-    first_name: string,
-    last_name: string,
+    role: string;
+
     socials: {
         gmail: string;
         facebook: string;
         linkedln: string;
+        github: string;
     }
     url: StaticImageData;
   }
