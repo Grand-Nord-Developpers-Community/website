@@ -13,6 +13,8 @@ import OurLeaders from '@/interfaces/ourLeaders'
 const leaders:OurLeaders[] = [
     {
         name: "Touza Isaac",
+        first_name: "",
+        last_name: "",
         url: leader5,
         role:"Coordonateur",
         socials:{
@@ -34,6 +36,7 @@ const leaders:OurLeaders[] = [
         }
     },
     {
+
         name: "Nsangou Assan Zidan",
         role:"Leader -Adamaoua",
         url: leader3,
@@ -59,6 +62,7 @@ const leaders:OurLeaders[] = [
         name: "SANDA Oumarou",
         role:"Leader - Extrême Nord",
         url: sanda,
+
         socials:{
             gmail: "johndoe@gmail.com",
             facebook: "aajt",
@@ -68,8 +72,10 @@ const leaders:OurLeaders[] = [
     },
 
     {
+
         name: "VANA ZOKOM ELIE",
         role:"Co-Leader - Extrême Nord",
+
         url: leader1,
         socials:{
             gmail: "johndoe@gmail.com",
@@ -79,9 +85,11 @@ const leaders:OurLeaders[] = [
         }
     },
     {
+
         name: "Bakaiwe Menga Rodrigue",
         role:"Leader - Nord",
         url: bekaiwe,
+
         socials:{
             gmail: "johndoe@gmail.com",
             facebook: "aajt",
@@ -90,9 +98,11 @@ const leaders:OurLeaders[] = [
         }
     },
     {
+
         name: "DJAKAYE Dieudonné ",
         role:"Co-Leader - Nord",
         url: leader2,
+
         socials:{
             gmail: "johndoe@gmail.com",
             facebook: "aajt",

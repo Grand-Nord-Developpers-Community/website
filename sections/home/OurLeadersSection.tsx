@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail, Linkedin } from 'lucide-react';
 import leaders from "@/data/ourLeaders";
+
 import Image, { StaticImageData } from 'next/image';
 
 // Import social media icons
