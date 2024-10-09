@@ -58,7 +58,7 @@ function AboutSection() {
             </div>
           </div>
 
-          {/* Right Column - Image */}
+          {/* Right Column - Image */} 
           <div className="relative h-[600px] rounded-3xl overflow-hidden">
             <Image
               src={develperImage}
