@@ -56,7 +56,7 @@ const ActivityAndEventCard: FC<ActvityAndEventCardProps> = ({
 
       <CardFooter className="p-0 justify-between items-center">
         <Button asChild variant="link" className="p-0">
-          <Link href={""}>En apprendre plus</Link>
+          <Link href="/events/this">En apprendre plus</Link>
         </Button>
       </CardFooter>
     </Card>

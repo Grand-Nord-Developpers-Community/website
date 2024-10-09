@@ -35,7 +35,7 @@ function Header() {
         </div>
         <div className="flex items-center gap-5 max-lg:hidden">
           <nav className="flex items-center gap-8 text-black">
-            <Link href={"#"}>Nos activités</Link>
+            <Link href={"events"}>Nos activités</Link>
             <Link href={"#"}>Blog</Link>
             <Link href={"#"}>Forum</Link>
             <Link href={"#"}>Formation</Link>
