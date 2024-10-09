@@ -116,7 +116,7 @@ const FAQPage = () => {
           </p>
           <div className="mt-6 flex justify-center space-x-4">
             <Button className="text-white" asChild>
-                <Link href=""> Nous contacter</Link>
+                <Link href="/contact"> Nous contacter</Link>
              </Button>
           </div>
         </div>
