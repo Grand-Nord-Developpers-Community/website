@@ -57,7 +57,7 @@ function Footer() {
             <li><Link href="#" className="text-sm">Conditions d&apos;utilisation</Link></li>
             <li><Link href="#" className="text-sm">Confidentialité</Link></li>
             <li><Link href="#" className="text-sm">Code de conduite</Link></li>
-            <li><Link href="#" className="text-sm">FAQ</Link></li>
+            <li><Link href="/faq" className="text-sm">FAQ</Link></li>
           </ul>
         </div>
 
