@@ -44,7 +44,7 @@ function Footer() {
         <div>
           <h3 className="font-bold mb-4">RESOURCES</h3>
           <ul className="space-y-2">
-            <li><Link href="#" className="text-sm">A Propos</Link></li>
+            <li><Link href="/about" className="text-sm">A Propos</Link></li>
             <li><Link href="#" className="text-sm">Forum</Link></li>
             <li><Link href="#" className="text-sm">Blog</Link></li>
             <li><Link href="#" className="text-sm">Sponsors</Link></li>
