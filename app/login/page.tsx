@@ -69,7 +69,7 @@ export default function AuthenticationPage() {
               </p>
             </div>
             <UserAuthForm />
-            <p className="hidden max-lg:block mx-auto">
+            <p className="hidden max-lg:block mx-auto text-center">
               {" "}
               <Link
                 href="#"

@@ -58,7 +58,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       </div>
       <Button
         variant="outline"
-        className="border-black text-black hover:bg-black hover:text-white"
+        className="border border-black text-black hover:bg-black hover:text-white"
         type="button"
         disabled={isLoading}
       >

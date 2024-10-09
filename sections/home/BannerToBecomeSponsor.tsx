@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const BannerToBecomeSponsor = () => {
   return (
-    <section className="w-full my-8 bg-white  py-4">
+    <section className="screen-wrapper my-8 bg-white  py-4">
       <h2 className="text-secondary text-3xl font-bold mb-4">Nous supporter</h2>
       <div className="shadow-gray-500 shadow-sm  rounded-md grid gap-4 sm:grid-cols-12 items-center">
         <div className="sm:col-span-2">

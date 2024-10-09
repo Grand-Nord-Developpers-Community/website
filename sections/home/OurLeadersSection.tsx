@@ -26,7 +26,7 @@ const OurLeadersSection = () => {
   };
 
   return (
-    <section className="my-14 bg-white px-4">
+    <section className="screen-wrapper my-14 bg-white px-4">
       <div className="grid sm:grid-cols-12 items-start gap-4">
         <div className="sm:col-span-5">
           <h2 className="text-black text-3xl font-bold mb-4">Nos leaders</h2>

@@ -10,7 +10,7 @@ import OurLeadersSection from "@/sections/home/OurLeadersSection";
 
 const HomePage = () => {
   return (
-    <main className="w-full max-w-[1400px] mx-auto max-[1400px]:px-3">
+    <main className="w-full">
       {/* Navbar */}
       <HeroSection />
       <OurSponsorsSection />
@@ -18,7 +18,7 @@ const HomePage = () => {
       <ActivitiesAndEventsSection />
       <BannerToBecomeSponsor /> 
       <OurLeadersSection /> 
-      <AboutUsSection /> 
+      {/* AboutUs  */}
       {/* Footer */}
     </main>
   );

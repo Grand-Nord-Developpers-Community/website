@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 
 import Publication from "@/interfaces/publication";
 import { cn } from "@/lib/utils";
+import clsx from "clsx";
 
 type PublicationCardProps = {
   publication: Omit<Publication, "created_at" | "category">;
@@ -41,6 +42,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
               alt={featured_image.title || title}
               width={featured_image.width}
               height={featured_image.height}
+              className="w-full object-cover"
             />
           ) : (
             <div>
@@ -53,7 +55,11 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         </figure>
       )}
 
-      <CardHeader className="p-0 pt-4">
+      <CardHeader
+        className={clsx("p-0 pt-4", {
+          "max-sm:pt-0": !hasImage,
+        })}
+      >
         <div className="flex gap-4 items-center text-sm">
           <Button asChild variant="link" className="gap-1 p-0" size="sm">
             <Link href={""}>
@@ -81,7 +87,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         <CardTitle>
           <Link
             href={""}
-            className="hover:underline hover:text-opacity-85 active:text-opacity-85"
+            className="text-xl hover:underline hover:text-opacity-85 active:text-opacity-85"
           >
             {title}
           </Link>
