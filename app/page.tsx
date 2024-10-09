@@ -18,7 +18,7 @@ const HomePage = () => {
       <ActivitiesAndEventsSection />
       <BannerToBecomeSponsor /> 
       <OurLeadersSection /> 
-      {/* AboutUs  */}
+      <AboutUsSection /> 
       {/* Footer */}
     </main>
   );
