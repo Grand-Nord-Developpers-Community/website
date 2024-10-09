@@ -8,7 +8,7 @@ import Link from "next/link";
 const AboutUs = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">Grand Nord Developers Community (GNDC)</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center">A Propos de GNDC</h1>
       <hr/>
       <section className="mb-12 py-8">
         <h2 className="text-2xl font-semibold mb-4 flex items-center">
