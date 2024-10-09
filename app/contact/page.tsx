@@ -73,10 +73,17 @@ const ContactUs = () => {
 
         {/* Map placeholder */}
         <div className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Notre localisation</h2>
-          <div className="bg-gray-300 h-64 rounded-lg flex items-center justify-center">
-            <p className="text-gray-600">Carte interactive ici</p>
-          </div>
+        <h2 className="text-2xl font-semibold mb-4">Notre localisation</h2>
+        <div className="bg-gray-300 h-64 rounded-lg flex items-center justify-center">
+            <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15686.172842329875!2d14.3226566!3d10.5951428!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDM1JzQ0LjUiTiAxNMKwMTknMjMuNiJF!5e0!3m2!1sen!2scm!4v1696264521879!5m2!1sen!2scm"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen={false}
+            loading="lazy"
+            ></iframe>
+        </div>
         </div>
       </div>
     </div>
