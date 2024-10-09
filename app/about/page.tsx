@@ -9,8 +9,8 @@ const AboutUs = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8 text-center">Grand Nord Developers Community (GNDC)</h1>
-      
-      <section className="mb-12">
+      <hr/>
+      <section className="mb-12 py-8">
         <h2 className="text-2xl font-semibold mb-4 flex items-center">
           <Code className="mr-2" /> Description
         </h2>
