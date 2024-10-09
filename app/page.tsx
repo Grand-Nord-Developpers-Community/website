@@ -14,7 +14,7 @@ const HomePage = () => {
       <HeroSection />
       <OurSponsorsSection />
       <LatestPublicationsSection />
-      <ActivitiesAndEventsSection />
+      <ActivitiesAndEventsSection isHome={true} limit={3} />
       <BannerToBecomeSponsor />
       <OurLeadersSection />
       {/* AboutUs  */}
