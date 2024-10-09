@@ -1,29 +1,12 @@
 "use client";
 
 import leaders from "@/data/ourLeaders";
-import OurLeaders from "@/interfaces/ourLeaders";
 import { cn } from "@/lib/utils";
 import { Facebook, Linkedin, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 const OurLeadersSection = () => {
-  const [leaderDetails, setLeaderDetails] = useState(
-    Array(leaders.length).fill(false)
-  );
-
-  const handleMouseEnter = (index: number) => {
-    const newLeaderDetails = [...leaderDetails];
-    newLeaderDetails[index] = true;
-    setLeaderDetails(newLeaderDetails);
-  };
-
-  const handleMouseLeave = (index: number) => {
-    const newLeaderDetails = [...leaderDetails];
-    newLeaderDetails[index] = false;
-    setLeaderDetails(newLeaderDetails);
-  };
 
   return (
     <section className="screen-wrapper my-14 bg-white px-4">
@@ -41,9 +24,7 @@ const OurLeadersSection = () => {
             {leaders.map((leader, index) => {
               return (
                 <div
-                  className="w-auto p-4 border-1 border-gray-300 flex flex-col justify-center items-center cursor-pointer"
-                  onMouseLeave={() => handleMouseLeave(index)}
-                  onMouseEnter={() => handleMouseEnter(index)}
+                  className="w-auto p-4 border-1 border-gray-300 flex flex-col justify-center items-center cursor-pointer group"
                   key={index}
                 >
                   <div className="relative z-10">
@@ -56,7 +37,8 @@ const OurLeadersSection = () => {
                   <div
                     className={cn(
                       "mt-2 z-50 max-sm:block",
-                      leaderDetails[index] ? "block" : "hidden"
+                      "invisible",
+                      "group-hover:visible"
                     )}
                   >
                     <h4 className="text-lg text-black font-bold text-center">

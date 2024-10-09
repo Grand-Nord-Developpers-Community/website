@@ -16,6 +16,9 @@ import telegramIcon from  "@/assets/images/social-icons/telegram-icon.webp";
 import WhatsAppButton from"@/components/social-button/whatsAppbutton"
 import TelegramButton from"@/components/social-button/telegramButton"
 import DiscordButton from"@/components/social-button/discordButton"
+import TermsModal from '@/components/legal/CodeOfConductModal';
+import PrivacyModal from '@/components/legal/PrivacyModal';
+import CodeOfConductModal from '@/components/legal/TermsModal';
 
 
 
@@ -54,10 +57,17 @@ function Footer() {
         <div>
           <h3 className="font-bold mb-4">LEGAL</h3>
           <ul className="space-y-2">
+            <li><TermsModal /></li>
+            <li><PrivacyModal /></li>
+            <li><CodeOfConductModal /></li>
+            {/*
             <li><Link href="#" className="text-sm">Conditions d&apos;utilisation</Link></li>
             <li><Link href="#" className="text-sm">Confidentialité</Link></li>
             <li><Link href="#" className="text-sm">Code de conduite</Link></li>
-            <li><Link href="#" className="text-sm">FAQ</Link></li>
+            
+            */}
+            <li><Link href="/faq" className="text-sm">FAQ</Link></li>
+            <li><Link href="/contact" className="text-sm">Nous contacter</Link></li>
           </ul>
         </div>
 
