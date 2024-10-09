@@ -15,10 +15,10 @@ const HomePage = () => {
       <HeroSection />
       <OurSponsorsSection />
       <LatestPublicationsSection />
-      <ActivitiesAndEventsSection />
-      <BannerToBecomeSponsor /> 
-      <OurLeadersSection /> 
-      <AboutUsSection /> 
+      <ActivitiesAndEventsSection isHome={true} limit={3} />
+      <BannerToBecomeSponsor />
+      <OurLeadersSection />
+       <AboutUsSection />
       {/* Footer */}
     </main>
   );
