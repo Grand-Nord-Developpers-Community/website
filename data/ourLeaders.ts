@@ -9,6 +9,8 @@ import OurLeaders from '@/interfaces/ourLeaders'
 const leaders:OurLeaders[] = [
     {
         name: "Touza Isaac",
+        first_name: "",
+        last_name: "",
         url: leader5,
         socials:{
             gmail: "johndoe@gmail.com",
@@ -17,7 +19,9 @@ const leaders:OurLeaders[] = [
         }
     },
     {
-        name: "",
+        name: "give name",
+        first_name: "",
+        last_name: "",
         url: leader4,
         socials:{
             gmail: "johndoe@gmail.com",
@@ -26,7 +30,9 @@ const leaders:OurLeaders[] = [
         }
     },
     {
-        name: "",
+        name: "give name",
+        first_name: "",
+        last_name: "",
         url: leader1,
         socials:{
             gmail: "johndoe@gmail.com",
@@ -35,7 +41,9 @@ const leaders:OurLeaders[] = [
         }
     },
     {
-        name: "",
+        name: "give name",
+        first_name: "",
+        last_name: "",
         url: leader2,
         socials:{
             gmail: "johndoe@gmail.com",
@@ -44,7 +52,9 @@ const leaders:OurLeaders[] = [
         }
     },
     {
-        name: "",
+        name: "assan zidan",
+        first_name: "",
+        last_name: "",
         url: leader3,
         socials:{
             gmail: "johndoe@gmail.com",
