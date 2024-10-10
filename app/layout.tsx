@@ -73,7 +73,7 @@ export default function RootLayout({
       >
         <Header />
         {children}
-        <Footer /> {/* Ajoutez cette ligne */}
+        <Footer /> 
       </body>
     </html>
   );
