@@ -19,8 +19,8 @@ const BannerToBecomeSponsor = () => {
           <p className="text-justify w-full text-xl text-black leading-normal ">
             Devenez sponsor de la Grand Nord Developers Community et soutenez
             l&apos;innovation technologique dans le Grand Nord Cameroun, tout en
-            faisant partie d&apos;un mouvement qui façonne l&apos;avenir
-            numérique de la région.
+            faisant partie d&apos;un mouvement qui façonne l&apos;avenir numérique de la
+            région.
           </p>
         </div>
         <div className="sm:col-span-3 flex items-center justify-center">

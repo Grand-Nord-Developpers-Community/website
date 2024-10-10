@@ -2,22 +2,34 @@ import { FC } from "react";
 import { useActivitiesAndEvents } from "@/hooks/activitiesAndEvents";
 import { ActivityAndEventCard } from "@/components/cards";
 import ActivityAndEvent from "@/interfaces/activityAndEvent";
+import ActivityAndEventProps from "@/interfaces/activityAndEventsProps";
+import { cn } from "@/lib/utils";
 
-const ActivitiesAndEventsSection: FC = () => {
-  const activitiesAndEvents = useActivitiesAndEvents({ limit: 3 });
+const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = ({
+  isHome,
+  limit,
+}) => {
+  const activitiesAndEvents = useActivitiesAndEvents({ limit: limit });
 
   const isEmpty = activitiesAndEvents.length === 0;
 
   return (
     <section className="my-12 screen-wrapper">
-      <h2 className="text-3xl font-semibold mb-4 text-primary text-center">
-        Nos activités et événements
-      </h2>
+      {isHome ? (
+        <>
+          <h2 className="text-3xl font-semibold mb-4 text-primary text-center">
+            Nos activités et événements
+          </h2>
 
-      <p className="text-center">
-        Découvrez dans cette section nos différentes activités, conférences,
-        formations, atéliers et d&apos;autres évènements que nous organisons.
-      </p>
+          <p className="text-center">
+            Découvrez dans cette section nos différentes activités, conférences,
+            formations, atéliers et d&apos;autres évènements que nous
+            organisons.
+          </p>
+        </>
+      ) : (
+        <></>
+      )}
 
       {isEmpty ? (
         <EmptyActivityAndEventPlaceholder />
