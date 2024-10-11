@@ -11,8 +11,8 @@ interface StatProps {
 const StatCard = ({ number, title, description }: StatProps) => (
   <div className="mb-8">
     <div className="flex items-baseline gap-1">
-      <h3 className="text-4xl font-bold text-primary">{number}</h3>
-      <span className="text-xl font-semibold text-primary">+</span>
+      <h3 className="text-4xl font-bold text-secondary">{number}</h3>
+      <span className="text-xl font-semibold text-secondary">+</span>
     </div>
     <h4 className="text-white font-semibold mb-1">{title}</h4>
     <p className="text-white/80 text-sm leading-relaxed">{description}</p>
@@ -26,14 +26,14 @@ function AboutSection() {
         <div className="grid md:grid-cols-2 gap-8">
           {/* Left Column */}
           <div className="text-white">
-            <h2 className="text-3xl font-bold text-primary mb-6">À propos</h2>
+            <h2 className="text-3xl font-bold text-secondary mb-6">À propos</h2>
             <p className="text-xl leading-relaxed mb-6">
-              Grand Nord Developers Community réunit les développeurs du Grand Nord
-              Cameroun pour promouvoir l&apos;innovation, partager les compétences
-              technologiques, et résoudre les défis locaux à travers des solutions
-              collaboratives.
+              Grand Nord Developers Community réunit les développeurs du Grand
+              Nord Cameroun pour promouvoir l&apos;innovation, partager les
+              compétences technologiques, et résoudre les défis locaux à travers
+              des solutions collaboratives.
             </p>
-            <hr/>
+            <hr />
             <div className="grid md:grid-cols-2 gap-x-8 py-4">
               <StatCard
                 number="500"
@@ -58,7 +58,7 @@ function AboutSection() {
             </div>
           </div>
 
-          {/* Right Column - Image */} 
+          {/* Right Column - Image */}
           <div className="relative h-[600px] rounded-3xl overflow-hidden">
             <Image
               src={develperImage}

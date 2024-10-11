@@ -41,7 +41,7 @@ function Header() {
             <Link href={"#"}>Formation</Link>
           </nav>
           <Button
-            className="ml-5 border border-primary text-black"
+            className="ml-5 border border-primary text-primary hover:bg-primary hover:text-white"
             variant={"outline"}
             asChild
           >
