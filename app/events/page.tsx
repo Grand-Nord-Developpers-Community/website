@@ -25,7 +25,7 @@ export const Header = () => {
                 </svg>
               </div>
             </a>
-            <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
+            <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-3xl md:mb-12">
               <h1 className="max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight text-white sm:text-4xl md:mx-auto">
                 <span className="relative inline-block">
                   <svg
@@ -66,10 +66,10 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      <Card className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white max-lg:w-[90%]">
-        <CardContent className="flex gap-5 items-center justify-between py-3">
-          <p className="font-medium text-left">
-            Notre prochaine activité:{" "}
+      <Card className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white max-lg:w-[90%] lg:max-w-screen-lg">
+        <CardContent className="flex gap-5 items-center justify-between py-4 ">
+          <p className="font-medium text-left text-lg">
+            Notre prochaine activité :{" "}
             <span className="text-primary font-bold">The Night of Code</span>,
             le 17 Octobre 2024
           </p>
@@ -88,7 +88,7 @@ const page = () => {
   return (
     <section className="">
       <Header />
-      <div className="my-16" id="explore">
+      <div className="my-16 screen-wrapper" id="explore">
         <ActivitiesAndEventsSection limit={6} isHome={false} />
       </div>
     </section>
