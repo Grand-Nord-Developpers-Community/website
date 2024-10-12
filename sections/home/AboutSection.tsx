@@ -54,8 +54,8 @@ const TestimonialsWithStats = () => {
 
               <div className="relative z-10">
                 <p className="text-xl italic text-gray-400">
-                  Une communautées des devs formidables avec qui travailler.
-                  très rapide et professionnel.
+                  Une communauté de devs formidables avec qui travailler. Le
+                  grand Nord possède un incroyable talent
                 </p>
               </div>
 
@@ -71,7 +71,7 @@ const TestimonialsWithStats = () => {
                   <div className="grow">
                     <div className="font-semibold ">MOHAMED EL BACHIR</div>
                     <div className="text-xs ">
-                      Lead Frontend GNDC & CEO Woilasoft
+                      Lead Frontend GNDC & Co-founder Woilasoft
                     </div>
                   </div>
                 </div>

@@ -10,7 +10,7 @@ import AnimatedShinyText from "@/components/ui/animated-shiny-text";
 function HeroSection() {
   return (
     <>
-      <div className="w-full h-[370px] lg:h-[450px] screen-wrapper relative max-md:hidden ">
+      <div className="w-full h-[370px] lg:h-[450px]  relative max-md:hidden ">
         <div className="absolute inset-0 -z-[1] bg-primary ">
           <Image
             src={Slider}
@@ -18,7 +18,7 @@ function HeroSection() {
             alt="slide image"
           />
         </div>
-        <div className="flex py-5 text-white items-center h-full lg:py-10">
+        <div className="flex py-5 text-white items-center h-full lg:py-10 screen-wrapper">
           <div className="w-[60%] mt-0 h-full justify-between flex flex-col">
             <h1 className="font-extrabold text-4xl w-2/3">
               <span className="text-secondary">G</span>rand{" "}
