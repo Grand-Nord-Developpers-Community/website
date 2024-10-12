@@ -5,7 +5,7 @@ import { Calendar, Locate, LucideShieldQuestion } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
-const page = () => {
+const EventPageDetails = () => {
   const { eventslug } = useParams();
   const data = useActivitiesAndEvents({ limit: 1 });
   const activityOrEvent = data[0];
@@ -29,7 +29,7 @@ const page = () => {
         </div>
         <div className="md:col-span-4 md:border-l-2 md:ps-3">
           <div className="flex flex-col">
-            <h2 className="text-xl font-bold">Détails sur l'évenement</h2>
+            <h2 className="text-xl font-bold">Détails sur l&apos;évenement</h2>
             <ul className="py-4 flex flex-col gap-3">
               <li className="flex items-center gap-2 border-2 rounded-md py-2 px-3">
                 <LucideShieldQuestion className="size-8 text-primary" />
@@ -70,4 +70,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default EventPageDetails;

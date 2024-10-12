@@ -12,15 +12,15 @@ const OurSponsors: FC = () => {
     <section className="bg-[#F9FAFB] py-8">
       <Link
         href="#"
-        className="text-sm max-sm:hidden block w-fit mx-auto border border-primary rounded-full px-3 py-1  mb-10 max-sm:text-sm"
+        className="text-sm max-sm:hidden block w-fit mx-auto border border-secondary rounded-full px-3 py-1  mb-10 max-sm:text-sm"
       >
-        <span className="text-secondary">
+        <span className="text-black">
           Notre communauté s&apos;associe à des entreprises, pour innover.
         </span>
         &ensp;
-        <span className="text-primary inline-flex items-center">
+        <span className="text-secondary inline-flex items-center">
           Devenir sponsor&ensp;
-          <ArrowRight className="size-4 text-primary" />
+          <ArrowRight className="size-4 text-secondary" />
         </span>
       </Link>
 

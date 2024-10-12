@@ -11,28 +11,30 @@ const LatestPublicationsSection: FC = () => {
   const isEmpty = publications.length === 0;
 
   return (
-    <section className="my-12 screen-wrapper">
-      <h2 className="text-3xl font-semibold mb-4 text-primary text-center">
-        Publications populaires
-      </h2>
-      <p className="text-center">
-        Decouvrez nos articles populaires pour vous tenir informé des dernières
-        tendances, évènements et ressources qui faconnent l&apos;écosystème
-        technologique du Grand Nord Cameroun.
-      </p>
+    <section className="my-12 w-full bg-gray-50 py-8">
+      <div className="screen-wrapper">
+        <h2 className="text-3xl font-bold mb-4 text-primary text-center  ">
+          Publications populaires
+        </h2>
+        <p className="text-center max-w-screen-lg mx-auto">
+          Decouvrez nos articles populaires pour vous tenir informé des
+          dernières tendances, évènements et ressources qui faconnent
+          l&apos;écosystème technologique du Grand Nord Cameroun.
+        </p>
 
-      {isEmpty ? (
-        <EmptyPublicationPlaceHolder />
-      ) : (
-        <>
-          <OurPublicationsGrid publications={publications} />
-          <p className="flex justify-center">
-            <Button asChild className="text-white">
-              <Link href="">Voir toutes les publications &rsaquo;</Link>
-            </Button>
-          </p>
-        </>
-      )}
+        {isEmpty ? (
+          <EmptyPublicationPlaceHolder />
+        ) : (
+          <>
+            <OurPublicationsGrid publications={publications} />
+            <p className="flex justify-center">
+              <Button asChild className="text-white">
+                <Link href="/blog">Voir toutes les publications &rsaquo;</Link>
+              </Button>
+            </p>
+          </>
+        )}
+      </div>
     </section>
   );
 };
@@ -55,7 +57,7 @@ const OurPublicationsGrid: FC<{ publications: Publication[] }> = ({
       {firstPublication && (
         <PublicationCard
           publication={firstPublication}
-          cardClassName="p-4"
+          cardClassName="p-4 bg-white"
           hasImage
           hasFooter
           showSummary
@@ -68,7 +70,7 @@ const OurPublicationsGrid: FC<{ publications: Publication[] }> = ({
             <PublicationCard
               publication={publication}
               key={publication.category + index + publication.title}
-              cardClassName="border-0 shadow-none last:border-b-0 border-b border-gray-300 even:bg-gray-50 pb-4 flex-1 p-3"
+              cardClassName="border-0 shadow-none last:border-b-0 border-b border-gray-300 even:bg-white pb-4 flex-1 p-3"
             />
           );
         })}
