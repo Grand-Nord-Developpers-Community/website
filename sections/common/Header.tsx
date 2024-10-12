@@ -63,7 +63,7 @@ function Header() {
                 <Image src={Logo} alt="logo GNDC" width={115} />
               </SheetTitle>
             </SheetHeader>
-            <nav className="flex flex-col gap-4 text-secondary my-4">
+            <nav className="flex flex-col gap-4 text-primary my-4">
               <Link href={"#"}>Nos activités</Link>
               <Link href={"#"}>Blog</Link>
               <Link href={"#"}>Forum</Link>
@@ -73,7 +73,7 @@ function Header() {
             <SheetFooter className="gap-3">
               <SheetClose asChild>
                 <Button
-                  className="grow border border-primary text-black"
+                  className="grow border border-primary text-primary hover:bg-primary hover:text-white"
                   variant={"outline"}
                   asChild
                 >

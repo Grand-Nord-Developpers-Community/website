@@ -79,17 +79,14 @@ function HeroSection() {
         </h1>
         <p className="text-sm  w-full px-3 text-center mt-5">
           Communauté des développeurs du{" "}
-          <mark className="skew-x-2 bg-primary text-white px-2 font-bold">
+          <mark className="skew-x-2 bg-secondary text-white px-2 font-bold">
             Grand Nord Cameroun
           </mark>{" "}
           pour promouvoir l&apos;innovation, partager les compétences
           technologiques, et résoudre les défis locaux à travers des solutions
           collaboratives.
         </p>
-        <Button
-          className="mt-3 grow border border-primary rounded-full text-white"
-          asChild
-        >
+        <Button className="mt-3 grow  rounded-full text-white" asChild>
           <Link href="/login">Rejoindre la communauté</Link>
         </Button>
         <GridPattern

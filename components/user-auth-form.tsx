@@ -42,7 +42,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
           <Button disabled={isLoading} className="text-white">
             {isLoading && <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />}
-            Se connecter avec Email
+            Se connecter avec email
           </Button>
         </div>
       </form>

@@ -6,6 +6,7 @@ import {
 } from "@/sections/home";
 import AboutUsSection from "@/sections/home/AboutUsSection";
 import BannerToBecomeSponsor from "@/sections/home/BannerToBecomeSponsor";
+import Introduction from "@/sections/home/Introduction";
 import OurLeadersSection from "@/sections/home/OurLeadersSection";
 
 const HomePage = () => {
@@ -14,11 +15,12 @@ const HomePage = () => {
       {/* Navbar */}
       <HeroSection />
       <OurSponsorsSection />
+      <Introduction />
       <LatestPublicationsSection />
       <ActivitiesAndEventsSection isHome={true} limit={3} />
       <BannerToBecomeSponsor />
       <OurLeadersSection />
-       <AboutUsSection />
+      <AboutUsSection />
       {/* Footer */}
     </main>
   );
