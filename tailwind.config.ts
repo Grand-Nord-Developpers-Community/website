@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import preline from 'preline/plugin.js';
 const config = {
 	darkMode: ["class"],
 	content: [
@@ -8,50 +7,53 @@ const config = {
 		"./sections/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
-		'node_modules/preline/dist/*.js',
+		"node_modules/preline/dist/*.js",
 	],
 	prefix: "",
 	theme: {
 		extend: {
 			colors: {
-				primary: '#0a436c',
-				secondary: '#c08541',
-				black: '#2b2b2b'
+				primary: "#0a436c",
+				secondary: "#c08541",
+				black: "#2b2b2b",
 			},
 			keyframes: {
 				marquee: {
 					from: {
-						transform: 'translateX(0)'
+						transform: "translateX(0)",
 					},
 					to: {
-						transform: 'translateX(calc(-100% - var(--gap)))'
-					}
+						transform: "translateX(calc(-100% - var(--gap)))",
+					},
 				},
-				'marquee-vertical': {
+				"marquee-vertical": {
 					from: {
-						transform: 'translateY(0)'
+						transform: "translateY(0)",
 					},
 					to: {
-						transform: 'translateY(calc(-100% - var(--gap)))'
-					}
-				},
-				'shiny-text': {
-					'0%, 90%, 100%': {
-						'background-position': 'calc(-100% - var(--shiny-width)) 0'
+						transform: "translateY(calc(-100% - var(--gap)))",
 					},
-					'30%, 60%': {
-						'background-position': 'calc(100% + var(--shiny-width)) 0'
-					}
-				}
+				},
+				"shiny-text": {
+					"0%, 90%, 100%": {
+						"background-position":
+							"calc(-100% - var(--shiny-width)) 0",
+					},
+					"30%, 60%": {
+						"background-position":
+							"calc(100% + var(--shiny-width)) 0",
+					},
+				},
 			},
 			animation: {
-				marquee: 'marquee var(--duration) infinite linear',
-				'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
-				'shiny-text': 'shiny-text 8s infinite'
-			}
-		}
+				marquee: "marquee var(--duration) infinite linear",
+				"marquee-vertical":
+					"marquee-vertical var(--duration) linear infinite",
+				"shiny-text": "shiny-text 8s infinite",
+			},
+		},
 	},
-	plugins: [preline, require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 
 export default config;

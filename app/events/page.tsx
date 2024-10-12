@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ActivitiesAndEventsSection } from "@/sections/home";
 import Link from "next/link";
-export const Header = () => {
+export const metadata: Metadata = {
+  title: "GNDC | Events",
+  description:
+    "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
+};
+const HeaderEventPage = () => {
   return (
     <div className="bg-primary w-full relative">
       <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-14">
@@ -87,7 +93,7 @@ export const Header = () => {
 const page = () => {
   return (
     <section className="">
-      <Header />
+      <HeaderEventPage />
       <div className="my-16 screen-wrapper" id="explore">
         <ActivitiesAndEventsSection limit={6} isHome={false} />
       </div>

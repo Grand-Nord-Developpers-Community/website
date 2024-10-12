@@ -74,7 +74,6 @@ export default function RootLayout({
         <Header />
         <main className="w-full min-h-screen">{children}</main>
         <Footer />
-        <script src="preline/dist/preline.js" defer></script>
       </body>
     </html>
   );
