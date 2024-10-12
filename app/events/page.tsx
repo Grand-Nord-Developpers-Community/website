@@ -1,56 +1,98 @@
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { ActivitiesAndEventsSection } from "@/sections/home";
 import Link from "next/link";
-
-const page = () => {
+export const Header = () => {
   return (
-    <section className="">
-      <div className="mx-auto max-w-screen-xl px-4 py-16 lg:flex lg:h-screen lg:items-center">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-3xl font-extrabold capitalize !leading-snug sm:text-5xl">
-            Nos activités, événements,
-            <strong className="font-extrabold text-primary sm:block">
-              conférences & atéliers.
-            </strong>
-          </h1>
-
-          <p className="mt-4 sm:text-xl/relaxed">
-            Nous sommes une communauté active qui organise des ateliers, des
-            évenements locaux en présentiel et à distance, des conférences, des
-            formations et bien plus encore; pour les membres de la communauté et
-            la population locale.
-          </p>
-          <div className="shadow-sm rounded-md my-3 shadow-primary px-4 py-3 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
-            <p className="text-center font-medium sm:text-left">
-              Notre prochaine activité: <br className="sm:hidden" />
-              <span className="text-primary font-bold">The Night of Code</span>,
-              le 17 Octobre 2024
-            </p>
-
-            <Link className="mt-4 block transition sm:mt-0" href={"#"}>
-              <Button variant={"outline"} size={"lg"}>
-                Réserver
-              </Button>
-            </Link>
-          </div>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link className="mt-4 block transition sm:mt-0" href={"#explore"}>
-              <Button variant={"default"} size={"lg"}>
-                Explorez nos activités
-              </Button>
-            </Link>
+    <div className="bg-primary w-full relative">
+      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-14">
+        <div className="max-w-xl sm:mx-auto lg:max-w-2xl">
+          <div className="flex flex-col mb-16 sm:text-center sm:mb-0">
+            <a href="/" className="mb-6 sm:mx-auto">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-secondary">
+                <svg
+                  className="w-10 h-10 text-white"
+                  stroke="currentColor"
+                  viewBox="0 0 52 52"
+                >
+                  <polygon
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    fill="none"
+                    points="29 13 14 29 25 29 23 39 38 23 27 23"
+                  />
+                </svg>
+              </div>
+            </a>
+            <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
+              <h1 className="max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight text-white sm:text-4xl md:mx-auto">
+                <span className="relative inline-block">
+                  <svg
+                    viewBox="0 0 52 24"
+                    fill="currentColor"
+                    className="absolute top-0 left-0 z-0 hidden w-32 -mt-8 -ml-20 text-deep-purple-accent-100 lg:w-32 lg:-ml-28 lg:-mt-10 sm:block"
+                  >
+                    <defs>
+                      <pattern
+                        id="700c93bf-0068-4e32-aafe-ef5b6a647708"
+                        x="0"
+                        y="0"
+                        width=".135"
+                        height=".30"
+                      >
+                        <circle cx="1" cy="1" r=".7" />
+                      </pattern>
+                    </defs>
+                    <rect
+                      fill="url(#700c93bf-0068-4e32-aafe-ef5b6a647708)"
+                      width="52"
+                      height="24"
+                    />
+                  </svg>
+                  Nos activités, événements,
+                </span>
+                <strong className="font-extrabold text-secondary sm:block">
+                  conférences & atéliers.
+                </strong>
+              </h1>
+              <p className="text-base text-indigo-100 md:text-lg">
+                Nous sommes une communauté active qui organise des ateliers, des
+                évenements locaux en présentiel et à distance, des conférences,
+                des formations et bien plus encore; pour les membres de la
+                communauté et la population locale.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div className="-my-16" id="explore">
-      <ActivitiesAndEventsSection
-        limit={6}
-        isHome={false}
-      />
+      <Card className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white max-lg:w-[90%]">
+        <CardContent className="flex gap-5 items-center justify-between py-3">
+          <p className="font-medium text-left">
+            Notre prochaine activité:{" "}
+            <span className="text-primary font-bold">The Night of Code</span>,
+            le 17 Octobre 2024
+          </p>
+
+          <Link className="mt-4 block transition sm:mt-0" href={"#"}>
+            <Button variant={"outline"} size={"lg"}>
+              Réserver
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+const page = () => {
+  return (
+    <section className="">
+      <Header />
+      <div className="my-16" id="explore">
+        <ActivitiesAndEventsSection limit={6} isHome={false} />
       </div>
     </section>
   );
-}
+};
 
-export default page
+export default page;
