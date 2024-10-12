@@ -22,7 +22,7 @@ import { usePathname } from "next/navigation";
 function Footer() {
   const pathname = usePathname();
   return !pathname.includes("login") ? (
-    <footer className="bg-white py-4 border-t border-gray-200">
+    <footer className="bg-white py-10 border-t border-gray-200">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
@@ -39,7 +39,7 @@ function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="font-bold mb-4">RESOURCES</h3>
+            <h3 className="font-bold mb-4 text-primary">RESOURCES</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/about" className="text-sm">
@@ -76,7 +76,7 @@ function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="font-bold mb-4">LEGAL</h3>
+            <h3 className="font-bold mb-4 text-primary">LEGAL</h3>
             <ul className="space-y-2">
               <li>
                 <TermsModal />
@@ -108,7 +108,7 @@ function Footer() {
 
           {/* Nous Rejoindre */}
           <div>
-            <h3 className="font-bold mb-4">NOUS REJOINDRE</h3>
+            <h3 className="font-bold mb-4 text-primary">NOUS REJOINDRE</h3>
             <p className="text-sm mb-4">
               Inscrivez-vous avec votre email pour recevoir les dernières
               actualités et opportunités de la Grand Nord Developers Community.
