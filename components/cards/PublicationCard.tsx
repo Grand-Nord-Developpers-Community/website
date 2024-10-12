@@ -87,7 +87,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         <CardTitle>
           <Link
             href={""}
-            className="text-xl hover:underline hover:text-opacity-85 active:text-opacity-85"
+            className="text-lg hover:underline hover:text-opacity-85 active:text-opacity-85"
           >
             {title}
           </Link>

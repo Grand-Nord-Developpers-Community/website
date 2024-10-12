@@ -1,10 +1,12 @@
+import HeroVideoDialog from "@/components/ui/hero-video-dialog";
+import VideoPreview from "@/assets/images/preview.jpg";
 const Introduction = () => {
   return (
-    <div className="screen-wrapper mt-20">
+    <div className="screen-wrapper my-20">
       <div className="mx-auto sm:text-center lg:max-w-2xl">
         <div className="w-full">
           <div>
-            <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider bg-teal-700 uppercase rounded-full bg-teal-accent-400 text-white">
+            <p className="px-3 w-fit py-px mb-4 mx-auto text-center text-xs font-semibold tracking-wider bg-primary uppercase rounded-full bg-teal-accent-400 text-white">
               Introduction GNDC
             </p>
           </div>
@@ -37,32 +39,32 @@ const Introduction = () => {
             À propos de la communauté
           </h2>
           <p className="text-base text-gray-700 md:text-lg w-full">
-            une communautée à l&apos; innovation, à la collaboration et à la
-            promotion du développement technologique dans le Grand nord du
-            Cameroun.
+            La GNDC est une communautée à l&apos; innovation, à la collaboration
+            et à la promotion du développement technologique dans le Grand nord
+            du Cameroun.
           </p>
         </div>
-        <div className="mb-4 transition-shadow duration-300 hover:shadow-xl lg:mb-6">
-          <img
-            className="object-cover w-full h-56 rounded shadow-lg sm:h-64 md:h-80 lg:h-96"
-            src="https://images.pexels.com/photos/3727459/pexels-photo-3727459.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260"
-            alt=""
+        <div className="relative my-5">
+          <HeroVideoDialog
+            animationStyle="from-center"
+            videoSrc="https://www.youtube.com/embed/VYein0P4LdA?si=vmCtoKKFhrOvFTyA"
+            thumbnailSrc={VideoPreview}
+            thumbnailAlt="Grand Nord innovation week highlights"
           />
         </div>
         <p className="max-w-xl mb-4 text-base text-gray-700 sm:mx-auto">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud ullamco laboris aliquip ex ea.
+          Cette communauté est composée de développeurs, ingénieurs et
+          passionnés de technologie qui partagent une vision commune de
+          l&apos;avenir technologique de leur région.
         </p>
         <a
-          href="/"
+          href="/about-us"
           aria-label=""
           className="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800"
         >
-          Learn more
+          Apprendre plus
           <svg
-            className="inline-block w-3 ml-2"
-            fill="currentColor"
+            className="inline-block w-3 ml-2 fill-primary"
             viewBox="0 0 12 12"
           >
             <path d="M9.707,5.293l-5-5A1,1,0,0,0,3.293,1.707L7.586,6,3.293,10.293a1,1,0,1,0,1.414,1.414l5-5A1,1,0,0,0,9.707,5.293Z" />
