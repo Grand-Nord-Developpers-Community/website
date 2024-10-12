@@ -1,7 +1,8 @@
+import NumberTicker from "@/components/ui/number-ticker";
 import React from "react";
 
 interface StatProps {
-  number: string;
+  number: number;
   title: string;
   description: string;
 }
@@ -9,7 +10,7 @@ const StatCard = ({ number, title, description }: StatProps) => (
   <>
     <li className="flex flex-col -m-0.5 p-4 sm:p-8">
       <div className="flex items-end gap-x-2 text-3xl sm:text-5xl font-bold  text-secondary mb-2">
-        {number}+
+        <NumberTicker value={number} />+
       </div>
       <h4 className="text-white font-semibold mb-1">{title}</h4>
       <p className="text-white/80 text-sm leading-relaxed">{description}</p>
@@ -82,22 +83,22 @@ const TestimonialsWithStats = () => {
             <div className="space-y-6 sm:space-y-8">
               <ul className="grid grid-cols-2 divide-y divide-y-2 divide-x divide-x-2 divide-gray-200 overflow-hidden">
                 <StatCard
-                  number="500"
+                  number={500}
                   title="Développeurs"
                   description="engagés, unis par la passion de l'innovation."
                 />
                 <StatCard
-                  number="20"
+                  number={20}
                   title="Projets"
                   description="technologiques concrets ayant un impact positif sur la communauté locale."
                 />
                 <StatCard
-                  number="10"
+                  number={10}
                   title="Évènements"
                   description="organisés, rassemblant des centaines de participants chaque année."
                 />
                 <StatCard
-                  number="30"
+                  number={30}
                   title="Initiatives"
                   description="en cours, allant de solutions numériques à des applications innovantes."
                 />

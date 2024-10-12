@@ -8,6 +8,7 @@ import {
 import Globe from "@/components/Globe";
 import { cn } from "@/lib/utils";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
+import NumberTicker from "@/components/ui/number-ticker";
 // import { Calendar } from "@/components/ui/calendar";
 // import AnimatedBeamMultipleOutputDemo from "@/components/example/animated-beam-multiple-outputs";
 // import AnimatedListDemo from "@/components/example/animated-list-demo";
@@ -136,7 +137,9 @@ export default function BentoSection() {
                 <p className="text-primary text-xs font-semibold uppercase">
                   Plus de
                 </p>
-                <span className=" text-primary  text-7xl font-bold">500+</span>
+                <span className=" text-primary  text-7xl font-bold">
+                  <NumberTicker value={500} />+
+                </span>
                 <h3 className="mt-6 text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
                   Membres
                 </h3>
@@ -219,7 +222,7 @@ export default function BentoSection() {
                 </h3>
                 <p className="mt-2 text-gray-500 dark:text-neutral-400">
                   La GNDC régroupe des experts dans plusieurs domaines et
-                  secteurs d'activité technologiques près à innover
+                  secteurs d&apos;activité technologiques près à innover
                 </p>
                 <p className="mt-2 inline-flex items-center gap-x-1 text-secondary font-medium dark:text-blue-500">
                   Embaucher un membre
