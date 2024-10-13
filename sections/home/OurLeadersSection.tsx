@@ -61,8 +61,8 @@ import TeamCard from "@/components/cards/TeamCard";
 
 const Team = () => {
   return (
-    <section className="pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px] bg-gray-50">
-      <div className="container mx-auto">
+    <section className="pb-10 pt-20 dark:bg-dark lg:pb-20 w-full  bg-gray-50">
+      <div className="screen-wrapper">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
             <div className="mx-auto mb-[60px] max-w-[510px] text-center">
