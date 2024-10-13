@@ -212,7 +212,7 @@ export default function BentoSection() {
         <div className="col-span-12 md:col-span-6 lg:col-span-4 md:order-1 grid gap-4 xl:gap-6">
           <a className="md:order-2 relative focus:outline-none" href="/hire-us">
             <div className="overflow-hidden p-6 flex flex-col justify-between items-center md:min-h-[480px] text-center rounded-xl before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500">
-              <div className="relative w-full h-[258px] before:absolute before:top-0 before:-inset-x-6  before:bg-no-repeat before:bg-center before:bg-cover before:w-[calc(100%+48px)] before:h-full before:-z-[1] lg:before:bg-auto">
+              <div className="flex justify-center relative w-full h-[258px] before:absolute before:top-0 before:-inset-x-6  before:bg-no-repeat before:bg-center before:bg-cover before:w-[calc(100%+48px)] before:h-full before:-z-[1] lg:before:bg-auto">
                 <Globe />
               </div>
 
