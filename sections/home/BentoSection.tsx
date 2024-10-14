@@ -183,11 +183,11 @@ export default function BentoSection() {
           >
             <CalendarIcon className="shrink-0 size-10 mb-3 text-secondary" />
             <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
-              Nos évènemenets
+              Nos évènements
             </h3>
             <p className="mt-2 text-gray-500 dark:text-neutral-400">
-              nous organisons des évènements telque hachathon et atélier
-              pratique, rassemblant des centaines de participants chaque année.
+              Nous organisons des évènements telsque les Hackathons et atéliers
+              pratiques, rassemblant des centaines de participants chaque année.
             </p>
             <p className="mt-2 inline-flex items-center gap-x-1 text-secondary font-medium dark:text-blue-500">
               Voir le prochain évènement
@@ -222,7 +222,7 @@ export default function BentoSection() {
                 </h3>
                 <p className="mt-2 text-gray-500 dark:text-neutral-400">
                   La GNDC régroupe des experts dans plusieurs domaines et
-                  secteurs d&apos;activité technologiques près à innover
+                  secteurs d'activité technologiques prêt à innover.
                 </p>
                 <p className="mt-2 inline-flex items-center gap-x-1 text-secondary font-medium dark:text-blue-500">
                   Embaucher un membre
@@ -301,13 +301,13 @@ export default function BentoSection() {
               strokeWidth={1}
             />
             <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
-              10+ Entréprises
+              10+ Entreprises
             </h3>
             <p className="mt-2 text-gray-500 dark:text-neutral-400">
-              Notre communauté s&apos;associe à des entreprises, pour innover.
+              Noous nous associons à des entreprises, pour innover.
             </p>
             <p className="mt-2 inline-flex items-center gap-x-1 text-secondary font-medium dark:text-blue-500">
-              Dévenir sponsor
+              Devenir sponsor
               <svg
                 className="shrink-0 size-4"
                 xmlns="http://www.w3.org/2000/svg"

@@ -39,7 +39,7 @@ const Introduction = () => {
             À propos de la communauté
           </h2>
           <p className="text-base text-gray-700 md:text-lg w-full">
-            La GNDC est une communautée à l&apos; innovation, à la collaboration
+            La GNDC est une communautée axée sur l'innovation, la collaboration
             et à la promotion du développement technologique dans le Grand nord
             du Cameroun.
           </p>
@@ -53,9 +53,7 @@ const Introduction = () => {
           />
         </div>
         <p className="max-w-xl mb-4 text-base text-gray-700 sm:mx-auto">
-          Cette communauté est composée de développeurs, ingénieurs et
-          passionnés de technologie qui partagent une vision commune de
-          l&apos;avenir technologique de leur région.
+          Nous avons en notre sein de développeurs, ingénieurs et passionnés de technologie qui partagent une vision commune de l'avénir technologique de leurs régions respectives. 
         </p>
         <a
           href="/about-us"
