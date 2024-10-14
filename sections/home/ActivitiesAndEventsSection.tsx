@@ -24,7 +24,7 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = ({
           </h2>
 
           <p className="text-center max-w-screen-md mx-auto">
-            Découvrez dans cette section nos différentes activités, conférences,
+            Découvrez  nos différentes activités, conférences,
             formations, atéliers et d&apos;autres évènements que nous
             organisons.
           </p>
@@ -40,7 +40,7 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = ({
           <ActivitiesAndEventsGrid activitiesAndEvents={activitiesAndEvents} />
           <p className="flex justify-center">
             <Button asChild className="text-white">
-              <Link href="/events">Voir toutes les évènemenets &rsaquo;</Link>
+              <Link href="/events">Voir tous les évènemenets &rsaquo;</Link>
             </Button>
           </p>
         </>
