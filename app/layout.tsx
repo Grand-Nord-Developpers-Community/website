@@ -72,7 +72,9 @@ export default function RootLayout({
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <Header />
-        <main className="w-full min-h-screen">{children}</main>
+        <main className="w-full min-h-screen overflow-x-hidden">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

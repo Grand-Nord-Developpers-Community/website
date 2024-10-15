@@ -1,128 +1,9 @@
 import { CalendarIcon, FileTextIcon } from "@radix-ui/react-icons";
-import {
-  BellIcon,
-  Building2Icon,
-  NewspaperIcon,
-  Share2Icon,
-} from "lucide-react";
+import { Building2Icon, NewspaperIcon } from "lucide-react";
+import Safari from "@/components/ui/safari";
 import Globe from "@/components/Globe";
-import { cn } from "@/lib/utils";
-import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import NumberTicker from "@/components/ui/number-ticker";
-// import { Calendar } from "@/components/ui/calendar";
-// import AnimatedBeamMultipleOutputDemo from "@/components/example/animated-beam-multiple-outputs";
-// import AnimatedListDemo from "@/components/example/animated-list-demo";
-// import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
-// import Marquee from "@/components/magicui/marquee";
 
-const files = [
-  {
-    name: "bitcoin.pdf",
-    body: "Bitcoin is a cryptocurrency invented in 2008 by an unknown person or group of people using the name Satoshi Nakamoto.",
-  },
-  {
-    name: "finances.xlsx",
-    body: "A spreadsheet or worksheet is a file made of rows and columns that help sort data, arrange data easily, and calculate numerical data.",
-  },
-  {
-    name: "logo.svg",
-    body: "Scalable Vector Graphics is an Extensible Markup Language-based vector image format for two-dimensional graphics with support for interactivity and animation.",
-  },
-  {
-    name: "keys.gpg",
-    body: "GPG keys are used to encrypt and decrypt email, files, directories, and whole disk partitions and to authenticate messages.",
-  },
-  {
-    name: "seed.txt",
-    body: "A seed phrase, seed recovery phrase or backup seed phrase is a list of words which store all the information needed to recover Bitcoin funds on-chain.",
-  },
-];
-
-const features = [
-  {
-    Icon: FileTextIcon,
-    name: "Save your files",
-    description: "We automatically save your files as you type.",
-    href: "#",
-    cta: "Learn more",
-    classNameName: "col-span-3 lg:col-span-1",
-    background: (
-      //   <Marquee
-      //     pauseOnHover
-      //     classNameName="absolute top-10 [--duration:20s] [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] "
-      //   >
-      //     {files.map((f, idx) => (
-      //       <figure
-      //         key={idx}
-      //         classNameName={cn(
-      //           "relative w-32 cursor-pointer overflow-hidden rounded-xl border p-4",
-      //           "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-      //           "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
-      //           "transform-gpu blur-[1px] transition-all duration-300 ease-out hover:blur-none",
-      //         )}
-      //       >
-      //         <div classNameName="flex flex-row items-center gap-2">
-      //           <div classNameName="flex flex-col">
-      //             <figcaption classNameName="text-sm font-medium dark:text-white ">
-      //               {f.name}
-      //             </figcaption>
-      //           </div>
-      //         </div>
-      //         <blockquote classNameName="mt-2 text-xs">{f.body}</blockquote>
-      //       </figure>
-      //     ))}
-      //   </Marquee>
-      <></>
-    ),
-  },
-  {
-    Icon: BellIcon,
-    name: "Notifications",
-    description: "Get notified when something happens.",
-    href: "#",
-    cta: "Learn more",
-    classNameName: "col-span-3 lg:col-span-2",
-    background: (
-      //   <AnimatedListDemo classNameName="absolute right-2 top-4 h-[300px] w-full border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105" />
-      <></>
-    ),
-  },
-  {
-    Icon: Share2Icon,
-    name: "Integrations",
-    description: "Supports 100+ integrations and counting.",
-    href: "#",
-    cta: "Learn more",
-    classNameName: "col-span-3 lg:col-span-2",
-    background: (
-      //   <AnimatedBeamMultipleOutputDemo classNameName="absolute right-2 top-4 h-[300px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105" />
-      <></>
-    ),
-  },
-  {
-    Icon: CalendarIcon,
-    name: "Calendar",
-    description: "Use the calendar to filter your files by date.",
-    classNameName: "col-span-3 lg:col-span-1",
-    href: "#",
-    cta: "Learn more",
-    background: (
-      //   <Calendar
-      //     mode="single"
-      //     selected={new Date(2022, 4, 11, 0, 0, 0)}
-      //     classNameName="absolute right-0 top-10 origin-top rounded-md border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-105"
-      //   />
-      <></>
-    ),
-  },
-];
-/*
-       <BentoGrid classNameName="screen-wrapper my-12 lg:max-w-screen-lg">
-        {features.map((feature, idx) => (
-          <BentoCard key={idx} {...feature} />
-        ))}
-      </BentoGrid> 
-      */
 export default function BentoSection() {
   return (
     <div className="screen-wrapper">
@@ -157,9 +38,9 @@ export default function BentoSection() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
                     <path d="m9 18 6-6-6-6"></path>
                   </svg>
@@ -199,9 +80,9 @@ export default function BentoSection() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path d="m9 18 6-6-6-6"></path>
               </svg>
@@ -222,7 +103,7 @@ export default function BentoSection() {
                 </h3>
                 <p className="mt-2 text-gray-500 dark:text-neutral-400">
                   La GNDC régroupe des experts dans plusieurs domaines et
-                  secteurs d'activité technologiques prêt à innover.
+                  secteurs d&apos;activité technologiques prêt à innover.
                 </p>
                 <p className="mt-2 inline-flex items-center gap-x-1 text-secondary font-medium dark:text-blue-500">
                   Embaucher un membre
@@ -236,8 +117,8 @@ export default function BentoSection() {
                     <path
                       d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
                     ></path>
                   </svg>
                 </p>
@@ -259,7 +140,7 @@ export default function BentoSection() {
                     width="240.294"
                     height="124.936"
                     fill="#E2CCFF"
-                    fill-opacity="0.35"
+                    fillOpacity="0.35"
                   ></rect>
                 </g>
                 <defs>
@@ -270,10 +151,10 @@ export default function BentoSection() {
                     width="640.294"
                     height="524.936"
                     filterUnits="userSpaceOnUse"
-                    color-interpolation-filters="sRGB"
+                    colorInterpolationFilters="sRGB"
                   >
                     <feFlood
-                      flood-opacity="0"
+                      floodOpacity="0"
                       result="BackgroundImageFix"
                     ></feFlood>
                     <feBlend
@@ -316,9 +197,9 @@ export default function BentoSection() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path d="m9 18 6-6-6-6"></path>
               </svg>
@@ -345,12 +226,12 @@ export default function BentoSection() {
                     <path
                       d="M16 17V39"
                       stroke="var(--secondary-color)"
-                      stroke-width="2"
+                      strokeWidth="2"
                     ></path>
                     <path
                       d="M6 17H40"
                       stroke="var(--secondary-color)"
-                      stroke-width="2"
+                      strokeWidth="2"
                     ></path>
                     <rect
                       x="6"
@@ -359,7 +240,7 @@ export default function BentoSection() {
                       height="34"
                       rx="5"
                       stroke="var(--secondary-color)"
-                      stroke-width="2"
+                      strokeWidth="2"
                     ></rect>
                   </svg>
                   <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
@@ -379,20 +260,22 @@ export default function BentoSection() {
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path d="m9 18 6-6-6-6"></path>
                     </svg>
                   </p>
                 </div>
 
-                <img
-                  className="w-10/12 ms-auto dark:hidden"
-                  src="assets/others/templates.webp"
-                  alt="Templates"
-                />
+                <div className="relative w-10/12 ms-auto dark:hidden">
+                  <Safari
+                    url="gndc.cm"
+                    className="size-full w-full"
+                    src="https://via.placeholder.com/1200x750"
+                  />
+                </div>
               </div>
 
               <div className="absolute top-1/2 -start-1/2 -z-[1] w-60 h-32 bg-purple-200 blur-[100px] -translate-y-1/2 dark:bg-violet-900/30"></div>
@@ -424,9 +307,9 @@ export default function BentoSection() {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path d="m9 18 6-6-6-6"></path>
               </svg>
