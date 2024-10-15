@@ -18,6 +18,7 @@ import TermsModal from "@/components/legal/CodeOfConductModal";
 import PrivacyModal from "@/components/legal/PrivacyModal";
 import CodeOfConductModal from "@/components/legal/TermsModal";
 import { usePathname } from "next/navigation";
+import { Lock, Users } from "lucide-react";
 
 function Footer() {
   const pathname = usePathname();
@@ -79,13 +80,22 @@ function Footer() {
             <h3 className="font-bold mb-4 text-primary">LEGAL</h3>
             <ul className="space-y-2">
               <li>
-                <TermsModal />
+                <Link
+                  href="/privacypolicy"
+                  className="text-sm hover:underline flex items-center"
+                >
+                  <Lock className="w-4 h-4 mr-1" />
+                  Politique de Confidentialité
+                </Link>
               </li>
               <li>
-                <PrivacyModal />
-              </li>
-              <li>
-                <CodeOfConductModal />
+                <Link
+                  href="/codeofconduct"
+                  className="text-sm hover:underline flex items-center"
+                >
+                  <Users className="w-4 h-4 mr-1" />
+                  Code de conduite
+                </Link>
               </li>
               {/*
             <li><Link href="#" className="text-sm">Conditions d&apos;utilisation</Link></li>
