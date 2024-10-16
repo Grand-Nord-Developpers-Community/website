@@ -10,28 +10,28 @@ import AnimatedShinyText from "@/components/ui/animated-shiny-text";
 function HeroSection() {
   return (
     <>
-      <div className="w-full h-[370px] screen-wrapper relative max-md:hidden ">
-        <div className="absolute inset-0 -z-[1] bg-secondary ">
+      <div className="w-full h-[370px] lg:h-[450px]  relative max-md:hidden ">
+        <div className="absolute inset-0 -z-[1] bg-primary ">
           <Image
             src={Slider}
             className="w-full h-full object-cover object-top"
             alt="slide image"
           />
         </div>
-        <div className="flex py-5 max-lg:pt-9 text-white items-center">
-          <div className="w-[60%] mt-5">
+        <div className="flex py-5 text-white items-center h-full lg:py-10 screen-wrapper">
+          <div className="w-[60%] mt-0 h-full justify-between flex flex-col">
             <h1 className="font-extrabold text-4xl w-2/3">
-              <span className="text-primary">G</span>rand{" "}
-              <span className="text-primary">N</span>ord{" "}
-              <span className="text-primary">D</span>evelopers{" "}
-              <span className="text-primary">C</span>ommunity
+              <span className="text-secondary">G</span>rand{" "}
+              <span className="text-secondary">N</span>ord{" "}
+              <span className="text-secondary">D</span>evelopers{" "}
+              <span className="text-secondary">C</span>ommunity
             </h1>
-            <div className="flex gap-5 mt-[22%]">
+            <div className="flex gap-5 ">
               <Button className="rounded-none" asChild>
                 <Link href="/sign-in">Rejoindre la communauté</Link>
               </Button>
               <Button
-                className="text-white rounded-none   border border-primary"
+                className="text-white rounded-none border border-secondary"
                 asChild
                 variant={"outline"}
               >
@@ -50,9 +50,12 @@ function HeroSection() {
               asChild
               variant={"ghost"}
             >
-              <Link href="#">
+              <Link href="/besponsor">
                 Devenir sponsor{" "}
-                <ChevronRight className="text-primary -mr-2" strokeWidth={4} />
+                <ChevronRight
+                  className="text-secondary -mr-2"
+                  strokeWidth={4}
+                />
               </Link>
             </Button>
           </div>
@@ -76,17 +79,14 @@ function HeroSection() {
         </h1>
         <p className="text-sm  w-full px-3 text-center mt-5">
           Communauté des développeurs du{" "}
-          <mark className="skew-x-2 bg-primary text-white px-2 font-bold">
+          <mark className="skew-x-2 bg-secondary text-white px-2 font-bold">
             Grand Nord Cameroun
           </mark>{" "}
           pour promouvoir l&apos;innovation, partager les compétences
           technologiques, et résoudre les défis locaux à travers des solutions
           collaboratives.
         </p>
-        <Button
-          className="mt-3 grow border border-primary rounded-full text-white"
-          asChild
-        >
+        <Button className="mt-3 grow  rounded-full text-white" asChild>
           <Link href="/login">Rejoindre la communauté</Link>
         </Button>
         <GridPattern

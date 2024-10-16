@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { Header } from "@/sections/common";
-import Footer from "@/sections/common/Footer"; 
+import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
 
 export const metadata: Metadata = {
@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 //OFFLINE FONT LOAD
 import localFont from "next/font/local";
+import BackToTop from "@/components/ui/BackToTop";
 const montserra = localFont({
   src: [
     {
@@ -67,13 +68,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <Header />
-        {children}
-        <Footer /> 
+        <main className="w-full min-h-screen overflow-x-hidden">
+          {children}
+        </main>
+        <Footer />
+        <BackToTop />
       </body>
     </html>
   );
