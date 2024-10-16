@@ -1,5 +1,5 @@
 import HeroVideoDialog from "@/components/ui/hero-video-dialog";
-import VideoPreview from "@/assets/images/youtubePreview.png";
+import VideoPreview from "@/assets/images/preview.jpg";
 const Introduction = () => {
   return (
     <div className="screen-wrapper my-20">
@@ -47,15 +47,13 @@ const Introduction = () => {
         <div className="relative my-5">
           <HeroVideoDialog
             animationStyle="from-center"
-            videoSrc="https://www.youtube.com/embed/o0N8xSjgMz8?si=YrH4qI1rYvVnkiJH"
+            videoSrc="https://www.youtube.com/embed/VYein0P4LdA?si=vmCtoKKFhrOvFTyA"
             thumbnailSrc={VideoPreview}
-            thumbnailAlt="Presentation de la Grand Nord Developpers Community"
+            thumbnailAlt="Grand Nord innovation week highlights"
           />
         </div>
         <p className="max-w-xl mb-4 text-base text-gray-700 sm:mx-auto">
-          Nous avons en notre sein de développeurs, ingénieurs et passionnés de
-          technologie qui partagent une vision commune de l'avénir technologique
-          de leurs régions respectives.
+          Nous avons en notre sein de développeurs, ingénieurs et passionnés de technologie qui partagent une vision commune de l'avénir technologique de leurs régions respectives. 
         </p>
         <a
           href="/about-us"

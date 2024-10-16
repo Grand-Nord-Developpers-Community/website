@@ -25,7 +25,7 @@ const BannerToBecomeSponsor = () => {
         </div>
         <div className="sm:col-span-3 flex items-center justify-center">
           <Button variant="outline" size="lg" className="">
-            <Link href="/besponsor" title="Become a Sponsor">
+            <Link href="/" title="Become a Sponsor">
               Nous supporter
             </Link>
           </Button>

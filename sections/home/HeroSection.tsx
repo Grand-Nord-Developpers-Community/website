@@ -50,7 +50,7 @@ function HeroSection() {
               asChild
               variant={"ghost"}
             >
-              <Link href="/besponsor">
+              <Link href="#">
                 Devenir sponsor{" "}
                 <ChevronRight
                   className="text-secondary -mr-2"

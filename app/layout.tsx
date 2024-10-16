@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 
 //OFFLINE FONT LOAD
 import localFont from "next/font/local";
-import BackToTop from "@/components/ui/BackToTop";
 const montserra = localFont({
   src: [
     {
@@ -77,7 +76,6 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <BackToTop />
       </body>
     </html>
   );
