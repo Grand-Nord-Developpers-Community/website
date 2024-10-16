@@ -9,7 +9,7 @@ import Image2 from "@/assets/images/img2.jpg";
 
 export const metadata = {
   title: "GNDC | Devenir Sponsor",
-  description: "Soutenez l'innovation technologique dans le Grand Nord Cameroun en devenant sponsor de GNDC",
+  description: "Soutenez l&apos;innovation technologique dans le Grand Nord Cameroun en devenant sponsor de GNDC",
 };
 
 interface SponsorshipTierProps {
@@ -57,28 +57,40 @@ const DevenirSponsorPage = () => {
                 className="absolute top-0 left-0 z-0 hidden w-32 -mt-8 -ml-20 text-blue-200 lg:w-32 lg:-ml-28 lg:-mt-10 sm:block"
               >
                 <defs>
-                  <pattern id="star-pattern" x="0" y="0" width=".15" height=".30">
+                  <pattern
+                    id="star-pattern"
+                    x="0"
+                    y="0"
+                    width=".15"
+                    height=".30"
+                  >
                     <circle cx="1" cy="1" r=".7" />
                   </pattern>
                 </defs>
                 <rect fill="url(#star-pattern)" width="52" height="24" />
               </svg>
               <span className="relative">Devenez</span>
-            </span>{' '}
-            <span className="text-secondary font-extrabold">Sponsor de l'Innovation</span>
+            </span>{" "}
+            <span className="text-secondary font-extrabold">
+              Sponsor de l&apos;Innovation
+            </span>
           </h1>
           <p className="text-base md:text-lg">
-            Rejoignez-nous dans notre mission de propulser l'innovation technologique dans le Grand Nord Cameroun. 
-            Votre soutien fait la différence !
+            Rejoignez-nous dans notre mission de propulser l&apos;innovation
+            technologique dans le Grand Nord Cameroun. Votre soutien fait la
+            différence !
           </p>
         </div>
-        
+
         <div className="grid gap-8 row-gap-5 mb-8 md:row-gap-8 lg:grid-cols-3 sm:grid-cols-2">
           <div className="duration-300 transform bg-white text-primary border-l-4 border-primary hover:-translate-y-2">
             <div className="h-full p-5 border border-l-0 rounded-r shadow-sm">
-              <h6 className="mb-2 font-semibold leading-5">Visibilité Accrue</h6>
+              <h6 className="mb-2 font-semibold leading-5">
+                Visibilité Accrue
+              </h6>
               <p className="text-sm">
-                Exposez votre marque à un public passionné de technologie et d'innovation.
+                Exposez votre marque à un public passionné de technologie et
+                d&apos;innovation.
               </p>
             </div>
           </div>
@@ -86,7 +98,8 @@ const DevenirSponsorPage = () => {
             <div className="h-full p-5 border border-l-0 rounded-r shadow-sm">
               <h6 className="mb-2 font-semibold leading-5">Réseau Étendu</h6>
               <p className="text-sm">
-                Connectez-vous avec des talents locaux et des leaders de l'industrie tech.
+                Connectez-vous avec des talents locaux et des leaders de
+                l&apos;industrie tech.
               </p>
             </div>
           </div>
@@ -94,20 +107,22 @@ const DevenirSponsorPage = () => {
             <div className="h-full p-5 border border-l-0 rounded-r shadow-sm">
               <h6 className="mb-2 font-semibold leading-5">Impact Social</h6>
               <p className="text-sm">
-                Contribuez directement au développement technologique de la région.
+                Contribuez directement au développement technologique de la
+                région.
               </p>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div className="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
           <h2 className="max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight sm:text-4xl md:mx-auto">
             Choisissez votre niveau de partenariat
           </h2>
           <p className="text-base md:text-lg">
-            Nous offrons différentes options pour répondre à vos objectifs et votre budget.
+            Nous offrons différentes options pour répondre à vos objectifs et
+            votre budget.
           </p>
         </div>
         <div className="grid gap-8 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
@@ -117,8 +132,10 @@ const DevenirSponsorPage = () => {
             features={[
               "Logo sur notre site web",
               "Mention lors des événements",
-              "1 billet gratuit pour nos conférences"
-            ]} recommended={undefined}          />
+              "1 billet gratuit pour nos conférences",
+            ]}
+            recommended={undefined}
+          />
           <SponsorshipTier
             title="Argent"
             price="1 000 000 FCFA"
@@ -126,7 +143,7 @@ const DevenirSponsorPage = () => {
               "Tous les avantages Bronze",
               "Stand aux événements majeurs",
               "3 billets gratuits pour nos conférences",
-              "Participation à un panel d'experts"
+              "Participation à un panel d&apos;experts",
             ]}
             recommended={true}
           />
@@ -135,13 +152,15 @@ const DevenirSponsorPage = () => {
             price="2 500 000 FCFA"
             features={[
               "Tous les avantages Argent",
-              "Naming d'un événement majeur",
+              "Naming d&apos;un événement majeur",
               "5 billets VIP pour nos conférences",
-              "Mentorat exclusif de startups locales"
-            ]} recommended={undefined}          />
+              "Mentorat exclusif de startups locales",
+            ]}
+            recommended={undefined}
+          />
         </div>
       </div>
-      
+
       <div className="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <div className="flex flex-col items-center justify-between w-full mb-10 lg:flex-row">
           <div className="mb-16 lg:mb-0 lg:max-w-lg lg:pr-5">
@@ -149,21 +168,34 @@ const DevenirSponsorPage = () => {
               <h2 className="font-sans text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none max-w-lg mb-6">
                 Prêt à faire partie de
                 <br className="hidden md:block" />
-                l'avenir technologique{' '}
-                <span className="inline-block text-secondary">du Grand Nord ?</span>
+                l&apos;avenir technologique{" "}
+                <span className="inline-block text-secondary">
+                  du Grand Nord ?
+                </span>
               </h2>
               <p className="text-base md:text-lg">
-                Contactez-nous dès aujourd'hui pour discuter des opportunités de partenariat 
-                et commencer à façonner ensemble l'avenir de la tech au Cameroun.
+                Contactez-nous dès aujourd&apos;hui pour discuter des
+                opportunités de partenariat et commencer à façonner ensemble
+                l&apos;avenir de la tech au Cameroun.
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/contact" className="inline-flex items-center justify-center h-12 px-6 mr-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-secondary hover:bg-secondary-dark focus:shadow-outline focus:outline-none">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center h-12 px-6 mr-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-secondary hover:bg-secondary-dark focus:shadow-outline focus:outline-none"
+              >
                 Nous contacter
               </Link>
-              <Link href="/about" className="inline-flex items-center font-semibold transition-colors duration-200 text-secondary hover:text-secondary-dark">
+              <Link
+                href="/about"
+                className="inline-flex items-center font-semibold transition-colors duration-200 text-secondary hover:text-secondary-dark"
+              >
                 En savoir plus
-                <svg className="inline-block w-3 ml-2" fill="currentColor" viewBox="0 0 12 12">
+                <svg
+                  className="inline-block w-3 ml-2"
+                  fill="currentColor"
+                  viewBox="0 0 12 12"
+                >
                   <path d="M9.707,5.293l-5-5A1,1,0,0,0,3.293,1.707L7.586,6,3.293,10.293a1,1,0,1,0,1.414,1.414l5-5A1,1,0,0,0,9.707,5.293Z" />
                 </svg>
               </Link>
@@ -187,22 +219,33 @@ const DevenirSponsorPage = () => {
           </div>
         </div>
       </div>
-      
+
       <Card className="max-w-2xl mx-auto mb-16 bg-white text-primary">
         <CardContent className="p-8">
-          <h3 className="text-2xl font-bold mb-4">Notre engagement envers nos sponsors</h3>
+          <h3 className="text-2xl font-bold mb-4">
+            Notre engagement envers nos sponsors
+          </h3>
           <ul className="space-y-4">
             <li className="flex items-start">
               <Gift className="flex-shrink-0 w-6 h-6 text-secondary mr-4" />
-              <span>Reconnaissance publique et visibilité accrue dans la communauté tech</span>
+              <span>
+                Reconnaissance publique et visibilité accrue dans la communauté
+                tech
+              </span>
             </li>
             <li className="flex items-start">
               <Rocket className="flex-shrink-0 w-6 h-6 text-secondary mr-4" />
-              <span>Opportunités exclusives de networking et de développement commercial</span>
+              <span>
+                Opportunités exclusives de networking et de développement
+                commercial
+              </span>
             </li>
             <li className="flex items-start">
               <Users className="flex-shrink-0 w-6 h-6 text-secondary mr-4" />
-              <span>Accès privilégié à un vivier de talents tech locaux pour vos recrutements</span>
+              <span>
+                Accès privilégié à un vivier de talents tech locaux pour vos
+                recrutements
+              </span>
             </li>
           </ul>
         </CardContent>
