@@ -1,10 +1,9 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import { ArrowUpCircle } from "lucide-react";
 
 const BackToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   const toggleVisibility = () => {
     if (window.scrollY > 300) {
@@ -12,15 +11,6 @@ const BackToTop: React.FC = () => {
     } else {
       setIsVisible(false);
     }
-  };
-
-  const trackScrollProgress = () => {
-    const winScroll = document.documentElement.scrollTop;
-    const height =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    setScrollProgress(scrolled);
   };
 
   const scrollToTop = () => {
@@ -32,10 +22,8 @@ const BackToTop: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", toggleVisibility);
-    window.addEventListener("scroll", trackScrollProgress);
     return () => {
       window.removeEventListener("scroll", toggleVisibility);
-      window.removeEventListener("scroll", trackScrollProgress);
     };
   }, []);
 
@@ -52,12 +40,6 @@ const BackToTop: React.FC = () => {
             <ArrowUpCircle className="w-6 h-6" />
           </button>
         )}
-      </div>
-      <div className="fixed bottom-0 left-0 w-full h-1 bg-gray-200">
-        <div
-          className="h-1 bg-secondary transition-all duration-300"
-          style={{ width: `${scrollProgress}%` }}
-        ></div>
       </div>
     </>
   );
