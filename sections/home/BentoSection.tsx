@@ -209,7 +209,7 @@ export default function BentoSection() {
 
         <div className="col-span-12 lg:col-span-4 md:order-3 grid md:grid-cols-2 lg:grid-cols-1 gap-4 xl:gap-6">
           <a
-            className="md:order-2 relative focus:outline-none before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg after:absolute after:inset-x-0.5 after:bottom-0.5 after:z-10 after:w-[calc(100%-4px)] after:h-24 after:rounded-b-xl after:bg-gradient-to-t after:from-white after:via-white/90 after:to-white/40 dark:after:from-neutral-900 dark:after:via-neutral-900/90 dark:after:to-neutral-900/40 dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500 dark:rounded-xl"
+            className="md:order-2 relative focus:outline-none before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg after:absolute after:inset-x-0.5 after:bottom-0.5 after:z-10 after:w-[calc(100%-4px)] after:h-24 after:rounded-b-xl after:bg-gradient-to-t after:from-white after:via-white/90 after:to-white/0 dark:after:from-neutral-900 dark:after:via-neutral-900/90 dark:after:to-neutral-900/40 dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500 dark:rounded-xl"
             href="/projects"
           >
             <div className="relative overflow-hidden size-full rounded-xl">
@@ -273,7 +273,7 @@ export default function BentoSection() {
                   <Safari
                     url="gndc.cm"
                     className="size-full w-full"
-                    src="https://via.placeholder.com/1200x750"
+                    //src="https://via.placeholder.com/1200x750"
                   />
                 </div>
               </div>

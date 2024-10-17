@@ -62,7 +62,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
       >
         <div className="flex gap-4 items-center text-sm">
           <Button asChild variant="link" className="gap-1 p-0" size="sm">
-            <Link href={""}>
+            <Link href={"/blog/this"}>
               <Avatar className="h-auto w-auto">
                 <AvatarImage asChild>
                   <Image
@@ -86,7 +86,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         </div>
         <CardTitle>
           <Link
-            href={""}
+            href={"/blog/this"}
             className="text-lg hover:underline hover:text-opacity-85 active:text-opacity-85"
           >
             {title}
@@ -101,7 +101,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
       {hasFooter && (
         <CardFooter className="m-0 p-0 pt-2 justify-between items-center">
           <Button asChild>
-            <Link href={""}> Read more &rsaquo;</Link>
+            <Link href={"/blog/this"}> Read more &rsaquo;</Link>
           </Button>
         </CardFooter>
       )}

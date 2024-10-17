@@ -11,7 +11,7 @@ const OurSponsors: FC = () => {
   return (
     <section className="bg-[#F9FAFB] py-8">
       <Link
-        href="#"
+        href="/besponsor"
         className="text-sm max-sm:hidden block w-fit mx-auto border border-secondary rounded-full px-3 py-1  mb-10 max-sm:text-sm"
       >
         <span className="text-black">

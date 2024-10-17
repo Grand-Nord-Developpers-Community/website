@@ -35,7 +35,9 @@ function HeroSection() {
                 asChild
                 variant={"outline"}
               >
-                <Link href="#">Nous supporter</Link>
+                <Link href="#" target="_blank">
+                  Nous supporter
+                </Link>
               </Button>
             </div>
           </div>
@@ -69,7 +71,9 @@ function HeroSection() {
             )}
           >
             <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
-              <span className="text-sm">Devenir Sponsor</span>
+              <Link className="text-sm" href="/besponsor">
+                Devenir Sponsor
+              </Link>
               <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
             </AnimatedShinyText>
           </div>

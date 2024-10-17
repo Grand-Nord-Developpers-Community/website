@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,14 +18,47 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 
+const Links = [
+  {
+    name: "Nos activités",
+    link: "/events",
+  },
+  {
+    name: "Blog",
+    link: "/blog",
+  },
+  {
+    name: "Forum",
+    link: "/forum",
+  },
+  {
+    name: "Formation",
+    link: "/formation",
+  },
+];
 function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const trackScrollProgress = () => {
+    const winScroll = document.documentElement.scrollTop;
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    setScrollProgress(scrolled);
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", trackScrollProgress);
+    return () => {
+      window.removeEventListener("scroll", trackScrollProgress);
+    };
+  }, []);
   return !pathname.includes("login") ? (
-    <header className="sticky z-40 top-0 w-full py-3  border-b border-gray-100 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
+    <header className="sticky z-40 top-0 w-full py-3  bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">
         <div>
           <span className="sr-only">GNDC</span>
@@ -35,17 +68,18 @@ function Header() {
         </div>
         <div className="flex items-center gap-5 max-lg:hidden">
           <nav className="flex items-center gap-8 text-black">
-            <Link href={"events"}>Nos activités</Link>
-            <Link href={"#"}>Blog</Link>
-            <Link href={"/forum"}>Forum</Link>
-            <Link href={"#"}>Formation</Link>
+            {Links.map((l, i) => (
+              <Link key={i} href={l.link}>
+                {l.name}
+              </Link>
+            ))}
           </nav>
           <Button
             className="ml-5 border border-primary text-primary hover:bg-primary hover:text-white"
             variant={"outline"}
             asChild
           >
-            <Link href="/login">Créer un compte</Link>
+            <Link href="/sign-in">Créer un compte</Link>
           </Button>
           <Button className="text-white" asChild>
             <Link href="/login">Se connecter</Link>
@@ -64,10 +98,11 @@ function Header() {
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col gap-4 text-primary my-4">
-              <Link href={"events"}>Nos activités</Link>
-              <Link href={"#"}>Blog</Link>
-              <Link href={"/forum"}>Forum</Link>
-              <Link href={"#"}>Formation</Link>
+              {Links.map((l, i) => (
+                <Link key={i} href={l.link}>
+                  {l.name}
+                </Link>
+              ))}
             </nav>
             <Separator className="my-4 bg-gray-400" />
             <SheetFooter className="gap-3">
@@ -77,7 +112,7 @@ function Header() {
                   variant={"outline"}
                   asChild
                 >
-                  <Link href="/login">Créer un compte</Link>
+                  <Link href="/sign-in">Créer un compte</Link>
                 </Button>
               </SheetClose>
               <SheetClose asChild>
@@ -88,6 +123,12 @@ function Header() {
             </SheetFooter>
           </SheetContent>
         </Sheet>
+      </div>
+      <div className="absolute bottom-0 z-[41] left-0 w-full h-1 max-sm:h-[1px] bg-gray-200">
+        <div
+          className="h-1 max-sm:h-[1px] bg-secondary transition-all duration-300"
+          style={{ width: `${scrollProgress}%` }}
+        ></div>
       </div>
     </header>
   ) : (

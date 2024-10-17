@@ -54,7 +54,7 @@ export default function AuthenticationPage() {
               <p className="max-lg:block mx-auto text-center mt-2">
                 {" "}
                 <Link
-                  href="#"
+                  href="/login"
                   className="underline underline-offset-4 hover:text-primary"
                 >
                   Se connecter
@@ -64,14 +64,14 @@ export default function AuthenticationPage() {
               <p className="px-8 text-center text-sm text-muted-foreground mt-5">
                 En cliquant sur continuer, vous acceptez nos{" "}
                 <Link
-                  href="/terms"
+                  href="/codeofconduct"
                   className="underline underline-offset-4 hover:text-primary"
                 >
                   Termes de Service
                 </Link>{" "}
                 et notre{" "}
                 <Link
-                  href="/privacy"
+                  href="/privacypolicy"
                   className="underline underline-offset-4 hover:text-primary"
                 >
                   Politique de confidentialité

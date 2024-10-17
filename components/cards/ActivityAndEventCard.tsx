@@ -37,7 +37,7 @@ const ActivityAndEventCard: FC<ActvityAndEventCardProps> = ({
   activityAndEvent: { title, summary, type },
 }) => {
   return (
-    <Card className="p-4 flex gap-3">
+    <Card className="p-4 flex gap-3 max-sm:p-2">
       <div className="flex flex-col justify-start pt-3 items-center">
         <figure className="rounded-md p-2 text-primary border border-secondary flex size-8">
           <IconForType type={type} />
@@ -54,7 +54,7 @@ const ActivityAndEventCard: FC<ActvityAndEventCardProps> = ({
       <div>
         <CardHeader className="p-0 py-3 ">
           <CardTitle>
-            <Link href={""} className="hover:underline text-secondary">
+            <Link href={"/events/1"} className="hover:underline text-secondary">
               {title}
             </Link>
           </CardTitle>
