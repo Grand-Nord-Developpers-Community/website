@@ -19,14 +19,13 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = ({
     <section className="my-12 screen-wrapper">
       {isHome ? (
         <>
-          <h2 className="text-3xl font-bold mb-4 text-primary text-center">
+          <h2 className="text-3xl font-bold mb-4 text-primary text-center max-sm:text-left">
             Nos activités et événements
           </h2>
 
-          <p className="text-center max-w-screen-md mx-auto">
-            Découvrez  nos différentes activités, conférences,
-            formations, atéliers et d&apos;autres évènements que nous
-            organisons.
+          <p className="text-center max-w-screen-md mx-auto max-sm:text-left">
+            Découvrez nos différentes activités, conférences, formations,
+            atéliers et d&apos;autres évènements que nous organisons.
           </p>
         </>
       ) : (

@@ -6,11 +6,11 @@ const Introduction = () => {
       <div className="mx-auto sm:text-center lg:max-w-2xl">
         <div className="w-full">
           <div>
-            <p className="px-3 w-fit py-px mb-4 mx-auto text-center text-xs font-semibold tracking-wider bg-primary uppercase rounded-full bg-teal-accent-400 text-white">
+            <p className="px-3 w-fit py-px mb-4 mx-auto text-center text-xs font-semibold tracking-wider bg-secondary uppercase rounded-full bg-teal-accent-400 text-white">
               Introduction GNDC
             </p>
           </div>
-          <h2 className=" mb-6 text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl mx-auto text-center">
+          <h2 className="text-primary mb-6 text-3xl font-bold leading-none tracking-tight  sm:text-4xl mx-auto text-center max-sm:text-left">
             <span className="relative inline-block">
               <svg
                 viewBox="0 0 52 24"
@@ -39,9 +39,9 @@ const Introduction = () => {
             À propos de la communauté
           </h2>
           <p className="text-base text-gray-700 md:text-lg w-full">
-            La GNDC est une communautée axée sur l'innovation, la collaboration
-            et à la promotion du développement technologique dans le Grand nord
-            du Cameroun.
+            La GNDC est une communautée axée sur l&apos;innovation, la
+            collaboration et à la promotion du développement technologique dans
+            le Grand nord du Cameroun.
           </p>
         </div>
         <div className="relative my-5">
@@ -54,11 +54,11 @@ const Introduction = () => {
         </div>
         <p className="max-w-xl mb-4 text-base text-gray-700 sm:mx-auto">
           Nous avons en notre sein de développeurs, ingénieurs et passionnés de
-          technologie qui partagent une vision commune de l'avénir technologique
-          de leurs régions respectives.
+          technologie qui partagent une vision commune de l&apos;avénir
+          technologique de leurs régions respectives.
         </p>
         <a
-          href="/about-us"
+          href="/about"
           aria-label=""
           className="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800"
         >

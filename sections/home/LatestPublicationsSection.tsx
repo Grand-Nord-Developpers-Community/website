@@ -13,10 +13,10 @@ const LatestPublicationsSection: FC = () => {
   return (
     <section className="my-12 w-full bg-gray-50 py-8">
       <div className="screen-wrapper">
-        <h2 className="text-3xl font-bold mb-4 text-primary text-center  ">
+        <h2 className="text-3xl font-bold mb-4 text-primary text-center max-sm:text-left ">
           Publications populaires
         </h2>
-        <p className="text-center max-w-screen-lg mx-auto">
+        <p className="text-center max-w-screen-lg mx-auto max-sm:text-left">
           Decouvrez nos articles populaires pour vous tenir informé des
           dernières tendances, évènements et ressources qui faconnent
           l&apos;écosystème technologique du Grand Nord Cameroun.
