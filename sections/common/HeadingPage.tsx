@@ -28,7 +28,7 @@ function HeadingPage({ title, subtitle, description, children }: Props) {
                 </svg>
               </div>
             </a>
-            <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-3xl md:mb-12">
+            <div className="max-w-xl md:mx-auto sm:text-center lg:max-w-3xl">
               <h1 className="max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight text-white sm:text-4xl md:mx-auto">
                 <span className="relative inline-block">
                   <svg

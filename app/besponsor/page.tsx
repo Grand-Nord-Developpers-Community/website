@@ -52,9 +52,7 @@ const SponsorshipTier: React.FC<SponsorshipTierProps> = ({
         variant={recommended ? "default" : "outline"}
         className={clsx(
           "w-full hover:bg-secondary hover:text-white transition-colors duration-300",
-          {
-            recommended: "!bg-primary hover:!bg-primary/90 !text-white ",
-          }
+          recommended && "bg-primary hover:bg-primary/90 text-white "
         )}
       >
         Choisir ce plan
