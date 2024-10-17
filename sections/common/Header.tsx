@@ -124,9 +124,9 @@ function Header() {
           </SheetContent>
         </Sheet>
       </div>
-      <div className="absolute bottom-0 z-[41] left-0 w-full h-1 bg-gray-200">
+      <div className="absolute bottom-0 z-[41] left-0 w-full h-1 max-sm:h-[1px] bg-gray-200">
         <div
-          className="h-1 bg-secondary transition-all duration-300"
+          className="h-1 max-sm:h-[1px] bg-secondary transition-all duration-300"
           style={{ width: `${scrollProgress}%` }}
         ></div>
       </div>
