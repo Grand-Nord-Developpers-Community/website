@@ -1,10 +1,23 @@
 'use client'
-import React, { useState, useCallback } from 'react';
+
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, MessageSquare, ThumbsUp, Eye, Clock } from 'lucide-react';
+import Link from 'next/link';
+
+// Types
+interface ForumTopic {
+  id: number;
+  title: string;
+  category: string;
+  replies: number;
+  likes: number;
+  views: number;
+  lastActive: string;
+}
 
 // Données simulées pour les sujets du forum
-const forumTopics = [
+const forumTopics: ForumTopic[] = [
   { id: 1, title: "Débuter avec React", category: "React", replies: 23, likes: 45, views: 1200, lastActive: "Il y a 2h" },
   { id: 2, title: "Meilleures pratiques pour la conception d'API", category: "Backend", replies: 17, likes: 32, views: 800, lastActive: "Il y a 5h" },
   { id: 3, title: "CSS Grid vs Flexbox", category: "CSS", replies: 41, likes: 76, views: 2300, lastActive: "Il y a 1j" },
@@ -16,12 +29,6 @@ const ForumPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('Tout');
   const [searchTerm, setSearchTerm] = useState('');
   const categories = ['Tout', 'React', 'Backend', 'CSS', 'TypeScript'];
-
-  const handleCardClick = useCallback((topicId: any) => {
-    // Ici, vous pouvez ajouter la logique pour naviguer vers la page du sujet
-    console.log(`Clic sur le sujet avec l'ID : ${topicId}`);
-    // Par exemple : router.push(`/topic/${topicId}`);
-  }, []);
 
   const filteredTopics = forumTopics
     .filter(topic => (selectedCategory === 'Tout' || topic.category === selectedCategory))
@@ -58,43 +65,43 @@ const ForumPage = () => {
 
       <AnimatePresence>
         {filteredTopics.map((topic) => (
-          <motion.div
-            key={topic.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white rounded-lg shadow-md p-6 mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-            onClick={() => handleCardClick(topic.id)}
-          >
-            <div className="flex justify-between items-start">
-              <div>
-                <h2 className="text-xl font-semibold mb-2 text-[#cd7f32] hover:text-[#b26e2a] transition-colors duration-300">{topic.title}</h2>
-                <span className="inline-block bg-[#1a4d7c] text-white rounded-full px-3 py-1 text-sm font-semibold mr-2">{topic.category}</span>
-              </div>
-              <div className="flex items-center space-x-4 text-sm text-[#1a4d7c]">
-                <div className="flex items-center">
-                  <MessageSquare className="w-4 h-4 mr-1" />
-                  <span>{topic.replies}</span>
+          <Link href={`/forum/discussion/${topic.id}`} key={topic.id} passHref>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-lg shadow-md p-6 mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-xl font-semibold mb-2 text-[#cd7f32] hover:text-[#b26e2a] transition-colors duration-300">{topic.title}</h2>
+                  <span className="inline-block bg-[#1a4d7c] text-white rounded-full px-3 py-1 text-sm font-semibold mr-2">{topic.category}</span>
                 </div>
-                <div className="flex items-center">
-                  <ThumbsUp className="w-4 h-4 mr-1" />
-                  <span>{topic.likes}</span>
-                </div>
-                <div className="flex items-center">
-                  <Eye className="w-4 h-4 mr-1" />
-                  <span>{topic.views}</span>
+                <div className="flex items-center space-x-4 text-sm text-[#1a4d7c]">
+                  <div className="flex items-center">
+                    <MessageSquare className="w-4 h-4 mr-1" />
+                    <span>{topic.replies}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <ThumbsUp className="w-4 h-4 mr-1" />
+                    <span>{topic.likes}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Eye className="w-4 h-4 mr-1" />
+                    <span>{topic.views}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="mt-4 flex justify-between items-center text-sm text-[#1a4d7c]">
-              <span>Démarré par JohnDoe</span>
-              <div className="flex items-center">
-                <Clock className="w-4 h-4 mr-1" />
-                <span>{topic.lastActive}</span>
+              <div className="mt-4 flex justify-between items-center text-sm text-[#1a4d7c]">
+                <span>Démarré par JohnDoe</span>
+                <div className="flex items-center">
+                  <Clock className="w-4 h-4 mr-1" />
+                  <span>{topic.lastActive}</span>
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </Link>
         ))}
       </AnimatePresence>
 
