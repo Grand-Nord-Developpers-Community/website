@@ -58,7 +58,7 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm">
+                <Link href="/sponsors" className="text-sm">
                   Sponsors
                 </Link>
               </li>
