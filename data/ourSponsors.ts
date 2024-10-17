@@ -18,7 +18,7 @@ const ourSponsors: OurSponsors[] = [
       width: logoGDG_Maroua.width,
     },
     name: "GDG Maroua",
-    url: "https://gdg.com",
+    url: "https://gdg.community.dev/gdg-maroua/",
   },
   {
     logo: {
@@ -27,7 +27,7 @@ const ourSponsors: OurSponsors[] = [
       width: logoGDG_Garoua.width,
     },
     name: "GDG Garoua",
-    url: "https://gdg.com",
+    url: "https://gdg.community.dev/gdg-maroua/",
   },
   {
     logo: {
@@ -36,7 +36,7 @@ const ourSponsors: OurSponsors[] = [
       width: logoMIT.width,
     },
     name: "MIT",
-    url: "https://gdg.com",
+    url: "https://www.maroua-it.com/",
   },
   {
     logo: {
@@ -45,7 +45,7 @@ const ourSponsors: OurSponsors[] = [
       width: logoSamplex.width,
     },
     name: "Samplex",
-    url: "https://gdg.com",
+    url: "https://samplex.com",
   },
   {
     logo: {
@@ -54,7 +54,7 @@ const ourSponsors: OurSponsors[] = [
       width: logo2zaLab.width,
     },
     name: "2zalab",
-    url: "https://gdg.com",
+    url: "https://2zalab.com",
   },
   {
     logo: {
@@ -63,7 +63,7 @@ const ourSponsors: OurSponsors[] = [
       width: logoMountainHub.width,
     },
     name: "Mountain Hub",
-    url: "https://gdg.com",
+    url: "https://mountainhub.cm/",
   },
   {
     logo: {
@@ -72,7 +72,7 @@ const ourSponsors: OurSponsors[] = [
       width: logoCITS.width,
     },
     name: "Cameroon International Tech Summit",
-    url: "https://gdg.com",
+    url: "https://cits.cm",
   },
 ];
 
