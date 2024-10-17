@@ -23,13 +23,13 @@ const page = () => {
       >
         <Card className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white max-lg:w-[90%] lg:max-w-screen-lg">
           <CardContent className="flex gap-5 items-center justify-between py-4 max-sm:flex-col max-sm:gap-0 ">
-            <p className="font-medium text-left text-lg">
+            <p className="font-medium text-left text-lg max-sm:text-base">
               Notre prochaine activité :{" "}
               <span className="text-primary font-bold">The Night of Code</span>,
               le 17 Octobre 2024
             </p>
 
-            <Link className="mt-4 block transition sm:mt-0" ={"#"}>
+            <Link className="mt-4 block transition sm:mt-0" href={"#"}>
               <Button variant={"outline"} size={"lg"}>
                 Réserver
               </Button>
@@ -37,7 +37,7 @@ const page = () => {
           </CardContent>
         </Card>
       </HeadingPage>
-      <div className="my-16 screen-wrapper" id="explore">
+      <div className="my-16 screen-wrapper max-sm:mt-24" id="explore">
         <ActivitiesAndEventsSection limit={6} isHome={false} />
       </div>
     </section>
