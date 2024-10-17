@@ -84,7 +84,7 @@ function Footer() {
                   href="/privacypolicy"
                   className="text-sm hover:underline flex items-center"
                 >
-                  <Lock className="w-4 h-4 mr-1" />
+                  {/* <Lock className="w-4 h-4 mr-1" /> */}
                   Politique de Confidentialité
                 </Link>
               </li>
@@ -93,7 +93,7 @@ function Footer() {
                   href="/codeofconduct"
                   className="text-sm hover:underline flex items-center"
                 >
-                  <Users className="w-4 h-4 mr-1" />
+                  {/* <Users className="w-4 h-4 mr-1" /> */}
                   Code de conduite
                 </Link>
               </li>
@@ -132,23 +132,17 @@ function Footer() {
               événements, formations, et innovations!
             </p>
             <div className="w-full max-w-4xl mx-auto ">
-              <div className="flex flex-row sm:flex-row gap-4 justify-between">
-                <Link href="#" className="flex-1 min-w-0">
-                  <div className="w-full">
-                    <TelegramButton />
-                  </div>
+              <div className="flex gap-4 justify-between max-sm:justify-start max-sm:gap-2">
+                <Link href="#">
+                  <TelegramButton />
                 </Link>
 
-                <Link href="#" className="flex-1 min-w-0">
-                  <div className="w-full">
-                    <WhatsAppButton />
-                  </div>
+                <Link href="#">
+                  <WhatsAppButton />
                 </Link>
 
-                <Link href="#" className="flex-1 min-w-0">
-                  <div className="w-full">
-                    <DiscordButton />
-                  </div>
+                <Link href="#">
+                  <DiscordButton />
                 </Link>
               </div>
             </div>
@@ -156,25 +150,41 @@ function Footer() {
         </div>
 
         {/* Copyright and Social Icons */}
-        <div className="mt-8 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
+        <div className="mt-8 pt-8 max-sm:pt-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-600">
             © Grand Nord Developers Community - 2024. Tous droits réservés
           </p>
-          <div className="flex gap-4 mt-4 md:mt-0">
+          <div className="flex items-center gap-4 mt-4 md:mt-0 max-sm:gap-2">
             <Link href="#" className="text-gray-600">
-              <Image src={youtubeIcon} alt="youtube" width={25} height={25} />
+              <Image
+                src={youtubeIcon}
+                alt="youtube"
+                className="size-8 p-2 bg-gray-200"
+              />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image src={xIcon} alt="x" width={20} height={20} />
+              <Image src={xIcon} alt="x" className="size-8 p-2 bg-gray-200" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image src={facebookIcon} alt="Facebook" width={14} height={14} />
+              <Image
+                src={facebookIcon}
+                alt="Facebook"
+                className="size-8 p-2 bg-gray-200"
+              />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image src={linkedinIcon} alt="LinkedIn" width={20} height={20} />
+              <Image
+                src={linkedinIcon}
+                alt="LinkedIn"
+                className="size-8 p-2 bg-gray-200"
+              />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image src={githubIcon} alt="GitHub" width={20} height={20} />
+              <Image
+                src={githubIcon}
+                alt="GitHub"
+                className="size-8 p-2 bg-gray-200"
+              />
             </Link>
           </div>
         </div>
