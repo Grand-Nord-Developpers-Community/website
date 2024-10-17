@@ -37,7 +37,7 @@ function Header() {
           <nav className="flex items-center gap-8 text-black">
             <Link href={"events"}>Nos activités</Link>
             <Link href={"#"}>Blog</Link>
-            <Link href={"#"}>Forum</Link>
+            <Link href={"/forum"}>Forum</Link>
             <Link href={"#"}>Formation</Link>
           </nav>
           <Button
@@ -64,9 +64,9 @@ function Header() {
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col gap-4 text-primary my-4">
-              <Link href={"#"}>Nos activités</Link>
+              <Link href={"events"}>Nos activités</Link>
               <Link href={"#"}>Blog</Link>
-              <Link href={"#"}>Forum</Link>
+              <Link href={"/forum"}>Forum</Link>
               <Link href={"#"}>Formation</Link>
             </nav>
             <Separator className="my-4 bg-gray-400" />
