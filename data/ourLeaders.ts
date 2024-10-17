@@ -17,9 +17,9 @@ const leaders: OurLeaders[] = [
         role: "Coordonateur",
         socials: {
             gmail: "isaac_touza@outlook.fr	",
-            facebook: "https://www.facebook.com/touza.isaac?mibextid%3DLQQJ4d&sa=D&source=editors&ust=1728767437293314&usg=AOvVaw3fEBSnWpR9aD3uyOjerhZa",
-            linkedln: "https://www.linkedin.com/in/touzaisaac&sa=D&source=editors&ust=1728767437293508&usg=AOvVaw2kraVYkk0FC_tJRTOU4I93",
-            github: "https://www.google.com/url?q=https://github.com/2zalab&sa=D&source=editors&ust=1728767437293857&usg=AOvVaw0pi4qpqp21rTvN9qUmAY05"
+            facebook: "https://www.facebook.com/touza.isaac",
+            linkedln: "https://www.linkedin.com/in/touzaisaac",
+            github: "https://github.com/2zalab"
         }
     },
     {
@@ -77,9 +77,9 @@ const leaders: OurLeaders[] = [
         url: leader1,
         socials: {
             gmail: "eliezokom@gmail.com",
-            facebook: "https://www.facebook.com/zokom.elie&sa=D&source=editors&ust=1728767437294659&usg=AOvVaw3xIQ85xKp7zFlw6Sh-erb6",
-            linkedln: "https://www.linkedin.com/in/elievanazokom&sa=D&source=editors&ust=1728767437294778&usg=AOvVaw27Ui7WmvuhH5BeXbZseZzX",
-            github: "=https://github.com/goodbuzzer&sa=D&source=editors&ust=1728767437295183&usg=AOvVaw31Dh0g0TwjqCd2keJokW23"
+            facebook: "https://www.facebook.com/zokom.elie",
+            linkedln: "https://www.linkedin.com/in/elievanazokom",
+            github: "https://github.com/goodbuzzer"
         }
     },
     {
