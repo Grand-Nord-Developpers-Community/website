@@ -54,7 +54,7 @@ const ActivityAndEventCard: FC<ActvityAndEventCardProps> = ({
       <div>
         <CardHeader className="p-0 py-3 ">
           <CardTitle>
-            <Link href={""} className="hover:underline text-secondary">
+            <Link href={"/events/1"} className="hover:underline text-secondary">
               {title}
             </Link>
           </CardTitle>

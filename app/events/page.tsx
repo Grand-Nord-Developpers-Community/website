@@ -29,7 +29,7 @@ const page = () => {
               le 17 Octobre 2024
             </p>
 
-            <Link className="mt-4 block transition sm:mt-0" href={"#"}>
+            <Link className="mt-4 block transition sm:mt-0" ={"#"}>
               <Button variant={"outline"} size={"lg"}>
                 Réserver
               </Button>

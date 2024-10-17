@@ -29,6 +29,7 @@ const TeamCard = ({ name, url, role, socials }: Leader) => {
               {socials.facebook !== "" && (
                 <a
                   href={socials.facebook}
+                  target="_blank"
                   className="p-2 bg-primary text-white hover:bg-secondary rounded-full md:scale-0 md:group-hover:scale-100 transition-all"
                 >
                   <FacebookIcon className="size-5" />
@@ -37,6 +38,7 @@ const TeamCard = ({ name, url, role, socials }: Leader) => {
               {socials.github !== "" && (
                 <a
                   href={socials.github}
+                  target="_blank"
                   className="p-2 bg-primary text-white hover:bg-secondary rounded-full md:scale-0 md:group-hover:scale-100 transition-all"
                 >
                   <GithubIcon className="size-5" />
@@ -44,7 +46,8 @@ const TeamCard = ({ name, url, role, socials }: Leader) => {
               )}
               {socials.gmail !== "" && (
                 <a
-                  href={socials.gmail}
+                  target="_blank"
+                  href={"mailto:" + socials.gmail}
                   className="p-2 bg-primary text-white hover:bg-secondary rounded-full md:scale-0 md:group-hover:scale-100 transition-all"
                 >
                   <Mail className="size-5" />
@@ -53,6 +56,7 @@ const TeamCard = ({ name, url, role, socials }: Leader) => {
               {socials.linkedln !== "" && (
                 <a
                   href={socials.linkedln}
+                  target="_blank"
                   className="p-2 bg-primary text-white hover:bg-secondary rounded-full md:scale-0 md:group-hover:scale-100 transition-all"
                 >
                   <LinkedinIcon className="size-5" />

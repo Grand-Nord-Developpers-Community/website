@@ -35,7 +35,9 @@ function HeroSection() {
                 asChild
                 variant={"outline"}
               >
-                <Link href="#">Nous supporter</Link>
+                <Link href="#" target="_blank">
+                  Nous supporter
+                </Link>
               </Button>
             </div>
           </div>

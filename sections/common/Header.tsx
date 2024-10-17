@@ -18,6 +18,24 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 
+const Links = [
+  {
+    name: "Nos activités",
+    link: "/events",
+  },
+  {
+    name: "Blog",
+    link: "/blog",
+  },
+  {
+    name: "Forum",
+    link: "/forum",
+  },
+  {
+    name: "Formation",
+    link: "/formation",
+  },
+];
 function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -50,17 +68,18 @@ function Header() {
         </div>
         <div className="flex items-center gap-5 max-lg:hidden">
           <nav className="flex items-center gap-8 text-black">
-            <Link href={"events"}>Nos activités</Link>
-            <Link href={"#"}>Blog</Link>
-            <Link href={"#"}>Forum</Link>
-            <Link href={"#"}>Formation</Link>
+            {Links.map((l, i) => (
+              <Link key={i} href={l.link}>
+                {l.name}
+              </Link>
+            ))}
           </nav>
           <Button
             className="ml-5 border border-primary text-primary hover:bg-primary hover:text-white"
             variant={"outline"}
             asChild
           >
-            <Link href="/login">Créer un compte</Link>
+            <Link href="/sign-in">Créer un compte</Link>
           </Button>
           <Button className="text-white" asChild>
             <Link href="/login">Se connecter</Link>
@@ -79,10 +98,11 @@ function Header() {
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col gap-4 text-primary my-4">
-              <Link href={"#"}>Nos activités</Link>
-              <Link href={"#"}>Blog</Link>
-              <Link href={"#"}>Forum</Link>
-              <Link href={"#"}>Formation</Link>
+              {Links.map((l, i) => (
+                <Link key={i} href={l.link}>
+                  {l.name}
+                </Link>
+              ))}
             </nav>
             <Separator className="my-4 bg-gray-400" />
             <SheetFooter className="gap-3">
@@ -92,7 +112,7 @@ function Header() {
                   variant={"outline"}
                   asChild
                 >
-                  <Link href="/login">Créer un compte</Link>
+                  <Link href="/sign-in">Créer un compte</Link>
                 </Button>
               </SheetClose>
               <SheetClose asChild>

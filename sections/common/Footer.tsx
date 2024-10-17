@@ -48,27 +48,27 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm">
+                <Link href="/forum" className="text-sm">
                   Forum
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm">
+                <Link href="/blog" className="text-sm">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm">
+                <Link href="/sponsors" className="text-sm">
                   Sponsors
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm">
+                <Link href="/opportunity" className="text-sm">
                   Opportunités
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm">
+                <Link href="/branding" className="text-sm">
                   Branding
                 </Link>
               </li>
@@ -97,12 +97,6 @@ function Footer() {
                   Code de conduite
                 </Link>
               </li>
-              {/*
-            <li><Link href="#" className="text-sm">Conditions d&apos;utilisation</Link></li>
-            <li><Link href="#" className="text-sm">Confidentialité</Link></li>
-            <li><Link href="#" className="text-sm">Code de conduite</Link></li>
-            
-            */}
               <li>
                 <Link href="/faq" className="text-sm">
                   FAQ
@@ -129,7 +123,7 @@ function Footer() {
                 className="flex-grow"
               />
               <Button className="text-white" asChild>
-                <Link href="">S&apos;inscrire</Link>
+                <Link href="#">S&apos;inscrire</Link>
               </Button>
             </div>
             <p className="text-sm mb-4">

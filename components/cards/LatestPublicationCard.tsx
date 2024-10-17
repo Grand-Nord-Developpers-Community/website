@@ -42,13 +42,13 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
             className="bg-blue-50 text-blue-700 mb-2"
             size="sm"
           >
-            <Link href={""} className="hover:underline">
+            <Link href={`${"/blog#" + category}`} className="hover:underline">
               {category}
             </Link>
           </Button>
 
           <CardTitle>
-            <Link href={""} className="hover:underline">
+            <Link href={"/blog/this"} className="hover:underline">
               {title}
             </Link>
           </CardTitle>
@@ -57,7 +57,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
 
       <CardFooter className="px-4 justify-between items-center">
         <Link
-          href={""}
+          href={"/blog/this"}
           className="flex items-center gap-1 text-blue-950 hover:underline"
         >
           <Avatar>
