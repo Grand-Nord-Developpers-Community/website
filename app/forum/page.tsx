@@ -184,10 +184,12 @@ const ForumPage = () => {
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <Link href="/forum/sujet/" passHref>
           <button className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2">
-            Nouvelle Discussion
+            Nouveau Sujet
             <span className="text-lg">+</span>
           </button>
+        </Link>
           
           <div className="flex-1 flex flex-col sm:flex-row gap-4">
             <span className="text-gray-600 self-center font-bold">
