@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/sections/common";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
+import 'prismjs/themes/prism.css';
 
 export const metadata: Metadata = {
   title: "Grand Nord Developers Community",
