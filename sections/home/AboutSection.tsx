@@ -63,6 +63,7 @@ const TestimonialsWithStats = () => {
                 <div className="flex items-center gap-x-4">
                   <div className="shrink-0">
                     <img
+                      loading="lazy"
                       className="size-8 rounded-full object-cover"
                       src="https://bachdev.vercel.app/_image?href=%2F_astro%2Fme.CjM5Kvkr.jpeg&w=768&f=webp"
                       alt="Avatar"

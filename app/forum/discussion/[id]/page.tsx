@@ -1,9 +1,18 @@
-'use client'
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, MessageSquare, ThumbsUp, Eye, Clock, User, Send, Smile } from 'lucide-react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import React, { useState, useEffect } from "react";
+import {
+  ArrowLeft,
+  MessageSquare,
+  ThumbsUp,
+  Eye,
+  Clock,
+  User,
+  Send,
+  Smile,
+} from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,7 +28,7 @@ const EMOJI_LIST = {
   "😄": "smile",
   "🎉": "party",
   "🤔": "thinking",
-  "👏": "clap"
+  "👏": "clap",
 };
 
 // Types
@@ -53,7 +62,7 @@ export default function TopicDiscussionPage() {
   const { id } = useParams();
   const [topicData, setTopicData] = useState<TopicData | null>(null);
   const [discussions, setDiscussions] = useState<Discussion[]>([]);
-  const [newReply, setNewReply] = useState('');
+  const [newReply, setNewReply] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState<number | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // À connecter avec votre système d'auth
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -64,11 +73,12 @@ export default function TopicDiscussionPage() {
       id: Number(id),
       title: "Débuter avec React",
       category: "React",
-      description: "Discussion sur les meilleures façons de commencer avec React pour les débutants.",
+      description:
+        "Discussion sur les meilleures façons de commencer avec React pour les débutants.",
       totalReplies: 23,
       totalLikes: 45,
       totalViews: 1200,
-      lastActive: "Il y a 2h"
+      lastActive: "Il y a 2h",
     };
 
     // Initialiser avec des données de test
@@ -76,75 +86,81 @@ export default function TopicDiscussionPage() {
       {
         id: 1,
         author: "Alice",
-        content: "Je recommande de commencer par la documentation officielle de React. C'est vraiment bien expliqué !",
+        content:
+          "Je recommande de commencer par la documentation officielle de React. C'est vraiment bien expliqué !",
         reactions: {
           "👍": { emoji: "👍", count: 12, userReacted: false },
           "❤️": { emoji: "❤️", count: 5, userReacted: false },
         },
         timestamp: "Il y a 2h",
-        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Alice"
+        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Alice",
       },
       {
         id: 2,
         author: "Marc",
-        content: "Les hooks personnalisés ont vraiment changé ma façon de coder ! Je conseille de bien comprendre useEffect et useState avant de se lancer dans les customs hooks. Voici un exemple simple que j'utilise souvent pour gérer les formulaires...",
+        content:
+          "Les hooks personnalisés ont vraiment changé ma façon de coder ! Je conseille de bien comprendre useEffect et useState avant de se lancer dans les customs hooks. Voici un exemple simple que j'utilise souvent pour gérer les formulaires...",
         reactions: {
           "👍": { emoji: "👍", count: 18, userReacted: false },
           "🎉": { emoji: "🎉", count: 7, userReacted: false },
-          "🤔": { emoji: "🤔", count: 3, userReacted: false }
+          "🤔": { emoji: "🤔", count: 3, userReacted: false },
         },
         timestamp: "Il y a 45min",
-        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Marc"
+        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Marc",
       },
       {
         id: 3,
         author: "Sophie",
-        content: "Pour les débutants, je recommande vraiment Create React App pour commencer. C'est plus simple que de configurer Webpack et Babel manuellement. Une fois que vous maîtrisez les bases, vous pourrez passer à Next.js ou Vite pour des projets plus complexes.",
+        content:
+          "Pour les débutants, je recommande vraiment Create React App pour commencer. C'est plus simple que de configurer Webpack et Babel manuellement. Une fois que vous maîtrisez les bases, vous pourrez passer à Next.js ou Vite pour des projets plus complexes.",
         reactions: {
           "👍": { emoji: "👍", count: 25, userReacted: false },
           "❤️": { emoji: "❤️", count: 12, userReacted: false },
-          "👏": { emoji: "👏", count: 8, userReacted: false }
+          "👏": { emoji: "👏", count: 8, userReacted: false },
         },
         timestamp: "Il y a 1h",
-        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Sophie"
+        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Sophie",
       },
       {
         id: 4,
         author: "Lucas",
-        content: "Je viens de terminer un projet avec React et TypeScript. Au début c'était un peu intimidant, mais maintenant je ne peux plus m'en passer ! Les interfaces et les types rendent le code tellement plus sûr et maintenable. Si vous débutez, commencez avec JavaScript pur, puis passez à TypeScript progressivement.",
+        content:
+          "Je viens de terminer un projet avec React et TypeScript. Au début c'était un peu intimidant, mais maintenant je ne peux plus m'en passer ! Les interfaces et les types rendent le code tellement plus sûr et maintenable. Si vous débutez, commencez avec JavaScript pur, puis passez à TypeScript progressivement.",
         reactions: {
           "👍": { emoji: "👍", count: 15, userReacted: false },
           "🤔": { emoji: "🤔", count: 6, userReacted: false },
-          "❤️": { emoji: "❤️", count: 4, userReacted: false }
+          "❤️": { emoji: "❤️", count: 4, userReacted: false },
         },
         timestamp: "Il y a 3h",
-        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Lucas"
+        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Lucas",
       },
       {
         id: 5,
         author: "Emma",
-        content: "N'oubliez pas l'importance des tests ! Jest et React Testing Library sont essentiels dans un projet professionnel. Je recommande de commencer à écrire des tests dès le début du projet, même si ce sont juste des tests basiques. C'est plus difficile d'ajouter des tests après coup.",
+        content:
+          "N'oubliez pas l'importance des tests ! Jest et React Testing Library sont essentiels dans un projet professionnel. Je recommande de commencer à écrire des tests dès le début du projet, même si ce sont juste des tests basiques. C'est plus difficile d'ajouter des tests après coup.",
         reactions: {
           "👍": { emoji: "👍", count: 22, userReacted: false },
           "👏": { emoji: "👏", count: 9, userReacted: false },
-          "🎉": { emoji: "🎉", count: 5, userReacted: false }
+          "🎉": { emoji: "🎉", count: 5, userReacted: false },
         },
         timestamp: "Il y a 4h",
-        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Emma"
+        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Emma",
       },
       {
         id: 6,
         author: "Thomas",
-        content: "Pro tip : Utilisez les React Developer Tools dans Chrome/Firefox ! C'est un game changer pour débugger vos composants et comprendre le cycle de vie des états. Vous pouvez voir en temps réel les props, le state, et même les performances de rendu.",
+        content:
+          "Pro tip : Utilisez les React Developer Tools dans Chrome/Firefox ! C'est un game changer pour débugger vos composants et comprendre le cycle de vie des états. Vous pouvez voir en temps réel les props, le state, et même les performances de rendu.",
         reactions: {
           "🎉": { emoji: "🎉", count: 30, userReacted: false },
           "👍": { emoji: "👍", count: 28, userReacted: false },
           "❤️": { emoji: "❤️", count: 15, userReacted: false },
-          "👏": { emoji: "👏", count: 12, userReacted: false }
+          "👏": { emoji: "👏", count: 12, userReacted: false },
         },
         timestamp: "Il y a 5h",
-        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Thomas"
-      }
+        avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=Thomas",
+      },
       // ... autres discussions initialisées de la même façon
     ];
 
@@ -153,8 +169,8 @@ export default function TopicDiscussionPage() {
   }, [id]);
 
   const handleReaction = (discussionId: number, emoji: string) => {
-    setDiscussions(prevDiscussions => 
-      prevDiscussions.map(discussion => {
+    setDiscussions((prevDiscussions) =>
+      prevDiscussions.map((discussion) => {
         if (discussion.id === discussionId) {
           const updatedReactions = { ...discussion.reactions };
           if (!updatedReactions[emoji]) {
@@ -162,10 +178,10 @@ export default function TopicDiscussionPage() {
           }
           updatedReactions[emoji] = {
             ...updatedReactions[emoji],
-            count: updatedReactions[emoji].userReacted 
-              ? updatedReactions[emoji].count - 1 
+            count: updatedReactions[emoji].userReacted
+              ? updatedReactions[emoji].count - 1
               : updatedReactions[emoji].count + 1,
-            userReacted: !updatedReactions[emoji].userReacted
+            userReacted: !updatedReactions[emoji].userReacted,
           };
           return { ...discussion, reactions: updatedReactions };
         }
@@ -178,25 +194,25 @@ export default function TopicDiscussionPage() {
   const handleReplySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-     // Vérifier si l'utilisateur est connecté
+    // Vérifier si l'utilisateur est connecté
     if (!isAuthenticated) {
       setShowAuthModal(true);
       return;
     }
 
-    if (newReply.trim() === '') return;
-    
+    if (newReply.trim() === "") return;
+
     const newDiscussion: Discussion = {
       id: discussions.length + 1,
       author: "Vous",
       content: newReply,
       reactions: {},
       timestamp: "À l'instant",
-      avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=You"
+      avatar: "https://api.dicebear.com/6.x/avataaars/svg?seed=You",
     };
 
     setDiscussions([...discussions, newDiscussion]);
-    setNewReply('');
+    setNewReply("");
   };
 
   if (!topicData) {
@@ -213,7 +229,9 @@ export default function TopicDiscussionPage() {
 
         {/* Card d'information du topic */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h1 className="text-3xl font-bold mb-2 text-[#1a4d7c]">{topicData.title}</h1>
+          <h1 className="text-3xl font-bold mb-2 text-[#1a4d7c]">
+            {topicData.title}
+          </h1>
           <p className="text-gray-600 mb-4">{topicData.description}</p>
           <div className="flex justify-between items-center text-sm text-[#1a4d7c]">
             <span className="bg-[#1a4d7c] text-white rounded-full px-3 py-1 text-sm font-semibold">
@@ -246,37 +264,50 @@ export default function TopicDiscussionPage() {
             <div key={discussion.id} className="relative group">
               <div className="flex items-start space-x-4">
                 <div className="relative">
-                  <img 
-                    src={discussion.avatar} 
-                    alt={discussion.author} 
-                    className="w-12 h-12 rounded-full ring-4 text-primary" 
+                  <img
+                    loading="lazy"
+                    src={discussion.avatar}
+                    alt={discussion.author}
+                    className="w-12 h-12 rounded-full ring-4 text-primary"
                   />
                   <div className="absolute -right-1 -bottom-1 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
                 </div>
-                
+
                 <div className="flex-1">
                   <div className="p-6 rounded-xl">
                     <div className="flex justify-between items-center mb-4">
                       <div className="flex items-center gap-3">
-                        <span className="font-semibold text-[#1a4d7c]">{discussion.author}</span>
-                        <span className="text-sm text-gray-500">{discussion.timestamp}</span>
+                        <span className="font-semibold text-[#1a4d7c]">
+                          {discussion.author}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {discussion.timestamp}
+                        </span>
                       </div>
-                      
+
                       <div className="relative">
                         <button
-                          onClick={() => setShowEmojiPicker(showEmojiPicker === discussion.id ? null : discussion.id)}
+                          onClick={() =>
+                            setShowEmojiPicker(
+                              showEmojiPicker === discussion.id
+                                ? null
+                                : discussion.id
+                            )
+                          }
                           className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                         >
                           <Smile className="w-5 h-5 text-[#1a4d7c]" />
                         </button>
-                        
+
                         {showEmojiPicker === discussion.id && (
                           <div className="absolute right-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 p-2 z-10">
                             <div className="flex gap-2">
                               {Object.keys(EMOJI_LIST).map((emoji) => (
                                 <button
                                   key={emoji}
-                                  onClick={() => handleReaction(discussion.id, emoji)}
+                                  onClick={() =>
+                                    handleReaction(discussion.id, emoji)
+                                  }
                                   className="hover:scale-125 transition-transform p-2"
                                 >
                                   {emoji}
@@ -288,19 +319,25 @@ export default function TopicDiscussionPage() {
                       </div>
                     </div>
 
-                    <p className="text-gray-700 leading-relaxed mb-4">{discussion.content}</p>
+                    <p className="text-gray-700 leading-relaxed mb-4">
+                      {discussion.content}
+                    </p>
 
                     <div className="flex flex-wrap gap-2">
                       {Object.values(discussion.reactions).map((reaction) => (
                         <button
                           key={reaction.emoji}
-                          onClick={() => handleReaction(discussion.id, reaction.emoji)}
+                          onClick={() =>
+                            handleReaction(discussion.id, reaction.emoji)
+                          }
                           className={`
                             inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm
                             transition-all duration-200 hover:scale-105
-                            ${reaction.userReacted 
-                              ? 'bg-[#1a4d7c] text-white' 
-                              : 'bg-gray-100 text-[#1a4d7c] hover:bg-gray-200'}
+                            ${
+                              reaction.userReacted
+                                ? "bg-[#1a4d7c] text-white"
+                                : "bg-gray-100 text-[#1a4d7c] hover:bg-gray-200"
+                            }
                           `}
                         >
                           <span>{reaction.emoji}</span>
@@ -311,8 +348,8 @@ export default function TopicDiscussionPage() {
                   </div>
                 </div>
               </div>
-                {/* Ligne de séparation */}
-                 <div className="border-b border-blue my-4"></div>
+              {/* Ligne de séparation */}
+              <div className="border-b border-blue my-4"></div>
             </div>
           ))}
         </div>
@@ -362,13 +399,13 @@ export default function TopicDiscussionPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-4 mt-4">
-            <Link 
+            <Link
               href="/login"
               className="w-full bg-[#1a4d7c] text-white py-2 px-4 rounded-lg text-center hover:bg-[#143d64] transition-colors"
             >
               Se connecter
             </Link>
-            <Link 
+            <Link
               href="/register"
               className="w-full border border-[#1a4d7c] text-[#1a4d7c] py-2 px-4 rounded-lg text-center hover:bg-gray-50 transition-colors"
             >

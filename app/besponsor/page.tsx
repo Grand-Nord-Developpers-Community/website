@@ -221,6 +221,7 @@ const DevenirSponsorPage = () => {
           <div className="flex items-center justify-center lg:w-1/2">
             <div className="w-3/5">
               <Image
+                loading="lazy"
                 className="object-cover rounded-lg shadow-lg"
                 src={Image1}
                 alt="Sponsor Impact"
@@ -228,6 +229,7 @@ const DevenirSponsorPage = () => {
             </div>
             <div className="w-10/12 -ml-16 lg:-ml-32">
               <Image
+                loading="lazy"
                 className="object-cover rounded-lg shadow-lg"
                 src={Image2}
                 alt="Tech Community"
