@@ -5,6 +5,13 @@ import { ArrowLeft, MessageSquare, ThumbsUp, Eye, Clock, User, Send, Smile } fro
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const EMOJI_LIST = {
   "👍": "thumbsup",
@@ -48,6 +55,8 @@ export default function TopicDiscussionPage() {
   const [discussions, setDiscussions] = useState<Discussion[]>([]);
   const [newReply, setNewReply] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState<number | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // À connecter avec votre système d'auth
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     // Simuler la récupération des données du topic
@@ -168,6 +177,13 @@ export default function TopicDiscussionPage() {
 
   const handleReplySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+     // Vérifier si l'utilisateur est connecté
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+      return;
+    }
+
     if (newReply.trim() === '') return;
     
     const newDiscussion: Discussion = {
@@ -336,6 +352,31 @@ export default function TopicDiscussionPage() {
           </div>
         </form>
       </div>
+      {/* le modal d'authentification */}
+      <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Connexion requise</DialogTitle>
+            <DialogDescription>
+              Pour participer à la discussion, vous devez être connecté.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-4 mt-4">
+            <Link 
+              href="/login"
+              className="w-full bg-[#1a4d7c] text-white py-2 px-4 rounded-lg text-center hover:bg-[#143d64] transition-colors"
+            >
+              Se connecter
+            </Link>
+            <Link 
+              href="/register"
+              className="w-full border border-[#1a4d7c] text-[#1a4d7c] py-2 px-4 rounded-lg text-center hover:bg-gray-50 transition-colors"
+            >
+              Créer un compte
+            </Link>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
