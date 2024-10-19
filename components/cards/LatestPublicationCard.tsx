@@ -28,9 +28,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
             />
           ) : (
             <div>
-              <Image
-                loading="lazy"
-                Icon
+              <ImageIcon
                 strokeWidth={1}
                 className="h-auto w-full bg-gray-200"
               />
