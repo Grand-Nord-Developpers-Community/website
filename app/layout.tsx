@@ -4,10 +4,10 @@ import "./globals.css";
 import { Header } from "@/sections/common";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
-import 'prismjs/themes/prism.css';
+import "prismjs/themes/prism.css";
 
 export const metadata: Metadata = {
-  title: "Grand Nord Developers Community",
+  title: "GNDC | Home",
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
