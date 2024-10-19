@@ -71,7 +71,7 @@ export default function CreateTopicForm() {
   );
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Créer un sujet</h1>
       <p className="mb-4">
         Assurez-vous d&apos;avoir lu nos <a href="/codeofconduct" className="text-primary hover:underline">règles de conduite</a> avant de continuer.
