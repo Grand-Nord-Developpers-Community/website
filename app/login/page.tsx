@@ -28,6 +28,7 @@ export default function AuthenticationPage() {
           </Link>
           <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
             <Image
+              loading="lazy"
               src={CoverLogin}
               alt="login cover"
               className="absolute inset-0 h-full w-full bg-primary object-cover"
@@ -39,7 +40,12 @@ export default function AuthenticationPage() {
               <div className="absolute top-5 left-5 z-20 flex items-center text-lg font-medium  max-lg:block">
                 <span className="sr-only">GNDC</span>
                 <Link href={"/"}>
-                  <Image src={Logo} alt="logo GNDC" width={150} />
+                  <Image
+                    loading="lazy"
+                    src={Logo}
+                    alt="logo GNDC"
+                    width={150}
+                  />
                 </Link>
               </div>
               <div className="flex flex-col space-y-2 text-center mb-2">
@@ -96,7 +102,7 @@ export default function AuthenticationPage() {
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-zinc-900">
-            <Image
+            <Image loading="lazy" 
               src={CoverLogin}
               alt="login cover"
               className="w-full h-full object-cover"
@@ -106,7 +112,7 @@ export default function AuthenticationPage() {
           <div className="relative z-20 flex items-center text-lg font-medium">
             <span className="sr-only">GNDC</span>
             <Link href={"/"}>
-              <Image src={Logo} alt="logo GNDC" width={150} />
+              <Image loading="lazy"  src={Logo} alt="logo GNDC" width={150} />
             </Link>
           </div>
           <div className="relative z-20 mt-auto">
@@ -125,7 +131,7 @@ export default function AuthenticationPage() {
           <div className="absolute top-5 left-5 z-20 flex items-center text-lg font-medium hidden max-lg:block">
             <span className="sr-only">GNDC</span>
             <Link href={"/"}>
-              <Image src={Logo} alt="logo GNDC" width={150} />
+              <Image loading="lazy"  src={Logo} alt="logo GNDC" width={150} />
             </Link>
           </div>
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">

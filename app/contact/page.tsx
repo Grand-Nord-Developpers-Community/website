@@ -66,10 +66,12 @@ const ContactUs: React.FC = () => {
     <div className="flex flex-col">
       <ToastContainer />
       <div className="bg-primary text-white">
-        <div className="container mx-auto px-4 py-8 relative">
+        <div className="container mx-auto px-4 py-12 relative">
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="w-full lg:w-1/2">
-              <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
+              <h1 className="text-4xl font-bold mb-4 text-secondary">
+                Contact Us
+              </h1>
               <p className="text-lg">
                 Feel free to contact us! Submit your questions here, and we’ll
                 get back to you as soon as possible.
