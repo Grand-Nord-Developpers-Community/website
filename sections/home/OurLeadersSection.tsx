@@ -12,25 +12,25 @@ import LinkedInIcon from "@/assets/images/social-icons/linkedin.svg";
 
 // const TeamMember: React.FC<Leader> = ({ name, role, url, socials }) => (
 //   <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md">
-//     <Image src={url} alt={name} width={80} height={80} className="rounded-full mb-2 fill-current text-primary" />
+//     <Image loading="lazy"  src={url} alt={name} width={80} height={80} className="rounded-full mb-2 fill-current text-primary" />
 //     <h3 className="font-bold text-sm text-center">{name}</h3>
 //     <p className="text-xs text-gray-500 text-center">{role}</p>
 //     <div className="flex justify-center space-x-2 mt-2 text-primary">
 //       {/* Gmail Icon */}
 //       <a href={`mailto:${socials.gmail}`} aria-label="Email">
-//         <Image src={GmailIcon} alt="Gmail" width={16} height={16} className="text-primary hover:text-blue-500"/>
+//         <Image loading="lazy"  src={GmailIcon} alt="Gmail" width={16} height={16} className="text-primary hover:text-blue-500"/>
 //       </a>
 //       {/* Facebook Icon */}
 //       <a href={socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-//         <Image src={FacebookIcon} alt="Facebook" width={10} height={10} className="hover:opacity-75" />
+//         <Image loading="lazy"  src={FacebookIcon} alt="Facebook" width={10} height={10} className="hover:opacity-75" />
 //       </a>
 //       {/* LinkedIn Icon */}
 //       <a href={socials.linkedln} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-//         <Image src={LinkedInIcon} alt="LinkedIn" width={16} height={16} className="hover:opacity-75" />
+//         <Image loading="lazy"  src={LinkedInIcon} alt="LinkedIn" width={16} height={16} className="hover:opacity-75" />
 //       </a>
 //       {/* Github Icon */}
 //       <a href={socials.github} target="_blank" rel="noopener noreferrer" aria-label="Github">
-//         <Image src={GithubIcon} alt="Github" width={16} height={16} className="hover:opacity-75" />
+//         <Image loading="lazy"  src={GithubIcon} alt="Github" width={16} height={16} className="hover:opacity-75" />
 //       </a>
 //     </div>
 //   </div>

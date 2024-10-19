@@ -19,7 +19,12 @@ const EventPageDetails = () => {
               {activityOrEvent.title}
             </h1>
             <div className="flex-col flex max-md:justify-center my-4 max-w-xl">
-              <Image src={image} alt="Event cover Image" className="w-full" />
+              <Image
+                loading="lazy"
+                src={image}
+                alt="Event cover Image"
+                className="w-full"
+              />
               <h4 className="text-2xl font-bold my-3">Resumé:</h4>
               <p className="text-xl leading-normal font-normal text-justify">
                 {activityOrEvent.summary}

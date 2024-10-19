@@ -21,6 +21,7 @@ const TeamCard = ({ name, url, role, socials }: Leader) => {
         <div className="mx-auto mb-10 w-full max-w-[370px]">
           <div className="group relative overflow-hidden rounded-lg">
             <Image
+              loading="lazy"
               src={url}
               alt={name}
               className="h-[350px] object-cover object-top bg-primary"

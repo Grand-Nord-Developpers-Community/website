@@ -64,6 +64,7 @@ function AboutSection() {
             {/* Right Column - Image */}
             <div className="relative h-[600px] rounded-3xl overflow-hidden">
               <Image
+                loading="lazy"
                 src={develperImage}
                 alt="Developer working"
                 className="w-full h-full object-cover rounded-xl"

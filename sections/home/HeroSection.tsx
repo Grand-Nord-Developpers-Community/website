@@ -13,6 +13,7 @@ function HeroSection() {
       <div className="w-full h-[370px] lg:h-[450px]  relative max-md:hidden ">
         <div className="absolute inset-0 -z-[1] bg-primary ">
           <Image
+            loading="lazy"
             src={Slider}
             className="w-full h-full object-cover object-top"
             alt="slide image"

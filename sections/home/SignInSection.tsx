@@ -149,12 +149,12 @@ const SignInSection = () => {
         </div>
 
         <div className="mt-8 flex justify-center gap-3">
-          <Button size="lg" asChild>
+          <Button size="lg" asChild className="max-sm:py-2 max-sm:px-3">
             <Link href="/login">Se connecter</Link>
           </Button>
           <Button
             size="lg"
-            className="bg-primary text-white hover:bg-primary/90"
+            className="bg-primary text-white hover:bg-primary/90 max-sm:py-2 max-sm:px-3"
             asChild
           >
             <Link href="/besponsor">Nous sponsoriser</Link>

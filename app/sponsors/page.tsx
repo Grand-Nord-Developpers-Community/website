@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Zap } from 'lucide-react';
+import { ExternalLink, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ourSponsors from "@/data/ourSponsors";
 import HeadingPage from "@/sections/common/HeadingPage";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 const SponsorShowcase = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const handleVisitWebsite = (website: string | URL | undefined) => {
-    window.open(website, '_blank', 'noopener,noreferrer');
+    window.open(website, "_blank", "noopener,noreferrer");
   };
 
   const cardVariants = {
@@ -29,13 +29,12 @@ const SponsorShowcase = () => {
         subtitle="Entreprises & Societés partenaires."
         description="Découvrez les entreprises visionnaires qui propulsent l'innovation technologique dans le Grand Nord Cameroun."
       >
-
-<Card className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white max-lg:w-[90%] lg:max-w-screen-lg">
+        <Card className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white max-lg:w-[90%] lg:max-w-screen-lg">
           <CardContent className="flex gap-5 items-center justify-between py-4 max-sm:flex-col max-sm:gap-0 ">
             <p className="font-medium text-left text-lg">
-              Vous souhaitez faire partir des {" "}
-              <span className="text-primary font-bold">entreprises</span>,
-              qui nous soutiennent?
+              Vous souhaitez faire partir des{" "}
+              <span className="text-primary font-bold">entreprises</span>, qui
+              nous soutiennent?
             </p>
 
             <Link className="mt-4 block transition sm:mt-0" href={"/besponsor"}>
@@ -45,10 +44,10 @@ const SponsorShowcase = () => {
             </Link>
           </CardContent>
         </Card>
-        </HeadingPage>
-      
+      </HeadingPage>
+
       <div className="container mx-auto px-4 py-32">
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
           initial="hidden"
           animate="visible"
@@ -71,12 +70,13 @@ const SponsorShowcase = () => {
             >
               <Card className="bg-[#F9F0E3] shadow-md hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden h-full">
                 <CardContent className="p-8 flex flex-col items-center h-full">
-                  <motion.div 
+                  <motion.div
                     className="w-32 h-32 relative mb-6 rounded-full bg-white p-4 flex items-center justify-center"
                     animate={{ rotate: hoveredCard === index ? 360 : 0 }}
                     transition={{ duration: 0.5 }}
                   >
                     <Image
+                      loading="lazy"
                       src={sponsor.logo.url}
                       alt={`${sponsor.name} logo`}
                       width={sponsor.logo.width}
@@ -85,14 +85,16 @@ const SponsorShowcase = () => {
                       className="rounded-full"
                     />
                   </motion.div>
-                  <h3 className="text-2xl font-bold mb-4 text-center text-[#0a3d62]">{sponsor.name}</h3>
+                  <h3 className="text-2xl font-bold mb-4 text-center text-[#0a3d62]">
+                    {sponsor.name}
+                  </h3>
                   <motion.div
                     className="mt-auto"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="border-[#0a3d62] text-[#0a3d62] hover:bg-[#0a3d62] hover:text-white transition-colors duration-300"
                       onClick={() => handleVisitWebsite(sponsor.url)}
                     >
@@ -105,20 +107,17 @@ const SponsorShowcase = () => {
             </motion.div>
           ))}
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="text-center mt-20"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
           <Link className="block transition" href="/besponsor">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button variant={"outline"} size={"lg"}>
-              Devenez Partenaire
+                Devenez Partenaire
               </Button>
             </motion.div>
           </Link>

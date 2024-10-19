@@ -38,6 +38,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         <figure className="overflow-hidden aspect-video">
           {featured_image?.src ? (
             <Image
+              loading="lazy"
               src={featured_image.src}
               alt={featured_image.title || title}
               width={featured_image.width}
@@ -46,7 +47,9 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
             />
           ) : (
             <div>
-              <ImageIcon
+              <Image
+                loading="lazy"
+                Icon
                 strokeWidth={1}
                 className="h-auto w-full bg-gray-200"
               />
@@ -66,6 +69,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
               <Avatar className="h-auto w-auto">
                 <AvatarImage asChild>
                   <Image
+                    loading="lazy"
                     src={published_by.profile_image}
                     alt={"profile image of: " + published_by.name}
                   />

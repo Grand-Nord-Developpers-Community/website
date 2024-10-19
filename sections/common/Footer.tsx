@@ -28,7 +28,13 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
           <div className="col-span-1">
-            <Image src={Logo} alt="GNDC Logo" width={130} height={70} />
+            <Image
+              loading="lazy"
+              src={Logo}
+              alt="GNDC Logo"
+              width={130}
+              height={70}
+            />
             <p className="mt-4 text-sm">
               Innover ensemble pour transformer le futur technologique du Grand
               Nord Cameroun.
@@ -157,16 +163,23 @@ function Footer() {
           <div className="flex items-center gap-4 mt-4 md:mt-0 max-sm:gap-2">
             <Link href="#" className="text-gray-600">
               <Image
+                loading="lazy"
                 src={youtubeIcon}
                 alt="youtube"
                 className="size-8 p-2 bg-gray-200"
               />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image src={xIcon} alt="x" className="size-8 p-2 bg-gray-200" />
+              <Image
+                loading="lazy"
+                src={xIcon}
+                alt="x"
+                className="size-8 p-2 bg-gray-200"
+              />
             </Link>
             <Link href="#" className="text-gray-600">
               <Image
+                loading="lazy"
                 src={facebookIcon}
                 alt="Facebook"
                 className="size-8 p-2 bg-gray-200"
@@ -174,6 +187,7 @@ function Footer() {
             </Link>
             <Link href="#" className="text-gray-600">
               <Image
+                loading="lazy"
                 src={linkedinIcon}
                 alt="LinkedIn"
                 className="size-8 p-2 bg-gray-200"
@@ -181,6 +195,7 @@ function Footer() {
             </Link>
             <Link href="#" className="text-gray-600">
               <Image
+                loading="lazy"
                 src={githubIcon}
                 alt="GitHub"
                 className="size-8 p-2 bg-gray-200"
