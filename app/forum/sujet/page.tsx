@@ -170,7 +170,7 @@ export default function CreateTopicForm() {
               Aide
             </Button>
             <button type="button" onClick={insertImage} className="ml-auto">
-              <Image loading="lazy" className="w-8 h-8 mr-3 text-primary" />
+              <Image className="w-8 h-8 mr-3 text-primary" />
             </button>
             <input
               type="file"
