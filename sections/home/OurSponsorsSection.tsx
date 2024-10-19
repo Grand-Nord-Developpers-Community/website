@@ -30,6 +30,7 @@ const OurSponsors: FC = () => {
             return (
               <a href={sponsor.url} key={sponsor.name + index}>
                 <Image
+                  loading="lazy"
                   src={sponsor.logo.url}
                   width={sponsor.logo.width}
                   height={sponsor.logo.height}

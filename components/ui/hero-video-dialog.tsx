@@ -85,6 +85,7 @@ export default function HeroVideoDialog({
         onClick={() => setIsVideoOpen(true)}
       >
         <Image
+          loading="lazy"
           src={thumbnailSrc}
           alt={thumbnailAlt}
           width={1920}

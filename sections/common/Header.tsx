@@ -63,7 +63,7 @@ function Header() {
         <div>
           <span className="sr-only">GNDC</span>
           <Link href={"/"}>
-            <Image src={Logo} alt="logo GNDC" width={115} />
+            <Image loading="lazy" src={Logo} alt="logo GNDC" width={115} />
           </Link>
         </div>
         <div className="flex items-center gap-5 max-lg:hidden">
@@ -94,7 +94,7 @@ function Header() {
           <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
             <SheetHeader>
               <SheetTitle>
-                <Image src={Logo} alt="logo GNDC" width={115} />
+                <Image loading="lazy" src={Logo} alt="logo GNDC" width={115} />
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col gap-4 text-primary my-4">
