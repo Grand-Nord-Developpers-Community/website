@@ -1,6 +1,6 @@
 import Publication from "@/interfaces/publication";
 import FeaturedImage from "@/assets/images/preview_blog/css-tips-and-tricks.avif";
-
+import ProfileImage from "@/assets/images/leaders/touza.jpg";
 const date = new Date();
 
 const publications: Publication[] = [
@@ -11,8 +11,8 @@ const publications: Publication[] = [
     created_at: date,
     updated_at: date,
     published_by: {
-      name: "Admin",
-      profile_image: "",
+      name: "Touza",
+      profile_image: ProfileImage,
     },
     featured_image: {
       src: FeaturedImage.src,

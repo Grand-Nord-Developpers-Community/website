@@ -17,7 +17,7 @@ import Publication from "@/interfaces/publication";
 import clsx from "clsx";
 
 type PublicationCardProps = {
-  publication: Omit<Publication, "created_at" | "category">;
+  publication: Omit<Publication, "created_at">;
   hasImage?: boolean;
   hasFooter?: boolean;
   showSummary?: boolean;
