@@ -7,7 +7,7 @@ export default interface Publication {
     height: number;
     title?: string;
   } | null;
-  category: string;
+  tags: string[];
   title: string;
   created_at: Date;
   updated_at: Date;

@@ -14,7 +14,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
 import Publication from "@/interfaces/publication";
-import { cn } from "@/lib/utils";
 import clsx from "clsx";
 
 type PublicationCardProps = {
@@ -26,16 +25,23 @@ type PublicationCardProps = {
 };
 
 const LatestPublicationCard: FC<PublicationCardProps> = ({
-  publication: { summary, published_by, title, updated_at, featured_image },
+  publication: {
+    summary,
+    published_by,
+    title,
+    updated_at,
+    featured_image,
+    tags,
+  },
   hasImage,
   hasFooter,
   showSummary,
   cardClassName = "",
 }) => {
   return (
-    <Card className={cn("rounded-none", cardClassName)}>
+    <Card className={cardClassName}>
       {hasImage && (
-        <figure className="overflow-hidden aspect-video">
+        <figure className="overflow-hidden aspect-video w-full h-[300px] max-sm:h-[200px] rounded-xl">
           {featured_image?.src ? (
             <Image
               loading="lazy"
@@ -43,7 +49,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
               alt={featured_image.title || title}
               width={featured_image.width}
               height={featured_image.height}
-              className="w-full object-cover"
+              className="w-full h-full object-cover "
             />
           ) : (
             <div>
@@ -58,10 +64,10 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
 
       <CardHeader
         className={clsx("p-0 pt-4", {
-          "max-sm:pt-0": !hasImage,
+          "pt-0": !hasImage,
         })}
       >
-        <div className="flex gap-4 items-center text-sm">
+        <div className="flex gap-4 items-center justify-between text-sm pb-4 border-b border-gray-200">
           <Button asChild variant="link" className="gap-1 p-0" size="sm">
             <Link href={"/blog/this"}>
               <Avatar className="h-auto w-auto">
@@ -73,7 +79,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
                   />
                 </AvatarImage>
                 <AvatarFallback className="p-0">
-                  <CircleUser strokeWidth={1.25} />
+                  <CircleUser strokeWidth={1.25} className="size-10" />
                 </AvatarFallback>
               </Avatar>
               <span className="capitalize">By {published_by.name}</span>
@@ -87,9 +93,20 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
           </span>
         </div>
         <CardTitle>
+          <div className="flex gap-2 my-2">
+            {tags.map((t, i) => (
+              <Link
+                key={i}
+                href="#"
+                className="p-2 rounded font-medium bg-primary/30 text-sm text-gray-800"
+              >
+                {t}
+              </Link>
+            ))}
+          </div>
           <Link
             href={"/blog/this"}
-            className="text-lg hover:underline hover:text-opacity-85 active:text-opacity-85"
+            className="text-xl max-sm:text-lg hover:underline hover:text-opacity-85 active:text-opacity-85"
           >
             {title}
           </Link>
@@ -97,11 +114,13 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
       </CardHeader>
 
       {showSummary && (
-        <CardDescription className="py-4">{summary}</CardDescription>
+        <CardDescription className="py-4 ">
+          <p className="line-clamp-2">{summary}</p>
+        </CardDescription>
       )}
 
       {hasFooter && (
-        <CardFooter className="m-0 p-0 pt-2 justify-between items-center">
+        <CardFooter className="m-0 p-0 justify-between items-center">
           <Button asChild>
             <Link href={"/blog/this"}> Read more &rsaquo;</Link>
           </Button>

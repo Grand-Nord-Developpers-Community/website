@@ -1,13 +1,13 @@
 import Publication from "@/interfaces/publication";
-import FeaturedImage from "@/assets/images/login.jpg";
+import FeaturedImage from "@/assets/images/preview_blog/css-tips-and-tricks.avif";
 
 const date = new Date();
 
 const publications: Publication[] = [
   {
-    category: "Technollogy",
+    tags: ["Css", "HTML", "JS"],
     title:
-      "Jetpack compose vs flutter, quel choix pour une app mobile moderne ?",
+      "Css tips and tricks",
     created_at: date,
     updated_at: date,
     published_by: {
@@ -24,7 +24,7 @@ const publications: Publication[] = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
-    category: "Technollogy",
+    tags: ["Jeckpack"],
     title:
       "The impact of Technology on the workplace: how Technoloy is changing ?",
     created_at: date,
@@ -43,7 +43,7 @@ const publications: Publication[] = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
-    category: "Technollogy",
+    tags: ["Java", "Perl"],
     title:
       "Jetpack compose vs flutter, quel choix pour une app mobile moderne ?",
     created_at: date,
@@ -62,7 +62,7 @@ const publications: Publication[] = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
-    category: "Technollogy",
+    tags: ["Python"],
     title:
       "The impact of Technology on the workplace: how Technoloy is changing ?",
     created_at: date,
@@ -81,7 +81,7 @@ const publications: Publication[] = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
-    category: "Technollogy",
+    tags: ["Jeckpack"],
     title:
       "Jetpack compose vs flutter, quel choix pour une app mobile moderne ?",
     created_at: date,
@@ -100,7 +100,7 @@ const publications: Publication[] = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
-    category: "Technollogy",
+    tags: ["Jeckpack"],
     title:
       "The impact of Technology on the workplace: how Technoloy is changing ?",
     created_at: date,
@@ -119,7 +119,7 @@ const publications: Publication[] = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
-    category: "Technollogy",
+    tags: ["Jeckpack"],
     title:
       "The impact of Technology on the workplace: how Technoloy is changing ?",
     created_at: date,
@@ -138,7 +138,7 @@ const publications: Publication[] = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deleniti rerum ad. Enim dicta nemo totam optio officiis nam, id repudiandae voluptatem dolorum unde vero aspernatur soluta adipisci similique ipsam.",
   },
   {
-    category: "Technollogy",
+    tags: ["Jeckpack"],
     title:
       "The impact of Technology on the workplace: how Technoloy is changing ?",
     created_at: date,
