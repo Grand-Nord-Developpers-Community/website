@@ -175,7 +175,7 @@ export default function BentoSection() {
 
           <a
             className="lg:mt-20 md:order-1 relative focus:outline-none p-6 flex flex-col justify-center items-center md:min-h-[230px] text-center rounded-xl before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500 dark:rounded-xl"
-            href="/be-sponsor"
+            href="/besponsor"
           >
             <Building2Icon
               className="shrink-0 size-10 mb-3 mx-auto text-secondary"

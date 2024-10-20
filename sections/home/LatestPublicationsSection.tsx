@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const LatestPublicationsSection: FC = () => {
-  const publications = usePublication({ limit: 5 });
+  const publications = usePublication({ limit: 3 });
 
   const isEmpty = publications.length === 0;
 
@@ -53,27 +53,30 @@ const OurPublicationsGrid: FC<{ publications: Publication[] }> = ({
   const firstPublication = publications.shift();
 
   return (
-    <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr,minmax(0,530px)] gap-4 lg:gap-6 pt-6 pb-8">
-      {firstPublication && (
-        <PublicationCard
-          publication={firstPublication}
-          cardClassName="p-4 bg-white"
-          hasImage
-          hasFooter
-          showSummary
-        />
-      )}
+    <div className="screen-wrapper">
+      <div className="flex gap-4 w-full  my-10 flex-wrap">
+        {firstPublication && (
+          <PublicationCard
+            publication={firstPublication}
+            cardClassName="p-4 bg-white rounded-xl lg:w-[55%] h-fit max-md:w-full"
+            hasImage
+            hasFooter
+            showSummary
+          />
+        )}
 
-      <div className="flex justify-between flex-col">
-        {publications.map((publication, index) => {
-          return (
-            <PublicationCard
-              publication={publication}
-              key={publication.category + index + publication.title}
-              cardClassName="border-0 shadow-none last:border-b-0 border-b border-gray-300 even:bg-white pb-4 flex-1 p-3"
-            />
-          );
-        })}
+        <div className="flex justify-between flex-col gap-4 w-[43%] max-md:w-full">
+          {publications.map((publication, index) => {
+            return (
+              <PublicationCard
+                publication={publication}
+                showSummary
+                key={index + publication.title}
+                cardClassName="p-4 w-full grow bg-white"
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
