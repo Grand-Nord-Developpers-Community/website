@@ -5,65 +5,169 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/brand/logo.png";
 import { usePathname } from "next/navigation";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, User, LayoutDashboard, UserCircle, Settings, LogOut } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
   SheetFooter,
   SheetClose,
 } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
 
 const Links = [
-  {
-    name: "Nos activités",
-    link: "/events",
-  },
-  {
-    name: "Blog",
-    link: "/blog",
-  },
-  {
-    name: "Forum",
-    link: "/forum",
-  },
-  {
-    name: "Formation",
-    link: "/formation",
-  },
+  { name: "Nos activités", link: "/events" },
+  { name: "Blog", link: "/blog" },
+  { name: "Forum", link: "/forum" },
+  { name: "Formation", link: "/formation" },
 ];
+
 function Header() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    setIsLoggedIn(false); //changer la valeur à true pour user connecté
+  }, []);
+
   const trackScrollProgress = () => {
     const winScroll = document.documentElement.scrollTop;
-    const height =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (winScroll / height) * 100;
     setScrollProgress(scrolled);
   };
+
   useEffect(() => {
     window.addEventListener("scroll", trackScrollProgress);
     return () => {
       window.removeEventListener("scroll", trackScrollProgress);
     };
   }, []);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  const UserMenu = () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="relative h-8 w-8 rounded-full border border-solid border-primary p-0">
+          <User className="h-5 w-5" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56 bg-white">
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">Connecté en tant que</p>
+            <p className="text-xs leading-none text-muted-foreground">isaac_touza@outlook.fr</p>
+          </div>
+        </DropdownMenuLabel>
+        <Separator className="my-1 bg-gray-400"/>
+        <DropdownMenuItem>
+          <LayoutDashboard className="mr-2 h-4 w-4" />
+          <Link href="/user/dashboard">Tableau de bord</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <UserCircle className="mr-2 h-4 w-4" />
+          <Link href="/user/profile">Mon profil</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Settings className="mr-2 h-4 w-4" />
+          <Link href="/user/settings">Paramètres</Link>
+        </DropdownMenuItem>
+        <Separator className="my-1" />
+        <DropdownMenuItem onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Se déconnecter</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
+  const MobileMenu = () => (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button className="lg:hidden border" variant="outline">
+          <MenuIcon />
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
+        <SheetHeader>
+          <SheetTitle>
+            <Image loading="lazy" src={Logo} alt="logo GNDC" width={115} />
+          </SheetTitle>
+        </SheetHeader>
+        <nav className="flex flex-col gap-4 text-primary my-4">
+          {Links.map((l, i) => (
+            <Link key={i} href={l.link}>
+              {l.name}
+            </Link>
+          ))}
+        </nav>
+        <Separator className="my-4 bg-gray-400" />
+        {isLoggedIn ? (
+          <div className="flex flex-col gap-2">
+            <User className="h-5 w-5 self-center" />
+            <SheetClose asChild>
+              <Button className="w-full" asChild>
+                <Link href="/user/dashboard">Tableau de bord</Link>
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button className="w-full" asChild>
+                <Link href="/profile">Mon profil</Link>
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button className="w-full" asChild>
+                <Link href="/settings">Paramètres</Link>
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button variant="outline" className="w-full" onClick={handleLogout}>
+                Se déconnecter
+              </Button>
+            </SheetClose>
+          </div>
+        ) : (
+          <SheetFooter className="gap-3">
+            <SheetClose asChild>
+              <Button
+                className="grow border border-primary text-primary hover:bg-primary hover:text-white"
+                variant="outline"
+                asChild
+              >
+                <Link href="/sign-in">Créer un compte</Link>
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button className="text-white grow" asChild>
+                <Link href="/login">Se connecter</Link>
+              </Button>
+            </SheetClose>
+          </SheetFooter>
+        )}
+      </SheetContent>
+    </Sheet>
+  );
+
   return !pathname.includes("login") ? (
-    <header className="sticky z-40 top-0 w-full py-3  bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
+    <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">
         <div>
           <span className="sr-only">GNDC</span>
-          <Link href={"/"}>
-            <Image loading="lazy" src={Logo} alt="logo GNDC" width={115} />
+          <Link href="/">
+            <Image loading="lazy" src={Logo} alt="logo GNDC" width={120} />
           </Link>
         </div>
         <div className="flex items-center gap-5 max-lg:hidden">
@@ -74,27 +178,33 @@ function Header() {
               </Link>
             ))}
           </nav>
-          <Button
-            className="ml-5 border border-primary text-primary hover:bg-primary hover:text-white"
-            variant={"outline"}
-            asChild
-          >
-            <Link href="/sign-in">Créer un compte</Link>
-          </Button>
-          <Button className="text-white" asChild>
-            <Link href="/login">Se connecter</Link>
-          </Button>
+          {isLoggedIn ? (
+            <UserMenu />
+          ) : (
+            <>
+              <Button
+                className="ml-5 border border-primary text-primary hover:bg-primary hover:text-white"
+                variant="outline"
+                asChild
+              >
+                <Link href="/sign-in">Créer un compte</Link>
+              </Button>
+              <Button className="text-white" asChild>
+                <Link href="/login">Se connecter</Link>
+              </Button>
+            </>
+          )}
         </div>
         <Sheet>
           <SheetTrigger asChild>
-            <Button className="lg:hidden border" variant={"outline"}>
+            <Button className="lg:hidden border" variant="outline">
               <MenuIcon />
             </Button>
           </SheetTrigger>
           <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
             <SheetHeader>
               <SheetTitle>
-                <Image loading="lazy" src={Logo} alt="logo GNDC" width={115} />
+                <Image loading="lazy" src={Logo} alt="logo GNDC" width={120} />
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col gap-4 text-primary my-4">
@@ -106,20 +216,44 @@ function Header() {
             </nav>
             <Separator className="my-4 bg-gray-400" />
             <SheetFooter className="gap-3">
-              <SheetClose asChild>
-                <Button
-                  className="grow border border-primary text-primary hover:bg-primary hover:text-white"
-                  variant={"outline"}
-                  asChild
-                >
-                  <Link href="/sign-in">Créer un compte</Link>
-                </Button>
-              </SheetClose>
-              <SheetClose asChild>
-                <Button className="text-white" asChild>
-                  <Link href="/login">Se connecter</Link>
-                </Button>
-              </SheetClose>
+              {isLoggedIn ? (
+                <>
+                  <SheetClose asChild>
+                    <Button className="grow" asChild>
+                      <Link href="/user/dashboard">Tableau de bord</Link>
+                    </Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                  <Button 
+                    variant="outline" 
+                    className="w-full" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLogout();
+                    }}
+                  >
+                    Se déconnecter
+                  </Button>
+                  </SheetClose>
+                </>
+              ) : (
+                <>
+                  <SheetClose asChild>
+                    <Button
+                      className="grow border border-primary text-primary hover:bg-primary hover:text-white"
+                      variant="outline"
+                      asChild
+                    >
+                      <Link href="/sign-in">Créer un compte</Link>
+                    </Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Button className="text-white" asChild>
+                      <Link href="/login">Se connecter</Link>
+                    </Button>
+                  </SheetClose>
+                </>
+              )}
             </SheetFooter>
           </SheetContent>
         </Sheet>
@@ -131,9 +265,7 @@ function Header() {
         ></div>
       </div>
     </header>
-  ) : (
-    <></>
-  );
+  ) : null;
 }
 
 export default Header;
