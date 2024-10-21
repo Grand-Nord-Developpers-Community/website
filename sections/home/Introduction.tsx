@@ -10,7 +10,7 @@ const Introduction = () => {
               Introduction GNDC
             </p>
           </div>
-          <h2 className="text-primary mb-6 text-3xl font-bold leading-none tracking-tight  sm:text-4xl mx-auto text-center max-sm:text-left">
+          <h2 className="text-primary mb-6 text-3xl font-bold leading-none tracking-tight  sm:text-4xl mx-auto text-center max-sm:text-center">
             <span className="relative inline-block">
               <svg
                 viewBox="0 0 52 24"
@@ -38,13 +38,13 @@ const Introduction = () => {
             </span>{" "}
             À propos de la communauté
           </h2>
-          <p className="text-base text-gray-700 md:text-lg w-full">
+          {/* <p className="text-base text-gray-700 md:text-lg w-full max-sm:text-center">
             La GNDC est une communautée axée sur l&apos;innovation, la
             collaboration et à la promotion du développement technologique dans
             le Grand nord du Cameroun.
-          </p>
+          </p> */}
         </div>
-        <div className="relative my-5">
+        <div className="relative my-8">
           <HeroVideoDialog
             animationStyle="from-center"
             videoSrc="https://www.youtube.com/embed/o0N8xSjgMz8?si=YrH4qI1rYvVnkiJH"
@@ -52,24 +52,26 @@ const Introduction = () => {
             thumbnailAlt="Presentation de la Grand Nord Developpers Community"
           />
         </div>
-        <p className="max-w-xl mb-4 text-base text-gray-700 sm:mx-auto">
+        {/* <p className="max-w-xl mb-4 text-base text-gray-700 sm:mx-auto">
           Nous avons en notre sein de développeurs, ingénieurs et passionnés de
           technologie qui partagent une vision commune de l&apos;avénir
           technologique de leurs régions respectives.
-        </p>
-        <a
-          href="/about"
-          aria-label=""
-          className="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800"
-        >
-          Apprendre plus
-          <svg
-            className="inline-block w-3 ml-2 fill-primary"
-            viewBox="0 0 12 12"
+        </p> */}
+        <div className="w-full flex justify-center mt-5">
+          <a
+            href="/about"
+            aria-label=""
+            className="inline-flex items-center transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800 py-2 px-3 bg-primary text-white rounded-full"
           >
-            <path d="M9.707,5.293l-5-5A1,1,0,0,0,3.293,1.707L7.586,6,3.293,10.293a1,1,0,1,0,1.414,1.414l5-5A1,1,0,0,0,9.707,5.293Z" />
-          </svg>
-        </a>
+            Apprendre plus
+            <svg
+              className="inline-block w-3 ml-2 fill-secondary"
+              viewBox="0 0 12 12"
+            >
+              <path d="M9.707,5.293l-5-5A1,1,0,0,0,3.293,1.707L7.586,6,3.293,10.293a1,1,0,1,0,1.414,1.414l5-5A1,1,0,0,0,9.707,5.293Z" />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   );
