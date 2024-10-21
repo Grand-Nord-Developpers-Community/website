@@ -53,7 +53,7 @@ const OurPublicationsGrid: FC<{ publications: Publication[] }> = ({
   const firstPublication = publications.shift();
 
   return (
-    <div className="screen-wrapper">
+    <div className="w-full">
       <div className="flex gap-4 w-full  my-10 flex-wrap">
         {firstPublication && (
           <PublicationCard
