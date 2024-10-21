@@ -82,7 +82,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
                   <CircleUser strokeWidth={1.25} className="size-10" />
                 </AvatarFallback>
               </Avatar>
-              <span className="capitalize">By {published_by.name}</span>
+              <span className="capitalize">{published_by.name}</span>
             </Link>
           </Button>
 
@@ -115,7 +115,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
 
       {showSummary && (
         <CardDescription className="py-4 ">
-          <p className="line-clamp-2">{summary}</p>
+          <span className="line-clamp-2">{summary}</span>
         </CardDescription>
       )}
 

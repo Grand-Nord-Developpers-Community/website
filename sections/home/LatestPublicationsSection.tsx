@@ -54,18 +54,17 @@ const OurPublicationsGrid: FC<{ publications: Publication[] }> = ({
 
   return (
     <div className="w-full">
-      <div className="flex gap-4 w-full  my-10 flex-wrap">
+      <div className="flex gap-4 w-full  my-10 max-lg:flex-col max-lg:w-[95%] max-md:w-full mx-auto ">
         {firstPublication && (
           <PublicationCard
             publication={firstPublication}
-            cardClassName="p-4 bg-white rounded-xl lg:w-[55%] h-fit max-md:w-full"
+            cardClassName="p-4 bg-white rounded-xl lg:w-[55%] h-fit max-lg:w-full"
             hasImage
             hasFooter
             showSummary
           />
         )}
-
-        <div className="flex justify-between flex-col gap-4 w-[43%] max-md:w-full">
+        <div className="flex justify-between flex-col gap-4 w-[43.8%] max-lg:w-full">
           {publications.map((publication, index) => {
             return (
               <PublicationCard
