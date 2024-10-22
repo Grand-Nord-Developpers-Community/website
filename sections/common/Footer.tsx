@@ -22,7 +22,7 @@ import { Lock, Users } from "lucide-react";
 
 function Footer() {
   const pathname = usePathname();
-  return !pathname.includes("login") ? (
+  return !pathname.includes("login") && !pathname.includes("sign-in") ? (
     <footer className="bg-white py-10 border-t border-gray-200">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

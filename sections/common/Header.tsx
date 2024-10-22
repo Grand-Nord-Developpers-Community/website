@@ -5,7 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/brand/logo.png";
 import { usePathname } from "next/navigation";
-import { MenuIcon, User, LayoutDashboard, UserCircle, Settings, LogOut } from "lucide-react";
+import {
+  MenuIcon,
+  User,
+  LayoutDashboard,
+  UserCircle,
+  Settings,
+  LogOut,
+} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -42,7 +49,9 @@ function Header() {
 
   const trackScrollProgress = () => {
     const winScroll = document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
     const scrolled = (winScroll / height) * 100;
     setScrollProgress(scrolled);
   };
@@ -61,18 +70,25 @@ function Header() {
   const UserMenu = () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full border border-solid border-primary p-0">
+        <Button
+          variant="ghost"
+          className="relative h-8 w-8 rounded-full border border-solid border-primary p-0"
+        >
           <User className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 bg-white">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Connecté en tant que</p>
-            <p className="text-xs leading-none text-muted-foreground">isaac_touza@outlook.fr</p>
+            <p className="text-sm font-medium leading-none">
+              Connecté en tant que
+            </p>
+            <p className="text-xs leading-none text-muted-foreground">
+              isaac_touza@outlook.fr
+            </p>
           </div>
         </DropdownMenuLabel>
-        <Separator className="my-1 bg-gray-400"/>
+        <Separator className="my-1 bg-gray-400" />
         <DropdownMenuItem>
           <LayoutDashboard className="mr-2 h-4 w-4" />
           <Link href="/user/dashboard">Tableau de bord</Link>
@@ -134,7 +150,11 @@ function Header() {
               </Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button variant="outline" className="w-full" onClick={handleLogout}>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={handleLogout}
+              >
                 Se déconnecter
               </Button>
             </SheetClose>
@@ -161,7 +181,7 @@ function Header() {
     </Sheet>
   );
 
-  return !pathname.includes("login") ? (
+  return !pathname.includes("login") && !pathname.includes("sign-in") ? (
     <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">
         <div>
@@ -224,16 +244,16 @@ function Header() {
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>
-                  <Button 
-                    variant="outline" 
-                    className="w-full" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleLogout();
-                    }}
-                  >
-                    Se déconnecter
-                  </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleLogout();
+                      }}
+                    >
+                      Se déconnecter
+                    </Button>
                   </SheetClose>
                 </>
               ) : (
