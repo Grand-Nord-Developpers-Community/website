@@ -2,8 +2,9 @@ import { FC } from "react";
 import { usePublication } from "@/hooks/publication";
 import { PublicationCard } from "@/components/cards";
 import Publication from "@/interfaces/publication";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-more";
 import Link from "next/link";
+import { ArrowRightIcon } from "lucide-react";
 
 const LatestPublicationsSection: FC = () => {
   const publications = usePublication({ limit: 3 });
@@ -28,8 +29,14 @@ const LatestPublicationsSection: FC = () => {
           <>
             <OurPublicationsGrid publications={publications} />
             <p className="flex justify-center">
-              <Button asChild className="text-white">
-                <Link href="/blog">Voir toutes les publications &rsaquo;</Link>
+              <Button
+                asChild
+                Icon={<ArrowRightIcon className="size-4 " />}
+                className="text-white bg-secondary hover:bg-secondary/90"
+                iconPlacement="right"
+                variant={"expandIcon"}
+              >
+                <Link href="/blog">Voir toutes les publications</Link>
               </Button>
             </p>
           </>

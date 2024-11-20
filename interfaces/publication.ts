@@ -12,5 +12,6 @@ export default interface Publication {
   created_at: Date;
   updated_at: Date;
   summary?: string;
-  published_by: Pick<User, "name" | "profile_image">;
+
+  published_by: Pick<User, "name" | "profile_image" | "role">;
 }

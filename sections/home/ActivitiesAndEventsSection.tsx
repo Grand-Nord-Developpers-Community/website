@@ -5,7 +5,9 @@ import ActivityAndEvent from "@/interfaces/activityAndEvent";
 import ActivityAndEventProps from "@/interfaces/activityAndEventsProps";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Button as ButtonX } from "@/components/ui/button-more";
 import Link from "next/link";
+import { ArrowRightIcon } from "lucide-react";
 
 const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = ({
   isHome,
@@ -38,9 +40,15 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = ({
         <>
           <ActivitiesAndEventsGrid activitiesAndEvents={activitiesAndEvents} />
           <p className="flex justify-center">
-            <Button asChild className="text-white">
-              <Link href="/events">Voir tous les évènemenets &rsaquo;</Link>
-            </Button>
+            <ButtonX
+              asChild
+              variant="expandIcon"
+              className="bg-secondary hover:bg-secondary/90"
+              Icon={<ArrowRightIcon className="size-4"/>}
+              iconPlacement="right"
+            >
+              <Link href="/events">Voir tous les évènemenets</Link>
+            </ButtonX>
           </p>
         </>
       )}

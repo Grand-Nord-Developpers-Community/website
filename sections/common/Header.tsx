@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Button as ButtonX } from "@/components/ui/button-more";
+
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/brand/logo.png";
@@ -202,16 +204,16 @@ function Header() {
             <UserMenu />
           ) : (
             <>
-              <Button
-                className="ml-5 border border-primary text-primary hover:bg-primary hover:text-white"
-                variant="outline"
+              <Button className="text-white ml-5" asChild>
+                <Link href="/login">Se connecter</Link>
+              </Button>
+              <ButtonX
+                className=""
+                variant="ringHover"
                 asChild
               >
                 <Link href="/sign-in">Créer un compte</Link>
-              </Button>
-              <Button className="text-white" asChild>
-                <Link href="/login">Se connecter</Link>
-              </Button>
+              </ButtonX>
             </>
           )}
         </div>

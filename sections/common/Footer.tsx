@@ -23,7 +23,7 @@ import { Lock, Users } from "lucide-react";
 function Footer() {
   const pathname = usePathname();
   return !pathname.includes("login") && !pathname.includes("sign-in") ? (
-    <footer className="bg-white py-10 border-t border-gray-200">
+    <footer className="bg-white pt-10 pb-4 border-t border-gray-200">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
@@ -137,8 +137,8 @@ function Footer() {
               la Grand Nord Developers Community et ne rien manquer de nos
               événements, formations, et innovations!
             </p>
-            <div className="w-full max-w-4xl mx-auto ">
-              <div className="flex gap-4 justify-between max-sm:justify-start max-sm:gap-2">
+            <div className="w-full">
+              <div className="flex gap-2 justify-between max-sm:justify-start">
                 <Link href="#">
                   <TelegramButton />
                 </Link>
@@ -156,11 +156,11 @@ function Footer() {
         </div>
 
         {/* Copyright and Social Icons */}
-        <div className="mt-8 pt-8 max-sm:pt-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
+        <div className="mt-8 pt-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-600">
             © Grand Nord Developers Community - 2024. Tous droits réservés
           </p>
-          <div className="flex items-center gap-4 mt-4 md:mt-0 max-sm:gap-2">
+          <div className="flex items-center gap-4 md:mt-0 max-sm:gap-2 max-sm:mt-4">
             <Link href="#" className="text-gray-600">
               <Image
                 loading="lazy"

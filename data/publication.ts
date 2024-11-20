@@ -6,13 +6,13 @@ const date = new Date();
 const publications: Publication[] = [
   {
     tags: ["Css", "HTML", "JS"],
-    title:
-      "Css tips and tricks",
+    title: "Css tips and tricks",
     created_at: date,
     updated_at: date,
     published_by: {
       name: "Touza",
       profile_image: ProfileImage,
+      role: "fullstack developer",
     },
     featured_image: {
       src: FeaturedImage.src,
@@ -32,6 +32,7 @@ const publications: Publication[] = [
     published_by: {
       name: "Touza",
       profile_image: "",
+      role: "fullstack developer",
     },
     featured_image: {
       src: "",
@@ -51,6 +52,7 @@ const publications: Publication[] = [
     published_by: {
       name: "Touza",
       profile_image: "",
+      role: "fullstack developer",
     },
     featured_image: {
       src: "",
@@ -70,6 +72,7 @@ const publications: Publication[] = [
     published_by: {
       name: "Touza",
       profile_image: "",
+      role: "fullstack developer",
     },
     featured_image: {
       src: "",
@@ -89,6 +92,7 @@ const publications: Publication[] = [
     published_by: {
       name: "Touza",
       profile_image: "",
+      role: "fullstack developer",
     },
     featured_image: {
       src: "",
@@ -108,6 +112,7 @@ const publications: Publication[] = [
     published_by: {
       name: "Touza",
       profile_image: "",
+      role: "fullstack developer",
     },
     featured_image: {
       src: "",
@@ -127,6 +132,7 @@ const publications: Publication[] = [
     published_by: {
       name: "Touza",
       profile_image: "",
+      role: "fullstack developer",
     },
     featured_image: {
       src: "",
@@ -146,6 +152,7 @@ const publications: Publication[] = [
     published_by: {
       name: "Touza",
       profile_image: "",
+      role: "fullstack developer",
     },
     featured_image: {
       src: "",
