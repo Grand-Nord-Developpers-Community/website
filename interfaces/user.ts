@@ -10,3 +10,10 @@ export default interface User {
   updated_at: Date;
   role?: string;
 }
+
+export type UserCredential = {
+  id: string;
+  name?: string;
+  email: string;
+  password: string;
+};

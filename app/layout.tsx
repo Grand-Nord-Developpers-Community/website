@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/sections/common";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
+import { Toaster } from "@/components/ui/sonner";
 import "prismjs/themes/prism.css";
 
 export const metadata: Metadata = {
@@ -73,11 +74,12 @@ export default function RootLayout({
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <Header />
-             <main className="w-full min-h-screen overflow-x-hidden">
-                {children}
-             </main>
+        <main className="w-full min-h-screen overflow-x-hidden">
+          {children}
+        </main>
         <Footer />
         <BackToTop />
+        <Toaster />
       </body>
     </html>
   );

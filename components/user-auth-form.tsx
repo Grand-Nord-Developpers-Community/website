@@ -10,24 +10,22 @@ import { GithubIcon, LoaderIcon } from "lucide-react";
 
 interface UserAuthFormProps {
   className?: string;
-  view: "sign-in" | "login";
+  action: any;
+  children: React.ReactNode;
+  defaultEmail?: string;
+  view: "sign-up" | "login";
 }
 
-export function UserAuthForm({ className, view }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }
-
+export function UserAuthForm({
+  className,
+  view,
+  action,
+  children,
+  defaultEmail,
+}: UserAuthFormProps) {
   return (
     <div className={cn("grid gap-6 mt-3", className)}>
-      <form onSubmit={onSubmit}>
+      <form action={action}>
         <div className="grid gap-3">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -39,8 +37,8 @@ export function UserAuthForm({ className, view }: UserAuthFormProps) {
               type="email"
               autoCapitalize="none"
               autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading}
+              required
+              defaultValue={defaultEmail}
             />
           </div>
           <div className="grid gap-1">
@@ -51,10 +49,10 @@ export function UserAuthForm({ className, view }: UserAuthFormProps) {
               id="password"
               type="password"
               placeholder="mot de passe"
-              disabled={isLoading}
+              required
             />
           </div>
-          {view === "sign-in" && (
+          {view === "sign-up" && (
             <div className="grid gap-1">
               <Label className="sr-only" htmlFor="email">
                 Confirmation Mot de passe
@@ -63,14 +61,11 @@ export function UserAuthForm({ className, view }: UserAuthFormProps) {
                 id="confirm_password"
                 type="password"
                 placeholder="confirmer votre mot de passe"
-                disabled={isLoading}
+                required
               />
             </div>
           )}
-          <Button disabled={isLoading} className="text-white">
-            {isLoading && <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />}
-            {view === "login" ? "Se connecter" : "Créer mon compte"}
-          </Button>
+          {children}
         </div>
       </form>
       <div className="relative ">
@@ -87,13 +82,8 @@ export function UserAuthForm({ className, view }: UserAuthFormProps) {
         variant="outline"
         className="border border-black text-black hover:bg-black hover:text-white"
         type="button"
-        disabled={isLoading}
       >
-        {isLoading ? (
-          <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <GithubIcon className="mr-2 h-4 w-4" />
-        )}{" "}
+        <GithubIcon className="mr-2 h-4 w-4" />
         GitHub
       </Button>
     </div>

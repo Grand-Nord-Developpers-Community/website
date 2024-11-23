@@ -42,11 +42,11 @@ const Links = [
 
 function Header() {
   const pathname = usePathname();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    setIsLoggedIn(false); //changer la valeur à true pour user connecté
+    setIsLoggedIn(true); //changer la valeur à true pour user connecté
   }, []);
 
   const trackScrollProgress = () => {
@@ -169,7 +169,7 @@ function Header() {
                 variant="outline"
                 asChild
               >
-                <Link href="/sign-in">Créer un compte</Link>
+                <Link href="/sign-up">Créer un compte</Link>
               </Button>
             </SheetClose>
             <SheetClose asChild>
@@ -183,7 +183,7 @@ function Header() {
     </Sheet>
   );
 
-  return !pathname.includes("login") && !pathname.includes("sign-in") ? (
+  return !pathname.includes("login") && !pathname.includes("sign-up") ? (
     <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">
         <div>
@@ -207,12 +207,8 @@ function Header() {
               <Button className="text-white ml-5" asChild>
                 <Link href="/login">Se connecter</Link>
               </Button>
-              <ButtonX
-                className=""
-                variant="ringHover"
-                asChild
-              >
-                <Link href="/sign-in">Créer un compte</Link>
+              <ButtonX className="" variant="ringHover" asChild>
+                <Link href="/sign-up">Créer un compte</Link>
               </ButtonX>
             </>
           )}
@@ -266,7 +262,7 @@ function Header() {
                       variant="outline"
                       asChild
                     >
-                      <Link href="/sign-in">Créer un compte</Link>
+                      <Link href="/sign-up">Créer un compte</Link>
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>

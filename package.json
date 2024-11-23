@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsx db/migrate && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -19,8 +19,12 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@studio-freight/react-lenis": "^0.0.47",
     "@tailwindcss/typography": "^0.5.15",
+    "@vercel/postgres": "^0.10.0",
+    "bcrypt-ts": "^5.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.36.3",
     "emailjs-com": "^3.2.0",
     "framer-motion": "^11.11.9",
     "GNDC": "file:",
@@ -28,7 +32,9 @@
     "iron-session": "^8.0.3",
     "lucide-react": "^0.399.0",
     "next": "^14.2.14",
+    "next-auth": "^5.0.0-beta.25",
     "next-themes": "^0.3.0",
+    "postgres": "^3.4.5",
     "prismjs": "^1.29.0",
     "react": "^18",
     "react-dom": "^18",
@@ -37,6 +43,7 @@
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "sharp": "^0.33.5",
+    "sonner": "^1.7.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -45,11 +52,13 @@
     "@types/prismjs": "^1.26.4",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.28.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
     "shadcn-ui": "^0.2.3",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }
