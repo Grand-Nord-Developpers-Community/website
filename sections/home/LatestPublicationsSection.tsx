@@ -2,8 +2,9 @@ import { FC } from "react";
 import { usePublication } from "@/hooks/publication";
 import { PublicationCard } from "@/components/cards";
 import Publication from "@/interfaces/publication";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-more";
 import Link from "next/link";
+import { ArrowRightIcon } from "lucide-react";
 
 const LatestPublicationsSection: FC = () => {
   const publications = usePublication({ limit: 3 });
@@ -28,8 +29,14 @@ const LatestPublicationsSection: FC = () => {
           <>
             <OurPublicationsGrid publications={publications} />
             <p className="flex justify-center">
-              <Button asChild className="text-white">
-                <Link href="/blog">Voir toutes les publications &rsaquo;</Link>
+              <Button
+                asChild
+                Icon={<ArrowRightIcon className="size-4 " />}
+                className="text-white bg-secondary hover:bg-secondary/90"
+                iconPlacement="right"
+                variant={"expandIcon"}
+              >
+                <Link href="/blog">Voir toutes les publications</Link>
               </Button>
             </p>
           </>
@@ -53,19 +60,18 @@ const OurPublicationsGrid: FC<{ publications: Publication[] }> = ({
   const firstPublication = publications.shift();
 
   return (
-    <div className="screen-wrapper">
-      <div className="flex gap-4 w-full  my-10 flex-wrap">
+    <div className="w-full">
+      <div className="flex gap-4 w-full  my-10 max-lg:flex-col max-lg:w-[95%] max-md:w-full mx-auto ">
         {firstPublication && (
           <PublicationCard
             publication={firstPublication}
-            cardClassName="p-4 bg-white rounded-xl lg:w-[55%] h-fit max-md:w-full"
+            cardClassName="p-4 bg-white rounded-xl lg:w-[55%] h-fit max-lg:w-full"
             hasImage
             hasFooter
             showSummary
           />
         )}
-
-        <div className="flex justify-between flex-col gap-4 w-[43%] max-md:w-full">
+        <div className="flex justify-between flex-col gap-4 w-[43.8%] max-lg:w-full">
           {publications.map((publication, index) => {
             return (
               <PublicationCard

@@ -10,24 +10,22 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <>
-      <div className="flex flex-col space-y-2 text-center mb-2">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Connectez-vous
-        </h1>
+      <div className="flex flex-col space-y-2 text-center mb-2 mt-8">
+        <h1 className="text-2xl font-semibold tracking-tight">Bienvenue</h1>
         <p className="text-sm text-muted-foreground mb-2">
-          Entrez vos informations
+          Entrez vos informations pour créer votre compte
         </p>
       </div>
-      <UserAuthForm view="login" />
+      <UserAuthForm view="sign-in" />
       <p className="max-lg:block mx-auto text-center mt-2">
         {" "}
         <Link
-          href="/sign-in"
+          href="/login"
           className="underline underline-offset-4 hover:text-primary"
         >
-          Créer
+          Se connecter
         </Link>{" "}
-        , si vous n&apos;aviez pas déjà un compte
+        , si vous aviez déjà un compte
       </p>
     </>
   );

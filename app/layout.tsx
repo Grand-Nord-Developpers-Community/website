@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-
 import "./globals.css";
 import { Header } from "@/sections/common";
 import Footer from "@/sections/common/Footer";
@@ -74,9 +73,9 @@ export default function RootLayout({
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <Header />
-        <main className="w-full min-h-screen overflow-x-hidden">
-          {children}
-        </main>
+             <main className="w-full min-h-screen overflow-x-hidden">
+                {children}
+             </main>
         <Footer />
         <BackToTop />
       </body>

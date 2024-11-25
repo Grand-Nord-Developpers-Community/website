@@ -5,6 +5,16 @@ import clsx from "clsx";
 
 const BackToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const trackScrollProgress = () => {
+    const winScroll = document.documentElement.scrollTop;
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    setScrollProgress(scrolled);
+  };
 
   const toggleVisibility = () => {
     if (window.scrollY > 300) {
@@ -22,9 +32,15 @@ const BackToTop: React.FC = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", toggleVisibility);
+    window.addEventListener("scroll", () => {
+      toggleVisibility();
+      trackScrollProgress();
+    });
     return () => {
-      window.removeEventListener("scroll", toggleVisibility);
+      window.removeEventListener("scroll", () => {
+        toggleVisibility();
+        trackScrollProgress();
+      });
     };
   }, []);
 
@@ -36,7 +52,13 @@ const BackToTop: React.FC = () => {
           onClick={scrollToTop}
           className={clsx(
             "bg-secondary p-3 rounded-full shadow-lg text-white hover:bg-opacity-90 transition-all duration-300 pointer-events-none opacity-0",
-            { "opacity-100 pointer-events-auto": isVisible }
+            {
+              " opacity-100 pointer-events-auto":
+                isVisible && scrollProgress < 97,
+            },
+            {
+              hidden: scrollProgress > 98,
+            }
           )}
           aria-label="Scroll to Top"
         >

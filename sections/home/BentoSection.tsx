@@ -21,7 +21,7 @@ export default function BentoSection() {
                 <span className=" text-primary  text-7xl font-bold">
                   <NumberTicker value={500} />+
                 </span>
-                <h3 className="mt-6 text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
+                <h3 className="mt-6 text-lg md:text-xl font-semibold text-primary dark:text-neutral-200">
                   Membres
                 </h3>
                 <p className="mt-2 text-gray-500 dark:text-neutral-400">
@@ -63,7 +63,7 @@ export default function BentoSection() {
             href="/events"
           >
             <CalendarIcon className="shrink-0 size-10 mb-3 text-secondary" />
-            <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
+            <h3 className="text-lg md:text-xl font-semibold text-primary dark:text-neutral-200">
               Nos évènements
             </h3>
             <p className="mt-2 text-gray-500 dark:text-neutral-400">
@@ -91,22 +91,22 @@ export default function BentoSection() {
         </div>
 
         <div className="col-span-12 md:col-span-6 lg:col-span-4 md:order-1 grid gap-4 xl:gap-6">
-          <a className="md:order-2 relative focus:outline-none" href="/hire-us">
-            <div className="overflow-hidden p-6 flex flex-col justify-between items-center md:min-h-[480px] text-center rounded-xl before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500">
+          <a className="md:order-2 relative focus:outline-none" href="/members">
+            <div className="overflow-hidden p-6 max-sm:pt-4 flex flex-col justify-between items-center md:min-h-[480px] text-center rounded-xl before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500">
               <div className="flex justify-center relative w-full h-[258px] before:absolute before:top-0 before:-inset-x-6  before:bg-no-repeat before:bg-center before:bg-cover before:w-[calc(100%+48px)] before:h-full before:-z-[1] lg:before:bg-auto">
                 <Globe />
               </div>
 
               <div className="mt-8">
-                <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
+                <h3 className="text-lg md:text-xl font-semibold text-primary dark:text-neutral-200">
                   Notre expertise
                 </h3>
                 <p className="mt-2 text-gray-500 dark:text-neutral-400">
                   La GNDC régroupe des experts dans plusieurs domaines et
-                  secteurs d&apos;activité technologiques prêt à innover.
+                  secteurs d&apos;activités technologiques.
                 </p>
                 <p className="mt-2 inline-flex items-center gap-x-1 text-secondary font-medium dark:text-blue-500">
-                  Embaucher un membre
+                  Voir les membres
                   <svg
                     className="size-2.5"
                     width="16"
@@ -181,11 +181,11 @@ export default function BentoSection() {
               className="shrink-0 size-10 mb-3 mx-auto text-secondary"
               strokeWidth={1}
             />
-            <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
+            <h3 className="text-lg md:text-xl font-semibold text-primary dark:text-neutral-200">
               10+ Entreprises
             </h3>
             <p className="mt-2 text-gray-500 dark:text-neutral-400">
-              Noous nous associons à des entreprises, pour innover.
+              Nous nous associons à des entreprises, pour innover.
             </p>
             <p className="mt-2 inline-flex items-center gap-x-1 text-secondary font-medium dark:text-blue-500">
               Devenir sponsor
@@ -243,7 +243,7 @@ export default function BentoSection() {
                       strokeWidth="2"
                     ></rect>
                   </svg>
-                  <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
+                  <h3 className="text-lg md:text-xl font-semibold text-primary dark:text-neutral-200">
                     Nos projets
                   </h3>
                   <p className="mt-2 text-gray-500 dark:text-neutral-400">
@@ -272,7 +272,7 @@ export default function BentoSection() {
                 <div className="relative w-10/12 ms-auto dark:hidden">
                   <Safari
                     url="gndc.cm"
-                    className="size-full w-full"
+                    className="size-full w-full "
                     //src="https://via.placeholder.com/1200x750"
                   />
                 </div>
@@ -290,7 +290,7 @@ export default function BentoSection() {
               className="shrink-0 size-10 mb-3 mx-auto text-secondary"
               strokeWidth={1}
             />
-            <h3 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-neutral-200">
+            <h3 className="text-lg md:text-xl font-semibold text-primary dark:text-neutral-200">
               Publications populaires
             </h3>
             <p className="mt-2 text-gray-500 dark:text-neutral-400">

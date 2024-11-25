@@ -68,23 +68,26 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         })}
       >
         <div className="flex gap-4 items-center justify-between text-sm pb-4 border-b border-gray-200">
-          <Button asChild variant="link" className="gap-1 p-0" size="sm">
-            <Link href={"/blog/this"}>
-              <Avatar className="h-auto w-auto">
-                <AvatarImage asChild>
-                  <Image
-                    loading="lazy"
-                    src={published_by.profile_image}
-                    alt={"profile image of: " + published_by.name}
-                  />
-                </AvatarImage>
-                <AvatarFallback className="p-0">
-                  <CircleUser strokeWidth={1.25} className="size-10" />
-                </AvatarFallback>
-              </Avatar>
-              <span className="capitalize">By {published_by.name}</span>
-            </Link>
-          </Button>
+          <div className="flex gap-2 p-0">
+            <Avatar className="h-auto w-auto">
+              <AvatarImage asChild>
+                <Image
+                  loading="lazy"
+                  src={published_by.profile_image}
+                  alt={"profile image of: " + published_by.name}
+                />
+              </AvatarImage>
+              <AvatarFallback className="p-0">
+                <CircleUser strokeWidth={1.25} className="size-10" />
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="capitalize">{published_by.name}</span>
+              <span className="text-xs text-gray-500 font-light">
+                {published_by.role}
+              </span>
+            </div>
+          </div>
 
           <span>
             {Intl.DateTimeFormat(undefined, { dateStyle: "long" }).format(
@@ -115,7 +118,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
 
       {showSummary && (
         <CardDescription className="py-4 ">
-          <p className="line-clamp-2">{summary}</p>
+          <span className="line-clamp-2">{summary}</span>
         </CardDescription>
       )}
 

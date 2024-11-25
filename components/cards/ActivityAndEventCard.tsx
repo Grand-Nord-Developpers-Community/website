@@ -10,7 +10,7 @@ import {
   CardContent,
   CardDescription,
 } from "../ui/card";
-import { Button } from "../ui/button";
+import { Button } from "../ui/button-more";
 
 import ActivityAndEvent from "@/interfaces/activityAndEvent";
 

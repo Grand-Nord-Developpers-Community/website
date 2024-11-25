@@ -8,9 +8,12 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { GithubIcon, LoaderIcon } from "lucide-react";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps {
+  className?: string;
+  view: "sign-in" | "login";
+}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({ className, view }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   async function onSubmit(event: React.SyntheticEvent) {
@@ -23,16 +26,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
+    <div className={cn("grid gap-6 mt-3", className)}>
       <form onSubmit={onSubmit}>
-        <div className="grid gap-2">
+        <div className="grid gap-3">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
             <Input
               id="email"
-              placeholder="name@example.com"
+              placeholder="votre@mail.com"
               type="email"
               autoCapitalize="none"
               autoComplete="email"
@@ -40,9 +43,33 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              Mot de passe
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="mot de passe"
+              disabled={isLoading}
+            />
+          </div>
+          {view === "sign-in" && (
+            <div className="grid gap-1">
+              <Label className="sr-only" htmlFor="email">
+                Confirmation Mot de passe
+              </Label>
+              <Input
+                id="confirm_password"
+                type="password"
+                placeholder="confirmer votre mot de passe"
+                disabled={isLoading}
+              />
+            </div>
+          )}
           <Button disabled={isLoading} className="text-white">
             {isLoading && <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />}
-            Se connecter avec email
+            {view === "login" ? "Se connecter" : "Créer mon compte"}
           </Button>
         </div>
       </form>

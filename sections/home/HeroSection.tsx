@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Slider from "@/assets/images/slider/bg.jpg";
 import { Button } from "@/components/ui/button";
+import { Button as ButtonX } from "@/components/ui/button-more";
 import Link from "next/link";
 import { ChevronRight, ArrowRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -28,13 +29,12 @@ function HeroSection() {
               <span className="text-secondary">C</span>ommunity
             </h1>
             <div className="flex gap-5 ">
-              <Button className="rounded-none" asChild>
+              <Button asChild>
                 <Link href="/sign-in">Rejoindre la communauté</Link>
               </Button>
               <Button
-                className="text-white rounded-none border border-secondary"
+                className="text-white hover:bg-primary/90 bg-primary"
                 asChild
-                variant={"outline"}
               >
                 <Link href="#" target="_blank">
                   Nous supporter
@@ -49,7 +49,7 @@ function HeroSection() {
               résoudre les défis locaux à travers des solutions collaboratives.
             </p>
             <Button
-              className="pr-0 font-semibold text-lg"
+              className="pr-0 font-semibold text-lg hover:bg-transparent hover:text-white"
               asChild
               variant={"ghost"}
             >
