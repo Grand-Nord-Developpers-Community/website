@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { UserAuthForm } from "@/components/user-auth-form";
+import SignIn from "@/components/signin-form";
 export const metadata: Metadata = {
-  title: "GNDC | Inscription",
+  title: "GNDC | Connexion",
   description: "Inscription dans la plus grande communauté Tech du Grand Nord",
 };
 
@@ -18,11 +18,11 @@ export default function AuthenticationPage() {
           Entrez vos informations
         </p>
       </div>
-      <UserAuthForm view="login" />
+      <SignIn/>
       <p className="max-lg:block mx-auto text-center mt-2">
         {" "}
         <Link
-          href="/sign-in"
+          href="/sign-up"
           className="underline underline-offset-4 hover:text-primary"
         >
           Créer

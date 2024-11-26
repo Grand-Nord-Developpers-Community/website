@@ -30,7 +30,7 @@ function HeroSection() {
             </h1>
             <div className="flex gap-5 ">
               <Button asChild>
-                <Link href="/sign-in">Rejoindre la communauté</Link>
+                <Link href="/sign-up">Rejoindre la communauté</Link>
               </Button>
               <Button
                 className="text-white hover:bg-primary/90 bg-primary"

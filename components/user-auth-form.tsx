@@ -10,7 +10,7 @@ import { GithubIcon, LoaderIcon } from "lucide-react";
 
 interface UserAuthFormProps {
   className?: string;
-  view: "sign-in" | "login";
+  view: "sign-up" | "login";
 }
 
 export function UserAuthForm({ className, view }: UserAuthFormProps) {
@@ -54,7 +54,7 @@ export function UserAuthForm({ className, view }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
-          {view === "sign-in" && (
+          {view === "sign-up" && (
             <div className="grid gap-1">
               <Label className="sr-only" htmlFor="email">
                 Confirmation Mot de passe

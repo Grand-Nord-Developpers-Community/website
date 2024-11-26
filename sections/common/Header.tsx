@@ -32,16 +32,17 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
-
+import { auth } from "@/auth"
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
   { name: "Forum", link: "/forum" },
   { name: "Formation", link: "/formation" },
 ];
-
-function Header() {
+import LogoutButton from "@/components/logout-button"
+async function Header() {
   const pathname = usePathname();
+  const session = await auth();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -169,7 +170,7 @@ function Header() {
                 variant="outline"
                 asChild
               >
-                <Link href="/sign-in">Créer un compte</Link>
+                <Link href="/sign-up">Créer un compte</Link>
               </Button>
             </SheetClose>
             <SheetClose asChild>
@@ -183,7 +184,7 @@ function Header() {
     </Sheet>
   );
 
-  return !pathname.includes("login") && !pathname.includes("sign-in") ? (
+  return !pathname.includes("login") && !pathname.includes("sign-up") ? (
     <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">
         <div>
@@ -200,19 +201,18 @@ function Header() {
               </Link>
             ))}
           </nav>
-          {isLoggedIn ? (
-            <UserMenu />
-          ) : (
+	  {session ? (
+        <>
+          <p className="text-primary-foreground">{JSON.stringify(session)}</p>
+          <LogoutButton />
+        </>
+      ) : (
             <>
               <Button className="text-white ml-5" asChild>
                 <Link href="/login">Se connecter</Link>
               </Button>
-              <ButtonX
-                className=""
-                variant="ringHover"
-                asChild
-              >
-                <Link href="/sign-in">Créer un compte</Link>
+              <ButtonX className="" variant="ringHover" asChild>
+                <Link href="/sign-up">Créer un compte</Link>
               </ButtonX>
             </>
           )}
@@ -266,7 +266,7 @@ function Header() {
                       variant="outline"
                       asChild
                     >
-                      <Link href="/sign-in">Créer un compte</Link>
+                      <Link href="/sign-up">Créer un compte</Link>
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>

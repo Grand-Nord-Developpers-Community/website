@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
+import { Toaster } from "@/components/ui/sonner";
 
 //import { Montserrat } from "next/font/google";
 //const montserrat = Montserrat({ subsets: ["latin"] });
@@ -73,11 +74,12 @@ export default function RootLayout({
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <Header />
-             <main className="w-full min-h-screen overflow-x-hidden">
-                {children}
-             </main>
+        <main className="w-full min-h-screen overflow-x-hidden">
+          {children}
+        </main>
         <Footer />
         <BackToTop />
+        <Toaster />
       </body>
     </html>
   );
