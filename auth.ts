@@ -12,7 +12,11 @@ import { getUserFromDb } from "./actions/user.actions";
 import { db } from "./lib/db";
 const adapter = DrizzleAdapter(db);
 
-const authConfig: NextAuthConfig = {
+export const authConfig: NextAuthConfig = {
+  pages: {
+    error: "/error",
+    signIn: '/login',
+  },
   adapter,
   providers: [
     Github({
@@ -39,19 +43,29 @@ const authConfig: NextAuthConfig = {
         if (res.success) {
           return res.data as User;
         }
-
         return null;
       },
     }),
     //Passkey,
   ],
   callbacks: {
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      const isOnDashboard = nextUrl.pathname.startsWith('/user');
+      if (isOnDashboard) {
+        if (isLoggedIn) return true;
+        return false; // Redirect unauthenticated users to login page
+      } else if (isLoggedIn) {
+        return Response.redirect(new URL('/user', nextUrl));
+      }
+      return true;
+    },
     async jwt({ token, user, account }) {
       if (account?.provider === "credentials") {
         token.credentials = true;
       }
       return token;
-    },
+    }
   },
   jwt: {
     encode: async function (params) {

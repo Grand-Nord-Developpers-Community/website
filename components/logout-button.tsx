@@ -11,7 +11,7 @@ export default function LogoutButton() {
   const onLogoutClick = async () => {
     const response = await logout()
     if (response.success) {
-      window.location.href = "/signin"
+      window.location.href = "/login"
     } else {
       toast(response.message)
     }

@@ -32,6 +32,7 @@ interface UserAuthFormProps {
 
 export default function SignUpForm({ className }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isDesactivate, setIsDesactivate] = React.useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -49,7 +50,7 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
     if (res.success) {
       setIsLoading(false);
       toast.success("Votre compte a été avec success !!");
-      router.replace("/signin");
+      router.replace("/login");
     } else {
       setIsLoading(false);
       toast.error(res.message);
@@ -61,7 +62,7 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-3">
-            <div className="grid gap-1">
+            <div className="grid gap-0">
               <FormField
                 control={form.control}
                 name="email"
@@ -70,39 +71,39 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input {...field} placeholder="nom@gmail.com" className="mt-0" disabled={isLoading||isDesactivate} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <div className="grid gap-1">
+            <div className="grid gap-0">
               <FormField
                 control={form.control}
                 name="password"
                 //@ts-ignore
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Mot de passe</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="" {...field} />
+                      <Input {...field} type="password" placeholder="mot de passe"  disabled={isLoading||isDesactivate}   />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <div className="grid gap-1">
+            <div className="grid gap-0">
               <FormField
                 control={form.control}
                 name="confirmPassword"
                 //@ts-ignore
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>Confirmation mot de passe</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="" {...field} />
+                      <Input {...field} type="password" placeholder="confirmation mot de passe" disabled={isLoading||isDesactivate} className="mt-0" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -110,7 +111,7 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
               />
             </div>
 
-            <Button type="submit" disabled={isLoading} className="text-white">
+            <Button type="submit" disabled={isLoading||isDesactivate} className="text-white">
               {isLoading && (
                 <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
               )}
@@ -130,7 +131,7 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GithubLoginButton isLoading={isLoading} />
+      <GithubLoginButton isDesactivate={isLoading}  onDesactivate={()=>setIsDesactivate(true)} />
     </div>
   );
 }

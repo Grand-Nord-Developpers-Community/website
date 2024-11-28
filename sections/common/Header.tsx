@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Button as ButtonX } from "@/components/ui/button-more";
-
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/brand/logo.png";
@@ -25,14 +24,16 @@ import {
   SheetFooter,
   SheetClose,
 } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuLabel,
+  DropdownMenuLabel, DropdownMenuSeparator,
+  DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
-import { auth } from "@/auth"
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
@@ -40,12 +41,21 @@ const Links = [
   { name: "Formation", link: "/formation" },
 ];
 import LogoutButton from "@/components/logout-button"
-async function Header() {
+function Header({session}:{session:any}) {
   const pathname = usePathname();
-  const session = await auth();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  //const [session, setSession] = useState(null);
 
+  /*useEffect(() => {
+    const fetchSession = async () => {
+      const response = await fetch("/api/auth/user");
+      const data = await response.json();
+      setSession(data);
+    };
+
+    fetchSession();
+  }, []);*/
   useEffect(() => {
     setIsLoggedIn(false); //changer la valeur à true pour user connecté
   }, []);
@@ -71,7 +81,7 @@ async function Header() {
   };
 
   const UserMenu = () => (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -134,7 +144,7 @@ async function Header() {
           ))}
         </nav>
         <Separator className="my-4 bg-gray-400" />
-        {isLoggedIn ? (
+        {/*isLoggedIn ? (
           <div className="flex flex-col gap-2">
             <User className="h-5 w-5 self-center" />
             <SheetClose asChild>
@@ -179,7 +189,7 @@ async function Header() {
               </Button>
             </SheetClose>
           </SheetFooter>
-        )}
+        )*/}
       </SheetContent>
     </Sheet>
   );
@@ -203,8 +213,57 @@ async function Header() {
           </nav>
 	  {session ? (
         <>
-          <p className="text-primary-foreground">{JSON.stringify(session)}</p>
-          <LogoutButton />
+ <DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+            <Avatar className="h-11 w-11">
+              <AvatarImage src={""} alt="@shadcn" />
+              <AvatarFallback>SZ</AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          className="w-56"
+          align="end"
+          forceMount
+          sideOffset={10}
+        >
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">
+                Samiratou Zilli
+              </p>
+              <p className="text-xs leading-none text-muted-foreground">
+                samiratouzlili13@gmail.com
+              </p>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              Profile
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Abonnements
+              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Parametre
+              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem >
+              Parrainer
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            Se deconnecter
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+          
         </>
       ) : (
             <>

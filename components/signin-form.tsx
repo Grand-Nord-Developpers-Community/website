@@ -29,6 +29,7 @@ interface UserAuthFormProps {
 }
 export default function SignIn({ className }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDesactivate, setIsDesactivate] = useState<boolean>(false);
   const router = useRouter()
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -45,7 +46,8 @@ export default function SignIn({ className }: UserAuthFormProps) {
     if (res.success) {
       setIsLoading(false);
       toast.success("<Bienvenue/> !!");
-      router.push("/")
+      //router.replace("/user/dashboard")
+      window.location.href = "/user/dashboard"
     } else {
       setIsLoading(false);
       toast.error(res.message);
@@ -66,7 +68,7 @@ export default function SignIn({ className }: UserAuthFormProps) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input {...field} placeholder="nom@email.com" disabled={isLoading||isDesactivate} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -80,9 +82,9 @@ export default function SignIn({ className }: UserAuthFormProps) {
                 //@ts-ignore
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Mot de passe</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="" {...field} />
+                      <Input  {...field} type="password" placeholder="mot de passe" disabled={isLoading||isDesactivate} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -90,11 +92,11 @@ export default function SignIn({ className }: UserAuthFormProps) {
               />
             </div>
 
-            <Button type="submit" disabled={isLoading} className="text-white">
+            <Button type="submit" disabled={isLoading||isDesactivate} className="text-white">
               {isLoading && (
                 <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Créer mon compte
+              Se connecter
             </Button>
           </div>
         </form>
@@ -110,7 +112,7 @@ export default function SignIn({ className }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GithubLoginButton isLoading={isLoading} />
+      <GithubLoginButton isDesactivate={isLoading}  onDesactivate={()=>setIsDesactivate(true)} />
     </div>
   )
 }

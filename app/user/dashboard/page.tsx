@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="screen-wrapper mt-5">
       <h1 className="text-2xl font-bold mb-6">Tableau de bord</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

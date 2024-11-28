@@ -86,7 +86,7 @@ export async function login({
       message: "Email or password is incorrect.",
     };
   }
-}
+} 
 
 export async function loginWithGithub() {
   await signIn("github", {
@@ -136,7 +136,7 @@ export async function register({
         id: user.id,
         email: user.email,
       });
-
+    
     return {
       success: true,
       data: insertedUser,

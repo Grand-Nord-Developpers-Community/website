@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/sections/common";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
 import "prismjs/themes/prism.css";
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
 import { Toaster } from "@/components/ui/sonner";
-
+import HeaderWrapper from "@/components/header-wrapper"
 //import { Montserrat } from "next/font/google";
 //const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -63,6 +62,7 @@ const montserra = localFont({
   ],
 });
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -73,7 +73,7 @@ export default function RootLayout({
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
-        <Header />
+        <HeaderWrapper/>
         <main className="w-full min-h-screen overflow-x-hidden">
           {children}
         </main>
