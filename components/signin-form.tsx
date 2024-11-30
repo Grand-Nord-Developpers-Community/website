@@ -47,7 +47,7 @@ export default function SignIn({ className }: UserAuthFormProps) {
       setIsLoading(false);
       toast.success("<Bienvenue/> !!");
       //router.replace("/user/dashboard")
-      window.location.href = "/user/dashboard"
+      window.location.href = "/account/complete"
     } else {
       setIsLoading(false);
       toast.error(res.message);

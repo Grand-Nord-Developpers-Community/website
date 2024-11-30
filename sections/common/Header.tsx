@@ -31,7 +31,8 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuLabel, DropdownMenuSeparator,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 const Links = [
@@ -40,8 +41,8 @@ const Links = [
   { name: "Forum", link: "/forum" },
   { name: "Formation", link: "/formation" },
 ];
-import LogoutButton from "@/components/logout-button"
-function Header({session}:{session:any}) {
+import LogoutButton from "@/components/logout-button";
+function Header({ session }: { session: any }) {
   const pathname = usePathname();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -194,7 +195,9 @@ function Header({session}:{session:any}) {
     </Sheet>
   );
 
-  return !pathname.includes("login") && !pathname.includes("sign-up") ? (
+  return !pathname.includes("login") &&
+    !pathname.includes("sign-up") &&
+    !pathname.includes("complete") ? (
     <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">
         <div>
@@ -211,61 +214,71 @@ function Header({session}:{session:any}) {
               </Link>
             ))}
           </nav>
-	  {session ? (
-        <>
- <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="h-11 w-11">
-              <AvatarImage src={""} alt="@shadcn" />
-              <AvatarFallback>SZ</AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="w-56"
-          align="end"
-          forceMount
-          sideOffset={10}
-        >
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">
-                Samiratou Zilli
-              </p>
-              <p className="text-xs leading-none text-muted-foreground">
-                samiratouzlili13@gmail.com
-              </p>
-            </div>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Abonnements
-              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Parametre
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem >
-              Parrainer
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            Se deconnecter
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-          
-        </>
-      ) : (
+          {session && session.user.name && (
+            <>
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
+                    <Avatar className="h-11 w-11">
+                      <AvatarImage src={""} alt="@shadcn" />
+                      <AvatarFallback className="uppercase">
+                        {session.user.name.slice(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-56"
+                  align="end"
+                  forceMount
+                  sideOffset={10}
+                >
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {session.user.name}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {session.user.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem>
+                      Profile
+                      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      Abonnements
+                      <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      Parametre
+                      <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>Parrainer</DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    Se deconnecter
+                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          )}
+          {session && !session.user.name && (
+            <>
+              <ButtonX className="" variant="ringHover" asChild>
+                <Link href="/account/complete">Completer</Link>
+              </ButtonX>
+            </>
+          )}
+          {!session && (
             <>
               <Button className="text-white ml-5" asChild>
                 <Link href="/login">Se connecter</Link>

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "migrate": "tsx lib/migrate",
+    "dev": "tsx lib/migrate && next dev",
     "build": "tsx lib/migrate && next build",
     "start": "next start",
     "lint": "next lint"
@@ -20,7 +21,9 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tailwindcss/typography": "^0.5.15",
+    "@types/canvas-confetti": "^1.6.4",
     "bcryptjs": "^2.4.3",
+    "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",

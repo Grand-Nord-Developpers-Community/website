@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import {auth} from "@/auth"
 import { redirect } from "next/navigation";
 export const metadata: Metadata = {
-  title: "GNDC | User",
+  title: "GNDC | Complete",
   description:
-    "Votre espace de publication",
+    "Completez ces information pour finaliser votre compte",
 };
-export default async function UserRootLayout({
+export default async function CompleteRootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -15,10 +15,11 @@ export default async function UserRootLayout({
   if(!session){
     redirect("/login")
   }else{
-    if(!session.user?.name){
-      redirect("/account/complete")
+    if(session.user?.name){
+      redirect("/user/dashboard")
     }
   }
+
   return (
     <>
        {children}

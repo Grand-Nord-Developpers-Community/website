@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import SignUpForm from "@/components/SignUp";
+import SignUpForm from "@/components/signup-form";
 //import { UserAuthForm } from "@/components/user-auth-form";
 export const metadata: Metadata = {
   title: "GNDC | Inscription",

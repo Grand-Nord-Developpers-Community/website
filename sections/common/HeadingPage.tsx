@@ -1,20 +1,33 @@
 import React from "react";
+import { cn } from "@/lib/utils";
 interface Props {
   title: string;
+  titleClassName?: string;
   subtitle?: string;
+  subClassName?: string;
   description?: string;
+  descClassName?: string;
   children?: React.ReactNode;
   icon?: React.ReactNode;
 }
-function HeadingPage({ title, subtitle, description, children, icon }: Props) {
+function HeadingPage({
+  title,
+  titleClassName,
+  subtitle,
+  subClassName,
+  description,
+  descClassName,
+  children,
+  icon,
+}: Props) {
   return (
     <div className="bg-primary w-full relative">
       <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-14">
         <div className="max-w-xl sm:mx-auto lg:max-w-2xl">
           <div className="flex flex-col sm:text-center sm:mb-0">
             <div className="mb-6 sm:mx-auto">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-secondary">
-                {!icon ? (
+              {!icon ? (
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-secondary">
                   <svg
                     className="w-10 h-10 text-white"
                     stroke="currentColor"
@@ -28,13 +41,18 @@ function HeadingPage({ title, subtitle, description, children, icon }: Props) {
                       points="29 13 14 29 25 29 23 39 38 23 27 23"
                     />
                   </svg>
-                ) : (
-                  icon
-                )}
-              </div>
+                </div>
+              ) : (
+                icon
+              )}
             </div>
             <div className="max-w-xl md:mx-auto sm:text-center lg:max-w-3xl">
-              <h1 className="max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight text-white sm:text-4xl md:mx-auto">
+              <h1
+                className={cn(
+                  "max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight text-white sm:text-4xl md:mx-auto",
+                  titleClassName,
+                )}
+              >
                 <span className="relative inline-block">
                   <svg
                     viewBox="0 0 52 24"
@@ -60,13 +78,27 @@ function HeadingPage({ title, subtitle, description, children, icon }: Props) {
                   </svg>
                   {title}
                 </span>
-                <strong className="font-extrabold text-secondary sm:block">
-                  {subtitle && subtitle}
-                </strong>
+                {subtitle && (
+                  <strong
+                    className={cn(
+                      "font-extrabold text-secondary sm:block",
+                      subClassName,
+                    )}
+                  >
+                    {subtitle}
+                  </strong>
+                )}
               </h1>
-              <p className="text-base text-indigo-100 md:text-lg mb-10">
-                {description}
-              </p>
+              {description && (
+                <p
+                  className={cn(
+                    "text-base text-indigo-100 md:text-lg mb-10",
+                    descClassName,
+                  )}
+                >
+                  {description}
+                </p>
+              )}
             </div>
           </div>
         </div>

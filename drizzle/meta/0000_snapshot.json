@@ -1,5 +1,5 @@
 {
-  "id": "64989798-5811-40c3-9c05-74b1a4aa7cd8",
+  "id": "40708e08-9137-429e-97a8-caffc1c159c9",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -105,14 +105,177 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.authenticator": {
-      "name": "authenticator",
+    "public.blog_comment": {
+      "name": "blog_comment",
       "schema": "",
       "columns": {
-        "credentialID": {
-          "name": "credentialID",
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
           "type": "text",
           "primaryKey": false,
+          "notNull": true
+        },
+        "authorId": {
+          "name": "authorId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "postId": {
+          "name": "postId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "blog_comment_authorId_user_id_fk": {
+          "name": "blog_comment_authorId_user_id_fk",
+          "tableFrom": "blog_comment",
+          "tableTo": "user",
+          "columnsFrom": [
+            "authorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "blog_comment_postId_blog_post_id_fk": {
+          "name": "blog_comment_postId_blog_post_id_fk",
+          "tableFrom": "blog_comment",
+          "tableTo": "blog_post",
+          "columnsFrom": [
+            "postId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.blog_post": {
+      "name": "blog_post",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "preview": {
+          "name": "preview",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "authorId": {
+          "name": "authorId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "blog_post_authorId_user_id_fk": {
+          "name": "blog_post_authorId_user_id_fk",
+          "tableFrom": "blog_post",
+          "tableTo": "user",
+          "columnsFrom": [
+            "authorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "blog_post_slug_unique": {
+          "name": "blog_post_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.blog_reaction": {
+      "name": "blog_reaction",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
           "notNull": true
         },
         "userId": {
@@ -121,48 +284,31 @@
           "primaryKey": false,
           "notNull": true
         },
-        "providerAccountId": {
-          "name": "providerAccountId",
+        "postId": {
+          "name": "postId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "credentialPublicKey": {
-          "name": "credentialPublicKey",
+        "type": {
+          "name": "type",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "counter": {
-          "name": "counter",
-          "type": "integer",
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
-        },
-        "credentialDeviceType": {
-          "name": "credentialDeviceType",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "credentialBackedUp": {
-          "name": "credentialBackedUp",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "transports": {
-          "name": "transports",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "authenticator_userId_user_id_fk": {
-          "name": "authenticator_userId_user_id_fk",
-          "tableFrom": "authenticator",
+        "blog_reaction_userId_user_id_fk": {
+          "name": "blog_reaction_userId_user_id_fk",
+          "tableFrom": "blog_reaction",
           "tableTo": "user",
           "columnsFrom": [
             "userId"
@@ -172,26 +318,339 @@
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
+        },
+        "blog_reaction_postId_blog_post_id_fk": {
+          "name": "blog_reaction_postId_blog_post_id_fk",
+          "tableFrom": "blog_reaction",
+          "tableTo": "blog_post",
+          "columnsFrom": [
+            "postId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "authenticator_userId_credentialID_pk": {
-          "name": "authenticator_userId_credentialID_pk",
-          "columns": [
-            "userId",
-            "credentialID"
-          ]
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.event": {
+      "name": "event",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location": {
+          "name": "location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "datetime": {
+          "name": "datetime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "link": {
+          "name": "link",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creatorId": {
+          "name": "creatorId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
-      "uniqueConstraints": {
-        "authenticator_credentialID_unique": {
-          "name": "authenticator_credentialID_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "credentialID"
-          ]
+      "indexes": {},
+      "foreignKeys": {
+        "event_creatorId_user_id_fk": {
+          "name": "event_creatorId_user_id_fk",
+          "tableFrom": "event",
+          "tableTo": "user",
+          "columnsFrom": [
+            "creatorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.forum_post": {
+      "name": "forum_post",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "authorId": {
+          "name": "authorId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "forum_post_authorId_user_id_fk": {
+          "name": "forum_post_authorId_user_id_fk",
+          "tableFrom": "forum_post",
+          "tableTo": "user",
+          "columnsFrom": [
+            "authorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.forum_reply": {
+      "name": "forum_reply",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "authorId": {
+          "name": "authorId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "postId": {
+          "name": "postId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "forum_reply_authorId_user_id_fk": {
+          "name": "forum_reply_authorId_user_id_fk",
+          "tableFrom": "forum_reply",
+          "tableTo": "user",
+          "columnsFrom": [
+            "authorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "forum_reply_postId_forum_post_id_fk": {
+          "name": "forum_reply_postId_forum_post_id_fk",
+          "tableFrom": "forum_reply",
+          "tableTo": "forum_post",
+          "columnsFrom": [
+            "postId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.forum_vote": {
+      "name": "forum_vote",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "postId": {
+          "name": "postId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "replyId": {
+          "name": "replyId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "voteType": {
+          "name": "voteType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "forum_vote_userId_user_id_fk": {
+          "name": "forum_vote_userId_user_id_fk",
+          "tableFrom": "forum_vote",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "forum_vote_postId_forum_post_id_fk": {
+          "name": "forum_vote_postId_forum_post_id_fk",
+          "tableFrom": "forum_vote",
+          "tableTo": "forum_post",
+          "columnsFrom": [
+            "postId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "forum_vote_replyId_forum_reply_id_fk": {
+          "name": "forum_vote_replyId_forum_reply_id_fk",
+          "tableFrom": "forum_vote",
+          "tableTo": "forum_reply",
+          "columnsFrom": [
+            "replyId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -255,13 +714,13 @@
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "password": {
           "name": "password",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -280,6 +739,77 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'user'"
+        },
+        "experiencePoints": {
+          "name": "experiencePoints",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "location": {
+          "name": "location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phoneNumber": {
+          "name": "phoneNumber",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "githubLink": {
+          "name": "githubLink",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "twitterLink": {
+          "name": "twitterLink",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "instagramLink": {
+          "name": "instagramLink",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "websiteLink": {
+          "name": "websiteLink",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isCompletedProfile": {
+          "name": "isCompletedProfile",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -294,45 +824,6 @@
           ]
         }
       },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.verificationToken": {
-      "name": "verificationToken",
-      "schema": "",
-      "columns": {
-        "identifier": {
-          "name": "identifier",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "token": {
-          "name": "token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "expires": {
-          "name": "expires",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "verificationToken_identifier_token_pk": {
-          "name": "verificationToken_identifier_token_pk",
-          "columns": [
-            "identifier",
-            "token"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
