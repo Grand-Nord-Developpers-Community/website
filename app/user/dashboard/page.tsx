@@ -50,14 +50,14 @@ const Category: React.FC<CategoryProps> = ({
 
 enum widgetType {BLOG,FORUM,ACTIVITY,EXPERIENCE}
 const Dashboard: React.FC = () => {
-  const { user } = useUserProfile();
+  const { user,isLoading:isProfileLoading } = useUserProfile();
   const { mutate } = useSWRConfig();
 
   const statItems: Stat[] = [
     { title: "Total Blogs", value:  0, icon: <BookOpen className="h-6 w-6" />, color: "from-blue-500 to-blue-600" },
     { title: "Total Forums", value:  0, icon: <MessageSquare className="h-6 w-6" />, color: "from-green-500 to-green-600" },
-    { title: "Activités", value:  0, icon: <Activity className="h-6 w-6" />, unit: "jour", color: "from-yellow-500 to-yellow-600" },
-    { title: "Total Experiences", value:  0, icon: <Award className="h-6 w-6" />, unit: "XP", color: "from-purple-500 to-purple-600" },
+    { title: "Activitées", value:  user?.streak||0, icon: <Activity className="h-6 w-6" />, unit: "jour", color: "from-yellow-500 to-yellow-600" },
+    { title: "Total Experiences", value:  user?.experiencePoints||0, icon: <Award className="h-6 w-6" />, unit: "XP", color: "from-purple-500 to-purple-600" },
   ]
 
   const [activeTab, setActiveTab] = useState<'blogs' | 'forums'>('blogs')
@@ -86,6 +86,11 @@ const Dashboard: React.FC = () => {
     }
     fetchData()
   }, [])
+
+  useEffect(()=>{
+    statItems[widgetType.ACTIVITY].value=user?.streak!
+    statItems[widgetType.EXPERIENCE].value=user?.experiencePoints!
+  },[user])
 
   const handleCreate = () => {
     const newPost: Post = {
@@ -155,13 +160,11 @@ const Dashboard: React.FC = () => {
               "use server"
               const res = await updateUserProfileCompletionState(user?.id!);
             }
-            
-            mutate("/api/profile-data");
-            
+            mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`);
           } catch (e) {
             console.log(e);
           }
-        }, 1000);
+        }, 1500);
       }
   }, []);
   return (
@@ -186,8 +189,8 @@ const Dashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <StatWidget item={statItems[widgetType.BLOG]} isLoading={true} />
             <StatWidget item={statItems[widgetType.FORUM]} isLoading={true} />
-            <StatWidget item={statItems[widgetType.ACTIVITY]} isLoading={true} />
-            <StatWidget item={statItems[widgetType.EXPERIENCE]} isLoading={false} />
+            <StatWidget item={statItems[widgetType.ACTIVITY]} isLoading={isProfileLoading} />
+            <StatWidget item={statItems[widgetType.EXPERIENCE]} isLoading={isProfileLoading} />
         </div>
         <Tabs defaultValue="blogs" className="w-full " onValueChange={(value) => setActiveTab(value as 'blogs' | 'forums')}>
         <div className="flex justify-between items-center mb-4">

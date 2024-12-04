@@ -5,7 +5,7 @@
   "scripts": {
     "migrate": "tsx lib/migrate",
     "dev": "next dev",
-    "build": "tsx lib/migrate && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.36.4",
+    "emailjs-com": "^3.2.0",
     "framer-motion": "^11.11.9",
     "GNDC": "file:",
     "gray-matter": "^4.0.3",

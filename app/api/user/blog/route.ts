@@ -1,19 +1,20 @@
 import { NextResponse } from "next/server";
 import {auth} from "@/auth"
-import {getUserProfileImage} from "@/actions/user.actions"
+import {getUserBlogPosts} from "@/actions/blog.actions"
 
 export async function GET() {
   const session = await auth();
+
   if (!session || !session.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const profileImage = await getUserProfileImage(session?.user.id!);
-    return NextResponse.json(profileImage);
+    const blogs = await getUserBlogPosts(session?.user.id!);
+    return NextResponse.json(blogs);
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch user profile" },
+      { error: "Failed to fetch forums" },
       { status: 500 },
     );
   }

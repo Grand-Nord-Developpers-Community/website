@@ -33,9 +33,9 @@ export default function ProfileCompletion({ userId }: { userId: string }) {
 
     if (res.success) {
       //router.replace("/user/dashboard")
-      preload('/api/profile-data', fetcher);
+      preload('/api/user/profile', fetcher);
       router.push("/user");
-      setIsLoading(false);
+      //setIsLoading(false);
       //window.location.href = "/user/";
     } else {
       setIsLoading(false);

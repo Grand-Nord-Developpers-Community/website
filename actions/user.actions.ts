@@ -92,7 +92,7 @@ export async function login({
 export async function loginWithGithub() {
   await signIn("github", {
     redirect: true,
-    redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+    redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/user/dashboard`,
   });
 }
 // export async function loginWithFacebook() {
@@ -448,7 +448,7 @@ export async function updateUser(
     // Verify current password
     const isCurrentPasswordValid = await bcryptjs.compare(
       validatedData.currentPassword!,
-      currentUser.password,
+      currentUser.password!,
     );
     if (!isCurrentPasswordValid) {
       throw new Error("Current password is incorrect");

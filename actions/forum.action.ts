@@ -16,12 +16,13 @@ export async function getUserForumPosts(userId: string) {
   const posts = await db.select({
     id: forumPost.id,
     title: forumPost.title,
+    content:forumPost.content,
     createdAt: forumPost.createdAt,
   })
   .from(forumPost)
   .where(eq(forumPost.authorId, userId))
   .orderBy(desc(forumPost.createdAt))
-  .limit(5)  // Limit to the 5 most recent posts
+  //.limit(5)  // Limit to the 5 most recent posts
 
   return posts
 }
