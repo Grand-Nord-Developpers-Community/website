@@ -5,7 +5,7 @@ import { user } from "@/lib/schema";
 import { LoginSchema } from "@/schemas/login-schema";
 import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq } from "drizzle-orm";
+import { eq ,sql} from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -177,16 +177,67 @@ export async function updateUserRole(
 export async function getUserProfile(userId: string) {
   const profile = await db.query.user.findFirst({
     where: eq(user.id, userId),
-    with: {
-      blogPosts: true,
-      forumPosts: true,
+    columns: {
+      id:true,
+      name: true,
+      image: true,
+      bio: true,
+      websiteLink: true,
+      experiencePoints: true,
+      streak: true,
+      email: true,
+      role: true,
+      location: true,
+      phoneNumber: true,
+      githubLink: true,
+      twitterLink: true,
+      instagramLink: true,
+      lastActive: true,
+      isCompletedProfile: true,
+      createdAt: true,
     },
   });
+
   if (!profile) {
     throw new Error("User not found");
   }
+
   return profile;
 }
+
+export async function getUserProfileImage(userId:string){
+  const profileImage = await db.query.user.findFirst({
+      where: eq(user.id, userId),
+      columns: {
+        image: true,
+      },
+    });
+    return profileImage;
+  if (!profileImage) {
+    throw new Error("User image not found");
+  }
+}
+// export async function getUserStats(userId: string) {
+//   const userStats = await db
+//     .select({
+//       blogPostCount: sql<number>`count(distinct ${blogPost.id})`,
+//       forumPostCount: sql<number>`count(distinct ${forumPost.id})`,
+//       experiencePoints: user.experiencePoints,
+//       streak: user.streak,
+//     })
+//     .from(user)
+//     .leftJoin(blogPost, eq(blogPost.authorId, user.id))
+//     .leftJoin(forumPost, eq(forumPost.authorId, user.id))
+//     .where(eq(user.id, userId))
+//     .groupBy(user.id)
+//     .limit(1);
+
+//   if (userStats.length === 0) {
+//     throw new Error("User not found");
+//   }
+
+//   return userStats[0];
+// }
 
 export async function deleteUser(userId: string) {
   // Fetch user to check if exists and get role
@@ -222,6 +273,7 @@ const updateUserSchema = z
     newPassword: z.string().min(8).optional(),
     confirmNewPassword: z.string().optional(),
     image: z.string().url().optional(),
+    bio: z.string().url().optional(),
     location: z.string().max(100).optional(),
     phoneNumber: z.string().max(20).optional(),
     githubLink: z.string().url().optional(),
@@ -283,6 +335,95 @@ export async function updateUserProfileCompletion(
   }
 }
 
+export async function updateUserStreak(userId: string) {
+  const userRecord = await db.query.user.findFirst({
+    where: eq(user.id, userId),
+    columns: {
+      lastActive: true,
+      streak: true,
+    },
+  })
+
+  if (!userRecord) {
+    throw new Error('User not found')
+  }
+
+  const now = new Date()
+  const lastActive = userRecord.lastActive ? new Date(userRecord.lastActive) : null
+  let newStreak = userRecord.streak || 0
+
+  if (lastActive) {
+    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+    const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000)
+
+    if (lastActive < twoDaysAgo) {
+      // If last active more than two days ago, reset streak
+      newStreak = 1
+    } else if (lastActive < oneDayAgo) {
+      // If last active was yesterday, increment streak
+      newStreak += 1
+    }
+    // If last active was today, do nothing (streak stays the same)
+  } else {
+    // First activity, set streak to 1
+    newStreak = 1
+  }
+
+  await db.update(user)
+    .set({
+      lastActive: now,
+      streak: newStreak,
+    })
+    .where(eq(user.id, userId))
+
+  revalidatePath(`/users/${userId}`)
+  revalidatePath('/dashboard')
+
+  return newStreak
+}
+
+export async function getUserStreak(userId: string) {
+  const userRecord = await db.query.user.findFirst({
+    where: eq(user.id, userId),
+    columns: {
+      streak: true,
+    },
+  })
+
+  if (!userRecord) {
+    throw new Error('User not found')
+  }
+
+  return userRecord.streak || 0
+}
+
+
+export async function updateUserProfileCompletionState(
+  userId: string) {
+  try {
+   
+    const res = await db
+      .update(user)
+      .set({
+        isCompletedProfile:true,
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, userId));
+
+    //revalidatePath(`/profile/${userId}`);
+    //revalidatePath("/user");
+    return {
+      success: true,
+      data: res,
+    };
+  } catch (error: any) {
+    return {
+      sucess: false,
+      message:
+        "Une erreure s'est produite lors de la completion de votre profile",
+    };
+  }
+}
 export async function updateUser(
   userId: string,
   userData: z.infer<typeof updateUserSchema>,
@@ -321,6 +462,7 @@ export async function updateUser(
   if (validatedData.name) updateObject.name = validatedData.name;
   if (validatedData.email) updateObject.email = validatedData.email;
   if (validatedData.image) updateObject.image = validatedData.image;
+  if (validatedData.bio) updateObject.bio = validatedData.bio;
   if (validatedData.location) updateObject.location = validatedData.location;
   if (validatedData.phoneNumber)
     updateObject.phoneNumber = validatedData.phoneNumber;

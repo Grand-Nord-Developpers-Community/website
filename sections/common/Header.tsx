@@ -6,6 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/brand/logo.png";
 import { usePathname } from "next/navigation";
+import { logout } from "@/actions/user.actions"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import {
   MenuIcon,
   User,
@@ -40,27 +43,15 @@ const Links = [
   { name: "Blog", link: "/blog" },
   { name: "Forum", link: "/forum" },
   { name: "Formation", link: "/formation" },
+  { name: "Contact", link: "/contact" },
 ];
 import LogoutButton from "@/components/logout-button";
+import { useUserProfileImage } from "@/hooks/use-hook";
 function Header({ session }: { session: any }) {
   const pathname = usePathname();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  //const [session, setSession] = useState(null);
-
-  /*useEffect(() => {
-    const fetchSession = async () => {
-      const response = await fetch("/api/auth/user");
-      const data = await response.json();
-      setSession(data);
-    };
-
-    fetchSession();
-  }, []);*/
-  useEffect(() => {
-    setIsLoggedIn(false); //changer la valeur à true pour user connecté
-  }, []);
-
+  const router=useRouter()
+  const { user } = useUserProfileImage();
   const trackScrollProgress = () => {
     const winScroll = document.documentElement.scrollTop;
     const height =
@@ -76,125 +67,14 @@ function Header({ session }: { session: any }) {
       window.removeEventListener("scroll", trackScrollProgress);
     };
   }, []);
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
-  const UserMenu = () => (
-    <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="relative h-8 w-8 rounded-full border border-solid border-primary p-0"
-        >
-          <User className="h-5 w-5" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 bg-white">
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
-              Connecté en tant que
-            </p>
-            <p className="text-xs leading-none text-muted-foreground">
-              isaac_touza@outlook.fr
-            </p>
-          </div>
-        </DropdownMenuLabel>
-        <Separator className="my-1 bg-gray-400" />
-        <DropdownMenuItem>
-          <LayoutDashboard className="mr-2 h-4 w-4" />
-          <Link href="/user/dashboard">Tableau de bord</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <UserCircle className="mr-2 h-4 w-4" />
-          <Link href="/user/profile">Mon profil</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Settings className="mr-2 h-4 w-4" />
-          <Link href="/user/settings">Paramètres</Link>
-        </DropdownMenuItem>
-        <Separator className="my-1" />
-        <DropdownMenuItem onClick={handleLogout}>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Se déconnecter</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-
-  const MobileMenu = () => (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button className="lg:hidden border" variant="outline">
-          <MenuIcon />
-        </Button>
-      </SheetTrigger>
-      <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
-        <SheetHeader>
-          <SheetTitle>
-            <Image loading="lazy" src={Logo} alt="logo GNDC" width={115} />
-          </SheetTitle>
-        </SheetHeader>
-        <nav className="flex flex-col gap-4 text-primary my-4">
-          {Links.map((l, i) => (
-            <Link key={i} href={l.link}>
-              {l.name}
-            </Link>
-          ))}
-        </nav>
-        <Separator className="my-4 bg-gray-400" />
-        {/*isLoggedIn ? (
-          <div className="flex flex-col gap-2">
-            <User className="h-5 w-5 self-center" />
-            <SheetClose asChild>
-              <Button className="w-full" asChild>
-                <Link href="/user/dashboard">Tableau de bord</Link>
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button className="w-full" asChild>
-                <Link href="/profile">Mon profil</Link>
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button className="w-full" asChild>
-                <Link href="/settings">Paramètres</Link>
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={handleLogout}
-              >
-                Se déconnecter
-              </Button>
-            </SheetClose>
-          </div>
-        ) : (
-          <SheetFooter className="gap-3">
-            <SheetClose asChild>
-              <Button
-                className="grow border border-primary text-primary hover:bg-primary hover:text-white"
-                variant="outline"
-                asChild
-              >
-                <Link href="/sign-up">Créer un compte</Link>
-              </Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button className="text-white grow" asChild>
-                <Link href="/login">Se connecter</Link>
-              </Button>
-            </SheetClose>
-          </SheetFooter>
-        )*/}
-      </SheetContent>
-    </Sheet>
-  );
-
+  const onLogoutClick = async () => {
+    const response = await logout()
+    if (response.success) {
+      window.location.href = "/login"
+    } else {
+      toast(response.message)
+    }
+  }
   return !pathname.includes("login") &&
     !pathname.includes("sign-up") &&
     !pathname.includes("complete") ? (
@@ -216,6 +96,9 @@ function Header({ session }: { session: any }) {
           </nav>
           {session && session.user.name && (
             <>
+            <Button variant="secondary" className="ml-5 text-white" asChild>
+                      <Link href="/user/dashboard">Tableau de bord</Link>
+                    </Button>
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -223,7 +106,7 @@ function Header({ session }: { session: any }) {
                     className="relative h-8 w-8 rounded-full"
                   >
                     <Avatar className="h-11 w-11">
-                      <AvatarImage src={""} alt="@shadcn" />
+                      <AvatarImage src={user?.image??""} alt="@shadcn" />
                       <AvatarFallback className="uppercase">
                         {session.user.name.slice(0, 2)}
                       </AvatarFallback>
@@ -248,24 +131,23 @@ function Header({ session }: { session: any }) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      Profile
-                      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                    <DropdownMenuItem asChild>
+                      <Link href="/user/dashboard">Tableau de bord</Link>
+                      {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      Abonnements
-                      <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                    <DropdownMenuItem asChild>
+                      <Link href="/user/profil">Profil</Link>
+                      {/*<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>*/}
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      Parametre
-                      <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                    <DropdownMenuItem asChild>
+                      <Link href="/user/setting">Paramètre</Link>
+                      {/*<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>*/}
                     </DropdownMenuItem>
-                    <DropdownMenuItem>Parrainer</DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={onLogoutClick}>
                     Se deconnecter
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                    {/*<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>*/}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -309,8 +191,8 @@ function Header({ session }: { session: any }) {
               ))}
             </nav>
             <Separator className="my-4 bg-gray-400" />
-            <SheetFooter className="gap-3">
-              {isLoggedIn ? (
+            <SheetFooter className="gap-3 max-sm:flex-col-reverse">
+              {session && session.user.name && (
                 <>
                   <SheetClose asChild>
                     <Button className="grow" asChild>
@@ -320,32 +202,35 @@ function Header({ session }: { session: any }) {
                   <SheetClose asChild>
                     <Button
                       variant="outline"
-                      className="w-full"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleLogout();
-                      }}
+                      className="w-full border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={onLogoutClick}
                     >
                       Se déconnecter
                     </Button>
                   </SheetClose>
                 </>
-              ) : (
+              )}
+              {session && !session.user.name && (
+                <>
+                <SheetClose asChild>
+                  <ButtonX className="" variant="ringHover" asChild>
+                    <Link href="/account/complete">Completer</Link>
+                  </ButtonX>
+                  </SheetClose >
+                </>
+              )}
+              {!session && (
                 <>
                   <SheetClose asChild>
-                    <Button
-                      className="grow border border-primary text-primary hover:bg-primary hover:text-white"
-                      variant="outline"
-                      asChild
-                    >
-                      <Link href="/sign-up">Créer un compte</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button className="text-white" asChild>
+                    <Button className="text-white ml-5" asChild>
                       <Link href="/login">Se connecter</Link>
                     </Button>
                   </SheetClose>
+                  <SheetClose asChild>
+                  <ButtonX className="" variant="ringHover" asChild>
+                    <Link href="/sign-up">Créer un compte</Link>
+                  </ButtonX>
+                  </SheetClose >
                 </>
               )}
             </SheetFooter>

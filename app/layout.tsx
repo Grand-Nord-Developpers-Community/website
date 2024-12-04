@@ -62,12 +62,17 @@ const montserra = localFont({
   ],
 });
 
-
-export default function RootLayout({
+import {auth} from "@/auth"
+import {updateUserStreak} from "@/actions/user.actions"
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session=await auth()
+  if(session){
+   updateUserStreak(session.user?.id!)
+  }
   return (
     <html lang="fr">
       <body

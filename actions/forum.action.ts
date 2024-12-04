@@ -12,6 +12,20 @@ export async function createForumPost(title: string, content: string, authorId: 
   revalidatePath('/forum')
 }
 
+export async function getUserForumPosts(userId: string) {
+  const posts = await db.select({
+    id: forumPost.id,
+    title: forumPost.title,
+    createdAt: forumPost.createdAt,
+  })
+  .from(forumPost)
+  .where(eq(forumPost.authorId, userId))
+  .orderBy(desc(forumPost.createdAt))
+  .limit(5)  // Limit to the 5 most recent posts
+
+  return posts
+}
+
 export async function getForumPosts() {
   return db.query.forumPost.findMany({
     orderBy: [desc(forumPost.createdAt)],

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "migrate": "tsx lib/migrate",
-    "dev": "tsx lib/migrate && next dev",
+    "dev": "next dev",
     "build": "tsx lib/migrate && next build",
     "start": "next start",
     "lint": "next lint"
@@ -20,6 +20,7 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.1",
     "@tailwindcss/typography": "^0.5.15",
     "@types/canvas-confetti": "^1.6.4",
     "bcryptjs": "^2.4.3",
@@ -47,6 +48,7 @@
     "remark-html": "^16.0.1",
     "sharp": "^0.33.5",
     "sonner": "^1.7.0",
+    "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.3"

@@ -7,13 +7,16 @@ import { revalidatePath } from 'next/cache'
 import { slugify } from '@/lib/utils'
 
 // Blog actions
-export async function createBlogPost(title: string, content: string, authorId: string) {
+export async function createBlogPost(title: string,description:string,preview:string,previewHash:string,content: string, authorId: string) {
   const slug = slugify(title)
   await db.insert(blogPost).values({
     title,
+    description,
+    preview,
+    previewHash,
     content,
     slug,
-    authorId,
+    authorId
   })
   revalidatePath('/blog')
 }
@@ -25,6 +28,19 @@ export async function getBlogPosts() {
       author: true,
     },
   })
+}
+
+export async function getUserBlogPosts(userId: string) {
+  const posts = await db.select({
+    id: blogPost.id,
+    title: blogPost.title,
+    description:blogPost.description,
+    createdAt: blogPost.createdAt,
+  })
+  .from(blogPost)
+  .where(eq(blogPost.authorId, userId))
+  .orderBy(desc(blogPost.createdAt))
+  return posts
 }
 
 export async function getBlogPost(slug: string) {

@@ -12,6 +12,9 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Logo from "@/assets/images/brand/logo.png";
+import { fetcher } from "@/lib/utils";
+import {preload} from "swr";
+import {toast} from "sonner"
 type ProfileFormData = z.infer<typeof completeProfileSchema>;
 import {
   Form,
@@ -23,17 +26,20 @@ import {
 } from "@/components/ui/form";
 export default function ProfileCompletion({ userId }: { userId: string }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router=useRouter()
   async function onSubmit(data: ProfileFormData) {
     setIsLoading(true);
     const res = await updateUserProfileCompletion(userId, data);
 
     if (res.success) {
-      setIsLoading(false);
       //router.replace("/user/dashboard")
-      window.location.href = "/account/complete";
+      preload('/api/profile-data', fetcher);
+      router.push("/user");
+      setIsLoading(false);
+      //window.location.href = "/user/";
     } else {
       setIsLoading(false);
-      //toast.error(res.message);
+      toast.error(res.message);
     }
   }
   const form = useForm<ProfileFormData>({
