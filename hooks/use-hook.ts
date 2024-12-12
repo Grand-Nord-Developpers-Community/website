@@ -2,6 +2,8 @@ import { fetcher } from "@/lib/utils";
 import useSWR,{preload} from "swr";
 import {type User,type Blog,type Forum} from "@/lib/schema"
 type imageProfile={image:string}
+export type Blogs={posts:Blog[]}
+export type Forums={forums:Forum[]}
 export function useUserProfile() {
   preload(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`, fetcher);
   const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`, fetcher, { suspense: true });
@@ -22,19 +24,19 @@ export function useUserProfileImage() {
   };
 }
 
-export function useUserGetListBlog(){
-  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/blog`, fetcher);
+export function useUserGetListBlog(userId:string){
+  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/blog`, fetcher);
   return {
-    user: data as Blog,
+    postList: data as Blogs,
     isLoading,
     isError: error,
   };
 }
 
-export function useUserGetListForum(){
-  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/forum`, fetcher);
+export function useUserGetListForum(userId:string){
+  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/forum`, fetcher);
   return {
-    user: data as Forum,
+    forumList: data as Forums,
     isLoading,
     isError: error,
   };

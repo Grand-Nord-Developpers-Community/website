@@ -22,8 +22,8 @@ function HeadingPage({
 }: Props) {
   return (
     <div className="bg-primary w-full relative">
-      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-14">
-        <div className="max-w-xl sm:mx-auto lg:max-w-2xl">
+      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full  md:px-24 lg:px-8 lg:py-14">
+        <div className="sm:mx-auto">
           <div className="flex flex-col sm:text-center sm:mb-0">
             <div className="mb-6 sm:mx-auto">
               {!icon ? (
@@ -46,7 +46,7 @@ function HeadingPage({
                 icon
               )}
             </div>
-            <div className="max-w-xl md:mx-auto sm:text-center lg:max-w-3xl">
+            <div className="md:mx-auto sm:text-center">
               <h1
                 className={cn(
                   "max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight text-white sm:text-4xl md:mx-auto",
@@ -92,7 +92,7 @@ function HeadingPage({
               {description && (
                 <p
                   className={cn(
-                    "text-base text-indigo-100 md:text-lg mb-10",
+                    "text-base text-indigo-100 md:text-lg mb-10 lg:max-w-5xl",
                     descClassName,
                   )}
                 >

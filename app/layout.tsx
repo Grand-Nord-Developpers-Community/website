@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
 import { Toaster } from "@/components/ui/sonner";
-import HeaderWrapper from "@/components/header-wrapper"
+import HeaderWrapper from "@/components/header-wrapper";
 //import { Montserrat } from "next/font/google";
 //const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -62,25 +62,27 @@ const montserra = localFont({
   ],
 });
 
-import {auth} from "@/auth"
-import {updateUserStreak} from "@/actions/user.actions"
+import { auth } from "@/auth";
+import { updateUserStreak } from "@/actions/user.actions";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session=await auth()
-  if(session){
-   updateUserStreak(session.user?.id!)
+  const session = await auth();
+  if (session) {
+    updateUserStreak(session.user?.id!);
   }
   return (
     <html lang="fr">
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
-        <HeaderWrapper/>
+        <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-hidden">
-          {children}
+          <TooltipProvider>{children}</TooltipProvider>
         </main>
         <Footer />
         <BackToTop />

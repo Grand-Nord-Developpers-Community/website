@@ -1,5 +1,5 @@
 "use client";
-import { useUserProfile } from "@/hooks/use-hook";
+import { useUserProfile,useUserGetListBlog,useUserGetListForum } from "@/hooks/use-hook";
 import confetti from "canvas-confetti";
 import React, { useEffect,useState, useLayoutEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { PlusCircle} from 'lucide-react'
 import { Skeleton } from "@/components/ui/skeleton"
 import PostCard from "@/components/post-card"
-
+import {type User,type Blog,type Forum} from "@/lib/schema"
 interface Post {
   id: string
   title: string
@@ -51,42 +51,35 @@ const Category: React.FC<CategoryProps> = ({
 enum widgetType {BLOG,FORUM,ACTIVITY,EXPERIENCE}
 const Dashboard: React.FC = () => {
   const { user,isLoading:isProfileLoading } = useUserProfile();
+  const { postList,isLoading:isPostLoading } = useUserGetListBlog(user.id);
+  const { forumList,isLoading:isForumLoading } = useUserGetListForum(user.id);
   const { mutate } = useSWRConfig();
+  //@ts-ignore
+  const [posts,setPosts]=useState<Blog[]>([])
+  //@ts-ignore
+  const [forums,setForums]=useState<Forum[]>([])
+
+  useEffect(()=>{
+    setPosts(postList?.posts||[])
+  },[postList])
+  useEffect(()=>{
+    setForums(forumList?.forums||[])
+  },[forumList])
 
   const statItems: Stat[] = [
-    { title: "Total Blogs", value:  0, icon: <BookOpen className="h-6 w-6" />, color: "from-blue-500 to-blue-600" },
-    { title: "Total Forums", value:  0, icon: <MessageSquare className="h-6 w-6" />, color: "from-green-500 to-green-600" },
+    { title: "Total Blogs", value:  posts.length, icon: <BookOpen className="h-6 w-6" />, color: "from-blue-500 to-blue-600" },
+    { title: "Total Forums", value:  forums.length, icon: <MessageSquare className="h-6 w-6" />, color: "from-green-500 to-green-600" },
     { title: "Activitées", value:  user?.streak||0, icon: <Activity className="h-6 w-6" />, unit: "jour", color: "from-yellow-500 to-yellow-600" },
     { title: "Total Experiences", value:  user?.experiencePoints||0, icon: <Award className="h-6 w-6" />, unit: "XP", color: "from-purple-500 to-purple-600" },
   ]
 
   const [activeTab, setActiveTab] = useState<'blogs' | 'forums'>('blogs')
-  const [blogs, setBlogs] = useState<Post[]>([])
-  const [forums, setForums] = useState<Post[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [isCountLoading, setIsCountLoading] = useState(true)
+  //const [blogs, setBlogs] = useState<Post[]>([])
+  //const [forums, setForums] = useState<Post[]>([])
+  //const [isLoading, setIsLoading] = useState(true)
+  //const [isCountLoading, setIsCountLoading] = useState(true)
   const [isFirstTimeToDashboard,]=useState<boolean>(user?.isCompletedProfile!)
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true)
-      setIsCountLoading(true)
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      setBlogs([
-        { id: '1', title: 'My First Blog Post', content: 'This is the content of my first blog post.', date: '2023-05-15' },
-        { id: '2', title: 'Another Blog Post', content: 'Here\'s another interesting blog post.', date: '2023-05-20' },
-      ])
-      setForums([
-        { id: '1', title: 'Welcome to the Forum', content: 'Introduce yourself here!', date: '2023-05-10' },
-        { id: '2', title: 'Tech Discussion', content: 'What\'s your favorite programming language?', date: '2023-05-18' },
-      ])
-      setIsLoading(false)
-      await new Promise(resolve => setTimeout(resolve, 500)) // Additional delay for count to simulate separate API call
-      setIsCountLoading(false)
-    }
-    fetchData()
-  }, [])
-
+  
   useEffect(()=>{
     statItems[widgetType.ACTIVITY].value=user?.streak!
     statItems[widgetType.EXPERIENCE].value=user?.experiencePoints!
@@ -100,9 +93,9 @@ const Dashboard: React.FC = () => {
       date: new Date().toISOString().split('T')[0],
     }
     if (activeTab === 'blogs') {
-      setBlogs([newPost, ...blogs])
+      //setBlogs([newPost, ...blogs])
     } else {
-      setForums([newPost, ...forums])
+      //setForums([newPost, ...forums])
     }
   }
 
@@ -113,9 +106,9 @@ const Dashboard: React.FC = () => {
 
   const handleDelete = (id: string) => {
     if (activeTab === 'blogs') {
-      setBlogs(blogs.filter(blog => blog.id !== id))
+      //setBlogs(blogs.filter(blog => blog.id !== id))
     } else {
-      setForums(forums.filter(forum => forum.id !== id))
+      //setForums(forums.filter(forum => forum.id !== id))
     }
   }
   const fireshoot = () => {
@@ -187,8 +180,8 @@ const Dashboard: React.FC = () => {
       <div className="screen-wrapper mt-5">
         <h1 className="text-2xl font-bold mb-6">Tableau de bord</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <StatWidget item={statItems[widgetType.BLOG]} isLoading={true} />
-            <StatWidget item={statItems[widgetType.FORUM]} isLoading={true} />
+            <StatWidget item={statItems[widgetType.BLOG]} isLoading={isPostLoading} />
+            <StatWidget item={statItems[widgetType.FORUM]} isLoading={isForumLoading} />
             <StatWidget item={statItems[widgetType.ACTIVITY]} isLoading={isProfileLoading} />
             <StatWidget item={statItems[widgetType.EXPERIENCE]} isLoading={isProfileLoading} />
         </div>
@@ -197,17 +190,17 @@ const Dashboard: React.FC = () => {
           <TabsList>
             <TabsTrigger value="blogs" className="relative">
               Blogs
-              {isCountLoading ? (
+              {isPostLoading ? (
                 <Skeleton className="ml-2 h-5 w-5 rounded-full" />
               ) : (
                 <span className="ml-2 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
-                  {blogs.length}
+                  {posts.length}
                 </span>
               )}
             </TabsTrigger>
             <TabsTrigger value="forums" className="relative">
               Forums
-              {isCountLoading ? (
+              {isForumLoading ? (
                 <Skeleton className="ml-2 h-5 w-5 rounded-full" />
               ) : (
                 <span className="ml-2 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
@@ -222,7 +215,7 @@ const Dashboard: React.FC = () => {
           </Button>
         </div>
         <div className="mb-8"><TabsContent value="blogs">
-          {isLoading ? (
+          {isPostLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {[...Array(3)].map((_, index) => (
                 <Card key={index}>
@@ -238,14 +231,15 @@ const Dashboard: React.FC = () => {
             </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {blogs.map(blog => (
-                <PostCard key={blog.id} post={blog} onEdit={handleEdit} onDelete={handleDelete} />
-              ))}
+              {/*posts.map(blog => (
+                
+                // <PostCard key={blog.id} post={blog} onEdit={handleEdit} onDelete={handleDelete} />
+              ))*/}
             </div>
           )}
         </TabsContent>
         <TabsContent value="forums">
-          {isLoading ? (
+          {isForumLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {[...Array(3)].map((_, index) => (
                 <Card key={index}>
@@ -261,9 +255,9 @@ const Dashboard: React.FC = () => {
             </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {forums.map(forum => (
-                <PostCard key={forum.id} post={forum} onEdit={handleEdit} onDelete={handleDelete} />
-              ))}
+              {/*forums.map(forum => (
+                // <PostCard key={forum.id} post={forum} onEdit={handleEdit} onDelete={handleDelete} />
+              ))*/}
             </div>
           )}
         </TabsContent></div>

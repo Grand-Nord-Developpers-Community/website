@@ -19,7 +19,7 @@ export const user = pgTable("user", {
   name: text("name"),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
-  bio:text("bio"),
+  bio: text("bio"),
   role: text("role").default("user").$type<"user" | "admin" | "super admin">(),
   experiencePoints: integer("experiencePoints").default(0),
   location: text("location"),
@@ -28,14 +28,14 @@ export const user = pgTable("user", {
   twitterLink: text("twitterLink"),
   instagramLink: text("instagramLink"),
   websiteLink: text("websiteLink"),
-  streak: integer("streak").default(0),
+  streak: integer("streak").default(1),
   lastActive: timestamp("lastActive", { mode: "date" }),
-  isCompletedProfile:boolean("isCompletedProfile").default(false),
+  isCompletedProfile: boolean("isCompletedProfile").default(false),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export type User= InferSelectModel<typeof user>
+export type User = InferSelectModel<typeof user>;
 
 export const account = pgTable(
   "account",
@@ -74,9 +74,9 @@ export const blogPost = pgTable("blog_post", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
-  preview :text("preview").notNull(),
-  previewHash :text("previewHash").notNull(),
-  description :text("description").notNull(),
+  preview: text("preview").notNull(),
+  previewHash: text("previewHash").notNull(),
+  description: text("description").notNull(),
   content: text("content").notNull(),
   slug: text("slug").notNull().unique(),
   authorId: text("authorId")
@@ -85,7 +85,7 @@ export const blogPost = pgTable("blog_post", {
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
-export type Blog = InferSelectModel<typeof blogPost>
+export type Blog = InferSelectModel<typeof blogPost>;
 
 export const blogComment = pgTable("blog_comment", {
   id: text("id")
@@ -101,7 +101,7 @@ export const blogComment = pgTable("blog_comment", {
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
-export type BlogComment = InferSelectModel<typeof blogComment>
+export type BlogComment = InferSelectModel<typeof blogComment>;
 
 export const blogReaction = pgTable("blog_reaction", {
   id: text("id")
@@ -113,7 +113,9 @@ export const blogReaction = pgTable("blog_reaction", {
   postId: text("postId")
     .notNull()
     .references(() => blogPost.id, { onDelete: "cascade" }),
-  type: text("type").$type<"like" | "love" | "haha" | "wow" | "sad" | "angry">().notNull(),
+  type: text("type")
+    .$type<"like" | "love" | "haha" | "wow" | "sad" | "angry">()
+    .notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
@@ -130,7 +132,7 @@ export const forumPost = pgTable("forum_post", {
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export type Forum = InferSelectModel<typeof forumPost>
+export type Forum = InferSelectModel<typeof forumPost>;
 
 export const forumReply = pgTable("forum_reply", {
   id: text("id")
@@ -147,7 +149,7 @@ export const forumReply = pgTable("forum_reply", {
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export type ForumReply = InferSelectModel<typeof forumReply>
+export type ForumReply = InferSelectModel<typeof forumReply>;
 
 export const forumVote = pgTable("forum_vote", {
   id: text("id")
@@ -159,8 +161,9 @@ export const forumVote = pgTable("forum_vote", {
   postId: text("postId")
     .notNull()
     .references(() => forumPost.id, { onDelete: "cascade" }),
-  replyId: text("replyId")
-    .references(() => forumReply.id, { onDelete: "cascade" }),
+  replyId: text("replyId").references(() => forumReply.id, {
+    onDelete: "cascade",
+  }),
   voteType: text("voteType").$type<"upvote" | "downvote">().notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
@@ -181,7 +184,7 @@ export const event = pgTable("event", {
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export type Event = InferSelectModel<typeof event>
+export type Event = InferSelectModel<typeof event>;
 // Relations
 export const userRelations = relations(user, ({ many }) => ({
   blogPosts: many(blogPost),

@@ -22,7 +22,7 @@ import { Lock, Users } from "lucide-react";
 
 function Footer() {
   const pathname = usePathname();
-  return !pathname.includes("login") && !pathname.includes("sign-up")&&!pathname.includes("complete") ? (
+  return !pathname.includes("login") && !pathname.includes("sign-up")&&!pathname.includes("/blog/new") &&!pathname.includes("complete") ? (
     <footer className="bg-white pt-10 pb-4 border-t border-gray-200">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -128,7 +128,7 @@ function Footer() {
                 placeholder="Saisir votre adresse email"
                 className="flex-grow"
               />
-              <Button className="text-white" asChild>
+              <Button className="text-white bg-secondary hover:bg-secondary/90" asChild>
                 <Link href="#">S&apos;inscrire</Link>
               </Button>
             </div>

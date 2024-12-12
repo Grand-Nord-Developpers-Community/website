@@ -5,7 +5,7 @@ import { user } from "@/lib/schema";
 import { LoginSchema } from "@/schemas/login-schema";
 import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq ,sql} from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -31,7 +31,7 @@ export async function getUserFromDb(email: string, password: string) {
 
     const isPasswordMatches = await bcryptjs.compare(
       password,
-      existedUser.password,
+      existedUser.password
     );
 
     if (!isPasswordMatches) {
@@ -168,7 +168,7 @@ export async function logout() {
 
 export async function updateUserRole(
   userId: string,
-  role: "user" | "admin" | "super admin",
+  role: "user" | "admin" | "super admin"
 ) {
   await db.update(user).set({ role }).where(eq(user.id, userId));
   revalidatePath("/admin/users");
@@ -178,7 +178,7 @@ export async function getUserProfile(userId: string) {
   const profile = await db.query.user.findFirst({
     where: eq(user.id, userId),
     columns: {
-      id:true,
+      id: true,
       name: true,
       image: true,
       bio: true,
@@ -205,14 +205,14 @@ export async function getUserProfile(userId: string) {
   return profile;
 }
 
-export async function getUserProfileImage(userId:string){
+export async function getUserProfileImage(userId: string) {
   const profileImage = await db.query.user.findFirst({
-      where: eq(user.id, userId),
-      columns: {
-        image: true,
-      },
-    });
-    return profileImage;
+    where: eq(user.id, userId),
+    columns: {
+      image: true,
+    },
+  });
+  return profileImage;
   if (!profileImage) {
     throw new Error("User image not found");
   }
@@ -291,7 +291,7 @@ const updateUserSchema = z
     {
       message: "New passwords do not match",
       path: ["confirmNewPassword"],
-    },
+    }
   )
   .refine(
     (data) => {
@@ -303,12 +303,12 @@ const updateUserSchema = z
     {
       message: "Current password is required to set a new password",
       path: ["currentPassword"],
-    },
+    }
   );
 
 export async function updateUserProfileCompletion(
   userId: string,
-  data: z.infer<typeof completeProfileSchema>,
+  data: z.infer<typeof completeProfileSchema>
 ) {
   try {
     const validatedData = completeProfileSchema.parse(data);
@@ -342,44 +342,47 @@ export async function updateUserStreak(userId: string) {
       lastActive: true,
       streak: true,
     },
-  })
+  });
 
   if (!userRecord) {
-    throw new Error('User not found')
+    throw new Error("User not found");
   }
 
-  const now = new Date()
-  const lastActive = userRecord.lastActive ? new Date(userRecord.lastActive) : null
-  let newStreak = userRecord.streak || 0
+  const now = new Date();
+  const lastActive = userRecord.lastActive
+    ? new Date(userRecord.lastActive)
+    : null;
+  let newStreak = userRecord.streak || 0;
 
   if (lastActive) {
-    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000)
-    const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000)
+    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
 
     if (lastActive < twoDaysAgo) {
       // If last active more than two days ago, reset streak
-      newStreak = 1
+      newStreak = 1;
     } else if (lastActive < oneDayAgo) {
       // If last active was yesterday, increment streak
-      newStreak += 1
+      newStreak += 1;
     }
     // If last active was today, do nothing (streak stays the same)
   } else {
     // First activity, set streak to 1
-    newStreak = 1
+    newStreak = 1;
   }
 
-  await db.update(user)
+  await db
+    .update(user)
     .set({
       lastActive: now,
       streak: newStreak,
     })
-    .where(eq(user.id, userId))
+    .where(eq(user.id, userId));
 
-  revalidatePath(`/users/${userId}`)
-  revalidatePath('/dashboard')
+  revalidatePath(`/user/dashboard`);
+  //revalidatePath('/dashboard')
 
-  return newStreak
+  return newStreak;
 }
 
 export async function getUserStreak(userId: string) {
@@ -388,24 +391,21 @@ export async function getUserStreak(userId: string) {
     columns: {
       streak: true,
     },
-  })
+  });
 
   if (!userRecord) {
-    throw new Error('User not found')
+    throw new Error("User not found");
   }
 
-  return userRecord.streak || 0
+  return userRecord.streak || 0;
 }
 
-
-export async function updateUserProfileCompletionState(
-  userId: string) {
+export async function updateUserProfileCompletionState(userId: string) {
   try {
-   
     const res = await db
       .update(user)
       .set({
-        isCompletedProfile:true,
+        isCompletedProfile: true,
         updatedAt: new Date(),
       })
       .where(eq(user.id, userId));
@@ -426,7 +426,7 @@ export async function updateUserProfileCompletionState(
 }
 export async function updateUser(
   userId: string,
-  userData: z.infer<typeof updateUserSchema>,
+  userData: z.infer<typeof updateUserSchema>
 ) {
   // Validate input
   const validatedData = updateUserSchema.parse(userData);
@@ -448,7 +448,7 @@ export async function updateUser(
     // Verify current password
     const isCurrentPasswordValid = await bcryptjs.compare(
       validatedData.currentPassword!,
-      currentUser.password!,
+      currentUser.password!
     );
     if (!isCurrentPasswordValid) {
       throw new Error("Current password is incorrect");

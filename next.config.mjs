@@ -15,8 +15,15 @@ const nextConfig = {
       
     ]
   },
+  images: {
+      remotePatterns: [
+        {
+          protocol: 'http',
+          hostname: 'res.cloudinary.com'
+        },
+      ],
+    },
 };
 // next.config.js
- 
   
 export default nextConfig;

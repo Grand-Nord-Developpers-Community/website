@@ -29,7 +29,7 @@ function HeroSection() {
               <span className="text-secondary">C</span>ommunity
             </h1>
             <div className="flex gap-5 ">
-              <Button asChild>
+              <Button asChild variant="secondary">
                 <Link href="/sign-up">Rejoindre la communauté</Link>
               </Button>
               <Button
