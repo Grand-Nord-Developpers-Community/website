@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const SignInSection = () => {
   return (
-    <section className="">
+    <section className="bg-gray-50 w-full">
       {/* <div className="screen-wrapper">
         <div className='flex items-center justify-center  bg-[url("/circles.svg")] bg-cover bg-center px-8 py-20 text-center md:p-20'>
           <div className="mx-auto max-w-screen-md">
@@ -35,33 +35,33 @@ const SignInSection = () => {
           </div>
         </div>
       </div> */}
-      <section className='relative mx-auto max-w-[85rem] px-4 pb-24 pt-10 sm:px-6 lg:px-8 bg-[url("/circles.svg")] bg-cover bg-center'>
+      <section className='relative mx-auto max-w-[85rem] px-4 pb-24 pt-10 sm:px-6 lg:px-8 bg-[url("/circles.svg")]  bg-center'>
         <div className="absolute left-0 top-[55%] scale-90 md:top-[20%] xl:left-[10%] xl:top-[25%]">
           <svg
             width="64"
             height="64"
             fill="none"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             color="#ea580c"
             viewBox="0 0 24 24"
           >
             <path
               fill="#ea580c"
               stroke="#ea580c"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M12 23a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM3 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM3 18a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
             ></path>
             <path
               stroke="#ea580c"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M21 7.353v9.294a.6.6 0 0 1-.309.525l-8.4 4.666a.6.6 0 0 1-.582 0l-8.4-4.666A.6.6 0 0 1 3 16.647V7.353a.6.6 0 0 1 .309-.524l8.4-4.667a.6.6 0 0 1 .582 0l8.4 4.667a.6.6 0 0 1 .309.524Z"
             ></path>
             <path
               stroke="#ea580c"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="m3.528 7.294 8.18 4.544a.6.6 0 0 0 .583 0l8.209-4.56M12 21v-9"
             ></path>
           </svg>
@@ -71,40 +71,40 @@ const SignInSection = () => {
             width="64"
             height="64"
             fill="none"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             color="#fbbf24"
             viewBox="0 0 24 24"
           >
             <path
               stroke="#fbbf24"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
             ></path>
             <path
               fill="#fbbf24"
               stroke="#fbbf24"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
             ></path>
             <path
               stroke="#fbbf24"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M5 10.5V9M5 15v-1.5"
             ></path>
             <path
               fill="#fbbf24"
               stroke="#fbbf24"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M5 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM19 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
             ></path>
             <path
               stroke="#fbbf24"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M10.5 19H9M15 19h-1.5"
             ></path>
           </svg>
@@ -114,20 +114,20 @@ const SignInSection = () => {
             width="64"
             height="64"
             fill="none"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             color="#a3a3a3"
             viewBox="0 0 24 24"
           >
             <path
               stroke="#a3a3a3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M5.164 17c.29-1.049.67-2.052 1.132-3M11.5 7.794A16.838 16.838 0 0 1 14 6.296M4.5 22a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"
             ></path>
             <path
               stroke="#a3a3a3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M9.5 12a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5ZM19.5 7a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"
             ></path>
           </svg>
@@ -151,10 +151,11 @@ const SignInSection = () => {
 
         <div className="mt-8 flex justify-center gap-3">
           <Button
-            variant={"outline"}
+            //variant={"outline"}
             size="lg"
             asChild
             className="max-sm:py-2 max-sm:px-3"
+            variant="secondary"
           >
             <Link href="/login">Se connecter</Link>
           </Button>

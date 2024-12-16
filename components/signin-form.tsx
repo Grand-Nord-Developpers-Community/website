@@ -1,15 +1,15 @@
-"use client"
-import {cn} from "@/lib/utils"
-import {useState} from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+"use client";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { LoaderIcon } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { login } from "@/actions/user.actions"
+import { login } from "@/actions/user.actions";
 import {
   Form,
   FormControl,
@@ -17,12 +17,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import { toast } from "sonner";
-import { LoginSchema } from "@/schemas/login-schema"
-import { useRouter } from "next/navigation"
+import { LoginSchema } from "@/schemas/login-schema";
+import { useRouter } from "next/navigation";
 //import FacebookLoginButton from "./facebook-login-button"
-import GithubLoginButton from "./github-login-button"
+import GithubLoginButton from "./github-login-button";
 
 interface UserAuthFormProps {
   className?: string;
@@ -30,24 +30,24 @@ interface UserAuthFormProps {
 export default function SignIn({ className }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDesactivate, setIsDesactivate] = useState<boolean>(false);
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
-  })
+  });
 
   async function onSubmit(data: z.infer<typeof LoginSchema>) {
     setIsLoading(true);
-    const res = await login(data)
-	
+    const res = await login(data);
+
     if (res.success) {
       setIsLoading(false);
       toast.success("<Bienvenue/> !!");
       //router.replace("/user/dashboard")
-      window.location.href = "/account/complete"
+      window.location.href = "/account/complete";
     } else {
       setIsLoading(false);
       toast.error(res.message);
@@ -55,7 +55,7 @@ export default function SignIn({ className }: UserAuthFormProps) {
   }
 
   return (
- <div className={cn("grid gap-6 mt-3", className)}>
+    <div className={cn("grid gap-6 mt-3", className)}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-3">
@@ -68,7 +68,11 @@ export default function SignIn({ className }: UserAuthFormProps) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="nom@email.com" disabled={isLoading||isDesactivate} />
+                      <Input
+                        {...field}
+                        placeholder="nom@email.com"
+                        disabled={isLoading || isDesactivate}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -84,7 +88,12 @@ export default function SignIn({ className }: UserAuthFormProps) {
                   <FormItem>
                     <FormLabel>Mot de passe</FormLabel>
                     <FormControl>
-                      <Input  {...field} type="password" placeholder="mot de passe" disabled={isLoading||isDesactivate} />
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="mot de passe"
+                        disabled={isLoading || isDesactivate}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -92,7 +101,11 @@ export default function SignIn({ className }: UserAuthFormProps) {
               />
             </div>
 
-            <Button type="submit" disabled={isLoading||isDesactivate} className="text-white">
+            <Button
+              type="submit"
+              disabled={isLoading || isDesactivate}
+              variant="secondary"
+            >
               {isLoading && (
                 <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
               )}
@@ -112,7 +125,10 @@ export default function SignIn({ className }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GithubLoginButton isDesactivate={isLoading}  onDesactivate={()=>setIsDesactivate(true)} />
+      <GithubLoginButton
+        isDesactivate={isLoading}
+        onDesactivate={() => setIsDesactivate(true)}
+      />
     </div>
-  )
+  );
 }

@@ -18,26 +18,45 @@ const UploadWidget = ({ children, onSuccess, onError }: UploadWidgetProps) => {
     cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
     uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
     apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+    sources: [
+        "local",
+        "url",
+        "camera",
+        "google_drive",
+        "unsplash",
+        "shutterstock",
+        "istock",
+        "image_search"
+    ],
+    //googleApiKey: "<image_search_google_api_key>",
+    showAdvancedOptions: false,
+    cropping: true,
+    multiple: false,
+    defaultSource: "local",
     styles: {
-      palette: {
-        window: "#FFF",
-        windowBorder: "#90A0B3",
-        tabIcon: "#0E2F5A",
-        menuIcons: "#5A616A",
-        textDark: "#000000",
-        textLight: "#FFFFFF",
-        link: "#0078FF",
-        action: "#FF620C",
-        inactiveTabIcon: "#0E2F5A",
-        error: "#F44235",
-        inProgress: "#0078FF",
-        complete: "#20B832",
-        sourceBg: "#E4EBF1",
-      },
-      frame: {
-        background: "#0E2F5B99",
-      },
-    },
+        palette: {
+            window: "#ffffff",
+            sourceBg: "#f4f4f5",
+            windowBorder: "#90a0b3",
+            tabIcon: "#0A436B",
+            inactiveTabIcon: "#555a5f",
+            menuIcons: "#555a5f",
+            link: "#BF8440",
+            action: "#339933",
+            inProgress: "#0433ff",
+            complete: "#339933",
+            error: "#cc0000",
+            textDark: "#000000",
+            textLight: "#fcfffd"
+        },
+        fonts: {
+            default: null,
+            "'Poppins', sans-serif": {
+                url: "https://fonts.googleapis.com/css?family=Poppins",
+                active: true
+            }
+        }
+    }
   };
 
   function handleOnLoad() {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button, buttonVariants } from "./ui/button";
 import { Input } from "./ui/input";
@@ -13,31 +13,34 @@ import { AxiosProgressEvent } from "axios";
 import { toast } from "sonner";
 import { encode } from "blurhash";
 import Compressor from "compressorjs";
-const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 interface ImageUploadProps {
-  onUploadComplete?: (url: string) => void;
+  //onUploadComplete?: (url: string) => void;
+  onCompressedComplete: (file: File) => void;
+  onHashChange?: (hash: string) => void;
+  //uploadedImagePath:string|null;
+  loading: boolean;
+  progress: number;
+  onRemoveHandler: () => void;
+  onReset: boolean;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [progress, setProgress] = useState<number>(0);
+const ImageUpload: React.FC<ImageUploadProps> = ({
+  onCompressedComplete,
+  onRemoveHandler,
+  loading,
+  progress,
+  onHashChange,
+  onReset,
+}: ImageUploadProps) => {
+  //const [loading, setLoading] = useState<boolean>(false);
+  //const [progress, setProgress] = useState<number>(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [hashImage, setHashImage] = useState("");
   const [compressedFile, setCompressedFile] = useState<File | null>(null);
-  const [uploadedImagePath, setUploadedImagePath] = useState<string | null>(
-    null
-  );
-
-  const onUploadProgress = (progressEvent: AxiosProgressEvent) => {
-    if (progressEvent.total) {
-      const percentage = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
-      setProgress(percentage);
-    }
-  };
+  // const [uploadedImagePath, setUploadedImagePath] = useState<string | null>(
+  //   null
+  // );
 
   const getImageBlurhash = async (
     image: File,
@@ -69,7 +72,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
     });
   };
 
-  function preview(image: File) {
+  useEffect(() => {
+    if (onReset) {
+      reset();
+    }
+  }, [onReset]);
+
+  async function preview(image: File) {
     if (!image) {
       return;
     }
@@ -77,56 +86,56 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
       quality: 0.1,
       success(compressedResult) {
         setCompressedFile(compressedResult as File);
+        onCompressedComplete(compressedResult as File);
       },
     });
-    getImageBlurhash(image, 32, 32).then((hash) => {
+
+    try {
+      // Fetch the Base64 placeholder
+      const buffer = await image.arrayBuffer();
+      const img = Buffer.from(buffer);
+      const fileURL = URL.createObjectURL(image);
+      const response = await fetch(`/api/get-placeholder`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileURL: img }),
+      });
+
+      const { base64 } = await response.json();
+      setHashImage(base64 as string);
+      if (onHashChange) onHashChange(base64 as string);
+      setSelectedImage(image ? fileURL : null);
+      /*getImageBlurhash(image, 32, 32).then((hash) => {
       setHashImage(hash as string);
-      setSelectedImage(image ? URL.createObjectURL(image) : null);
+      if (onHashChange) 
+        onHashChange(hash as string);
+      setSelectedImage(image ? fileURL : null);
       console.log(hash);
-    });
+     });*/
+    } catch (e) {
+      console.log("erreur " + e);
+    }
   }
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     if (event.target.files?.length) {
       const image = event.target.files[0];
       //setSelectedImage(image);
       preview(image);
-      handleImageUpload(compressedFile!);
     }
   };
-
-  const removeSelectedImage = () => {
-    setLoading(false);
-    setUploadedImagePath(null);
+  const reset = () => {
+    onRemoveHandler();
     setSelectedImage(null);
   };
 
-  const handleImageUpload = async (image: File) => {
-    if (!image) return;
-    setLoading(true);
-
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("upload_preset", uploadPreset as string);
-    formData.append("api_key", apiKey as string);
-
-    try {
-      const res = await uploadImageToCloudinary(formData, onUploadProgress);
-      if (res.status === 200) {
-        setLoading(false);
-        setUploadedImagePath(res.data.url);
-        toast.success("image preview uploader avec succès " + res.data.url);
-        if (onUploadComplete) {
-          onUploadComplete(res.data.url);
-        }
-      }
-    } catch (error) {
-      setLoading(false);
-      if (onUploadComplete) {
-        onUploadComplete("");
-      }
-      toast.error("Error uploading image: " + error);
-      console.error("Error uploading image:", error);
-    }
+  //@ts-ignore
+  const removeSelectedImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    //setLoading(false);
+    //setUploadedImagePath(null);
+    reset();
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -145,6 +154,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
         <label
           htmlFor="dropzone-file"
           className="overflow-hidden relative flex flex-col items-center justify-center p-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 w-full visually-hidden-focusable h-full"
+          onClick={(e) => e.stopPropagation()}
         >
           {loading && (
             <div className="text-center max-w-md">
@@ -157,7 +167,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
             </div>
           )}
 
-          {!loading && !uploadedImagePath && !selectedImage && (
+          {!loading && !selectedImage && (
             <div className="text-center">
               <div className="border p-2 rounded-md max-w-min mx-auto">
                 <CloudUpload size="1.6em" />
@@ -171,21 +181,21 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
               </p>
             </div>
           )}
-          <Input
+          <input
             {...getInputProps()}
             id="dropzone-file"
             accept="image/png, image/jpeg"
             type="file"
             className="hidden"
-            disabled={loading || uploadedImagePath !== null}
+            disabled={loading}
             onChange={handleImageChange}
           />
-          {(uploadedImagePath || selectedImage) && !loading && (
+          {selectedImage && !loading && (
             <div className="text-center space-y-2">
               <NImage
                 width={1000}
                 height={1000}
-                src={uploadedImagePath || selectedImage}
+                src={selectedImage}
                 className="w-full object-cover h-full opacity-70"
                 alt="uploaded image"
               />

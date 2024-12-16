@@ -5,11 +5,36 @@ import { blogPost, blogComment } from '@/lib/schema'
 import { eq, desc } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { slugify } from '@/lib/utils'
-
+import { blogPublishSchema } from '@/schemas/blog-schema'
+type blogValueProps={
+  title: string,
+  description:string,
+  preview:string,
+  previewHash:string,
+  content: string, 
+  authorId: string
+}
 // Blog actions
-export async function createBlogPost(title: string,description:string,preview:string,previewHash:string,content: string, authorId: string) {
+export async function createBlogPost({title,description,preview,previewHash,content, authorId}:blogValueProps) {
+  
+  blogPublishSchema.parse({
+    title,description,preview,previewHash,content
+  })
   const slug = slugify(title)
-  await db.insert(blogPost).values({
+  const slugTitle = await db.query.blogPost.findFirst({
+    where: eq(blogPost.slug, slug),
+    columns: {
+      id: true,
+    },
+  });
+  if (slugTitle) {
+    return {
+    success:false,
+    message:"Un blog avec ce même titre à été publié",
+    revalidate:"title",
+  }
+  }
+  const req=await db.insert(blogPost).values({
     title,
     description,
     preview,
@@ -19,6 +44,17 @@ export async function createBlogPost(title: string,description:string,preview:st
     authorId
   })
   revalidatePath('/blog')
+  revalidatePath('/user/dashboard')
+  if(!req){
+     return {
+    success:false,
+    message:"Un problème est survenue"
+  }
+  }
+  return {
+    success:true,
+    message:"votre blog a été publié avec sucèss !!"
+  }
 }
 
 export async function getBlogPosts() {

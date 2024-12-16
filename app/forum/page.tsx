@@ -1,104 +1,94 @@
-"use client";
-import { forumTopics, categories } from "@/data/forumData";
-import { Filter, Search } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
-function ForumPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(
-    "Toutes les discussions"
-  );
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState("Tout");
-  const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 5;
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { QuestionCard } from "@/components/question-card";
+import { UserRanking } from "@/components/user-ranking";
+import { AskQuestionForm } from "@/components/ask-question-form";
+import { Button } from "@/components/ui/button";
 
-  // Filtrage des sujets
-  const filteredTopics = forumTopics.filter((topic) => {
-    const matchesSearch =
-      topic.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      topic.content.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "Toutes les discussions" ||
-      topic.categories.includes(selectedCategory);
-    const matchesStatus =
-      selectedFilter === "Tout" || topic.status === selectedFilter;
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+const questions = [
+  {
+    id: "1",
+    title: "Publishing my work without advisor",
+    author: {
+      name: "sarah",
+      avatar: "/placeholder.svg",
+    },
+    stats: {
+      answers: 0,
+      upvotes: 0,
+      downvotes: 0,
+      views: 0,
+    },
+    tags: ["publications", "advisor", "authorship"],
+    timeAgo: "30m ago",
+  },
+  {
+    id: "2",
+    title: "Choosing your research area",
+    author: {
+      name: "mike",
+      avatar: "/placeholder.svg",
+    },
+    stats: {
+      answers: 5,
+      upvotes: 15,
+      downvotes: 3,
+      views: 727,
+    },
+    tags: ["phd", "research", "research-topic"],
+    timeAgo: "2h ago",
+    image: "/placeholder.svg",
+  },
+];
 
-  // Pagination
-  const totalPages = Math.ceil(filteredTopics.length / ITEMS_PER_PAGE);
-  const paginatedTopics = filteredTopics.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+const topUsers = [
+  {
+    name: "Simoka",
+    avatar: "/placeholder.svg",
+    points: 2175,
+    joinDate: "2010",
+  },
+  {
+    name: "Felipe del",
+    avatar: "/placeholder.svg",
+    points: 2083,
+    joinDate: "2009",
+  },
+];
 
-  // Génération des numéros de page
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-
+export default function ForumPage() {
   return (
-    <div className="relative w-full">
-      <div className="w-full absolute bg-primary py-6">
-        <div className="screen-wrapper">
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <Link href="/forum/sujet/" passHref>
-              <button className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors flex items-center gap-2">
-                Nouveau Sujet
-                <span className="text-lg">+</span>
-              </button>
-            </Link>
-
-            <div className="flex-1 flex flex-col sm:flex-row gap-4">
-              <span className="text-gray-600 self-center font-bold">
-                {filteredTopics.length} Sujets
-              </span>
-
-              <div className="flex-1 flex gap-4">
-                <div className="flex-1 relative">
-                  <input
-                    type="text"
-                    placeholder="Rechercher..."
-                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <Search
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    size={20}
-                  />
-                </div>
-
-                <div className="relative">
-                  <select
-                    value={selectedFilter}
-                    onChange={(e) => {
-                      setSelectedFilter(e.target.value);
-                      setCurrentPage(1); // Reset to first page when filter changes
-                    }}
-                    className="h-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white pr-8"
-                  >
-                    <option value="Tout">Tout</option>
-                    <option value="Résolu">Résolu</option>
-                    <option value="Non résolu">Non résolu</option>
-                  </select>
-                  <Filter
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-                    size={16}
-                  />
-                </div>
+    <div className="h-full w-full bg-gray-50">
+      <main className="screen-wrapper py-6">
+        <div className="flex justify-between items-center mb-6 max-sm:hidden">
+          <Tabs defaultValue="latest">
+            <TabsList>
+              <TabsTrigger value="latest">Tout</TabsTrigger>
+              <TabsTrigger value="unanswered">Pas de reponse</TabsTrigger>
+              <TabsTrigger value="trending">Avec reponse</TabsTrigger>
+            </TabsList>
+          </Tabs>
+          {/* <Button>Poser une question</Button> */}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 relative">
+          <div className="lg:col-span-3 space-y-6">
+            <AskQuestionForm />
+            {questions.map((question) => (
+              <QuestionCard key={question.id} {...question} />
+            ))}
+          </div>
+          <div className="space-y-6 lg:sticky lg:top-20 lg:self-start">
+            <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-4 max-h-[calc(100vh-6rem)] overflow-y-auto">
+              <div className="text-center text-sm text-muted-foreground mb-4">
+                Google Adsense
+                <div className="mt-2">300 x 250</div>
+              </div>
+              <div className="mt-6">
+                <UserRanking users={topUsers} />
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex w-full h-screen container mx-auto gap-4 ">
-        <div className="w-1/5 pt-5"></div>
-        <div className="grow">
-          <div className={"w-full h-full overflow-y-auto scroll-hidden"}></div>
-        </div>
-      </div>
+      </main>
     </div>
   );
 }
-
-export default ForumPage;

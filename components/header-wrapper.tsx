@@ -1,7 +1,7 @@
 import { Header } from "@/sections/common";
-import {auth} from "@/auth"
+import { getUserProfileUserAuth } from "@/actions/user.actions";
 
-export default async function HeaderWrapper(){
-  const session=await auth()
-  return <Header session={session} />
+export default async function HeaderWrapper() {
+  const user = await getUserProfileUserAuth();
+  return <Header user={user} />;
 }

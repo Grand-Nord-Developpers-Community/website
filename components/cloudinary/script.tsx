@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 interface LoadScriptProps {
   src: string;
@@ -10,19 +10,19 @@ const Script = ({ src, onError, onLoad }: LoadScriptProps) => {
   useEffect(() => {
     const existingScript = document.querySelector(`script[src="${src}"]`);
     if (existingScript) return;
-    const script = document.createElement('script');
+    const script = document.createElement("script");
 
     script.async = true;
     script.src = src;
 
-    script.addEventListener('load', onLoad);
-    script.addEventListener('error', onError);
+    script.addEventListener("load", onLoad!);
+    script.addEventListener("error", onError!);
 
     document.body.appendChild(script);
 
     return () => {
-      script.removeEventListener('load', onLoad);
-      script.removeEventListener('error', onError!);
+      script.removeEventListener("load", onLoad!);
+      script.removeEventListener("error", onError!);
       document.body.removeChild(script);
     };
   }, [src, onLoad, onError]);

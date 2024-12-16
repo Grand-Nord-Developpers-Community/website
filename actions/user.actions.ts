@@ -9,6 +9,7 @@ import { eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
 export async function getUserFromDb(email: string, password: string) {
   try {
     const existedUser = await db.query.user.findFirst({
@@ -174,6 +175,42 @@ export async function updateUserRole(
   revalidatePath("/admin/users");
 }
 
+export async function getUserProfileUserAuth() {
+  try {
+    const session = await auth();
+    const profile = await db.query.user.findFirst({
+      //@ts-ignnore
+      where: eq(user.id, session ? (session.user?.id as string) : ""),
+      columns: {
+        id: true,
+        name: true,
+        image: true,
+        bio: true,
+        websiteLink: true,
+        experiencePoints: true,
+        streak: true,
+        email: true,
+        role: true,
+        location: true,
+        phoneNumber: true,
+        githubLink: true,
+        twitterLink: true,
+        instagramLink: true,
+        lastActive: true,
+        isCompletedProfile: true,
+        createdAt: true,
+      },
+    });
+
+    if (!profile) {
+      return undefined;
+    }
+    return profile;
+  } catch (e) {
+    console.log(e);
+    return undefined;
+  }
+}
 export async function getUserProfile(userId: string) {
   const profile = await db.query.user.findFirst({
     where: eq(user.id, userId),

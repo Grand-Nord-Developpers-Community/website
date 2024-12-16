@@ -1,15 +1,15 @@
-import { ReactNodeViewRenderer } from '@tiptap/react';
-import { mergeAttributes } from '@tiptap/core';
-import { Image as BaseImage } from '@tiptap/extension-image';
-import ResizeImage from '../components/resize-image';
+import { ReactNodeViewRenderer } from "@tiptap/react";
+import { mergeAttributes } from "@tiptap/core";
+import { Image as BaseImage } from "@tiptap/extension-image";
+import ResizeImage from "../components/resize-image";
 
 export default BaseImage.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      group: 'block',
+      group: "block",
       defining: true,
-      isolating: true
+      isolating: true,
     };
   },
 
@@ -18,40 +18,41 @@ export default BaseImage.extend({
       ...this.parent?.(),
       src: {
         default: null,
-        parseHTML: (element) => element.getAttribute('src'),
+        parseHTML: (element) => element.getAttribute("src"),
         renderHTML: (attributes) => ({
-          src: attributes.src
-        })
+          src: attributes.src,
+        }),
       },
       width: {
-        default: '100%'
+        default: "100%",
       },
       alt: {
         default: undefined,
-        parseHTML: (element) => element.getAttribute('alt'),
+        parseHTML: (element) => element.getAttribute("alt"),
         renderHTML: (attributes) => ({
-          alt: attributes.alt
-        })
-      }
+          alt: attributes.alt,
+        }),
+      },
     };
   },
 
   parseHTML() {
     return [
       {
-        tag: 'img[src]'
-      }
+        tag: "img[src]",
+      },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
-      'img',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)
+      "img",
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
     ];
   },
 
   addNodeView() {
+    //@ts-ignore
     return ReactNodeViewRenderer(ResizeImage);
-  }
+  },
 });

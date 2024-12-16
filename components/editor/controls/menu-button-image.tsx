@@ -1,10 +1,10 @@
-import React, { ChangeEvent, memo, useCallback, useRef } from 'react';
-import { Editor } from '@tiptap/core';
-import { Toolbar } from '../ui/toolbar';
-import { Icon } from '../ui/icon';
-import { browserFileTable } from '../lib/browser-file-table';
-import UploadWidget from '@/components/cloudinary/upload-widget';
-import MediaLibrary from '@/components/cloudinary/media-library';
+import React, { ChangeEvent, memo, useCallback, useRef } from "react";
+import { Editor } from "@tiptap/core";
+import { Toolbar } from "../ui/toolbar";
+import { Icon } from "../ui/icon";
+import { browserFileTable } from "../lib/browser-file-table";
+import UploadWidget from "@/components/cloudinary/upload-widget";
+import MediaLibrary from "@/components/cloudinary/media-library";
 
 interface MenuButtonImageProps {
   editor: Editor;
@@ -19,7 +19,7 @@ export const MenuButtonImage = ({ editor }: MenuButtonImageProps) => {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     const file = target.files?.[0];
-    if (file?.type.startsWith('image/')) {
+    if (file?.type.startsWith("image/")) {
       const url = URL.createObjectURL(file);
       editor.chain().setImage({ src: url }).focus().run();
     }
@@ -60,6 +60,7 @@ export const MenuButtonImage = ({ editor }: MenuButtonImageProps) => {
 
       <UploadWidget
         onSuccess={(result, widget) => {
+          //@ts-ignore
           const url = result.info.url;
           editor.chain().setImage({ src: url }).focus().run();
           widget.close();
@@ -67,8 +68,8 @@ export const MenuButtonImage = ({ editor }: MenuButtonImageProps) => {
       >
         {({ open }) => {
           return (
-            <Toolbar.Button tooltip='Insert Image' onClick={() => open()}>
-              <Icon name='Image' />
+            <Toolbar.Button tooltip="Insert Image" onClick={() => open()}>
+              <Icon name="Image" />
             </Toolbar.Button>
           );
         }}

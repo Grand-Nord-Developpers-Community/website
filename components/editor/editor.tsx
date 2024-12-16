@@ -38,6 +38,7 @@ export interface EditorProps extends Partial<EditorOptions> {
   contentClassName?: string;
   footerClassName?: string;
   displayWordsCount?: boolean;
+  disableEditor?:boolean;
   onUpdateToC?: (items: TocItem[]) => void;
 }
 
@@ -67,6 +68,7 @@ CodeBlockLowlight
       content,
       displayWordsCount = true,
       onUpdateToC,
+      disableEditor=false,
       ...rest
     },
     ref
@@ -100,8 +102,8 @@ CodeBlockLowlight
       // We use queueMicrotask to avoid any flushSync console errors as
       // mentioned here (though setEditable shouldn't trigger them in practice)
       // https://github.com/ueberdosis/tiptap/issues/3764#issuecomment-1546854730
-      queueMicrotask(() => editor.setEditable(editable));
-    }, [editable, editor]);
+      queueMicrotask(() => editor.setEditable(editable&&disableEditor));
+    }, [editable, editor,disableEditor]);
 
     useEffect(() => {
       if (!editor || editor.isDestroyed) return;

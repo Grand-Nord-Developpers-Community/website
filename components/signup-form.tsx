@@ -71,7 +71,12 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="nom@gmail.com" className="mt-0" disabled={isLoading||isDesactivate} />
+                      <Input
+                        {...field}
+                        placeholder="nom@gmail.com"
+                        className="mt-0"
+                        disabled={isLoading || isDesactivate}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -87,7 +92,12 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
                   <FormItem>
                     <FormLabel>Mot de passe</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" placeholder="mot de passe"  disabled={isLoading||isDesactivate}   />
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="mot de passe"
+                        disabled={isLoading || isDesactivate}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -103,7 +113,13 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
                   <FormItem>
                     <FormLabel>Confirmation mot de passe</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" placeholder="confirmation mot de passe" disabled={isLoading||isDesactivate} className="mt-0" />
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="confirmation mot de passe"
+                        disabled={isLoading || isDesactivate}
+                        className="mt-0"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -111,7 +127,11 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
               />
             </div>
 
-            <Button type="submit" disabled={isLoading||isDesactivate} className="text-white">
+            <Button
+              type="submit"
+              disabled={isLoading || isDesactivate}
+              variant="secondary"
+            >
               {isLoading && (
                 <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
               )}
@@ -131,7 +151,10 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GithubLoginButton isDesactivate={isLoading}  onDesactivate={()=>setIsDesactivate(true)} />
+      <GithubLoginButton
+        isDesactivate={isLoading}
+        onDesactivate={() => setIsDesactivate(true)}
+      />
     </div>
   );
 }

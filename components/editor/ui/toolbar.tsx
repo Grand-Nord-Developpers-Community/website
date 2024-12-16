@@ -104,6 +104,7 @@ const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
         className={buttonClass}
         variant={variant}
         size={buttonSize}
+        type={"button"}
         ref={ref}
         {...rest}
       >

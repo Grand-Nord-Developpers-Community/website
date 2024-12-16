@@ -1,3 +1,6 @@
+// @ts-check
+import withPlaiceholder from "@plaiceholder/next";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async redirects() {
@@ -26,4 +29,4 @@ const nextConfig = {
 };
 // next.config.js
   
-export default nextConfig;
+export default withPlaiceholder(nextConfig);

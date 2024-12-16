@@ -6,9 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/brand/logo.png";
 import { usePathname } from "next/navigation";
-import { logout } from "@/actions/user.actions"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
+import { logout } from "@/actions/user.actions";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import {
   MenuIcon,
   User,
@@ -47,11 +47,10 @@ const Links = [
 ];
 import LogoutButton from "@/components/logout-button";
 import { useUserProfileImage } from "@/hooks/use-hook";
-function Header({ session }: { session: any }) {
+function Header({ user }: { user: any }) {
   const pathname = usePathname();
   const [scrollProgress, setScrollProgress] = useState(0);
-  const router=useRouter()
-  const { user } = useUserProfileImage();
+  const router = useRouter();
   const trackScrollProgress = () => {
     const winScroll = document.documentElement.scrollTop;
     const height =
@@ -68,13 +67,13 @@ function Header({ session }: { session: any }) {
     };
   }, []);
   const onLogoutClick = async () => {
-    const response = await logout()
+    const response = await logout();
     if (response.success) {
-      window.location.href = "/login"
+      window.location.href = "/login";
     } else {
-      toast(response.message)
+      toast(response.message);
     }
-  }
+  };
   return !pathname.includes("login") &&
     !pathname.includes("sign-up") &&
     !pathname.includes("/blog/new") &&
@@ -95,11 +94,11 @@ function Header({ session }: { session: any }) {
               </Link>
             ))}
           </nav>
-          {session && session.user.name && (
+          {user && user.name && (
             <>
-            <Button variant="secondary" className="ml-5 text-white" asChild>
-                      <Link href="/user/dashboard">Tableau de bord</Link>
-                    </Button>
+              <Button variant="secondary" className="ml-5 text-white" asChild>
+                <Link href="/user/dashboard">Tableau de bord</Link>
+              </Button>
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -107,9 +106,9 @@ function Header({ session }: { session: any }) {
                     className="relative h-8 w-8 rounded-full"
                   >
                     <Avatar className="h-11 w-11">
-                      <AvatarImage src={user?.image??""} alt="@shadcn" />
+                      <AvatarImage src={user?.image ?? ""} alt="@GNDC" />
                       <AvatarFallback className="uppercase">
-                        {session.user.name.slice(0, 2)}
+                        {user?.name.slice(0, 2)}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -123,10 +122,10 @@ function Header({ session }: { session: any }) {
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        {session.user.name}
+                        {user?.name}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        {session.user.email}
+                        {user?.email}
                       </p>
                     </div>
                   </DropdownMenuLabel>
@@ -154,16 +153,16 @@ function Header({ session }: { session: any }) {
               </DropdownMenu>
             </>
           )}
-          {session && !session.user.name && (
+          {user && !user?.name && (
             <>
               <ButtonX className="" variant="ringHover" asChild>
                 <Link href="/account/complete">Completer</Link>
               </ButtonX>
             </>
           )}
-          {!session && (
+          {!user && (
             <>
-              <Button className="text-white ml-5" asChild>
+              <Button className="text-white ml-5" asChild variant="secondary">
                 <Link href="/login">Se connecter</Link>
               </Button>
               <ButtonX className="" variant="ringHover" asChild>
@@ -193,7 +192,7 @@ function Header({ session }: { session: any }) {
             </nav>
             <Separator className="my-4 bg-gray-400" />
             <SheetFooter className="gap-3 max-sm:flex-col-reverse">
-              {session && session.user.name && (
+              {user && user.name && (
                 <>
                   <SheetClose asChild>
                     <Button className="grow" asChild>
@@ -211,27 +210,27 @@ function Header({ session }: { session: any }) {
                   </SheetClose>
                 </>
               )}
-              {session && !session.user.name && (
-                <>
-                <SheetClose asChild>
-                  <ButtonX className="" variant="ringHover" asChild>
-                    <Link href="/account/complete">Completer</Link>
-                  </ButtonX>
-                  </SheetClose >
-                </>
-              )}
-              {!session && (
+              {user && !user.name && (
                 <>
                   <SheetClose asChild>
-                    <Button className="text-white ml-5" asChild>
+                    <ButtonX className="" variant="ringHover" asChild>
+                      <Link href="/account/complete">Completer</Link>
+                    </ButtonX>
+                  </SheetClose>
+                </>
+              )}
+              {!user && (
+                <>
+                  <SheetClose asChild>
+                    <Button className="text-white" variant="secondary" asChild>
                       <Link href="/login">Se connecter</Link>
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>
-                  <ButtonX className="" variant="ringHover" asChild>
-                    <Link href="/sign-up">Créer un compte</Link>
-                  </ButtonX>
-                  </SheetClose >
+                    <ButtonX className="grow" variant="ringHover" asChild>
+                      <Link href="/sign-up">Créer un compte</Link>
+                    </ButtonX>
+                  </SheetClose>
                 </>
               )}
             </SheetFooter>

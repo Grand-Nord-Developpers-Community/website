@@ -70,10 +70,8 @@ const TestimonialsWithStats = () => {
                     />
                   </div>
                   <div className="grow">
-                    <div className="font-semibold ">MOHAMED EL BACHIR</div>
-                    <div className="text-xs ">
-                      Lead Frontend GNDC & Co-founder Woilasoft
-                    </div>
+                    <div className="font-semibold ">Ayuk Etta</div>
+                    <div className="text-xs ">CEO MountainHub</div>
                   </div>
                 </div>
               </footer>

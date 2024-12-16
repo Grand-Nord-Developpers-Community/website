@@ -1,5 +1,5 @@
-import { EditorInstance } from '..';
-import { slugify } from './utils';
+import { EditorInstance } from "..";
+import { slugify } from "./utils";
 
 export type TocItem = {
   id: string;
@@ -51,7 +51,7 @@ export class TOC {
       text: this.text,
       level: this.level,
       node: this.node,
-      children: this.children.map((child) => child.toObject())
+      children: this.children.map((child) => child.toObject()),
     };
   }
 }
@@ -61,7 +61,7 @@ function fillEmpty(headings: any[]) {
     let level = headings[i - 1]?.level || 1;
     if (headings[i].level - level > 1) {
       while (level < headings[i].level) {
-        headings.splice(i, 0, { level: level + 1, text: '' });
+        headings.splice(i, 0, { level: level + 1, text: "" });
         level++;
       }
     }
@@ -70,8 +70,8 @@ function fillEmpty(headings: any[]) {
 
 function createTree(headings: any[], depth: number) {
   fillEmpty(headings);
-
-  const tree = new TOC('', '', null);
+  //@ts-ignore
+  const tree = new TOC("", "", null);
   let current = tree;
 
   for (const heading of headings) {
@@ -86,6 +86,7 @@ function flatten(toc: ToCObject, depth: number): TocItem[] {
   const items = [];
 
   for (const item of toc.children) {
+    //@ts-ignore
     if (item.level > depth) return;
     const { children, ...rest } = item;
     items.push(rest, ...flatten(item, depth));
@@ -98,7 +99,7 @@ export function getToCItems(editor: EditorInstance, depth: number = 3) {
   const headings: any[] = [];
 
   editor.state.doc.descendants((node, pos) => {
-    if (node.type.name === 'heading') {
+    if (node.type.name === "heading") {
       const id = slugify(node.textContent);
 
       if (node.attrs.id !== id) {
@@ -106,11 +107,11 @@ export function getToCItems(editor: EditorInstance, depth: number = 3) {
 
         transaction.setNodeMarkup(pos, undefined, {
           ...node.attrs,
-          id: id
+          id: id,
         });
 
-        transaction.setMeta('addToHistory', false);
-        transaction.setMeta('preventUpdate', true);
+        transaction.setMeta("addToHistory", false);
+        transaction.setMeta("preventUpdate", true);
         editor.view.dispatch(transaction);
       }
 
@@ -118,7 +119,7 @@ export function getToCItems(editor: EditorInstance, depth: number = 3) {
         id,
         level: node.attrs.level,
         text: node.textContent,
-        node: editor.view.nodeDOM(pos)
+        node: editor.view.nodeDOM(pos),
       });
     }
   });

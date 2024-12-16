@@ -65,23 +65,23 @@ const montserra = localFont({
 import { auth } from "@/auth";
 import { updateUserStreak } from "@/actions/user.actions";
 import { TooltipProvider } from "@/components/ui/tooltip";
-
-export default async function RootLayout({
+export const dynamic = 'force-dynamic';
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  /*const session = await auth();
   if (session) {
     updateUserStreak(session.user?.id!);
-  }
+  }*/
   return (
     <html lang="fr">
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <HeaderWrapper />
-        <main className="w-full min-h-screen overflow-x-hidden">
+        <main className="w-full min-h-screen overflow-x-clip">
           <TooltipProvider>{children}</TooltipProvider>
         </main>
         <Footer />

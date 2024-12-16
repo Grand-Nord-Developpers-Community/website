@@ -1,5 +1,5 @@
-"use client"
-import React from "react"
+"use client";
+import React from "react";
 // import type { Metadata } from "next";
 // export const metadata: Metadata = {
 //   title: "GNDC | Blog",
@@ -7,7 +7,7 @@ import React from "react"
 //     "Edition publication",
 // };
 import { useParams } from "next/navigation";
-const page = () => {
+const EditPage = () => {
   const { slug } = useParams();
   return (
     <div className="my-16 screen-wrapper max-sm:mt-24" id="explore">
@@ -16,4 +16,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default EditPage;
