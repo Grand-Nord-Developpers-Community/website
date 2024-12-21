@@ -11,7 +11,7 @@ export default function BentoSection() {
         <div className="col-span-12 md:col-span-6 md:order-2 lg:col-span-4 grid gap-4 xl:gap-6">
           <a
             className="md:order-1 relative focus:outline-none before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500 dark:rounded-xl"
-            href="/sign-in"
+            href="/sign-up"
           >
             <div className="relative overflow-hidden size-full rounded-xl">
               <div className="p-6 flex flex-col justify-center items-center md:min-h-[480px] text-center rounded-xl dark:border-neutral-700">

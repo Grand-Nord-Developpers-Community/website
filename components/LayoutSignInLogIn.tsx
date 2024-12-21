@@ -25,9 +25,9 @@ function LayoutSignInLogIn({
           <div className="max-w-xl lg:max-w-3xl">
             <div className="absolute top-5 left-5 z-20 flex items-center text-lg font-medium  max-lg:block">
               <span className="sr-only">GNDC</span>
-              <Link href={"/"}>
+              <a href={"/"}>
                 <Image loading="lazy" src={Logo} alt="logo GNDC" width={150} />
-              </Link>
+              </a>
             </div>
             {children}
             <p className="px-8 text-center text-sm text-muted-foreground mt-5">
@@ -53,7 +53,7 @@ function LayoutSignInLogIn({
       {/*
        <div className="container px-5 flex max-lg:mx-auto relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          href="/sign-in"
+          href="/sign-up"
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "absolute right-4 top-4 md:right-8 md:top-8 max-lg:hidden"

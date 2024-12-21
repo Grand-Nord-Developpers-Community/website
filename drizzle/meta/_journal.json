@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1732948935356,
+      "tag": "0000_uneven_wallow",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1733098720878,
+      "tag": "0001_steep_omega_flight",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1733154323269,
+      "tag": "0002_special_mad_thinker",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1733265265238,
+      "tag": "0003_productive_marten_broadcloak",
+      "breakpoints": true
+    }
+  ]
+}

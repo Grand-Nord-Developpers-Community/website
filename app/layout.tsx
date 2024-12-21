@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/sections/common";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
 import "prismjs/themes/prism.css";
@@ -10,7 +9,8 @@ export const metadata: Metadata = {
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
-
+import { Toaster } from "@/components/ui/sonner";
+import HeaderWrapper from "@/components/header-wrapper";
 //import { Montserrat } from "next/font/google";
 //const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -62,22 +62,34 @@ const montserra = localFont({
   ],
 });
 
+import { auth } from "@/auth";
+import { updateUserStreak } from "@/actions/user.actions";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider'
+export const dynamic = 'force-dynamic';
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  /*const session = await auth();
+  if (session) {
+    updateUserStreak(session.user?.id!);
+  }*/
   return (
     <html lang="fr">
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
-        <Header />
-             <main className="w-full min-h-screen overflow-x-hidden">
-                {children}
-             </main>
+        <HeaderWrapper />
+        <main className="w-full min-h-screen overflow-x-clip">
+          <ConfirmDialogProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+          </ConfirmDialogProvider>
+        </main>
         <Footer />
         <BackToTop />
+        <Toaster />
       </body>
     </html>
   );

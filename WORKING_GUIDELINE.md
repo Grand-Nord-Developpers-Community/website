@@ -1,7 +1,11 @@
 # Repartition des tâches.
 
+`npm i --save-dev @types/bcryptjs
+npm i @auth/drizzle-adapter uuid
+`
 
 ## 26 Septembre 2024.
+
 Nous allons commencer le travail avec la Landing Page et étant repartie en plusieurs sections, chacun aura une section spécifique à traiter.
 
 ### Directives de travail
@@ -14,14 +18,17 @@ Nous allons commencer le travail avec la Landing Page et étant repartie en plus
 - Travail à finir urgemment maximum le Mardi 1er Octobre 2024, Merci de respecter le delais SVPPPP !!!
 
 ### Répartitions du 26 Septembre 2024.
-* NavBar + Hero Section: Yameni Gabin
-* Nos sponsors et Publications : Gongmoga Stéphane
-* Activités et évenements + Bannière et nos leaders: Oumarou Sanda Souley
-* A propos et Footer: Fotsing Soh Wilfred
+
+- NavBar + Hero Section: Yameni Gabin
+- Nos sponsors et Publications : Gongmoga Stéphane
+- Activités et évenements + Bannière et nos leaders: Oumarou Sanda Souley
+- A propos et Footer: Fotsing Soh Wilfred
 
 ### Répartitions du 27 Septembre 2024.
-* Login and Singup pages: Mohammed El Bachir
-PS: 
-- Tu dois innover pour la signup page et le responsive design.
-- Tu vas aussi créer les routes adéquates pour ça dans le dossier `app`
-- Travail à remettre au maximum Lundi le 30 Septembre.
+
+- Login and Singup pages: Mohammed El Bachir
+  PS:
+
+* Tu dois innover pour la signup page et le responsive design.
+* Tu vas aussi créer les routes adéquates pour ça dans le dossier `app`
+* Travail à remettre au maximum Lundi le 30 Septembre.
