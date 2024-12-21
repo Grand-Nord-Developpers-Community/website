@@ -107,7 +107,7 @@ const BlogFormContext: React.FC<{
     try {
       const imageDataURL = await handleImageUpload();
       const v = { ...data, preview: imageDataURL };
-      toast.message(JSON.stringify(v));
+      //toast.message(JSON.stringify(v));
       const res = await createBlogPost({ ...v, authorId: userId });
       if (res.success) {
         form.reset();

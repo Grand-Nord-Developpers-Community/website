@@ -1,44 +1,44 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Trophy } from 'lucide-react'
-
-interface TopUser {
-  name: string
-  avatar: string
-  points: number
-  joinDate: string
-}
-
-export function UserRanking({ users }: { users: TopUser[] }) {
+import Image from "next/image";
+import Link from "next/link";
+import { Trophy } from "lucide-react";
+import { getUsersListByRank } from "@/actions/user.actions";
+import { formatRelativeTime } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card"
+export async function UserRanking() {
+  const users = await getUsersListByRank();
   return (
-    <div className="space-y-4">
-      <h2 className="font-semibold">Top Users of the Week</h2>
+    <Card className="space-y-4 my-4 p-4">
+      <h2 className="font-bold text-lg">Top Utilisateur</h2>
       <div className="space-y-4">
-        {users.map((user, index) => (
+        {users&&users.slice(0,5).map((user, index) => (
           <div key={user.name} className="flex items-center gap-3">
-            <Link href={`/users/${user.name}`}>
-              <Image
-                src={user.avatar}
-                alt={user.name}
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
+            <Link href={`#`}>
+              <Avatar>
+                <AvatarImage src={user.image || ""} alt="Author avatar" />
+                <AvatarFallback>
+                  {user.name?.slice(0, 2)?.toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
             </Link>
             <div className="flex-1 min-w-0">
-              <Link href={`/users/${user.name}`} className="font-medium hover:text-blue-600">
+              <Link href={`#`} className="font-medium hover:text-blue-600 line-clamp-1">
                 {user.name}
               </Link>
-              <p className="text-sm text-muted-foreground">Since {user.joinDate}</p>
+              <p className="text-sm text-muted-foreground">
+                Rejoint {formatRelativeTime(new Date(user.createdAt))}
+              </p>
             </div>
             <div className="flex items-center gap-1 text-amber-500">
               <Trophy className="h-4 w-4" />
-              {user.points}
+              {user.experiencePoints}
             </div>
           </div>
         ))}
+        {!users&&<div className="bg-gray-100 h-40 flex items-center justify-center rounded">
+                  <p className="text-gray-500">Erreur chargement ...</p>
+                </div>}
       </div>
-    </div>
-  )
+    </Card>
+  );
 }
-

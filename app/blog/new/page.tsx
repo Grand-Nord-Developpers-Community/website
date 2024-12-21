@@ -2,25 +2,29 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Editor, EditorRef } from "@/components/editor";
 import { Content } from "@tiptap/react";
-import { cn } from "@/lib/utils";
 import { useFormContext } from "@/providers/BlogFormContext";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
 export default function Home() {
-  const editorRef = useRef<EditorRef>();
   const [editorValue, setEditorValue] = useState<Content>("");
+  const editorRef = useRef<EditorRef>();
   const { form, loading, success } = useFormContext();
   const { setValue } = form;
   useEffect(() => {
     if (!loading && success) {
+      //@ts-ignore
+      const editor = editorRef?.current.getEditor();
       setValue("content", "", { shouldValidate: true });
       setEditorValue("");
+        setTimeout(() => {
+          console.log('==Clearing editor==')
+          editor.commands.clearContent()
+          console.log('Success: Editor cleared')
+        }, 1000)
+
+        setTimeout(() => {
+          console.log('==Resetting editor==')
+          editor.commands.setContent('')
+          console.log('Success: Editor reset')
+        }, 2000)
     }
   }, [loading, success]);
   return (
@@ -42,6 +46,7 @@ export default function Home() {
                 "py-6 px-8 prose prose-base prose-blue prose-headings:scroll-mt-[80px] dark:prose-invert",
             },
           }}
+
           onUpdate={({ editor }) => {
             const html = !editor.isEmpty ? editor.getHTML() : "";
             setEditorValue(html);

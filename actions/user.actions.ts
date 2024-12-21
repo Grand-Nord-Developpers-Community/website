@@ -5,7 +5,7 @@ import { user } from "@/lib/schema";
 import { LoginSchema } from "@/schemas/login-schema";
 import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, desc } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -175,6 +175,11 @@ export async function updateUserRole(
   revalidatePath("/admin/users");
 }
 
+export async function getUserSession() {
+  const session = await auth();
+  return session?.user?.name ? session : undefined
+}
+
 export async function getUserProfileUserAuth() {
   try {
     const session = await auth();
@@ -240,6 +245,27 @@ export async function getUserProfile(userId: string) {
   }
 
   return profile;
+}
+
+export async function getUsersListByRank() {
+  try {
+    const users = await db.query.user.findMany({
+      orderBy: [desc(user.experiencePoints)],
+      columns: {
+        image: true,
+        name: true,
+        email: true,
+        experiencePoints: true,
+        createdAt: true
+      },
+    });
+    return users;
+  } catch (e) {
+    console.log("Error : " + e)
+    return undefined
+  }
+
+
 }
 
 export async function getUserProfileImage(userId: string) {

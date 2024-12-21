@@ -1,4 +1,5 @@
 import User from "@/interfaces/user";
+import {type Blog} from "@/lib/schema"
 
 export default interface Publication {
   featured_image: {
@@ -14,4 +15,13 @@ export default interface Publication {
   summary?: string;
 
   published_by: Pick<User, "name" | "profile_image" | "role">;
+}
+
+export interface BlogType extends Blog {
+  // Add any custom props you'd like here
+  author:{
+    email:string,
+    name:string,
+    image:string
+  }
 }

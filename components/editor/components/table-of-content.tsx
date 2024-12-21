@@ -13,7 +13,7 @@ const TableOfContent = ({
 }: TableOfContentProps) => {
   return (
     <>
-      <div className='text-lg mb-2 font-bold'>On this page</div>
+      <div className='text-lg mb-2 font-bold'>Dans cette page</div>
       <ul className=''>
         {items.map((item) => (
           <li key={item.id} className=''>

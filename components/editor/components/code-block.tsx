@@ -87,38 +87,96 @@ const CodeBlock = ({
 
 
 export default CodeBlock;*/
-import './CodeBlockComponent.scss'
+"use client"
+import "./CodeBlockComponent.scss";
+import { cn } from "@/lib/utils";
+import { NodeViewContent, NodeViewWrapper, NodeViewProps } from "@tiptap/react";
 
-import { NodeViewContent, NodeViewWrapper } from '@tiptap/react'
-import React,{useState} from 'react'
-import { Icon } from '../ui/icon';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '../ui/dropdown-menu';
+import React, { useState, useCallback, useEffect } from "react";
+import { Icon } from "../ui/icon";
 //@ts-ignore
-export default function CodeBlock ({ node: { attrs: { language: defaultLanguage } }, updateAttributes, extension }) {
-  const [lang, setLang] = useState<string>("");
-  return <NodeViewWrapper className="code-block">
-    <select contentEditable={false} defaultValue={defaultLanguage} onChange={(event)=>{ updateAttributes({ language: event.target.value }); setLang(event.target.value)}} className='not-prose'>
-      <option value="null">
-        auto
-      </option>
-      <option disabled>
-        —
-      </option>
-      {extension.options.lowlight.listLanguages().map(
-        //@ts-ignore
-        (l, index) => (
-        <option key={index} value={l}>
-          {l}
-        </option>
-      ))}
-    </select>
-    <pre className='not-prose'>
-      <NodeViewContent as="code" className={`hljs language-${lang}`}/>
-    </pre>
-  </NodeViewWrapper>
+let copiedTimeout: any;
+export default function CodeBlock({
+  node: {
+    attrs: { language: defaultLanguage },
+    textContent,
+  },
+  updateAttributes,
+  extension,
+  editor,
+}: NodeViewProps) {
+  const [lang, setLang] = useState<string>(defaultLanguage);
+  const [copied, setCopied] = useState(false);
+  const [isEditable, setEditable] = useState(editor?.isEditable||false);
+
+  const onCopy = useCallback(() => {
+    setCopied(true);
+    navigator.clipboard.writeText(textContent);
+    copiedTimeout = setTimeout(() => {
+      setCopied(false);
+    }, 2500);
+  }, [textContent]);
+
+  useEffect(() => {
+    
+    return () => {
+      clearTimeout(copiedTimeout);
+    };
+  }, []);
+
+  useEffect(() =>{
+    setEditable(editor?.isEditable)
+  },[editor.isEditable])
+  return (
+    <NodeViewWrapper className="relative code-block">
+      <div
+        className="absolute top-2 right-4 h-8 flex items-center transition-all"
+        contentEditable={false}
+      >
+        {isEditable && (
+          <>
+            <select
+              contentEditable={false}
+              defaultValue={defaultLanguage}
+              onChange={(event) => {
+                updateAttributes({ language: event.target.value });
+                setLang(event.target.value);
+              }}
+              className={cn("not-prose")}
+            >
+              <option value="null">auto</option>
+              <option disabled>—</option>
+              {extension.options.lowlight.listLanguages().map(
+                //@ts-ignore
+                (l, index) => (
+                  <option key={index} value={l}>
+                    {l}
+                  </option>
+                ),
+              )}
+            </select>
+          </>
+        )}
+        {!isEditable && (
+          <>
+            <span>{lang}</span>
+            <button
+            className="aspect-square h-full rounded hover:bg-slate-800 text-slate-400 transition-all flex items-center justify-center"
+            disabled={copied}
+            onClick={onCopy}
+          >
+            {copied ? (
+              <Icon name="CheckCheck" className="size-4 text-green-700"></Icon>
+            ) : (
+              <Icon name="Copy" className="size-4"></Icon>
+            )}
+          </button>
+          </>
+        )}
+      </div>
+      <pre className="not-prose">
+        <NodeViewContent as="code" className={`hljs language-${lang}`} />
+      </pre>
+    </NodeViewWrapper>
+  );
 }

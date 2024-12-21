@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { motion } from "framer-motion";
+//import { motion } from "framer-motion";
 
 export interface Stat {
   title: string;
@@ -14,15 +14,15 @@ export interface Stat {
 }
 
 interface StatsWidgetProps {
-  isLoading: boolean;
+  isLoading?: boolean;
   item: Stat;
 }
 
-export default function StatsWidget({ isLoading, item }: StatsWidgetProps) {
+export default function StatsWidget({ isLoading=false, item }: StatsWidgetProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
+      //initial={{ opacity: 0, y: 20 }}
+      //animate={{ opacity: 1, y: 0 }}
       //transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Card
@@ -42,24 +42,24 @@ export default function StatsWidget({ isLoading, item }: StatsWidgetProps) {
           {isLoading ? (
             <Skeleton className="h-8 w-[100px]" />
           ) : (
-            <motion.div
+            <div
               className="flex items-baseline space-x-2"
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{
+              //initial={{ scale: 0.5, opacity: 0 }}
+              //animate={{ scale: 1, opacity: 1 }}
+              /*transition={{
                 type: "spring",
                 stiffness: 100,
                 //delay: 0.2 + index * 0.1,
-              }}
+              }}*/
             >
               <div className="text-3xl font-extrabold">{item.value}</div>
               {item.unit && (
                 <div className="text-sm text-muted-foreground">{item.unit}</div>
               )}
-            </motion.div>
+            </div>
           )}
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }

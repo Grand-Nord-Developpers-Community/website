@@ -21,6 +21,7 @@ import {
 import { cn } from '@/lib/utils'
 import { fileToBase64, getOutput, randomId } from '../utils'
 import { useThrottle } from '../hooks/use-throttle'
+import codeBlockComponentElement from "@/components/CodeBlockComponentElement" 
 import { toast } from 'sonner'
 
 export interface UseMinimalTiptapEditorProps extends UseEditorOptions {
@@ -47,7 +48,7 @@ const createExtensions = (placeholder: string) => [
   }),
   Link,
   Underline,
-  /*Image.configure({
+  Image.configure({
     allowedMimeTypes: ['image/*'],
     maxFileSize: 5 * 1024 * 1024,
     allowBase64: true,
@@ -117,7 +118,7 @@ const createExtensions = (placeholder: string) => [
         description: error.message
       })
     }
-  }),*/
+  }),
   FileHandler.configure({
     allowBase64: true,
     allowedMimeTypes: ['image/*'],
@@ -156,7 +157,7 @@ const createExtensions = (placeholder: string) => [
   UnsetAllMarks,
   HorizontalRule,
   ResetMarksOnEnter,
-  CodeBlockLowlight,
+  codeBlockComponentElement(),
   Placeholder.configure({ placeholder: () => placeholder })
 ]
 

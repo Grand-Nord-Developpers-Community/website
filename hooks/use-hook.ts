@@ -1,9 +1,10 @@
 import { fetcher } from "@/lib/utils";
-import useSWR,{preload} from "swr";
-import {type User,type Blog,type Forum} from "@/lib/schema"
-type imageProfile={image:string}
-export type Blogs={posts:Blog[]}
-export type Forums={forums:Forum[]}
+import useSWR, { preload } from "swr";
+import { type User, type Blog, type Forum } from "@/lib/schema"
+type imageProfile = { image: string }
+export type Blogs = { posts: Blog[] }
+export type Forums = { forums: Forum[] }
+import { BlogType } from "@/interfaces/publication"
 export function useUserProfile() {
   preload(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`, fetcher);
   const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`, fetcher, { suspense: true });
@@ -24,7 +25,16 @@ export function useUserProfileImage() {
   };
 }
 
-export function useUserGetListBlog(userId:string){
+export function useGetListBlog() {
+  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`, fetcher);
+  return {
+    data: data as BlogType[],
+    isLoading,
+    isError: data.error || error,
+  };
+}
+
+export function useUserGetListBlog(userId: string) {
   const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/blog`, fetcher);
   return {
     postList: data as Blogs,
@@ -33,7 +43,7 @@ export function useUserGetListBlog(userId:string){
   };
 }
 
-export function useUserGetListForum(userId:string){
+export function useUserGetListForum(userId: string) {
   const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/forum`, fetcher);
   return {
     forumList: data as Forums,

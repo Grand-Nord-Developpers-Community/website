@@ -9,27 +9,7 @@ import { EditorInstance } from '.';
 import { getToCItems, TocItem } from './lib/table-of-contents';
 
 import './styles/index.scss';
-
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import css from 'highlight.js/lib/languages/css'
-import js from 'highlight.js/lib/languages/javascript'
-import ts from 'highlight.js/lib/languages/typescript'
-import html from 'highlight.js/lib/languages/xml'
-// load all languages with "all" or common languages with "common"
-import { all, createLowlight } from 'lowlight'
-
-
-// eslint-disable-next-line
-import CodeBlockComponent from './components/code-block'
-
-// create a lowlight instance
-const lowlight = createLowlight(all)
-
-// you can also register individual languages
-lowlight.register('html', html)
-lowlight.register('css', css)
-lowlight.register('js', js)
-lowlight.register('ts', ts)
+import codeBlockComponentElement from "@/components/CodeBlockComponentElement" 
 
 
 export interface EditorProps extends Partial<EditorOptions> {
@@ -54,14 +34,7 @@ export const Editor = forwardRef<EditorRef, EditorProps>(
       contentClassName,
       footerClassName,
       extensions = [
-CodeBlockLowlight
-        .extend({
-          addNodeView() {
-            //@ts-ignore
-            return ReactNodeViewRenderer(CodeBlockComponent)
-          },
-        })
-        .configure({ lowlight })
+        codeBlockComponentElement()
       ],
       editable = true,
       editorProps,

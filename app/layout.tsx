@@ -65,6 +65,7 @@ const montserra = localFont({
 import { auth } from "@/auth";
 import { updateUserStreak } from "@/actions/user.actions";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider'
 export const dynamic = 'force-dynamic';
 export default function RootLayout({
   children,
@@ -82,7 +83,9 @@ export default function RootLayout({
       >
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip">
+          <ConfirmDialogProvider>
           <TooltipProvider>{children}</TooltipProvider>
+          </ConfirmDialogProvider>
         </main>
         <Footer />
         <BackToTop />

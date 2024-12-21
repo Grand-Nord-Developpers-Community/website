@@ -9,7 +9,7 @@ const relatedPosts = [
 
 export default function RelatedPosts() {
   return (
-    <div className="border rounded-lg p-6">
+    <div>
       <h3 className="text-xl font-semibold mb-4">Related Posts</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {relatedPosts.map((post) => (

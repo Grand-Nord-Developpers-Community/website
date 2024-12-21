@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import "./styles/index.css";
 
@@ -14,7 +15,6 @@ import { SectionFive } from "./components/section/five";
 import { LinkBubbleMenu } from "./components/bubble-menu/link-bubble-menu";
 import { useMinimalTiptapEditor } from "./hooks/use-minimal-tiptap";
 import { MeasuredContainer } from "./components/measured-container";
-import MenuButtonImage from '@/components/editor/controls/menu-button-image';
 export interface MinimalTiptapProps
   extends Omit<UseMinimalTiptapEditorProps, "onUpdate"> {
   value?: Content;
@@ -62,8 +62,6 @@ const Toolbar = ({ editor }: { editor: Editor }) => (
         activeActions={["codeBlock", "blockquote", "horizontalRule"]}
         mainActionCount={0}
       />
-      <MenuButtonImage editor={editor} />
-
     </div>
   </div>
 );
@@ -101,6 +99,41 @@ export const MinimalTiptapEditor = React.forwardRef<
     </MeasuredContainer>
   );
 });
+
+export const EditorRender = React.forwardRef<
+  HTMLDivElement,
+  MinimalTiptapProps
+>(({ value, onChange, className, editorContentClassName, ...props }, ref) => {
+  const editor = useMinimalTiptapEditor({
+    value,
+    onUpdate: onChange,
+    ...props,
+    immediatelyRender: true,
+  });
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <MeasuredContainer
+      as="div"
+      name="editor"
+      ref={ref}
+      className={cn(
+        "flex h-auto min-h-72 w-full flex-col border-input focus-within:border-primary",
+        className
+      )}
+    >
+      <EditorContent
+        editor={editor}
+        className={cn("minimal-tiptap-editor", editorContentClassName)}
+      />
+    </MeasuredContainer>
+  );
+});
+
+EditorRender.displayName = "EditorRender";
 
 MinimalTiptapEditor.displayName = "MinimalTiptapEditor";
 

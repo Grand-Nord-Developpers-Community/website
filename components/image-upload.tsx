@@ -2,15 +2,9 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Button, buttonVariants } from "./ui/button";
-import { Input } from "./ui/input";
 import { CloudUpload, X } from "lucide-react";
 import NImage from "next/image";
-import Link from "next/link";
 import { RadialProgress } from "@/components/ui/progress";
-import { uploadImageToCloudinary } from "@/lib/api";
-import { AxiosProgressEvent } from "axios";
-import { toast } from "sonner";
 import { encode } from "blurhash";
 import Compressor from "compressorjs";
 
@@ -92,26 +86,26 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
     try {
       // Fetch the Base64 placeholder
-      const buffer = await image.arrayBuffer();
-      const img = Buffer.from(buffer);
-      const fileURL = URL.createObjectURL(image);
-      const response = await fetch(`/api/get-placeholder`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileURL: img }),
-      });
+      // const buffer = await image.arrayBuffer();
+      // const img = Buffer.from(buffer);
 
-      const { base64 } = await response.json();
-      setHashImage(base64 as string);
-      if (onHashChange) onHashChange(base64 as string);
-      setSelectedImage(image ? fileURL : null);
-      /*getImageBlurhash(image, 32, 32).then((hash) => {
-      setHashImage(hash as string);
-      if (onHashChange) 
-        onHashChange(hash as string);
-      setSelectedImage(image ? fileURL : null);
-      console.log(hash);
-     });*/
+      // const response = await fetch(`/api/get-placeholder`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ fileURL: img }),
+      // });
+
+      // const { base64 } = await response.json();
+      // setHashImage(base64 as string);
+      // if (onHashChange) onHashChange(base64 as string);
+      // setSelectedImage(image ? fileURL : null);
+      const fileURL = URL.createObjectURL(image);
+      getImageBlurhash(image, 32, 32).then((hash) => {
+        setHashImage(hash as string);
+        if (onHashChange) onHashChange(hash as string);
+        setSelectedImage(image ? fileURL : null);
+        //console.log(hash);
+      });
     } catch (e) {
       console.log("erreur " + e);
     }

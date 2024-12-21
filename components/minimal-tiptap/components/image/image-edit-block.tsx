@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react'
 import type { Editor } from '@tiptap/react'
 import { Button } from '@/components/ui/button'

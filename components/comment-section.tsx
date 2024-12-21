@@ -1,3 +1,4 @@
+"use client"
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -19,7 +20,7 @@ export default function CommentSection() {
   }
 
   return (
-    <div className="border rounded-lg p-6">
+    <div className="pt-4 border-border border-t mt-4">
       <h3 className="text-xl font-semibold mb-4">Comments</h3>
       <div className="space-y-4 mb-6">
         {comments.map((comment) => (

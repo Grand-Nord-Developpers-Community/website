@@ -10,6 +10,11 @@ const config: Config = {
     "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
+  variants: {
+    extend: {
+      padding: ['last'],
+    }
+  },
   theme: {
   	extend: {
   		colors: {
