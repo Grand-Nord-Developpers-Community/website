@@ -9,14 +9,7 @@ import { usePathname } from "next/navigation";
 import { logout } from "@/actions/user.actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import {
-  MenuIcon,
-  User,
-  LayoutDashboard,
-  UserCircle,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -36,7 +29,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 const Links = [
   { name: "Nos activités", link: "/events" },
@@ -45,8 +37,6 @@ const Links = [
   { name: "Formation", link: "/formation" },
   { name: "Contact", link: "/contact" },
 ];
-import LogoutButton from "@/components/logout-button";
-import { useUserProfileImage } from "@/hooks/use-hook";
 function Header({ user }: { user: any }) {
   const pathname = usePathname();
   const [scrollProgress, setScrollProgress] = useState(0);

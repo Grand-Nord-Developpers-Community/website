@@ -8,7 +8,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EditorRender } from "@/components/minimal-tiptap";
 import {formatRelativeTime} from "@/lib/utils"
 export default async function QuestionCard() {
-  const questions=await getForumPosts()
+  let questions=undefined
+  try{
+   questions=await getForumPosts()
+  }catch(e){
+    console.log(e)
+  }
   return (
     <>
       {questions&&questions.length===0&&<>

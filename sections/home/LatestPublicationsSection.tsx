@@ -1,6 +1,5 @@
 "use client";
 import { FC } from "react";
-import { usePublication } from "@/hooks/publication";
 import { PublicationCard } from "@/components/cards";
 import Publication, { BlogType } from "@/interfaces/publication";
 import { Button } from "@/components/ui/button-more";
@@ -9,7 +8,6 @@ import { ArrowRightIcon } from "lucide-react";
 import VoidImage from "@/assets/svgs/undraw_void_-3-ggu.svg";
 import { useGetListBlog } from "@/hooks/use-hook";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
 const LatestPublicationsSection: FC = () => {
   //const publications = usePublication({ limit: 3 });
   const { data: publications, isLoading, isError } = useGetListBlog();
