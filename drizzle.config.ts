@@ -4,6 +4,6 @@ export default defineConfig({
   schema: "./lib/schema.ts",
   out: "./drizzle",
   dbCredentials: {
-    url: process.env.DB_URL!||"postgresql://postgres.yzbnqnrwsximakxfdqhi:8HDNqBzIUvAbudYo@aws-0-eu-central-1.pooler.supabase.com:6543/postgres"//to be fix
+    url: process.env.DB_URL||"postgresql://postgres.yzbnqnrwsximakxfdqhi:8HDNqBzIUvAbudYo@aws-0-eu-central-1.pooler.supabase.com:6543/postgres"//to be fix
   },
 })
