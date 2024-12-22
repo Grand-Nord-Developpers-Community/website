@@ -30,7 +30,7 @@ export function useGetListBlog() {
   return {
     data: data as BlogType[],
     isLoading,
-    isError: data.error || error,
+    isError: error,
   };
 }
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { LoaderIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { LogIn, UserPlus } from "lucide-react";
 import { z } from "zod";
-import { MinimalTiptapEditor } from "./minimal-tiptap";
+//import { MinimalTiptapEditor } from "./minimal-tiptap";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,9 +35,19 @@ import type { Editor } from "@tiptap/react";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const MinimalTiptapEditor = dynamic(
+  () =>
+    import("./minimal-tiptap/minimal-tiptap").then((module) => module.default),
+  {
+    ssr: false,
+  }
+);
 interface Props {
   onSucessCallBack?: () => void;
 }
+
 export default function ForumPostComponent({ onSucessCallBack }: Props) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -84,6 +94,17 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
       setOpen(true);
     }
   };
+
+  const handleCreate = useCallback(
+    ({ editor }: { editor: Editor }) => {
+      if (form.getValues("content") && editor.isEmpty) {
+        editor.commands.setContent(form.getValues("content"));
+      }
+      editorRef.current = editor;
+    },
+    [form]
+  );
+
   function handleLogin() {
     setOpen(false);
     router.push("/login");
@@ -135,8 +156,6 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
                 <FormControl>
                   <MinimalTiptapEditor
                     {...field}
-                    //@ts-ignore
-                    ref={editorRef}
                     throttleDelay={0}
                     className={cn("h-full min-h-56 w-full rounded-xl", {
                       "border-destructive focus-within:border-destructive":
@@ -146,7 +165,7 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
                     output="html"
                     placeholder="Saisir votre question ..."
                     editable={!loading}
-                    //onCreate={handleCreate}
+                    onCreate={handleCreate}
                     injectCSS={true}
                     immediatelyRender={true}
                     editorClassName="focus:outline-none px-5 py-4 h-full grow"
