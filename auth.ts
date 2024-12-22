@@ -93,7 +93,7 @@ export const authConfig: NextAuthConfig = {
       return defaultEncode(params);
     },
   },
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET||"2SuiqDKfMXBNYDTNf4c8ycJXI8PZh2fbajCvccyv64o=", //issue value seems to be undefined
   experimental: { enableWebAuthn: true },
 };
 export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);
