@@ -19,6 +19,7 @@ export const authConfig: NextAuthConfig = {
     signIn: '/login',
   },
   adapter,
+  secret: process.env.AUTH_SECRET,
   providers: [
     Github({
       clientId: process.env.GITHUB_ID!,
