@@ -19,7 +19,7 @@ export const authConfig: NextAuthConfig = {
     signIn: '/login',
   },
   adapter,
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.SECRET!,
   providers: [
     Github({
       clientId: process.env.GITHUB_ID!,
@@ -93,7 +93,6 @@ export const authConfig: NextAuthConfig = {
       return defaultEncode(params);
     },
   },
-  secret: process.env.AUTH_SECRET!,
   experimental: { enableWebAuthn: true },
 };
 
