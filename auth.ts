@@ -19,7 +19,6 @@ export const authConfig: NextAuthConfig = {
     signIn: '/login',
   },
   adapter,
-  secret: process.env.SECRET!,
   providers: [
     Github({
       clientId: process.env.GITHUB_ID!,
@@ -50,6 +49,7 @@ export const authConfig: NextAuthConfig = {
     }),
     //Passkey,
   ],
+  secret: process.env.SECRET!,
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
