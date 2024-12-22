@@ -92,7 +92,7 @@ const LatestPublicationsSection: FC = () => {
 
         {
           //@ts-ignore
-          isError && !isLoading && (
+          !publications && !isLoading && (
             <div className="grid h-[300px] bg-red-200  w-full justify-center items-center mt-5">
               <span className="text-white text-xl text-bold ">
                 Erreur de chargement !!!

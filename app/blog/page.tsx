@@ -70,10 +70,9 @@ const BlogPage = () => {
         )}
 
         {
-          //@ts-ignore
-          isError && !isLoading && (
+          !blogs && !isLoading && (
             <>
-              <ErrorComponent message={isError as unknown as string} />
+              <ErrorComponent message={"Erreur de chargement !!"} />
             </>
           )
         }

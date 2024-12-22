@@ -53,14 +53,17 @@ export async function createBlogPost({
     slug,
     authorId,
   });
-  revalidatePath("/blog");
-  revalidatePath("/user/dashboard");
+
   if (!req) {
     return {
       success: false,
       message: "Un problème est survenue",
     };
   }
+
+  revalidatePath("/blog");
+  revalidatePath("/user/dashboard");
+  
   return {
     success: true,
     message: "votre blog a été publié avec sucèss !!",
@@ -68,22 +71,29 @@ export async function createBlogPost({
 }
 
 export async function getBlogPosts() {
-  return db.query.blogPost.findMany({
-    orderBy: [desc(blogPost.createdAt)],
-    with: {
-      author: {
-        columns: {
-          email: true,
-          name: true,
-          image: true,
+  try{
+    const posts = await db.query.blogPost.findMany({
+        orderBy: [desc(blogPost.createdAt)],
+        with: {
+          author: {
+            columns: {
+              email: true,
+              name: true,
+              image: true,
+            },
+          },
         },
-      },
-    },
-    columns: {
-      content: false,
-      id: false,
-    },
-  });
+        columns: {
+          content: false,
+          id: false,
+        },
+      });
+    return posts
+  }catch(e){
+    console.log(e)
+    throw('Error '+e)
+  }
+   
 }
 
 export async function getUserBlogPosts(userId: string) {
