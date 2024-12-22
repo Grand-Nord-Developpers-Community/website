@@ -6,8 +6,8 @@ export type Blogs = { posts: Blog[] }
 export type Forums = { forums: Forum[] }
 import { BlogType } from "@/interfaces/publication"
 export function useUserProfile() {
-  preload(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`, fetcher);
-  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`, fetcher, { suspense: true });
+  preload(`/api/user/profile`, fetcher);
+  const { data, error, isLoading } = useSWR(`/api/user/profile`, fetcher, { suspense: true });
   return {
     user: data as User,
     isLoading,
@@ -16,8 +16,8 @@ export function useUserProfile() {
 }
 
 export function useUserProfileImage() {
-  preload(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile/image`, fetcher);
-  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile/image`, fetcher);
+  preload(`/api/user/profile/image`, fetcher);
+  const { data, error, isLoading } = useSWR(`/api/user/profile/image`, fetcher);
   return {
     user: data as imageProfile,
     isLoading,
@@ -26,7 +26,7 @@ export function useUserProfileImage() {
 }
 
 export function useGetListBlog() {
-  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`, fetcher);
+  const { data, error, isLoading } = useSWR(`/api/blogs`, fetcher);
   return {
     data: data as BlogType[],
     isLoading,
@@ -35,7 +35,7 @@ export function useGetListBlog() {
 }
 
 export function useUserGetListBlog(userId: string) {
-  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/blog`, fetcher);
+  const { data, error, isLoading } = useSWR(`/api/user/${userId}/blog`, fetcher);
   return {
     postList: data as Blogs,
     isLoading,
@@ -44,7 +44,7 @@ export function useUserGetListBlog(userId: string) {
 }
 
 export function useUserGetListForum(userId: string) {
-  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}/forum`, fetcher);
+  const { data, error, isLoading } = useSWR(`/api/user/${userId}/forum`, fetcher);
   return {
     forumList: data as Forums,
     isLoading,
