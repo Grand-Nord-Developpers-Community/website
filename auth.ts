@@ -13,6 +13,8 @@ import { db } from "./lib/db";
 const adapter = DrizzleAdapter(db);
 
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
+  trustHostedDomain: true,
   pages: {
     error: "/error",
     signIn: '/login',
