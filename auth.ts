@@ -49,7 +49,7 @@ export const authConfig: NextAuthConfig = {
     }),
     //Passkey,
   ],
-  secret: process.env.SECRET!,
+  //secret: process.env.SECRET!,
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
@@ -95,5 +95,5 @@ export const authConfig: NextAuthConfig = {
   },
   experimental: { enableWebAuthn: true },
 };
-
+authConfig.secret=process.env.SECRET!
 export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);
