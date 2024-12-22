@@ -95,5 +95,4 @@ export const authConfig: NextAuthConfig = {
   },
   experimental: { enableWebAuthn: true },
 };
-authConfig.secret=process.env.SECRET!
 export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);
