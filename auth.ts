@@ -93,6 +93,7 @@ export const authConfig: NextAuthConfig = {
       return defaultEncode(params);
     },
   },
+  secret: process.env.AUTH_SECRET,
   experimental: { enableWebAuthn: true },
 };
 export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);
