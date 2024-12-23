@@ -145,10 +145,10 @@ export default async function QuestionPage({ params }: { params: any }) {
                   <Avatar>
                     <AvatarImage
                       src={user?.image || ""}
-                      alt="Your avatar"
+                      alt={user?.name||"Avatar"}
                     />
                     <AvatarFallback>
-                      {user.name?.slice(0, 2)?.toUpperCase()}
+                      {user?.name?.slice(0, 2)?.toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <span className="font-medium">{user?.name}</span>
