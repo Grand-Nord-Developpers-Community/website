@@ -93,7 +93,7 @@ export async function login({
 export async function loginWithGithub() {
   await signIn("github", {
     redirect: true,
-    redirectTo: `https://gndc-website.onrender.com/user/dashboard`,//to be fixed!
+    redirectTo: `http://localhost:1000/user/dashboard`,//to be fixed!
   });
 }
 // export async function loginWithFacebook() {

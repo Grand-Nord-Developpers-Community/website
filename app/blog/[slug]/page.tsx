@@ -74,7 +74,7 @@ export default async function Page({ params }: { params: any }) {
                 </div>*/}
               </div>
             </div>
-            <div className="relative bg-gray-300 aspect-[5/3] max-md:absolute max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2 max-md:translate-y-1/2  max-md:w-[95%] max-md:h-[250px]  h-[400px] rounded-xl overflow-hidden flex items-center justify-center text-white">
+            <div className="relative bg-gray-300 aspect-[4/3] max-md:absolute max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2 max-md:translate-y-1/2  max-md:w-[95%] max-md:h-[250px]  h-[400px] rounded-xl overflow-hidden flex items-center justify-center text-white">
               <ImageWrapper
                 className="w-full object-cover h-full object-top "
                 src={post.preview}

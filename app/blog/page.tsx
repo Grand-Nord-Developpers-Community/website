@@ -31,7 +31,7 @@ const BlogPage = () => {
 
       <div className="screen-wrapper my-10 ">
         {!isLoading && blogs && blogs.length > 0 && (
-          <div className="flex flex-wrap gap-3 justify-center last:self-start">
+          <div className="flex flex-wrap gap-3 justify-start">
             {blogs?.map((blog, i) => (
               <CardBlog {...blog} key={i} />
             ))}

@@ -160,7 +160,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
                   onUpdateToC={(items) => setTocItems(items)}
                   editorProps={{
                     attributes: {
-                      class: "prose lg:prose-lg prose-blue dark:prose-invert",
+                      class: "prose lg:prose-lg prose-blue dark:prose-invert w-full",
                     },
                   }}
                 />

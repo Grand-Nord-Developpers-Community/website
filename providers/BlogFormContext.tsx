@@ -116,7 +116,7 @@ const BlogFormContext: React.FC<{
         form.reset();
         setSuccess(true);
         toast.success(res.message);
-        mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`);
+        //mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`);
         mutate(`/api/blogs`);
       } else {
         if (!res.success && res.revalidate) {
