@@ -144,7 +144,7 @@ export default async function QuestionPage({ params }: { params: any }) {
                 <div className="flex items-center gap-4">
                   <Avatar>
                     <AvatarImage
-                      src={user.image || ""}
+                      src={user?.image || ""}
                       alt="Your avatar"
                     />
                     <AvatarFallback>
