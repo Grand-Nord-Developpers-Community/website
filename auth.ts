@@ -21,8 +21,8 @@ export const authConfig: NextAuthConfig = {
   adapter,
   providers: [
     Github({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
+      clientId: process.env.GITHUB_ID||"Ov23liA3cXxkqrq4h3HJ",
+      clientSecret: process.env.GITHUB_SECRET||"1d819c6deb8e44645d9a9d257557f640d1e3603e",
     }),
     // Facebook({
     //   clientId: process.env.FACEBOOK_ID!,
