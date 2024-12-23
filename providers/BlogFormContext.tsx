@@ -33,8 +33,10 @@ export const useFormContext = () => {
   return context;
 };
 
-const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+//TO BE FIX
+
+const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY||"126785599786519";
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET||"gndc-image-blog";
 
 // Layout Component
 const BlogFormContext: React.FC<{
