@@ -14,7 +14,6 @@ import {toast} from "sonner"
 import { useConfirm } from '@omit/react-confirm-dialog'
 import { deleteBlog } from "@/actions/blog.actions";
 import { deleteForum } from "@/actions/forum.actions";
-import { useSWRConfig } from "swr";
 const Dashboard = ({
   userId,
   isCompletedProfile,
@@ -185,7 +184,7 @@ confirm.updateConfig((prev) => ({
             ("use server");
             const res = await updateUserProfileCompletionState(userId);
           }
-          mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`);
+          mutate("/api/user/profile",true);
         } catch (e) {
           console.log(e);
         }
