@@ -17,5 +17,4 @@ export const blogPublishSchema = z.object({
   content: z
     .string()
     .min(300, "Le contenu du blog doit contenir au moins 300 caractères.")
-    .max(2000, "Pour le SEO, le contenu ne doit pas dépasser 2000 caractères."),
 });
