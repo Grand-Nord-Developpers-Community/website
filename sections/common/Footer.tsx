@@ -160,7 +160,8 @@ function Footer() {
         {/* Copyright and Social Icons */}
         <div className="mt-8 pt-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-600">
-            © Grand Nord Developers Community - 2024. Tous droits réservés
+            © Grand Nord Developers Community - {new Date().getFullYear()}. Tous
+            droits réservés
           </p>
           <div className="flex items-center gap-4 md:mt-0 max-sm:gap-2 max-sm:mt-4">
             <Link href="#" className="text-gray-600">
