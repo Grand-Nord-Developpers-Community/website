@@ -14,6 +14,7 @@ import {toast} from "sonner"
 import { useConfirm } from '@omit/react-confirm-dialog'
 import { deleteBlog } from "@/actions/blog.actions";
 import { deleteForum } from "@/actions/forum.actions";
+import { useSWRConfig } from "swr";
 const Dashboard = ({
   userId,
   isCompletedProfile,
@@ -106,6 +107,7 @@ confirm.updateConfig((prev) => ({
           try{
             const res= await deleteBlog(id)
             if(res.sucess){
+              mutate("/api/blogs",true);
               onConfirm()
               toast.success(res.message)
             }
