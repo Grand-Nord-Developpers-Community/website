@@ -152,7 +152,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
 
             {/* Article Content */}
             <div className="flex-grow">
-              <article ref={contentRef}>
+              <article ref={contentRef} className="w-full">
                 <Editor
                   ref={editorRef}
                   editable={false}
