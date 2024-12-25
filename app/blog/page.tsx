@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import EmptyBlog from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
 import ErrorComponent from "@/components/errorComponent";
 import Link from "next/link";
+export const revalidate=0;
 const BlogPage = () => {
   const { data: blogs, isLoading, isError } = useGetListBlog();
   return (
