@@ -3,7 +3,6 @@ import HeadingPage from "@/sections/common/HeadingPage";
 import BlogList from "./blogList"
 import { NewspaperIcon } from "lucide-react";
 export const revalidate = 0;
-export const dynamic = 'force-dynamic';
 const BlogPage = () => {
   //const { data: blogs, isLoading, isError } = useGetListBlog();
   return (
