@@ -156,6 +156,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
                 <Editor
                   ref={editorRef}
                   editable={false}
+                  disableEditor={true}
                   content={post?.content || ""}
                   onUpdateToC={(items) => setTocItems(items)}
                   editorProps={{
