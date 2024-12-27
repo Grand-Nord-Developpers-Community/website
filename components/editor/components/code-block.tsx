@@ -124,11 +124,11 @@ export default function CodeBlock({
     };
   }, []);
 
-  useEffect(() =>{
+  /*useEffect(() =>{
     setEditable(editor?.isEditable)
-  },[editor.isEditable])
+  },[editor.isEditable])*/
   return (
-    <NodeViewWrapper className="relative code-block">
+    <NodeViewWrapper className="relative code-block w-full">
       <div
         className="absolute top-2 right-4 h-8 flex items-center transition-all"
         contentEditable={false}
@@ -174,7 +174,7 @@ export default function CodeBlock({
           </>
         )}
       </div>
-      <pre className="not-prose">
+      <pre className="not-prose w-full overflow-x-scroll">
         <NodeViewContent as="code" className={`hljs language-${lang}`} />
       </pre>
     </NodeViewWrapper>

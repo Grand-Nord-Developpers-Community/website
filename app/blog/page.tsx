@@ -2,7 +2,7 @@ import React from "react";
 import HeadingPage from "@/sections/common/HeadingPage";
 import BlogList from "@/components/blogList"
 import { NewspaperIcon } from "lucide-react";
-export const revalidate = 0;
+//export const revalidate = 0;
 export const dynamic='force-dynamic';
 const BlogPage = () => {
   //const { data: blogs, isLoading, isError } = useGetListBlog();
