@@ -21,7 +21,7 @@ import cpp from "highlight.js/lib/languages/cpp";
 import { all, createLowlight } from "lowlight";
 
 // eslint-disable-next-line
-import CodeBlockComponent from "./editor/components/code-block";
+import CodeBlockComponent from "./components/code-block";
 
 // create a lowlight instance
 const lowlight = createLowlight(all);
