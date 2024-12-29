@@ -91,9 +91,7 @@ export async function login({
 }
 
 export async function loginWithGithub() {
-  await signIn("github", {
-    redirectTo: `/user/dashboard`,//to be fixed!
-  });
+  await signIn("github");
 }
 // export async function loginWithFacebook() {
 //   await signIn("facebook", {
