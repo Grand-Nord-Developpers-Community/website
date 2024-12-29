@@ -10,7 +10,6 @@ import { getToCItems, TocItem } from './lib/table-of-contents';
 
 import './styles/index.scss';
 
-import { ReactNodeViewRenderer } from '@tiptap/react';
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import css from "highlight.js/lib/languages/css";
 import js from "highlight.js/lib/languages/javascript";
