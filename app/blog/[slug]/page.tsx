@@ -25,10 +25,10 @@ export default async function Page({ params }: { params: any }) {
                 Business
               </span>*/}
               <span className="text-gray-400"><Link href="..">&larr; Retour au publication</Link></span>
-              <h1 className="max-md:w-full text-4xl md:text-5xl font-bold tracking-tight text-secondary">
+              <h1 className="max-md:w-full text-4xl max-sm:text-2xl md:text-5xl font-bold tracking-tight text-secondary">
                 {post.title}
               </h1>
-              <p className="text-lg text-gray-100">{post.description}</p>
+              <p className="text-lg text-gray-100 max-sm:text-base">{post.description}</p>
               <div className="flex items-center space-x-6">
                 <div className="flex items-center space-x-3">
                   <Avatar className="h-10 w-10">
