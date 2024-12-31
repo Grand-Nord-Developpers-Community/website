@@ -25,9 +25,9 @@ function LayoutSignInLogIn({
           <div className="max-w-xl lg:max-w-3xl">
             <div className="absolute top-5 left-5 z-20 flex items-center text-lg font-medium  max-lg:block">
               <span className="sr-only">GNDC</span>
-              <Link href={"/"}>
+              <a href={"/"}>
                 <Image loading="lazy" src={Logo} alt="logo GNDC" width={150} />
-              </Link>
+              </a>
             </div>
             {children}
             <p className="px-8 text-center text-sm text-muted-foreground mt-5">

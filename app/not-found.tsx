@@ -1,9 +1,15 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "GNDC | Notfound",
+  description:
+    "GNDC | La page que vous essayez de chercher n'est pas disponible !!! ",
+};
 function NotFoundPage() {
   return (
-    <section className="">
+    <section className="w-full">
       <div className="screen-wrapper">
         <div className="w-full flex-col justify-start items-center lg:gap-16 gap-10 inline-flex pt-12 pb-12">
           <div className="w-full">
@@ -83,7 +89,7 @@ function NotFoundPage() {
                 <p className="text-sm text-gray-500 my-5">
                   Nous travaillons à le rétablir.
                 </p>
-                <Button asChild>
+                <Button asChild variant="secondary">
                   <Link href="/">Retour à l&apos;accueil</Link>
                 </Button>
               </div>

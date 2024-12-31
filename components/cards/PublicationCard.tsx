@@ -13,11 +13,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
-import Publication from "@/interfaces/publication";
+import {BlogType} from "@/interfaces/publication";
 import clsx from "clsx";
+import ImageWrapper from "../imageWrapper";
 
 type PublicationCardProps = {
-  publication: Omit<Publication, "created_at">;
+  publication:BlogType;
   hasImage?: boolean;
   hasFooter?: boolean;
   showSummary?: boolean;
@@ -25,14 +26,7 @@ type PublicationCardProps = {
 };
 
 const LatestPublicationCard: FC<PublicationCardProps> = ({
-  publication: {
-    summary,
-    published_by,
-    title,
-    updated_at,
-    featured_image,
-    tags,
-  },
+  publication,
   hasImage,
   hasFooter,
   showSummary,
@@ -42,23 +36,14 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
     <Card className={cardClassName}>
       {hasImage && (
         <figure className="overflow-hidden aspect-video w-full h-[300px] max-sm:h-[200px] rounded-xl">
-          {featured_image?.src ? (
-            <Image
-              loading="lazy"
-              src={featured_image.src}
-              alt={featured_image.title || title}
-              width={featured_image.width}
-              height={featured_image.height}
-              className="w-full h-full object-cover "
-            />
-          ) : (
-            <div>
-              <ImageIcon
-                strokeWidth={1}
-                className="h-auto w-full bg-gray-200"
+            <ImageWrapper
+                className="w-full object-cover h-full object-top "
+                src={publication.preview}
+                hash={publication.previewHash}
+                width={1280}
+                height={680}
+                alt={publication.description}
               />
-            </div>
-          )}
         </figure>
       )}
 
@@ -68,35 +53,25 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         })}
       >
         <div className="flex gap-4 items-center justify-between text-sm pb-4 border-b border-gray-200">
-          <div className="flex gap-2 p-0">
-            <Avatar className="h-auto w-auto">
-              <AvatarImage asChild>
-                <Image
-                  loading="lazy"
-                  src={published_by.profile_image}
-                  alt={"profile image of: " + published_by.name}
-                />
-              </AvatarImage>
+          <div className="flex items-center gap-4 p-0">
+            <Avatar className="size-12">
+              <AvatarImage  src={publication.author.image}/>
               <AvatarFallback className="p-0">
-                <CircleUser strokeWidth={1.25} className="size-10" />
+                {publication.author.name.slice(0, 2)?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <div className="flex flex-col">
-              <span className="capitalize">{published_by.name}</span>
+            <div className="flex flex-col gap-1">
+              <span>{publication.author.name}</span>
               <span className="text-xs text-gray-500 font-light">
-                {published_by.role}
+                {new Date(publication.createdAt).toLocaleDateString("FR-fr", {
+                      dateStyle: "long",
+                    })}
               </span>
             </div>
           </div>
-
-          <span>
-            {Intl.DateTimeFormat(undefined, { dateStyle: "long" }).format(
-              updated_at
-            )}
-          </span>
         </div>
         <CardTitle>
-          <div className="flex gap-2 my-2">
+          {/*<div className="flex gap-2 my-2">
             {tags.map((t, i) => (
               <Link
                 key={i}
@@ -106,26 +81,26 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
                 {t}
               </Link>
             ))}
-          </div>
+          </div>*/}
           <Link
-            href={"/blog/this"}
-            className="text-xl max-sm:text-lg hover:underline hover:text-opacity-85 active:text-opacity-85"
+            href={`/blog/${publication.slug}`}
+            className="text-xl max-sm:text-lg hover:text-secondary hover:text-opacity-85 active:text-opacity-85"
           >
-            {title}
+            {publication.title}
           </Link>
         </CardTitle>
       </CardHeader>
 
       {showSummary && (
         <CardDescription className="py-4 ">
-          <span className="line-clamp-2">{summary}</span>
+          <span className="line-clamp-2">{publication.description}</span>
         </CardDescription>
       )}
 
       {hasFooter && (
         <CardFooter className="m-0 p-0 justify-between items-center">
           <Button asChild>
-            <Link href={"/blog/this"}> Read more &rsaquo;</Link>
+            <Link href={`/blog/${publication.slug}`}> Apprendre plus</Link>
           </Button>
         </CardFooter>
       )}

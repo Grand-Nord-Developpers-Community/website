@@ -2,19 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Button as ButtonX } from "@/components/ui/button-more";
-
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/brand/logo.png";
 import { usePathname } from "next/navigation";
-import {
-  MenuIcon,
-  User,
-  LayoutDashboard,
-  UserCircle,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { logout } from "@/actions/user.actions";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { MenuIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -25,23 +20,26 @@ import {
   SheetFooter,
   SheetClose,
 } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
   { name: "Forum", link: "/forum" },
   { name: "Formation", link: "/formation" },
+  { name: "Contact", link: "/contact" },
 ];
-
-function Header() {
+function Header({ user }: { user: any }) {
   const pathname = usePathname();
+<<<<<<< HEAD
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -49,6 +47,10 @@ function Header() {
     setIsLoggedIn(true); //changer la valeur à true pour user connecté
   }, []);
 
+=======
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const router = useRouter();
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
   const trackScrollProgress = () => {
     const winScroll = document.documentElement.scrollTop;
     const height =
@@ -64,10 +66,15 @@ function Header() {
       window.removeEventListener("scroll", trackScrollProgress);
     };
   }, []);
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
+  const onLogoutClick = async () => {
+    const response = await logout();
+    if (response.success) {
+      window.location.href = "/login";
+    } else {
+      toast(response.message);
+    }
   };
+<<<<<<< HEAD
 
   const UserMenu = () => (
     <DropdownMenu>
@@ -184,6 +191,12 @@ function Header() {
   );
 
   return !pathname.includes("login") && !pathname.includes("sign-up") ? (
+=======
+  return !pathname.includes("login") &&
+    !pathname.includes("sign-up") &&
+    !pathname.includes("/blog/new") &&
+    !pathname.includes("complete") ? (
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
     <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">
         <div>
@@ -200,11 +213,75 @@ function Header() {
               </Link>
             ))}
           </nav>
-          {isLoggedIn ? (
-            <UserMenu />
-          ) : (
+          {user && user.name && (
             <>
-              <Button className="text-white ml-5" asChild>
+              <Button variant="secondary" className="ml-5 text-white" asChild>
+                <Link href="/user/dashboard">Tableau de bord</Link>
+              </Button>
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
+                    <Avatar className="h-11 w-11">
+                      <AvatarImage src={user?.image ?? ""} alt="@GNDC" />
+                      <AvatarFallback className="uppercase">
+                        {user?.name.slice(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-56"
+                  align="end"
+                  forceMount
+                  sideOffset={10}
+                >
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {user?.name}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Link href="/user/dashboard">Tableau de bord</Link>
+                      {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/user/profil">Profil</Link>
+                      {/*<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>*/}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/user/setting">Paramètre</Link>
+                      {/*<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>*/}
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={onLogoutClick}>
+                    Se deconnecter
+                    {/*<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>*/}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          )}
+          {user && !user?.name && (
+            <>
+              <ButtonX className="" variant="ringHover" asChild>
+                <Link href="/account/complete">Completer</Link>
+              </ButtonX>
+            </>
+          )}
+          {!user && (
+            <>
+              <Button className="text-white ml-5" asChild variant="secondary">
                 <Link href="/login">Se connecter</Link>
               </Button>
               <ButtonX className="" variant="ringHover" asChild>
@@ -233,8 +310,8 @@ function Header() {
               ))}
             </nav>
             <Separator className="my-4 bg-gray-400" />
-            <SheetFooter className="gap-3">
-              {isLoggedIn ? (
+            <SheetFooter className="gap-3 max-sm:flex-col-reverse">
+              {user && user.name && (
                 <>
                   <SheetClose asChild>
                     <Button className="grow" asChild>
@@ -244,31 +321,43 @@ function Header() {
                   <SheetClose asChild>
                     <Button
                       variant="outline"
-                      className="w-full"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleLogout();
-                      }}
+                      className="w-full border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={onLogoutClick}
                     >
                       Se déconnecter
                     </Button>
                   </SheetClose>
                 </>
-              ) : (
+              )}
+              {user && !user.name && (
                 <>
                   <SheetClose asChild>
+<<<<<<< HEAD
                     <Button
                       className="grow border border-primary text-primary hover:bg-primary hover:text-white"
                       variant="outline"
                       asChild
                     >
                       <Link href="/sign-up">Créer un compte</Link>
+=======
+                    <ButtonX className="" variant="ringHover" asChild>
+                      <Link href="/account/complete">Completer</Link>
+                    </ButtonX>
+                  </SheetClose>
+                </>
+              )}
+              {!user && (
+                <>
+                  <SheetClose asChild>
+                    <Button className="text-white" variant="secondary" asChild>
+                      <Link href="/login">Se connecter</Link>
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Button className="text-white" asChild>
-                      <Link href="/login">Se connecter</Link>
-                    </Button>
+                    <ButtonX className="grow" variant="ringHover" asChild>
+                      <Link href="/sign-up">Créer un compte</Link>
+                    </ButtonX>
                   </SheetClose>
                 </>
               )}

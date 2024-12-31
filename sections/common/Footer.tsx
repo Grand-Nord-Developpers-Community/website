@@ -6,23 +6,26 @@ import Logo from "@/assets/images/brand/logo.png";
 import { Button } from "@/components/ui/button";
 import ContactSection from "@/components/ui/contact-session";
 import { Input } from "@/components/ui/input";
-import facebookIcon from "@/assets/images/social-icons/facebook.svg";
-import githubIcon from "@/assets/images/social-icons/github.svg";
-import xIcon from "@/assets/images/social-icons/x.svg";
-import linkedinIcon from "@/assets/images/social-icons/linkedIn.svg";
-import youtubeIcon from "@/assets/images/social-icons/youtube.svg";
+import FacebookIcon from "@/assets/images/social-icons/facebook.svg";
+import GithubIcon from "@/assets/images/social-icons/github.svg";
+import Xicon from "@/assets/images/social-icons/x.svg";
+import LinkedinIcon from "@/assets/images/social-icons/linkedIn.svg";
+import YoutubeIcon from "@/assets/images/social-icons/youtube.svg";
 import WhatsAppButton from "@/components/social-button/whatsAppbutton";
 import TelegramButton from "@/components/social-button/telegramButton";
 import DiscordButton from "@/components/social-button/discordButton";
-import TermsModal from "@/components/legal/CodeOfConductModal";
-import PrivacyModal from "@/components/legal/PrivacyModal";
-import CodeOfConductModal from "@/components/legal/TermsModal";
 import { usePathname } from "next/navigation";
-import { Lock, Users } from "lucide-react";
 
 function Footer() {
   const pathname = usePathname();
+<<<<<<< HEAD
   return !pathname.includes("login") && !pathname.includes("sign-up") ? (
+=======
+  return !pathname.includes("login") &&
+    !pathname.includes("sign-up") &&
+    !pathname.includes("/blog/new") &&
+    !pathname.includes("complete") ? (
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
     <footer className="bg-white pt-10 pb-4 border-t border-gray-200">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -128,7 +131,10 @@ function Footer() {
                 placeholder="Saisir votre adresse email"
                 className="flex-grow"
               />
-              <Button className="text-white" asChild>
+              <Button
+                className="text-white bg-secondary hover:bg-secondary/90"
+                asChild
+              >
                 <Link href="#">S&apos;inscrire</Link>
               </Button>
             </div>
@@ -158,48 +164,24 @@ function Footer() {
         {/* Copyright and Social Icons */}
         <div className="mt-8 pt-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-600">
-            © Grand Nord Developers Community - 2024. Tous droits réservés
+            © Grand Nord Developers Community - {new Date().getFullYear()}. Tous
+            droits réservés
           </p>
           <div className="flex items-center gap-4 md:mt-0 max-sm:gap-2 max-sm:mt-4">
             <Link href="#" className="text-gray-600">
-              <Image
-                loading="lazy"
-                src={youtubeIcon}
-                alt="youtube"
-                className="size-8 p-2 bg-gray-200"
-              />
+              <YoutubeIcon className="size-8 p-2 bg-gray-200" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image
-                loading="lazy"
-                src={xIcon}
-                alt="x"
-                className="size-8 p-2 bg-gray-200"
-              />
+              <Xicon className="size-8 p-2 bg-gray-200" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image
-                loading="lazy"
-                src={facebookIcon}
-                alt="Facebook"
-                className="size-8 p-2 bg-gray-200"
-              />
+              <FacebookIcon className="size-8 p-2 bg-gray-200" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image
-                loading="lazy"
-                src={linkedinIcon}
-                alt="LinkedIn"
-                className="size-8 p-2 bg-gray-200"
-              />
+              <LinkedinIcon className="size-8 p-2 bg-gray-200" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Image
-                loading="lazy"
-                src={githubIcon}
-                alt="GitHub"
-                className="size-8 p-2 bg-gray-200"
-              />
+              <GithubIcon className="size-8 p-2 bg-gray-200" />
             </Link>
           </div>
         </div>

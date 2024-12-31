@@ -1,6 +1,7 @@
 "use client";
 import { Metadata } from "next";
 import Link from "next/link";
+<<<<<<< HEAD
 import { UserAuthForm } from "@/components/user-auth-form";
 import { useRouter } from "next/navigation";
 import { useState, useActionState, useEffect } from "react";
@@ -12,6 +13,14 @@ import { SubmitButton } from "@/components/submit-button-form";
 //   title: "GNDC | Inscription",
 //   description: "Inscription dans la plus grande communauté Tech du Grand Nord",
 // };
+=======
+
+import SignIn from "@/components/signin-form";
+export const metadata: Metadata = {
+  title: "GNDC | Connexion",
+  description: "Inscription dans la plus grande communauté Tech du Grand Nord",
+};
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
 
 export default function AuthenticationPage() {
   const router = useRouter();
@@ -50,9 +59,13 @@ export default function AuthenticationPage() {
           Entrez vos informations
         </p>
       </div>
+<<<<<<< HEAD
       <UserAuthForm view="login" action={handleSubmit} defaultEmail={email}>
         <SubmitButton>Se connecter</SubmitButton>
       </UserAuthForm>
+=======
+      <SignIn/>
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
       <p className="max-lg:block mx-auto text-center mt-2">
         {" "}
         <Link

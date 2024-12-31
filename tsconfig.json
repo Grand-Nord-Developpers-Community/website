@@ -29,6 +29,10 @@
     "target": "ES2017"
   },
   "include": [
+<<<<<<< HEAD
+=======
+    "svgr.d.ts",
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",

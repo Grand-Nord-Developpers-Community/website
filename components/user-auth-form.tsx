@@ -10,9 +10,12 @@ import { GithubIcon, LoaderIcon } from "lucide-react";
 
 interface UserAuthFormProps {
   className?: string;
+<<<<<<< HEAD
   action: any;
   children: React.ReactNode;
   defaultEmail?: string;
+=======
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
   view: "sign-up" | "login";
 }
 

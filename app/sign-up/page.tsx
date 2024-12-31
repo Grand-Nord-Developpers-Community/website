@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -40,6 +41,13 @@ export default function AuthenticationPage() {
     formAction(formData);
   };
 
+=======
+import Link from "next/link";
+import SignUpForm from "@/components/signup-form";
+//import { UserAuthForm } from "@/components/user-auth-form";
+
+export default function AuthenticationPage() {
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
   return (
     <>
       <div className="flex flex-col space-y-2 text-center mb-2 mt-8">
@@ -48,9 +56,14 @@ export default function AuthenticationPage() {
           Entrez vos informations pour créer votre compte
         </p>
       </div>
+<<<<<<< HEAD
       <UserAuthForm view="sign-up" action={handleSubmit} defaultEmail={email}>
         <SubmitButton>Creez mon compte</SubmitButton>
       </UserAuthForm>
+=======
+      {/* <UserAuthForm view="sign-up" /> */}
+      <SignUpForm />
+>>>>>>> 6df20023aa48dd63e7e2c311d70542d107e348db
       <p className="max-lg:block mx-auto text-center mt-2">
         {" "}
         <Link
