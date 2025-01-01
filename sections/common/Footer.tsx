@@ -21,6 +21,7 @@ function Footer() {
   return !pathname.includes("login") &&
     !pathname.includes("sign-up") &&
     !pathname.includes("/blog/new") &&
+    !pathname.includes("/admin") &&
     !pathname.includes("complete") ? (
     <footer className="bg-white pt-10 pb-4 border-t border-gray-200">
       <div className="screen-wrapper">

@@ -67,6 +67,7 @@ function Header({ user }: { user: any }) {
   return !pathname.includes("login") &&
     !pathname.includes("sign-up") &&
     !pathname.includes("/blog/new") &&
+    !pathname.includes("/admin") &&
     !pathname.includes("complete") ? (
     <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">

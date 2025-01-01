@@ -55,18 +55,22 @@ const nextConfig = {
           protocol: 'https',
           hostname: 'bachdev.vercel.app'
         },
+        {
+          protocol:'https',
+          hostname:'api.slingacademy.com'
+        }
 
       ],
     },
   reactStrictMode: true,
-  env: {
-    AUTH_SECRET: process.env.AUTH_SECRET,
-    AUTH_GITHUB_ID: process.env.AUTH_GITHUB_ID,
-    AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
-    DB_URL: process.env.DB_URL,
-    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
-    UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
-  }
+  // env: {
+  //   AUTH_SECRET: process.env.AUTH_SECRET,
+  //   AUTH_GITHUB_ID: process.env.AUTH_GITHUB_ID,
+  //   AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
+  //   DB_URL: process.env.DB_URL,
+  //   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  //   UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
+  // }
 };
 // next.config.js
   
