@@ -28,9 +28,12 @@ import GithubLoginButton from "./github-login-button";
 
 interface UserAuthFormProps {
   className?: string;
+  props: {
+    searchParams: { callbackUrl: string | undefined }
+  }
 }
 
-export default function SignUpForm({ className }: UserAuthFormProps) {
+export default function SignUpForm({ className,props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isDesactivate, setIsDesactivate] = React.useState<boolean>(false);
   const router = useRouter();
@@ -152,6 +155,7 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
         </div>
       </div>
       <GithubLoginButton
+        props={props}
         isDesactivate={isLoading}
         onDesactivate={() => setIsDesactivate(true)}
       />

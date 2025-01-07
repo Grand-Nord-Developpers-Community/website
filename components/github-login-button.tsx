@@ -7,10 +7,14 @@ import { Button } from "./ui/button";
 
 export default function GithubLoginButton({
   isDesactivate=false,
-  onDesactivate
+  onDesactivate,
+  props
 }: {
   isDesactivate:boolean
   onDesactivate:()=>void
+  props: {
+    searchParams: { callbackUrl: string | undefined }
+  }
 }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -18,7 +22,7 @@ export default function GithubLoginButton({
   const onClick = () => {
     setIsLoading(true)
      onDesactivate()
-    loginWithGithub();
+    loginWithGithub(props);
   };
 
   return (

@@ -62,7 +62,7 @@ const nextConfig = {
 
       ],
     },
-  reactStrictMode: true,
+  //reactStrictMode: true,
   // env: {
   //   AUTH_SECRET: process.env.AUTH_SECRET,
   //   AUTH_GITHUB_ID: process.env.AUTH_GITHUB_ID,
