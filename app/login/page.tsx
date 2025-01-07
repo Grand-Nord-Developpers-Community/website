@@ -7,7 +7,9 @@ export const metadata: Metadata = {
   description: "Inscription dans la plus grande communauté Tech du Grand Nord",
 };
 
-export default function AuthenticationPage() {
+export default function AuthenticationPage(props: {
+  searchParams: { callbackUrl: string | undefined }
+}) {
   return (
     <>
       <div className="flex flex-col space-y-2 text-center mb-2">
@@ -18,7 +20,7 @@ export default function AuthenticationPage() {
           Entrez vos informations
         </p>
       </div>
-      <SignIn/>
+      <SignIn props={props}/>
       <p className="max-lg:block mx-auto text-center mt-2">
         {" "}
         <Link

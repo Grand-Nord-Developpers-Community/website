@@ -10,6 +10,8 @@ import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { AuthError } from "next-auth"
 export async function getUserFromDb(email: string, password: string) {
   try {
     const existedUser = await db.query.user.findFirst({
@@ -90,8 +92,28 @@ export async function login({
   }
 }
 
-export async function loginWithGithub() {
-  await signIn("github");
+export async function loginWithGithub(props: {
+  searchParams: { callbackUrl: string | undefined }
+}) {
+  //await signIn("github");
+  try {
+    await signIn("github", {
+      redirectTo: props.searchParams?.callbackUrl ?? "",
+    })
+  } catch (error) {
+    // Signin can fail for a number of reasons, such as the user
+    // not existing, or the user not having the correct role.
+    // In some cases, you may want to redirect to a custom error
+    if (error instanceof AuthError) {
+      return redirect(`/error-auth?error=${error.type}`)
+    }
+
+    // Otherwise if a redirects happens Next.js can handle it
+    // so you can just re-thrown the error and let Next.js handle it.
+    // Docs:
+    // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
+    throw error
+  }
 }
 // export async function loginWithFacebook() {
 //   await signIn("facebook", {

@@ -2,7 +2,9 @@ import Link from "next/link";
 import SignUpForm from "@/components/signup-form";
 //import { UserAuthForm } from "@/components/user-auth-form";
 
-export default function AuthenticationPage() {
+export default function AuthenticationPage(props: {
+  searchParams: { callbackUrl: string | undefined }
+}) {
   return (
     <>
       <div className="flex flex-col space-y-2 text-center mb-2 mt-8">
@@ -12,7 +14,7 @@ export default function AuthenticationPage() {
         </p>
       </div>
       {/* <UserAuthForm view="sign-up" /> */}
-      <SignUpForm />
+      <SignUpForm props={props}/>
       <p className="max-lg:block mx-auto text-center mt-2">
         {" "}
         <Link

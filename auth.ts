@@ -15,8 +15,8 @@ const adapter = DrizzleAdapter(db);
 export const authConfig: NextAuthConfig = {
   trustHost: true,
   pages: {
-    error: "/error",
-    signIn: '/login',
+    error: "/error-auth",
+    //signIn: '/login',
   },
   adapter,
   providers: [
@@ -51,6 +51,10 @@ export const authConfig: NextAuthConfig = {
   ],
   //secret: process.env.SECRET!,
   callbacks: {
+    async session({ session, token, user }) {
+      console.log("Session callback : ",user,token,session)
+      return session;
+    },
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/user');
@@ -66,6 +70,14 @@ export const authConfig: NextAuthConfig = {
       if (account?.provider === "credentials") {
         token.credentials = true;
       }
+      // if (user) {
+      //   token.id = user.id;
+      // }
+      // if (account) {
+      //   token.accessToken = account.access_token;
+      // }
+      console.log("jwt callback",token,user,account)
+
       return token;
     }
   },
