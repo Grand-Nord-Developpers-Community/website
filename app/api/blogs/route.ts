@@ -7,7 +7,7 @@ export async function GET() {
     return NextResponse.json(blogs);
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch forums" },
+      { error: "Failed to fetch blogs" },
       { status: 500 },
     );
   }

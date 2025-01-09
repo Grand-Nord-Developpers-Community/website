@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {auth} from "@/auth"
+import {auth} from "@/lib/auth"
 import {getUserForumPosts} from "@/actions/forum.actions"
 
 export async function GET(request: Request,

@@ -9,6 +9,7 @@ import { uploadImageToCloudinary } from "@/lib/api";
 import { AxiosProgressEvent } from "axios";
 import { Form } from "@/components/ui/form";
 import { createBlogPost } from "@/actions/blog.actions";
+import { useSWRConfig } from "swr";
 
 type BlogFormData = z.infer<typeof blogPublishSchema>;
 
@@ -33,8 +34,10 @@ export const useFormContext = () => {
   return context;
 };
 
-const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+//TO BE FIX
+
+const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY||"126785599786519";
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET||"gndc-image-blog";
 
 // Layout Component
 const BlogFormContext: React.FC<{
@@ -51,7 +54,7 @@ const BlogFormContext: React.FC<{
       content: "",
     },
   });
-
+  const { mutate } = useSWRConfig();
   const { setValue, setError } = form;
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -113,6 +116,8 @@ const BlogFormContext: React.FC<{
         form.reset();
         setSuccess(true);
         toast.success(res.message);
+        //mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`);
+        mutate("/api/blogs",true);
       } else {
         if (!res.success && res.revalidate) {
           //@ts-ignore

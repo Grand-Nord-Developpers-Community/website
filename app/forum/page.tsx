@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Suspense } from 'react'
+import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 export default function ForumPage() {
   return (
@@ -33,9 +33,15 @@ export default function ForumPage() {
         <div className="flex justify-between items-center mb-6 max-sm:hidden">
           <Tabs defaultValue="latest">
             <TabsList>
-              <TabsTrigger value="latest">Tout</TabsTrigger>
-              <TabsTrigger value="unanswered">Pas de reponse</TabsTrigger>
-              <TabsTrigger value="trending">Avec reponse</TabsTrigger>
+              <TabsTrigger value="latest" disabled={true}>
+                Tout
+              </TabsTrigger>
+              <TabsTrigger value="unanswered" disabled={true}>
+                Pas de reponse
+              </TabsTrigger>
+              <TabsTrigger value="trending" disabled={true}>
+                Avec reponse
+              </TabsTrigger>
             </TabsList>
           </Tabs>
           {/* <Button>Poser une question</Button> */}
@@ -45,20 +51,24 @@ export default function ForumPage() {
             <Card className="p-4">
               <ForumPostComponent />
             </Card>
-                        <Suspense fallback={<div className="space-y-3">
-              {[...Array(4)].map((_, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <Skeleton className="h-3 w-1/2" />
-                    <Skeleton className="h-20 w-full" />
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="h-4 w-3/4" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>}>
-            <QuestionLists />
+            <Suspense
+              fallback={
+                <div className="space-y-3">
+                  {[...Array(4)].map((_, index) => (
+                    <Card key={index}>
+                      <CardHeader>
+                        <Skeleton className="h-3 w-1/2" />
+                        <Skeleton className="h-20 w-full" />
+                      </CardHeader>
+                      <CardContent>
+                        <Skeleton className="h-4 w-3/4" />
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              }
+            >
+              <QuestionLists />
             </Suspense>
           </div>
           <div className="space-y-6 lg:sticky lg:top-20 lg:self-start">
@@ -75,16 +85,20 @@ export default function ForumPage() {
                   <ForumDialogButton />
                 </CardContent>
               </Card>
-              <Suspense fallback={<Card >
-                  <CardHeader>
-                    <Skeleton className="h-3 w-1/2" />
-                    <Skeleton className="h-20 w-full" />
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="h-4 w-3/4" />
-                  </CardContent>
-                </Card>}>
-              <UserRanking />
+              <Suspense
+                fallback={
+                  <Card>
+                    <CardHeader>
+                      <Skeleton className="h-3 w-1/2" />
+                      <Skeleton className="h-20 w-full" />
+                    </CardHeader>
+                    <CardContent>
+                      <Skeleton className="h-4 w-3/4" />
+                    </CardContent>
+                  </Card>
+                }
+              >
+                <UserRanking />
               </Suspense>
               <div className="border rounded-lg p-4">
                 <h3 className="text-lg font-semibold mb-4">Publicité</h3>

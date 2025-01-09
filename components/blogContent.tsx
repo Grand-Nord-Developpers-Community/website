@@ -151,16 +151,17 @@ const PostDetail = ({ post }: PostDetailProps) => {
             </div>
 
             {/* Article Content */}
-            <div className="flex-grow">
-              <article ref={contentRef}>
+            <div className="flex-grow w-full">
+              <article ref={contentRef} className="w-full justify">
                 <Editor
                   ref={editorRef}
                   editable={false}
+                  disableEditor={true}
                   content={post?.content || ""}
                   onUpdateToC={(items) => setTocItems(items)}
                   editorProps={{
                     attributes: {
-                      class: "prose lg:prose-lg prose-blue dark:prose-invert",
+                      class: "prose lg:prose-lg prose-blue dark:prose-invert w-full",
                     },
                   }}
                 />
@@ -197,8 +198,11 @@ const PostDetail = ({ post }: PostDetailProps) => {
         </div>
 
         {/* Sidebar */}
-        <div className="lg:col-span-1">
-          <div className="w-full space-y-8 scrollbar-hide lg:sticky lg:top-24 max-h-[calc(100vh-6rem)] overflow-y-auto">
+        <div className="relative lg:col-span-1 max-h-[calc(100vh-4rem)] lg:sticky lg:top-20 max-sm:max-h-none  ">
+          <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+          <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+          <div className="pt-5 w-full space-y-8 scrollbar-hide h-full overflow-y-auto">
+            
             {/* About Me */}
             <div className="p-0">
               <h3 className="text-lg font-bold">Auteur</h3>

@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   description:
     "GNDC | La page que vous essayez de chercher n'est pas disponible !!! ",
 };
-export const dynamic = 'force-dynamic';
 function NotFoundPage() {
   return (
     <section className="w-full">

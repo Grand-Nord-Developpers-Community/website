@@ -13,11 +13,11 @@ const UploadWidget = ({ children, onSuccess, onError }: UploadWidgetProps) => {
   const widget = useRef<UploadWidgetInstance>();
 
   const [isScriptLoading, setIsScriptLoading] = useState(true);
-
+  //TO BE FIX
   const uploadOptions = {
-    cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-    uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-    apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+    cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME||"dlycxyiij",
+    uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET||"gndc-image-blog",
+    apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY||"_LqLeYW_0tQbmwWXOsUwuImV6KE",
     sources: [
         "local",
         "url",

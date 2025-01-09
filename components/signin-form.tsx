@@ -9,7 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { login } from "@/actions/user.actions";
+//import { login } from "@/actions/user.actions";
+import {loginWithPassword} from "@/lib/api/auth/login"
+import { redirect } from "next/navigation"
+//import { signIn, auth, providerMap } from "@/lib/auth"
+
 import {
   Form,
   FormControl,
@@ -22,12 +26,15 @@ import { toast } from "sonner";
 import { LoginSchema } from "@/schemas/login-schema";
 import { useRouter } from "next/navigation";
 //import FacebookLoginButton from "./facebook-login-button"
-import GithubLoginButton from "./github-login-button";
+import ProviderButton from "./github-login-button";
 
 interface UserAuthFormProps {
   className?: string;
+  props: {
+    searchParams: { callbackUrl: string | undefined }
+  }
 }
-export default function SignIn({ className }: UserAuthFormProps) {
+export default function SignIn({ className,props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDesactivate, setIsDesactivate] = useState<boolean>(false);
   const router = useRouter();
@@ -41,16 +48,16 @@ export default function SignIn({ className }: UserAuthFormProps) {
 
   async function onSubmit(data: z.infer<typeof LoginSchema>) {
     setIsLoading(true);
-    const res = await login(data);
+    const res = await loginWithPassword(data);
 
-    if (res.success) {
+    if (res.data) {
       setIsLoading(false);
       toast.success("<Bienvenue/> !!");
       //router.replace("/user/dashboard")
       window.location.href = "/account/complete";
     } else {
       setIsLoading(false);
-      toast.error(res.message);
+      toast.error(res.serverError);
     }
   }
 
@@ -125,10 +132,41 @@ export default function SignIn({ className }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GithubLoginButton
+      {/* {Object.values(providerMap).map((provider) => (
+        <form
+          action={async () => {
+            "use server"
+            try {
+              await signIn(provider.id, {
+                redirectTo: props.searchParams?.callbackUrl ?? "",
+              })
+            } catch (error) {
+              // Signin can fail for a number of reasons, such as the user
+              // not existing, or the user not having the correct role.
+              // In some cases, you may want to redirect to a custom error
+              if (error instanceof AuthError) {
+                return redirect(`/error-auth?error=${error.type}`)
+              }
+ 
+              // Otherwise if a redirects happens Next.js can handle it
+              // so you can just re-thrown the error and let Next.js handle it.
+              // Docs:
+              // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
+              throw error
+            }
+          }}
+        >
+          <button type="submit">
+            <span>Sign in with {provider.name}</span>
+          </button>
+        </form>
+      ))} */}
+      <ProviderButton isDesactivate={isLoading}
+        onDesactivate={() => setIsDesactivate(true)} props={props}/>
+      {/* <GithubLoginButton
         isDesactivate={isLoading}
         onDesactivate={() => setIsDesactivate(true)}
-      />
+      /> */}
     </div>
   );
 }

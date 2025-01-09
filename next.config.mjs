@@ -1,9 +1,11 @@
+import crypto from "node:crypto"
+globalThis.crypto ??= crypto.webcrypto
 // @ts-check
 import withPlaiceholder from "@plaiceholder/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack(config) {
+  webpack(config,{ webpack }) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg'),
@@ -28,6 +30,7 @@ const nextConfig = {
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i
 
+    config.externals.push("@node-rs/argon2", "@node-rs/bcrypt");
     return config
   },
   async redirects() {
@@ -55,9 +58,22 @@ const nextConfig = {
           protocol: 'https',
           hostname: 'bachdev.vercel.app'
         },
+        {
+          protocol:'https',
+          hostname:'api.slingacademy.com'
+        }
 
       ],
     },
+  //reactStrictMode: true,
+  // env: {
+  //   AUTH_SECRET: process.env.AUTH_SECRET,
+  //   AUTH_GITHUB_ID: process.env.AUTH_GITHUB_ID,
+  //   AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
+  //   DB_URL: process.env.DB_URL,
+  //   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  //   UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
+  // }
 };
 // next.config.js
   

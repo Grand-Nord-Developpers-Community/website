@@ -106,6 +106,7 @@ confirm.updateConfig((prev) => ({
           try{
             const res= await deleteBlog(id)
             if(res.sucess){
+              mutate("/api/blogs",true);
               onConfirm()
               toast.success(res.message)
             }
@@ -183,7 +184,7 @@ confirm.updateConfig((prev) => ({
             ("use server");
             const res = await updateUserProfileCompletionState(userId);
           }
-          mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`);
+          mutate("/api/user/profile",true);
         } catch (e) {
           console.log(e);
         }

@@ -20,11 +20,12 @@ import RenderContent from "@/components/renderContent";
 import { forumPost } from "@/lib/schema";
 import { formatRelativeTime } from "@/lib/utils";
 import { ArrowBigUp, ArrowBigDown, Eye, MessageSquare } from "lucide-react";
+import { getUserProfileUserAuth } from "@/actions/user.actions";
 export default async function QuestionPage({ params }: { params: any }) {
   const { id } = params;
   const forum = await getForumPost(id as string);
   const forums = await getForumPosts();
-
+  const user = await getUserProfileUserAuth();
   if (!forum) {
     notFound();
   }
@@ -143,18 +144,18 @@ export default async function QuestionPage({ params }: { params: any }) {
                 <div className="flex items-center gap-4">
                   <Avatar>
                     <AvatarImage
-                      src={forum.author.image || ""}
-                      alt="Your avatar"
+                      src={user?.image || ""}
+                      alt={user?.name||"Avatar"}
                     />
                     <AvatarFallback>
-                      {forum.author?.name?.slice(0, 2)?.toUpperCase()}
+                      {user?.name?.slice(0, 2)?.toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="font-medium">{forum.author?.name}</span>
+                  <span className="font-medium">{user?.name}</span>
                 </div>
                 <Comment
                   throttleDelay={1000}
-                  className={"h-full min-h-56 w-full rounded-xl"}
+                  className={"h-[200px] min-h-56 w-full rounded-xl"}
                   editorContentClassName="overflow-auto h-full"
                   output="html"
                   placeholder="Comment here..."

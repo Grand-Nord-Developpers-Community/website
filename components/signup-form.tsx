@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { register } from "@/actions/user.actions";
+import { register } from "@/lib/api/auth/register";
 import {
   Form,
   FormControl,
@@ -28,9 +28,12 @@ import GithubLoginButton from "./github-login-button";
 
 interface UserAuthFormProps {
   className?: string;
+  props: {
+    searchParams: { callbackUrl: string | undefined }
+  }
 }
 
-export default function SignUpForm({ className }: UserAuthFormProps) {
+export default function SignUpForm({ className,props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isDesactivate, setIsDesactivate] = React.useState<boolean>(false);
   const router = useRouter();
@@ -46,14 +49,13 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
 
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     setIsLoading(true);
-    const res = await register(data);
-    if (res.success) {
+    try{
+      await register(data);
       setIsLoading(false);
       toast.success("Votre compte a été avec success !!");
-      router.replace("/login");
-    } else {
+    }catch(e){
       setIsLoading(false);
-      toast.error(res.message);
+      toast.error(e as string);
     }
   }
 
@@ -152,6 +154,7 @@ export default function SignUpForm({ className }: UserAuthFormProps) {
         </div>
       </div>
       <GithubLoginButton
+        props={props}
         isDesactivate={isLoading}
         onDesactivate={() => setIsDesactivate(true)}
       />

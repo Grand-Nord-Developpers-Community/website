@@ -31,11 +31,11 @@ export const CardBlog = ({
 
         <div className={"text-gray-800 dark:text-gray-200 mb-2 relative"}>
           <div className=" h-16 overflow-hidden overflow-ellipsis">
-            <h3 className="text-lg font-bold tracking-tighter mt-3 mb-1 leading-2">
+            <h3 className="text-lg font-bold tracking-tighter my-3 mb-1 line-clamp-2">
               <Link href={`/blog/${slug}`} className="transition-all hover:text-secondary">{title}</Link>
             </h3>
           </div>
-          <div className="h-10 overflow-hidden overflow-ellipsis"><p className="text-sm leading-2">{description}</p></div>
+          <div className="h-10 my-3 overflow-hidden overflow-ellipsis"><p className="text-sm leading-2 line-clamp-3">{description}</p></div>
           
         </div>
         <div className="px-0">

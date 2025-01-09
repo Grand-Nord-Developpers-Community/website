@@ -25,10 +25,10 @@ export default async function Page({ params }: { params: any }) {
                 Business
               </span>*/}
               <span className="text-gray-400"><Link href="..">&larr; Retour au publication</Link></span>
-              <h1 className="max-md:w-full text-4xl md:text-5xl font-bold tracking-tight text-secondary">
+              <h1 className="max-md:w-full text-4xl max-sm:text-2xl md:text-5xl font-bold tracking-tight text-secondary">
                 {post.title}
               </h1>
-              <p className="text-lg text-gray-100">{post.description}</p>
+              <p className="text-lg text-gray-100 max-sm:text-base">{post.description}</p>
               <div className="flex items-center space-x-6">
                 <div className="flex items-center space-x-3">
                   <Avatar className="h-10 w-10">
@@ -74,7 +74,7 @@ export default async function Page({ params }: { params: any }) {
                 </div>*/}
               </div>
             </div>
-            <div className="relative bg-gray-300 aspect-[4/3] max-md:absolute max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2 max-md:translate-y-1/2  max-md:w-[95%] max-md:h-[250px]  h-[400px] rounded-xl overflow-hidden flex items-center justify-center text-white">
+            <div className="relative bg-gray-300 aspect-[6/3] max-md:absolute max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2 max-md:translate-y-1/2  max-md:w-[95%] max-md:h-[250px]  h-[400px] rounded-xl overflow-hidden flex items-center justify-center text-white">
               <ImageWrapper
                 className="w-full object-cover h-full object-top "
                 src={post.preview}

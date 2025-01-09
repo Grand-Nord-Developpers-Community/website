@@ -1,7 +1,7 @@
 'use server'
-import {auth} from "@/auth"
+import {auth} from "@/lib/auth"
 import { db } from '@/lib/db'
-import { forumPost, forumReply, user } from '@/lib/schema'
+import { forumPost, forumReply, userTable } from '@/lib/db/schema'
 import { eq, desc } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 export async function createForumPost(title: string, content: string) {

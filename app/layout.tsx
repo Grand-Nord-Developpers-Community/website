@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
+import { NuqsAdapter } from "nuqs/adapters/next";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
 import "prismjs/themes/prism.css";
-
-export const metadata: Metadata = {
-  title: "GNDC | Home",
-  description:
-    "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
-};
 import { Toaster } from "@/components/ui/sonner";
 import HeaderWrapper from "@/components/header-wrapper";
 //import { Montserrat } from "next/font/google";
@@ -61,21 +56,23 @@ const montserra = localFont({
     },
   ],
 });
-
-import { auth } from "@/auth";
-import { updateUserStreak } from "@/actions/user.actions";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider'
-export const dynamic = 'force-dynamic';
-export default function RootLayout({
+import { ConfirmDialogProvider } from "@/providers/confirm-dialog-provider";
+export const metadata: Metadata = {
+  metadataBase: new URL("https://gndc-website.onrender.com"),
+  title: "GNDC | Home",
+  description:
+    "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
+};
+import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "@/components/auth/SessionProvider";
+import { auth } from "@/lib/auth";
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  /*const session = await auth();
-  if (session) {
-    updateUserStreak(session.user?.id!);
-  }*/
+  const session = await auth();
   return (
     <html lang="fr">
       <body
@@ -83,9 +80,15 @@ export default function RootLayout({
       >
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip">
-          <ConfirmDialogProvider>
-          <TooltipProvider>{children}</TooltipProvider>
-          </ConfirmDialogProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <SessionProvider session={session}>
+              <ConfirmDialogProvider>
+                <TooltipProvider>
+                  <NuqsAdapter>{children}</NuqsAdapter>
+                </TooltipProvider>
+              </ConfirmDialogProvider>
+            </SessionProvider>
+          </ThemeProvider>
         </main>
         <Footer />
         <BackToTop />

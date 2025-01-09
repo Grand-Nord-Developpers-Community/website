@@ -107,7 +107,7 @@ export default function CodeBlock({
 }: NodeViewProps) {
   const [lang, setLang] = useState<string>(defaultLanguage);
   const [copied, setCopied] = useState(false);
-  const [isEditable, setEditable] = useState(editor?.isEditable||false);
+  const [isEditable, setEditable] = useState(false);
 
   const onCopy = useCallback(() => {
     setCopied(true);
@@ -125,10 +125,10 @@ export default function CodeBlock({
   }, []);
 
   useEffect(() =>{
-    setEditable(editor?.isEditable)
+    if(editor) setEditable(editor?.isEditable)
   },[editor.isEditable])
   return (
-    <NodeViewWrapper className="relative code-block">
+    <NodeViewWrapper className="relative code-block w-full">
       <div
         className="absolute top-2 right-4 h-8 flex items-center transition-all"
         contentEditable={false}
@@ -174,7 +174,7 @@ export default function CodeBlock({
           </>
         )}
       </div>
-      <pre className="not-prose">
+      <pre className="not-prose w-full overflow-x-auto">
         <NodeViewContent as="code" className={`hljs language-${lang}`} />
       </pre>
     </NodeViewWrapper>
