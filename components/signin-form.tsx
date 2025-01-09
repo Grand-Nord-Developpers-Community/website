@@ -9,10 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { login } from "@/actions/user.actions";
+//import { login } from "@/actions/user.actions";
+import {loginWithPassword} from "@/lib/api/auth/login"
 import { redirect } from "next/navigation"
-//import { signIn, auth, providerMap } from "@/auth"
-import { AuthError } from "next-auth"
+//import { signIn, auth, providerMap } from "@/lib/auth"
+
 import {
   Form,
   FormControl,
@@ -47,16 +48,16 @@ export default function SignIn({ className,props }: UserAuthFormProps) {
 
   async function onSubmit(data: z.infer<typeof LoginSchema>) {
     setIsLoading(true);
-    const res = await login(data);
+    const res = await loginWithPassword(data);
 
-    if (res.success) {
+    if (res.data) {
       setIsLoading(false);
       toast.success("<Bienvenue/> !!");
       //router.replace("/user/dashboard")
       window.location.href = "/account/complete";
     } else {
       setIsLoading(false);
-      toast.error(res.message);
+      toast.error(res.serverError);
     }
   }
 

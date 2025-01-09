@@ -1,5 +1,5 @@
 import React from "react";
-import {auth} from "@/auth"
+import {auth} from "@/lib/auth"
 import { redirect } from "next/navigation";
 import LayoutSignInLogIn from "@/components/LayoutSignInLogIn";
 async function Layout({
