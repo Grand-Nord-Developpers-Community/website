@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {auth} from "@/auth"
+import {auth} from "@/lib/auth"
 import {getUserBlogPosts} from "@/actions/blog.actions"
 
 export async function GET(request: Request,

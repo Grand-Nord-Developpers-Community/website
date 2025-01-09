@@ -1,7 +1,6 @@
 "use server";
-import { signIn, signOut } from "@/auth";
 import { db } from "@/lib/db";
-import { user } from "@/lib/schema";
+import { userTable as user } from "@/lib/db/schema";
 import { LoginSchema } from "@/schemas/login-schema";
 import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
@@ -9,12 +8,14 @@ import { eq, sql, desc } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
-import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { AuthError } from "next-auth"
+import { logout as LoginOut } from "@/lib/api/auth/logout";
+import { auth } from "@/lib/auth";
+import { loginWithGithub as loginGithub, loginWithGoogle } from "@/lib/api/auth/login";
+
 export async function getUserFromDb(email: string, password: string) {
   try {
-    const existedUser = await db.query.user.findFirst({
+    const existedUser = await db.query.userTable.findFirst({
       where: eq(user.email, email),
     });
 
@@ -56,7 +57,7 @@ export async function getUserFromDb(email: string, password: string) {
   }
 }
 
-export async function login({
+/*export async function login({
   email,
   password,
 }: {
@@ -90,39 +91,21 @@ export async function login({
       message: "Email or password is incorrect.",
     };
   }
-}
+}*/
 
 export async function loginWithGithub(props: {
   searchParams: { callbackUrl: string | undefined }
 }) {
   //await signIn("github");
   try {
-    await signIn("github", {
-      redirectTo: props.searchParams?.callbackUrl ?? "",
-    })
+    await loginGithub();
   } catch (error) {
-    // Signin can fail for a number of reasons, such as the user
-    // not existing, or the user not having the correct role.
-    // In some cases, you may want to redirect to a custom error
-    if (error instanceof AuthError) {
-      return redirect(`/error-auth?error=${error.type}`)
-    }
-
-    // Otherwise if a redirects happens Next.js can handle it
-    // so you can just re-thrown the error and let Next.js handle it.
-    // Docs:
-    // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
-    throw error
+    console.log(error);
+    return redirect(`/error-auth?error=${error}`)
   }
 }
-// export async function loginWithFacebook() {
-//   await signIn("facebook", {
-//     redirect: true,
-//     redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
-//   })
-// }
 
-export async function register({
+/*export async function register({
   email,
   password,
   confirmPassword,
@@ -169,9 +152,21 @@ export async function register({
     };
   }
 }
-
+*/
 export async function logout() {
   try {
+    await LoginOut()
+    return {
+      success: true,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+  
+  /*try {
     await signOut({
       redirect: false,
     });
@@ -183,12 +178,13 @@ export async function logout() {
       success: false,
       message: error.message,
     };
-  }
+  }*/
+
 }
 
 export async function updateUserRole(
   userId: string,
-  role: "user" | "admin" | "super admin"
+  role: "user" | "admin" | "manager"
 ) {
   await db.update(user).set({ role }).where(eq(user.id, userId));
   revalidatePath("/admin/users");
@@ -202,7 +198,7 @@ export async function getUserSession() {
 export async function getUserProfileUserAuth() {
   try {
     const session = await auth();
-    const profile = await db.query.user.findFirst({
+    const profile = await db.query.userTable.findFirst({
       //@ts-ignnore
       where: eq(user.id, session ? (session.user?.id as string) : ""),
       columns: {
@@ -236,7 +232,7 @@ export async function getUserProfileUserAuth() {
   }
 }
 export async function getUserProfile(userId: string) {
-  const profile = await db.query.user.findFirst({
+  const profile = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
     columns: {
       id: true,
@@ -268,7 +264,7 @@ export async function getUserProfile(userId: string) {
 
 export async function getUsersListByRank() {
   try {
-    const users = await db.query.user.findMany({
+    const users = await db.query.userTable.findMany({
       orderBy: [desc(user.experiencePoints)],
       columns: {
         image: true,
@@ -288,7 +284,7 @@ export async function getUsersListByRank() {
 }
 
 export async function getUserProfileImage(userId: string) {
-  const profileImage = await db.query.user.findFirst({
+  const profileImage = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
     columns: {
       image: true,
@@ -323,7 +319,7 @@ export async function getUserProfileImage(userId: string) {
 
 export async function deleteUser(userId: string) {
   // Fetch user to check if exists and get role
-  const userToDelete = await db.query.user.findFirst({
+  const userToDelete = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
   });
 
@@ -332,7 +328,7 @@ export async function deleteUser(userId: string) {
   }
 
   // Check if the user is not a super admin
-  if (userToDelete.role === "super admin") {
+  if (userToDelete.role === "manager") {
     throw new Error("Cannot delete a super admin user");
   }
 
@@ -418,7 +414,7 @@ export async function updateUserProfileCompletion(
 }
 
 export async function updateUserStreak(userId: string) {
-  const userRecord = await db.query.user.findFirst({
+  const userRecord = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
     columns: {
       lastActive: true,
@@ -468,7 +464,7 @@ export async function updateUserStreak(userId: string) {
 }
 
 export async function getUserStreak(userId: string) {
-  const userRecord = await db.query.user.findFirst({
+  const userRecord = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
     columns: {
       streak: true,
@@ -514,7 +510,7 @@ export async function updateUser(
   const validatedData = updateUserSchema.parse(userData);
 
   // Fetch the current user data
-  const currentUser = await db.query.user.findFirst({
+  const currentUser = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
   });
 

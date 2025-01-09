@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {auth} from "@/auth"
+import {auth} from "@/lib/auth"
 import {getUserProfileImage} from "@/actions/user.actions"
 
 export async function GET() {

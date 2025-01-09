@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { NuqsAdapter } from 'nuqs/adapters/next'
+import { NuqsAdapter } from "nuqs/adapters/next";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
@@ -64,9 +64,9 @@ export const metadata: Metadata = {
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
-import { ThemeProvider } from 'next-themes';
-import { SessionProvider } from 'next-auth/react';
-import { auth } from "@/auth";
+import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "@/components/auth/SessionProvider";
+import { auth } from "@/lib/auth";
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -81,9 +81,13 @@ export default async function RootLayout({
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <SessionProvider session={session}><ConfirmDialogProvider>
-              <TooltipProvider> <NuqsAdapter>{children}</NuqsAdapter></TooltipProvider>
-            </ConfirmDialogProvider></SessionProvider>
+            <SessionProvider session={session}>
+              <ConfirmDialogProvider>
+                <TooltipProvider>
+                  <NuqsAdapter>{children}</NuqsAdapter>
+                </TooltipProvider>
+              </ConfirmDialogProvider>
+            </SessionProvider>
           </ThemeProvider>
         </main>
         <Footer />
