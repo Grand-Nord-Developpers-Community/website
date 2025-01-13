@@ -29,11 +29,11 @@ import GithubLoginButton from "./github-login-button";
 interface UserAuthFormProps {
   className?: string;
   props: {
-    searchParams: { callbackUrl: string | undefined }
-  }
+    searchParams: { callbackUrl: string | undefined };
+  };
 }
 
-export default function SignUpForm({ className,props }: UserAuthFormProps) {
+export default function SignUpForm({ className, props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isDesactivate, setIsDesactivate] = React.useState<boolean>(false);
   const router = useRouter();
@@ -49,13 +49,15 @@ export default function SignUpForm({ className,props }: UserAuthFormProps) {
 
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     setIsLoading(true);
-    try{
-      await register(data);
-      setIsLoading(false);
+    try {
+      const res=await register(data);
+      if (res && res.serverError) {
+        toast.error(JSON.stringify(res.serverError) as string);
+        //throw new Error(res.serverError);
+      }
       toast.success("Votre compte a été avec success !!");
-    }catch(e){
+    } finally {
       setIsLoading(false);
-      toast.error(e as string);
     }
   }
 

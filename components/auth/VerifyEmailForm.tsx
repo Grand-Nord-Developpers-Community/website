@@ -1,164 +1,118 @@
 "use client";
-import { loginWithMagicLink } from "@/lib/api/auth/login";
-import { verifyEmail } from "@/lib/api/auth/verify-email";
-import {
-  LoginValitor,
-  VerifyEmailValidator,
-  verifyEmailValidator,
-} from "@/lib/validators/auth-validator";
-import { PinInput } from "@ark-ui/react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, cn } from "@nextui-org/react";
-import { useMutation } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
-import { useRef } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { verifyEmail } from "@/lib/api/auth/verify-email";
+import { loginWithMagicLink } from "@/lib/api/auth/login";
+
+const FormSchema = z.object({
+  pin: z.string().min(6, {
+    message: "Your one-time password must be 6 characters.",
+  }),
+});
 
 export const VerifyEmailForm = () => {
-  const searchParams = useSearchParams();
-  const email = searchParams.get("email");
-
-  const methods = useForm<VerifyEmailValidator>({
-    resolver: zodResolver(verifyEmailValidator),
-    values: {
-      code: [],
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      pin: "",
     },
   });
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    setError,
-    reset,
-  } = methods;
-
-  const onSubmit = (data: VerifyEmailValidator) => {
-    verificationMutation.mutate(data.code.join(""));
-  };
-
-  const verificationMutation = useMutation({
-    mutationFn: async (code: string) => {
-      const data = await verifyEmail({ code });
-      if (data && data.serverError) {
-        throw new Error(data.serverError);
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      const result = await verifyEmail({ code: data.pin });
+      if (result && result.serverError) {
+        throw new Error(result.serverError);
       }
-    },
-    onError: (error) => {
-      toast.error(error.message);
-      setError("code", {
-        type: "manual",
-        message: error.message,
-      });
-    },
-    onSuccess: () => {
       toast.success("Email verified successfully");
-    },
-  });
+    } catch (error: any) {
+      toast.error(error.message);
+      form.setError("pin", { type: "manual", message: error.message });
+    }
+  }
 
-  const magicLinkMutation = useMutation({
-    mutationFn: async (input: LoginValitor) => {
-      const data = await loginWithMagicLink(input);
-      if (data && data.serverError) {
-        throw new Error(data.serverError);
-      }
-    },
-    onError: (error) => {
-      toast.error(error.message ?? "An error occurred");
-    },
-  });
+  const handleResendCode = async () => {
+    const email = new URLSearchParams(window.location.search).get("email");
+    if (!email) {
+      return toast.error("Email not found");
+    }
 
-  const handleResendCode = () => {
-    if (!email) return toast.error("Email not found");
-    magicLinkMutation.mutate(
-      {
-        email: email,
-        withoutRedirect: true,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Verification code sent successfully");
-          reset();
-        },
-        onError: (error) => {
-          toast.error(error.message);
-        },
+    try {
+      const result = await loginWithMagicLink({ email, withoutRedirect: true });
+      if (result && result.serverError) {
+        throw new Error(result.serverError);
       }
-    );
+      toast.success("Verification code sent successfully");
+      form.reset();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
-
-  const submitButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <form
-      id="verify-email-form"
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-2">
-      <div className="space-y-2">
-        <Controller
-          control={control}
-          name="code"
-          render={({ field }) => {
-            return (
-              <PinInput.Root
-                value={field.value}
-                onValueChange={(value) => field.onChange(value.value)}
-                data-test={true}
-                className="space-y-3 group data-[invalid]:border-red-300 "
-                otp
-                form="verify-email-form"
-                id="code"
-                invalid={!!errors.code}
-                type="numeric"
-                disabled={verificationMutation.isPending}
-                blurOnComplete
-                onValueComplete={(e) => {
-                  console.log(e);
-                  setTimeout(() => {
-                    submitButtonRef.current?.click();
-                  }, 10);
-                }}>
-                <PinInput.Label>Verification code</PinInput.Label>
-                <PinInput.Control className="flex items-center gap-1.5">
-                  {Array.from(Array(6)).map((id, index) => (
-                    <PinInput.Input
-                      key={index}
-                      index={index}
-                      className={cn(
-                        "aspect-square h-11 w-11 text-center group-data-[invalid]:!border-danger group-data-[invalid]:text-danger",
-                        "w-full font-normal bg-transparent !outline-none placeholder:text-foreground-500 focus-visible:outline-none rounded-medium",
-                        [
-                          "border-medium",
-                          "border-default-200",
-                          "data-[hover=true]:border-default-400",
-                          "group-data-[focus=true]:border-default-foreground",
-                        ]
-                      )}></PinInput.Input>
-                  ))}
-                </PinInput.Control>
-                <p className="text-danger">{errors.code?.message}</p>
-              </PinInput.Root>
-            );
-          }}
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6"
+      >
+        <FormField
+          control={form.control}
+          name="pin"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>One-Time Password</FormLabel>
+              <FormControl>
+                <InputOTP maxLength={6} {...field}>
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
+              </FormControl>
+              <FormDescription>
+                Please enter the one-time password sent to your email.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <Button
-      color="primary"
-        ref={submitButtonRef}
-        type="submit"
-        className="w-full"
-        isLoading={verificationMutation.isPending}>
-        Verify
-      </Button>
-      <Button
-        onPress={handleResendCode}
-        isDisabled={verificationMutation.isPending}
-        isLoading={magicLinkMutation.isPending}
-        className="w-full"
-        variant="bordered">
-        Resend code
-      </Button>
-    </form>
+
+        <Button type="submit" className="w-full">
+          Verify
+        </Button>
+
+        <Button
+          type="button"
+          onClick={handleResendCode}
+          className="w-full"
+          variant="outline"
+        >
+          Resend Code
+        </Button>
+      </form>
+    </Form>
   );
 };

@@ -1,1 +1,0 @@
-ALTER TABLE "user" ADD COLUMN "two_factor_secret" text;

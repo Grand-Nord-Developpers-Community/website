@@ -1,13 +1,13 @@
 "use client";
 import confetti from "canvas-confetti";
 import React, { useState, useLayoutEffect,useEffect } from "react";
-import { updateUserProfileCompletionState } from "@/actions/user.actions";
+import { updateUserCheckProfile } from "@/actions/user.actions";
 import { useSWRConfig } from "swr";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircle,Trash } from "lucide-react";
 import Link from "next/link"
-import { type Blog, type Forum } from "@/lib/schema";
+import { type Blog, type Forum } from "@/lib/db/schema";
 import ForumDialog from "@/components/forum-dialog"
 import PostCard from "@/components/post-card"
 import {toast} from "sonner"
@@ -16,12 +16,12 @@ import { deleteBlog } from "@/actions/blog.actions";
 import { deleteForum } from "@/actions/forum.actions";
 const Dashboard = ({
   userId,
-  isCompletedProfile,
+  isUserCheckProfile,
   posts,
   forums,
 }: {
   userId: string;
-  isCompletedProfile: boolean;
+  isUserCheckProfile: boolean;
   posts: Blog[];
   forums: Forum[];
 }) => {
@@ -41,7 +41,7 @@ confirm.updateConfig((prev) => ({
   //const [forums, setForums] = useState<Post[]>([])
   
   //const [isCountLoading, setIsCountLoading] = useState(true)
-  const [isFirstTimeToDashboard] = useState<boolean>(isCompletedProfile);
+  const [isFirstTimeToDashboard] = useState<boolean>(isUserCheckProfile);
 
 
   const handleEdit = (id: string) => {
@@ -182,7 +182,7 @@ confirm.updateConfig((prev) => ({
         try {
           {
             ("use server");
-            const res = await updateUserProfileCompletionState(userId);
+            const res = await updateUserCheckProfile(userId);
           }
           mutate("/api/user/profile",true);
         } catch (e) {

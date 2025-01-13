@@ -15,6 +15,7 @@ export const adapter = new DrizzlePostgreSQLAdapter(
   sessionTable,
   userTable
 );
+
 // https://lucia-auth.com/getting-started/nextjs-app
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
@@ -30,6 +31,7 @@ export const lucia = new Lucia(adapter, {
   getUserAttributes: (attributes) => {
     return {
       // attributes has the type of DatabaseUserAttributes
+      username: attributes.username,
       name: attributes.name,
       email: attributes.email,
       email_verified: attributes.email_verified,
@@ -37,7 +39,8 @@ export const lucia = new Lucia(adapter, {
       image: attributes.image,
       id:attributes.id,
       role:attributes.role,
-      isCompletedProfile:attributes.isCompletedProfile
+      isCompletedProfile:attributes.isCompletedProfile,
+      bio:attributes.bio
     };
   },
 });

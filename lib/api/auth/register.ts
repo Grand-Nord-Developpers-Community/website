@@ -18,7 +18,7 @@ const registerSchema = z.object({
 });
 export const register = action(registerSchema, async ({ email, password }) => {
   // check if user exists
-  await useRateLimiting();
+  //await useRateLimiting();
 
   const existingUser = await db.query.userTable.findFirst({
     where: (user, { eq }) => eq(user.email, email),
@@ -55,6 +55,7 @@ export const register = action(registerSchema, async ({ email, password }) => {
   const session = await lucia.createSession(userId, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
   cookies().set(sessionCookie);
-  redirect("/account");
+  console.log(session)
+  redirect("/");
 
 });

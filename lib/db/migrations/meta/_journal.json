@@ -1,47 +1,19 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1708212713162,
-      "tag": "0000_nervous_silk_fever",
+      "version": "6",
+      "when": 1736594556998,
+      "tag": "0000_harsh_terrax",
       "breakpoints": true
     },
     {
       "idx": 1,
-      "version": "5",
-      "when": 1708249371783,
-      "tag": "0001_fine_may_parker",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1708254597976,
-      "tag": "0002_free_shard",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1708261097384,
-      "tag": "0003_talented_katie_power",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1709299546814,
-      "tag": "0004_fuzzy_komodo",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1709300850014,
-      "tag": "0005_futuristic_vulture",
+      "version": "6",
+      "when": 1736706717239,
+      "tag": "0001_mean_daimon_hellstrom",
       "breakpoints": true
     }
   ]

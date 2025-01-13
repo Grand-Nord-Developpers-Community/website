@@ -27,8 +27,8 @@ export const loginWithMagicLink = action(
     if (!existingUser) {
       throw new Error("Invalid email");
     }
-    // send magic link
-    await sendEmailVerificationCode({
+    // send magic link 
+   await sendEmailVerificationCode({
       email,
       userId: existingUser.id,
     });
@@ -54,7 +54,7 @@ export const loginWithGithub = async () => {
     maxAge: 60 * 10,
     sameSite: "lax",
   });
-  
+
   redirect(url.toString());
 };
 
@@ -81,14 +81,14 @@ export const loginWithGoogle = async () => {
     maxAge: 60 * 10,
     sameSite: "lax",
   });
-  
+
   redirect(url.toString());
 };
 
 export const loginWithPassword = action(
   loginValidator,
   async ({ email, withoutRedirect, password, code }) => {
-    await useRateLimiting();
+    //await useRateLimiting();
     // check if user exists
     //@ts-ignore
     const existingUser = await db.query.userTable.findFirst({
@@ -148,9 +148,10 @@ export const loginWithPassword = action(
     const session = await lucia.createSession(existingUser.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
     cookies().set(sessionCookie);
+    console.log(session)
     if (withoutRedirect) return;
     return {
-      redirectUrl: `/account`,
+      redirectUrl: existingUser.isCompletedProfile ? `/user` : "/account",
     };
     // redirect("/protected");
   }

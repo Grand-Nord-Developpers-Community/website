@@ -1,16 +1,16 @@
 "use server";
 import { db } from "@/lib/db";
 import { userTable as user } from "@/lib/db/schema";
-import { LoginSchema } from "@/schemas/login-schema";
-import { RegisterSchema } from "@/schemas/register-schema";
+//import { LoginSchema } from "@/schemas/login-schema";
+//import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
 import { eq, sql, desc } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { logout as LoginOut } from "@/lib/api/auth/logout";
-import { auth } from "@/lib/auth";
+import { cookies } from "next/headers";
+import { lucia, auth } from "@/lib/auth";
 import { loginWithGithub as loginGithub, loginWithGoogle } from "@/lib/api/auth/login";
 
 export async function getUserFromDb(email: string, password: string) {
@@ -153,7 +153,7 @@ export async function loginWithGithub(props: {
   }
 }
 */
-export async function logout() {
+/*export async function logout() {
   try {
     await LoginOut()
     return {
@@ -166,21 +166,20 @@ export async function logout() {
     };
   }
   
-  /*try {
-    await signOut({
-      redirect: false,
-    });
-    return {
-      success: true,
-    };
-  } catch (error: any) {
-    return {
-      success: false,
-      message: error.message,
-    };
-  }*/
-
-}
+  // try {
+  //   await signOut({
+  //     redirect: false,
+  //   });
+  //   return {
+  //     success: true,
+  //   };
+  // } catch (error: any) {
+  //   return {
+  //     success: false,
+  //     message: error.message,
+  //   };
+  // }
+}*/
 
 export async function updateUserRole(
   userId: string,
@@ -252,6 +251,7 @@ export async function getUserProfile(userId: string) {
       lastActive: true,
       isCompletedProfile: true,
       createdAt: true,
+      isCheckProfile:true
     },
   });
 
@@ -390,13 +390,37 @@ export async function updateUserProfileCompletion(
 ) {
   try {
     const validatedData = completeProfileSchema.parse(data);
+
+
+    const userAccount = await db.query.userTable.findFirst({
+      //@ts-ignore
+      where: (user, { eq }) => eq(user.username, data.username),
+    });
+
+  if (userAccount) {
+    const error= new Error("USERNAME_TAKEN")
+    throw error
+  }
     const res = await db
       .update(user)
       .set({
         ...validatedData,
+        isCompletedProfile:true,
         updatedAt: new Date(),
       })
       .where(eq(user.id, userId));
+
+    //update session
+
+    //clean previous authentification credential
+    const session = await auth();
+    await lucia.invalidateSession(session?.session?.id!);
+
+    //create 
+    const s = await lucia.createSession(session?.user?.id!, {});
+    const sessionCookie = lucia.createSessionCookie(s.id);
+    cookies().set(sessionCookie);
+    
 
     revalidatePath(`/profile/${userId}`);
     revalidatePath("/user");
@@ -407,8 +431,8 @@ export async function updateUserProfileCompletion(
   } catch (error: any) {
     return {
       sucess: false,
-      message:
-        "Une erreure s'est produite lors de la completion de votre profile",
+      username:`${error.message}`==="USERNAME_TAKEN",
+      message:`Une erreure s'est produite lors de la completion de votre profile\n: ${error.message}`,
     };
   }
 }
@@ -478,12 +502,12 @@ export async function getUserStreak(userId: string) {
   return userRecord.streak || 0;
 }
 
-export async function updateUserProfileCompletionState(userId: string) {
+export async function updateUserCheckProfile(userId: string) {
   try {
     const res = await db
       .update(user)
       .set({
-        isCompletedProfile: true,
+        isCheckProfile: true,
         updatedAt: new Date(),
       })
       .where(eq(user.id, userId));

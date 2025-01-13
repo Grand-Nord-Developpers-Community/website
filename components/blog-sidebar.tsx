@@ -40,7 +40,8 @@ import Link from "next/link";
 import { useFormContext } from "@/providers/BlogFormContext";
 import { ChevronsUpDown, LogOut } from "lucide-react";
 import { User as UserType } from "../lib/schema";
-import { logout } from "@/actions/user.actions";
+//import { logout } from "@/actions/user.actions";
+import { logout  } from "@/lib/api/auth/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 export function AppSidebar({ user }: { user: UserType }) {

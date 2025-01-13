@@ -67,12 +67,14 @@ export const metadata: Metadata = {
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { auth } from "@/lib/auth";
+import { Header } from "@/sections/common";
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  console.log(session)
   return (
     <html lang="fr">
       <body

@@ -10,8 +10,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 //import { login } from "@/actions/user.actions";
-import {loginWithPassword} from "@/lib/api/auth/login"
-import { redirect } from "next/navigation"
+import { loginWithPassword } from "@/lib/api/auth/login";
+import { redirect } from "next/navigation";
 //import { signIn, auth, providerMap } from "@/lib/auth"
 
 import {
@@ -31,10 +31,10 @@ import ProviderButton from "./github-login-button";
 interface UserAuthFormProps {
   className?: string;
   props: {
-    searchParams: { callbackUrl: string | undefined }
-  }
+    searchParams: { callbackUrl: string | undefined };
+  };
 }
-export default function SignIn({ className,props }: UserAuthFormProps) {
+export default function SignIn({ className, props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDesactivate, setIsDesactivate] = useState<boolean>(false);
   const router = useRouter();
@@ -48,16 +48,18 @@ export default function SignIn({ className,props }: UserAuthFormProps) {
 
   async function onSubmit(data: z.infer<typeof LoginSchema>) {
     setIsLoading(true);
-    const res = await loginWithPassword(data);
-
-    if (res.data) {
-      setIsLoading(false);
+    try {
+      const res = await loginWithPassword(data);
+      //if (res.data) {
       toast.success("<Bienvenue/> !!");
-      //router.replace("/user/dashboard")
-      window.location.href = "/account/complete";
-    } else {
+      router.replace(res?.data?.redirectUrl);
+        // window.location.href = "/account/complete";
+      //}
+    } catch (e) {
+      console.log(e)
+      toast.error(JSON.stringify(e));
+    } finally {
       setIsLoading(false);
-      toast.error(res.serverError);
     }
   }
 
@@ -161,8 +163,11 @@ export default function SignIn({ className,props }: UserAuthFormProps) {
           </button>
         </form>
       ))} */}
-      <ProviderButton isDesactivate={isLoading}
-        onDesactivate={() => setIsDesactivate(true)} props={props}/>
+      <ProviderButton
+        isDesactivate={isLoading}
+        onDesactivate={() => setIsDesactivate(true)}
+        props={props}
+      />
       {/* <GithubLoginButton
         isDesactivate={isLoading}
         onDesactivate={() => setIsDesactivate(true)}

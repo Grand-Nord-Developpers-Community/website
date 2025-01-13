@@ -6,7 +6,7 @@ import StatWidget, { Stat } from "@/components/stat-widget";
 import { getUserProfileUserAuth } from "@/actions/user.actions";
 import { getUserBlogPosts } from "@/actions/blog.actions";
 import { getUserForumPosts } from "@/actions/forum.actions";
-import { type Blog, type Forum } from "@/lib/schema";
+import { type Blog, type Forum } from "@/lib/db/schema";
 enum widgetType {
   BLOG,
   FORUM,
@@ -75,7 +75,7 @@ const Dashboard: React.FC = async () => {
           userId={user?.id!}
           forums={forums as Forum[]}
           posts={posts as Blog[]}
-          isCompletedProfile={user?.isCompletedProfile!}
+          isUserCheckProfile={user?.isCheckProfile!}
         />
       </div>
     </>

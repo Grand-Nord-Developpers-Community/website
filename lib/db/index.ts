@@ -8,7 +8,7 @@ declare global {
 }
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({ connectionString: connectionString });
-export const db = drizzle(pool, { schema });
+export const db = global.drizzle || drizzle(pool, { schema });
 
 //@ts-ignore
 if (process.env.NODE_ENV !== "production") globalThis.drizzle = db;

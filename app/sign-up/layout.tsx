@@ -13,7 +13,7 @@ async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  const { session } = await auth();
   if (session) {
     redirect("/user");
   }

@@ -1,1 +1,0 @@
-ALTER TABLE "email_verification_code" ALTER COLUMN "expires_at" SET DATA TYPE timestamp;

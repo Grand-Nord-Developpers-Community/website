@@ -1,6 +1,7 @@
 "use client";
 import {useState} from "react"
-import { loginWithGithub } from "@/actions/user.actions";
+//import { loginWithGithub } from "@/actions/user.actions";
+import { loginWithGithub } from "@/lib/api/auth/login";
 import { GithubIcon, LoaderIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
@@ -19,10 +20,10 @@ export default function GithubLoginButton({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   
-  const onClick = () => {
+  const onClick = async () => {
     setIsLoading(true)
      onDesactivate()
-    loginWithGithub(props);
+    await loginWithGithub();
   };
 
   return (
