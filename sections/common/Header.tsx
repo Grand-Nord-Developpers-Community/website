@@ -31,6 +31,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "@/components/auth/SessionProvider";
+import { SessionUser } from "@/lib/db/schema";
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
@@ -40,8 +41,8 @@ const Links = [
 ];
 
 //import { SessionUser } from "@/lib/db/schema/user";
-function Header() {
-  const { user } = useSession();
+function Header({ user }: { user: SessionUser | null }) {
+  //const { user } = useSession();
   const pathname = usePathname();
   const [scrollProgress, setScrollProgress] = useState(0);
   const router = useRouter();
