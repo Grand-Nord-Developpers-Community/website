@@ -25,6 +25,7 @@ import { RegisterSchema } from "@/schemas/register-schema";
 import { useRouter } from "next/navigation";
 //import FacebookLoginButton from "./facebook-login-button"
 import GithubLoginButton from "./github-login-button";
+import GoogleLoginButton from "./google-login-button";
 
 interface UserAuthFormProps {
   className?: string;
@@ -50,7 +51,7 @@ export default function SignUpForm({ className, props }: UserAuthFormProps) {
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     setIsLoading(true);
     try {
-      const res=await register(data);
+      const res = await register(data);
       if (res && res.serverError) {
         toast.error(JSON.stringify(res.serverError) as string);
         //throw new Error(res.serverError);
@@ -155,11 +156,18 @@ export default function SignUpForm({ className, props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GithubLoginButton
-        props={props}
-        isDesactivate={isLoading}
-        onDesactivate={() => setIsDesactivate(true)}
-      />
+      <div className="flex flex-col gap-3">
+        <GithubLoginButton
+          isDesactivate={isLoading}
+          onDesactivate={() => setIsDesactivate(true)}
+          props={props}
+        />
+        <GoogleLoginButton
+          isDesactivate={isLoading}
+          onDesactivate={() => setIsDesactivate(true)}
+          props={props}
+        />
+      </div>
     </div>
   );
 }

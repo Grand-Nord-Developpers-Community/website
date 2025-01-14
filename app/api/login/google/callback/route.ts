@@ -74,7 +74,7 @@ export async function GET(request: Request): Promise<Response> {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: "/",
+          Location: existingUser?.isCompletedProfile?"/user/dashboard":"/account/complete",
         },
       });
     }
@@ -95,7 +95,7 @@ export async function GET(request: Request): Promise<Response> {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: "/",
+          Location: existingUser?.isCompletedProfile?"/user/dashboard":"/account/complete",
         },
       });
     }
@@ -127,7 +127,7 @@ export async function GET(request: Request): Promise<Response> {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: "/",
+        Location: existingUser?.isCompletedProfile?"/user/dashboard":"/account/complete",
       },
     });
   } catch (e) {

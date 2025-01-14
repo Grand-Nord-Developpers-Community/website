@@ -1,6 +1,6 @@
 import { fetcher } from "@/lib/utils";
 import useSWR, { preload } from "swr";
-import { type User, type Blog, type Forum } from "@/lib/schema"
+import { type User, type Blog, type Forum } from "@/lib/db/schema"
 type imageProfile = { image: string }
 export type Blogs = { posts: Blog[] }
 export type Forums = { forums: Forum[] }

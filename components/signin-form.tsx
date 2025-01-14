@@ -27,6 +27,8 @@ import { LoginSchema } from "@/schemas/login-schema";
 import { useRouter } from "next/navigation";
 //import FacebookLoginButton from "./facebook-login-button"
 import ProviderButton from "./github-login-button";
+import GithubLoginButton from "./github-login-button";
+import GoogleLoginButton from "./google-login-button";
 
 interface UserAuthFormProps {
   className?: string;
@@ -52,11 +54,11 @@ export default function SignIn({ className, props }: UserAuthFormProps) {
       const res = await loginWithPassword(data);
       //if (res.data) {
       toast.success("<Bienvenue/> !!");
-      router.replace(res?.data?.redirectUrl);
-        // window.location.href = "/account/complete";
+      router.replace(res?.data?.redirectUrl ?? "/");
+      // window.location.href = "/account/complete";
       //}
     } catch (e) {
-      console.log(e)
+      console.log(e);
       toast.error(JSON.stringify(e));
     } finally {
       setIsLoading(false);
@@ -163,11 +165,19 @@ export default function SignIn({ className, props }: UserAuthFormProps) {
           </button>
         </form>
       ))} */}
-      <ProviderButton
-        isDesactivate={isLoading}
-        onDesactivate={() => setIsDesactivate(true)}
-        props={props}
-      />
+      <div className="flex flex-col gap-3">
+        <GithubLoginButton
+          isDesactivate={isLoading}
+          onDesactivate={() => setIsDesactivate(true)}
+          props={props}
+        />
+        <GoogleLoginButton
+          isDesactivate={isLoading}
+          onDesactivate={() => setIsDesactivate(true)}
+          props={props}
+        />
+      </div>
+
       {/* <GithubLoginButton
         isDesactivate={isLoading}
         onDesactivate={() => setIsDesactivate(true)}

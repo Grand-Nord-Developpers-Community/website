@@ -1,4 +1,5 @@
 import { VerifyEmailForm } from "@/components/auth/VerifyEmailForm";
+import type { Metadata } from "next";
 //import { Divider } from "@/components/ui/divider";
 import Link from "next/link";
 export const metadata: Metadata = {

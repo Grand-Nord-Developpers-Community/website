@@ -217,6 +217,7 @@ export async function getUserProfileUserAuth() {
         instagramLink: true,
         lastActive: true,
         isCompletedProfile: true,
+        isCheckProfile:true,
         createdAt: true,
       },
     });

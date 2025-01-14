@@ -30,6 +30,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { useSession } from "@/components/auth/SessionProvider";
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
@@ -38,9 +39,9 @@ const Links = [
   { name: "Contact", link: "/contact" },
 ];
 
-import { SessionUser } from "@/lib/db/schema/user";
-function Header({user}:{user:SessionUser}) {
-  //const { user,session } = useSession();
+//import { SessionUser } from "@/lib/db/schema/user";
+function Header() {
+  const { user } = useSession();
   const pathname = usePathname();
   const [scrollProgress, setScrollProgress] = useState(0);
   const router = useRouter();
@@ -60,11 +61,10 @@ function Header({user}:{user:SessionUser}) {
     };
   }, []);
   const onLogoutClick = async () => {
-    const response = await logout();
-    if (!response.error) {
-      window.location.href = "/login";
-    } else {
-      toast(response.error);
+    try {
+      await logout();
+    } catch (e) {
+      toast.error(e as string);
     }
   };
   return !pathname.includes("login") &&
@@ -204,7 +204,7 @@ function Header({user}:{user:SessionUser}) {
                   </SheetClose>
                 </>
               )}
-              {user && !user.name && (
+              {user && !user.isCompletedProfile && (
                 <>
                   <SheetClose asChild>
                     <ButtonX className="" variant="ringHover" asChild>

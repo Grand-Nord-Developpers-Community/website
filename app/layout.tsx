@@ -5,7 +5,6 @@ import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
 import "prismjs/themes/prism.css";
 import { Toaster } from "@/components/ui/sonner";
-import HeaderWrapper from "@/components/header-wrapper";
 //import { Montserrat } from "next/font/google";
 //const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -74,13 +73,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  console.log(session)
+  console.log(session);
   return (
     <html lang="fr">
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
-        <HeaderWrapper />
+        <Header />
         <main className="w-full min-h-screen overflow-x-clip">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <SessionProvider session={session}>

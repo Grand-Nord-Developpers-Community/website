@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -17,9 +16,8 @@ import HeadingPage from "@/sections/common/HeadingPage";
 import { getForumPost, getForumPosts } from "@/actions/forum.actions";
 import Comment from "@/components/commentComponent";
 import RenderContent from "@/components/renderContent";
-import { forumPost } from "@/lib/schema";
 import { formatRelativeTime } from "@/lib/utils";
-import { ArrowBigUp, ArrowBigDown, Eye, MessageSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { getUserProfileUserAuth } from "@/actions/user.actions";
 export default async function QuestionPage({ params }: { params: any }) {
   const { id } = params;
@@ -145,7 +143,7 @@ export default async function QuestionPage({ params }: { params: any }) {
                   <Avatar>
                     <AvatarImage
                       src={user?.image || ""}
-                      alt={user?.name||"Avatar"}
+                      alt={user?.name || "Avatar"}
                     />
                     <AvatarFallback>
                       {user?.name?.slice(0, 2)?.toUpperCase()}

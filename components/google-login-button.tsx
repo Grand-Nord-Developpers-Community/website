@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
 //import { loginWithGithub } from "@/actions/user.actions";
-import { loginWithGithub } from "@/lib/api/auth/login";
+import GoogleLogo from "@/assets/svgs/google-logo.svg";
+import { loginWithGoogle } from "@/lib/api/auth/login";
 import { GithubIcon, LoaderIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 
-export default function GithubLoginButton({
+export default function GoogleLoginButton({
   isDesactivate = false,
   onDesactivate,
   props,
@@ -25,7 +26,7 @@ export default function GithubLoginButton({
     setIsLoading(true);
     onDesactivate();
     try {
-      await loginWithGithub();
+      await loginWithGoogle();
     } catch (e) {
       toast.error(JSON.stringify(e) as string);
     } finally {
@@ -35,8 +36,8 @@ export default function GithubLoginButton({
 
   return (
     <Button
-      variant="outline"
-      className="border border-black text-black hover:bg-black hover:text-white"
+      variant="ghost"
+      className="border border-gray-400"
       type="button"
       disabled={isLoading || isDesactivate}
       onClick={onClick}
@@ -44,9 +45,9 @@ export default function GithubLoginButton({
       {isLoading ? (
         <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
       ) : (
-        <GithubIcon className="mr-2 h-4 w-4" />
+        <GoogleLogo className="mr-2 h-4 w-4" />
       )}{" "}
-      GitHub
+      Connecter vous avec Google
     </Button>
   );
 }

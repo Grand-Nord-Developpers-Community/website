@@ -55,7 +55,7 @@ export const register = action(registerSchema, async ({ email, password }) => {
   const session = await lucia.createSession(userId, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
   cookies().set(sessionCookie);
-  console.log(session)
-  redirect("/");
+  //console.log(session)
+  redirect("/account/complete");
 
 });

@@ -46,27 +46,27 @@ export default function ProfileCompletion({ user }: { user: SessionUser }) {
       if (res.success) {
         //router.replace("/user/dashboard")
         preload("/api/user/profile", fetcher);
-        router.push("/user");
+        //router.push("/user");
+        router.replace("/user/dashboard");
         //setIsLoading(false);
         //window.location.href = "/user/";
       } else {
-        if(res.username){
-          setError("username",{
-           message: "ce username est déjà pris !!",
-          })
-        }else{
-          toast.error(res.message as string);
+        if (res.username) {
+          setError("username", {
+            message: "ce username est déjà pris !!",
+          });
+        } else {
+          console.log(res.message);
+          //toast.error(JSON.stringify(res.message) as string);
         }
-        
       }
     } catch (e) {
-      console.log(e)
-      toast.error(e as string);
-    }finally{
+      console.log(e);
+      //toast.error(JSON.stringify(e) as string);
+    } finally {
       setIsLoading(false);
     }
   }
-  
 
   return (
     <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">

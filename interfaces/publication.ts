@@ -1,5 +1,5 @@
 import User from "@/interfaces/user";
-import {type Blog} from "@/lib/schema"
+import {type Blog} from "@/lib/db/schema"
 
 export default interface Publication {
   featured_image: {
