@@ -39,21 +39,21 @@ import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import { useFormContext } from "@/providers/BlogFormContext";
 import { ChevronsUpDown, LogOut } from "lucide-react";
-import { User as UserType } from "../lib/schema";
-import { logout } from "@/actions/user.actions";
+import type { SessionUser } from "@/lib/db/schema";
+//import { logout } from "@/actions/user.actions";
+import { logout } from "@/lib/api/auth/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-export function AppSidebar({ user }: { user: UserType }) {
+export function AppSidebar({ user }: { user: SessionUser }) {
   const { form, setCompressedFile, loading, progress, success } =
     useFormContext();
   const { setValue } = form;
   const router = useRouter();
   const onLogoutClick = async () => {
-    const response = await logout();
-    if (response.success) {
-      window.location.href = "/login";
-    } else {
-      toast(response.message);
+    try {
+      await logout();
+    } catch (e) {
+      toast.error(e as string);
     }
   };
   return (

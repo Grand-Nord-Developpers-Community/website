@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { blogPost, blogComment } from "@/lib/schema";
+import { blogPost, blogComment } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";

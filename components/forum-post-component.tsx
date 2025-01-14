@@ -161,14 +161,14 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
                       "border-destructive focus-within:border-destructive":
                         form.formState.errors.content,
                     })}
-                    editorContentClassName="overflow-auto h-full flex grow"
+                    editorContentClassName="w-full overflow-auto h-full flex grow"
                     output="html"
                     placeholder="Saisir votre question ..."
                     editable={!loading}
                     onCreate={handleCreate}
                     injectCSS={true}
                     immediatelyRender={true}
-                    editorClassName="focus:outline-none px-5 py-4 h-full grow"
+                    editorClassName="focus:outline-none px-5 py-4 h-full grow w-full"
                   />
                 </FormControl>
                 <FormMessage />

@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/brand/logo.png";
 import { usePathname } from "next/navigation";
-import { logout } from "@/actions/user.actions";
+import { logout } from "@/lib/api/auth/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { MenuIcon } from "lucide-react";
@@ -30,6 +30,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { useSession } from "@/components/auth/SessionProvider";
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
@@ -37,7 +38,10 @@ const Links = [
   { name: "Formation", link: "/formation" },
   { name: "Contact", link: "/contact" },
 ];
-function Header({ user }: { user: any }) {
+
+//import { SessionUser } from "@/lib/db/schema/user";
+function Header() {
+  const { user } = useSession();
   const pathname = usePathname();
   const [scrollProgress, setScrollProgress] = useState(0);
   const router = useRouter();
@@ -57,11 +61,10 @@ function Header({ user }: { user: any }) {
     };
   }, []);
   const onLogoutClick = async () => {
-    const response = await logout();
-    if (response.success) {
-      window.location.href = "/login";
-    } else {
-      toast(response.message);
+    try {
+      await logout();
+    } catch (e) {
+      toast.error(e as string);
     }
   };
   return !pathname.includes("login") &&
@@ -85,7 +88,7 @@ function Header({ user }: { user: any }) {
               </Link>
             ))}
           </nav>
-          {user && user.name && (
+          {user && user.isCompletedProfile && (
             <>
               <Button variant="secondary" className="ml-5 text-white" asChild>
                 <Link href="/user/dashboard">Tableau de bord</Link>
@@ -94,12 +97,12 @@ function Header({ user }: { user: any }) {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
+                    className="relczative h-8 w-8 rounded-full"
                   >
                     <Avatar className="h-11 w-11">
                       <AvatarImage src={user?.image ?? ""} alt="@GNDC" />
                       <AvatarFallback className="uppercase">
-                        {user?.name.slice(0, 2)}
+                        {user?.name?.slice(0, 2)}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -144,7 +147,7 @@ function Header({ user }: { user: any }) {
               </DropdownMenu>
             </>
           )}
-          {user && !user?.name && (
+          {user && !user.isCompletedProfile && (
             <>
               <ButtonX className="" variant="ringHover" asChild>
                 <Link href="/account/complete">Completer</Link>
@@ -201,7 +204,7 @@ function Header({ user }: { user: any }) {
                   </SheetClose>
                 </>
               )}
-              {user && !user.name && (
+              {user && !user.isCompletedProfile && (
                 <>
                   <SheetClose asChild>
                     <ButtonX className="" variant="ringHover" asChild>

@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { NuqsAdapter } from 'nuqs/adapters/next'
+import { NuqsAdapter } from "nuqs/adapters/next";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
 import "prismjs/themes/prism.css";
 import { Toaster } from "@/components/ui/sonner";
-import HeaderWrapper from "@/components/header-wrapper";
 //import { Montserrat } from "next/font/google";
 //const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -64,26 +63,32 @@ export const metadata: Metadata = {
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
-import { ThemeProvider } from 'next-themes';
-import { SessionProvider } from 'next-auth/react';
-import { auth } from "@/auth";
+import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "@/components/auth/SessionProvider";
+import { auth } from "@/lib/auth";
+import { Header } from "@/sections/common";
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  console.log(session);
   return (
     <html lang="fr">
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
-        <HeaderWrapper />
+        <Header />
         <main className="w-full min-h-screen overflow-x-clip">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <SessionProvider session={session}><ConfirmDialogProvider>
-              <TooltipProvider> <NuqsAdapter>{children}</NuqsAdapter></TooltipProvider>
-            </ConfirmDialogProvider></SessionProvider>
+            <SessionProvider session={session}>
+              <ConfirmDialogProvider>
+                <TooltipProvider>
+                  <NuqsAdapter>{children}</NuqsAdapter>
+                </TooltipProvider>
+              </ConfirmDialogProvider>
+            </SessionProvider>
           </ThemeProvider>
         </main>
         <Footer />

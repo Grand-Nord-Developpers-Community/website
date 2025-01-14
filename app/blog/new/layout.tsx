@@ -10,23 +10,21 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/blog-sidebar";
-import { Separator } from "@/components/ui/separator";
 import BlogFormContext from "@/providers/BlogFormContext";
-import { getUserProfileUserAuth } from "@/actions/user.actions";
-import { User } from "@/lib/schema";
 import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getUserProfileUserAuth();
+  const { user } = await auth();
   if (!user) redirect("/login?fallBackURL");
-  if (user && !user.name) redirect("/account/complete");
+  if (user && !user.isCompletedProfile) redirect("/account/complete");
   return (
     <BlogFormContext userId={user?.id}>
       <SidebarProvider>
-        <AppSidebar user={user as User} />
+        <AppSidebar user={user} />
         <SidebarInset className="overflow-clip">
           <SidebarTrigger className="absolute top-3 left-1 z-10" />
           {/* page main content */}

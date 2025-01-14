@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { register } from "@/actions/user.actions";
+import { register } from "@/lib/api/auth/register";
 import {
   Form,
   FormControl,
@@ -25,15 +25,16 @@ import { RegisterSchema } from "@/schemas/register-schema";
 import { useRouter } from "next/navigation";
 //import FacebookLoginButton from "./facebook-login-button"
 import GithubLoginButton from "./github-login-button";
+import GoogleLoginButton from "./google-login-button";
 
 interface UserAuthFormProps {
   className?: string;
   props: {
-    searchParams: { callbackUrl: string | undefined }
-  }
+    searchParams: { callbackUrl: string | undefined };
+  };
 }
 
-export default function SignUpForm({ className,props }: UserAuthFormProps) {
+export default function SignUpForm({ className, props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isDesactivate, setIsDesactivate] = React.useState<boolean>(false);
   const router = useRouter();
@@ -49,14 +50,15 @@ export default function SignUpForm({ className,props }: UserAuthFormProps) {
 
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     setIsLoading(true);
-    const res = await register(data);
-    if (res.success) {
-      setIsLoading(false);
+    try {
+      const res = await register(data);
+      if (res && res.serverError) {
+        toast.error(JSON.stringify(res.serverError) as string);
+        //throw new Error(res.serverError);
+      }
       toast.success("Votre compte a été avec success !!");
-      router.replace("/login");
-    } else {
+    } finally {
       setIsLoading(false);
-      toast.error(res.message);
     }
   }
 
@@ -154,11 +156,18 @@ export default function SignUpForm({ className,props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GithubLoginButton
-        props={props}
-        isDesactivate={isLoading}
-        onDesactivate={() => setIsDesactivate(true)}
-      />
+      <div className="flex flex-col gap-3">
+        <GithubLoginButton
+          isDesactivate={isLoading}
+          onDesactivate={() => setIsDesactivate(true)}
+          props={props}
+        />
+        <GoogleLoginButton
+          isDesactivate={isLoading}
+          onDesactivate={() => setIsDesactivate(true)}
+          props={props}
+        />
+      </div>
     </div>
   );
 }

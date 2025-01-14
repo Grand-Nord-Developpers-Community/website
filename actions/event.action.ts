@@ -1,5 +1,5 @@
 import { db } from '@/lib/db'
-import {event, user } from '@/lib/schema'
+import {event, userTable } from '@/lib/db/schema'
 import { eq, desc } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 export async function createEvent(title: string, description: string, location: string, datetime: Date, link: string | null, creatorId: string) {

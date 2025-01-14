@@ -34,8 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/legal/modal.js",
-    "types/next-auth.d.ts"
+    "components/legal/modal.js"
   ],
   "exclude": [
     "node_modules"

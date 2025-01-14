@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Logo from "@/assets/images/brand/logo.png";
 import { fetcher } from "@/lib/utils";
-import {preload} from "swr";
-import {toast} from "sonner"
+import { preload } from "swr";
+import { toast } from "sonner";
 type ProfileFormData = z.infer<typeof completeProfileSchema>;
 import {
   Form,
@@ -24,32 +24,49 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-export default function ProfileCompletion({ userId }: { userId: string }) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router=useRouter()
-  async function onSubmit(data: ProfileFormData) {
-    setIsLoading(true);
-    const res = await updateUserProfileCompletion(userId, data);
-
-    if (res.success) {
-      //router.replace("/user/dashboard")
-      preload('/api/user/profile', fetcher);
-      router.push("/user");
-      //setIsLoading(false);
-      //window.location.href = "/user/";
-    } else {
-      setIsLoading(false);
-      toast.error(res.message);
-    }
-  }
+import { SessionUser } from "@/lib/db/schema";
+export default function ProfileCompletion({ user }: { user: SessionUser }) {
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(completeProfileSchema),
     defaultValues: {
-      name: "",
-      bio: "",
+      username: user.username ?? "",
+      name: user.name ?? "",
+      bio: user?.bio ?? "",
       websiteLink: "",
     },
   });
+  const { setError } = form;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+  async function onSubmit(data: ProfileFormData) {
+    setIsLoading(true);
+    try {
+      const res = await updateUserProfileCompletion(user.id, data);
+
+      if (res.success) {
+        //router.replace("/user/dashboard")
+        preload("/api/user/profile", fetcher);
+        //router.push("/user");
+        router.replace("/user/dashboard");
+        //setIsLoading(false);
+        //window.location.href = "/user/";
+      } else {
+        if (res.username) {
+          setError("username", {
+            message: "ce username est déjà pris !!",
+          });
+        } else {
+          console.log(res.message);
+          //toast.error(JSON.stringify(res.message) as string);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      //toast.error(JSON.stringify(e) as string);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">
@@ -58,7 +75,7 @@ export default function ProfileCompletion({ userId }: { userId: string }) {
         alt="Background"
         layout="fill"
         objectFit="cover"
-        quality={100}
+        quality={50}
         className="z-0"
       />
       <div className="relative z-20 w-full max-w-md">
@@ -79,6 +96,23 @@ export default function ProfileCompletion({ userId }: { userId: string }) {
             </h2>
             <FormField
               control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Identifiant (unique)</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Votre @pseudo unique"
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
@@ -86,7 +120,7 @@ export default function ProfileCompletion({ userId }: { userId: string }) {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Votre nom ou pseudo"
+                      placeholder="Votre nom"
                       disabled={isLoading}
                     />
                   </FormControl>

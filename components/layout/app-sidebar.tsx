@@ -1,10 +1,10 @@
-'use client';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+"use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger
-} from '@/components/ui/collapsible';
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +12,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Separator } from '@/components/ui/separator';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
@@ -31,9 +31,9 @@ import {
   SidebarMenuSubItem,
   SidebarProvider,
   SidebarRail,
-  SidebarTrigger
-} from '@/components/ui/sidebar.component';
-import { navItems } from '@/constants/data';
+  SidebarTrigger,
+} from "@/components/ui/sidebar.component";
+import { navItems } from "@/constants/data";
 import {
   BadgeCheck,
   Bell,
@@ -41,31 +41,32 @@ import {
   ChevronsUpDown,
   CreditCard,
   GalleryVerticalEnd,
-  LogOut
-} from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import * as React from 'react';
-import { Breadcrumbs } from '../breadcrumbs';
-import { Icons } from '../icons';
-import SearchInput from '../search-input';
-import ThemeToggle from './ThemeToggle/theme-toggle';
-import { UserNav } from './user-nav';
+  LogOut,
+} from "lucide-react";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import * as React from "react";
+import { Breadcrumbs } from "../breadcrumbs";
+import { Icons } from "../icons";
+import SearchInput from "../search-input";
+import ThemeToggle from "./ThemeToggle/theme-toggle";
+import { UserNav } from "./user-nav";
+import { useSession } from "../auth/SessionProvider";
 
 export const company = {
-  name: 'Acme Inc',
+  name: "Acme Inc",
   logo: GalleryVerticalEnd,
-  plan: 'Enterprise'
+  plan: "Enterprise",
 };
 
 export default function AppSidebar({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
   const [mounted, setMounted] = React.useState(false);
-  const { data: session } = useSession();
+  const session = useSession();
   //const session={}
   const pathname = usePathname();
   // Only render after first client-side mount
@@ -162,20 +163,20 @@ export default function AppSidebar({
                   >
                     <Avatar className="h-8 w-8 rounded-lg">
                       <AvatarImage
-                        src={session?.user?.image || ''}
-                        alt={session?.user?.name || ''}
+                        src={session?.user?.image || ""}
+                        alt={session?.user?.name || ""}
                       />
                       <AvatarFallback className="rounded-lg">
                         {session?.user?.name?.slice(0, 2)?.toUpperCase() ||
-                          'CN'}
+                          "CN"}
                       </AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
-                        {session?.user?.name || ''}
+                        {session?.user?.name || ""}
                       </span>
                       <span className="truncate text-xs">
-                        {session?.user?.email || ''}
+                        {session?.user?.email || ""}
                       </span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4" />
@@ -191,21 +192,21 @@ export default function AppSidebar({
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                       <Avatar className="h-8 w-8 rounded-lg">
                         <AvatarImage
-                          src={session?.user?.image || ''}
-                          alt={session?.user?.name || ''}
+                          src={session?.user?.image || ""}
+                          alt={session?.user?.name || ""}
                         />
                         <AvatarFallback className="rounded-lg">
                           {session?.user?.name?.slice(0, 2)?.toUpperCase() ||
-                            'CN'}
+                            "CN"}
                         </AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-semibold">
-                          {session?.user?.name || ''}
+                          {session?.user?.name || ""}
                         </span>
                         <span className="truncate text-xs">
-                          {' '}
-                          {session?.user?.email || ''}
+                          {" "}
+                          {session?.user?.email || ""}
                         </span>
                       </div>
                     </div>

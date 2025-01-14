@@ -1,5 +1,5 @@
 import React from "react";
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import LayoutSignInLogIn from "@/components/LayoutSignInLogIn";
 import { Metadata } from "next";
@@ -13,7 +13,7 @@ async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  const { session } = await auth();
   if (session) {
     redirect("/user");
   }
