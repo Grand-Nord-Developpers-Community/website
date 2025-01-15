@@ -92,7 +92,7 @@
     "next": "^14.2.14",
     "next-safe-action": "^6.2.0",
     "next-themes": "^0.3.0",
-    "nuqs": "^2.2.3",
+    "nuqs": "^2.3.1",
     "oslo": "^1.2.0",
     "plaiceholder": "^3.0.0",
     "postgres": "^3.4.5",
