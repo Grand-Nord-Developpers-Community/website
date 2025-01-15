@@ -1,6 +1,13 @@
 import React from "react";
 import { Shield, MessageCircle, Users, Search, Heart } from "lucide-react";
 import HeadingPage from "@/sections/common/HeadingPage";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GNDC | Code de conduite",
+  description:
+    "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
+};
 
 const page: React.FC = () => {
   return (

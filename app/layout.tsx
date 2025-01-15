@@ -59,14 +59,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ConfirmDialogProvider } from "@/providers/confirm-dialog-provider";
 export const metadata: Metadata = {
   metadataBase: new URL("https://gndc-website.onrender.com"),
-  title: "GNDC | Home",
+  title: "GNDC | Accueil",
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { auth } from "@/lib/auth";
-import { Header } from "@/sections/common";
 import HeaderWrapper from "@/components/header-wrapper";
 export default async function RootLayout({
   children,

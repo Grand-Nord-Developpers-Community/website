@@ -3,8 +3,13 @@ import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Code, Users, Target, Activity, Briefcase, PhoneCall } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Metadata } from "next";
 
-
+export const metadata: Metadata = {
+  title: "GNDC | A propos",
+  description:
+    "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
+};
 const AboutUs = () => {
   return (
     <div className="container mx-auto px-4 py-8">

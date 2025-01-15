@@ -5,7 +5,7 @@ import { ActivitiesAndEventsSection } from "@/sections/home";
 import Link from "next/link";
 import HeadingPage from "@/sections/common/HeadingPage";
 export const metadata: Metadata = {
-  title: "GNDC | Events",
+  title: "GNDC | Nos évenements",
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };

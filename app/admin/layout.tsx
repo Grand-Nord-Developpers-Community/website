@@ -2,10 +2,10 @@ import AppSidebar from '@/components/layout/app-sidebar';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn Dashboard Starter',
-  description: 'Basic dashboard with Next.js and Shadcn'
+  title: "GNDC | Admin panel Dashboard",
+  description:
+    "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
-
 export default function DashboardLayout({
   children
 }: {
