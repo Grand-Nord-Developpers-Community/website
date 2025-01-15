@@ -53,8 +53,8 @@ function HeroSection() {
               asChild
               variant={"ghost"}
             >
-              <Link href="/besponsor">
-                Devenir sponsor{" "}
+              <Link href="/members">
+                Voir nos membres{" "}
                 <ChevronRight
                   className="text-secondary -mr-2"
                   strokeWidth={4}
