@@ -1,22 +1,5 @@
 "use client";
 
-// import React, { ReactNode, useState } from "react";
-// import { ChevronDown, ChevronUp } from "lucide-react";
-// import Link from "next/link";
-// import { cn } from "@/lib/utils";
-// import { Button } from "@/components/ui/button";
-
-// interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-//   children: ReactNode;
-//   className?: string;
-// }
-// /*
-// const Button: React.FC<ButtonProps> = ({ children, className, ...props }) => (
-//   <button className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ${className}`} {...props}>
-//     {children}
-//   </button>
-// );
-// */
 
 interface FAQItemProps {
   question: string;

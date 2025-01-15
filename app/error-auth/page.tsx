@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import CodeError from "./errCode";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GNDC | Erreur",
+  description:
+    "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
+};
 const Custom500 = () => {
   return (
     <div className="screen-wrapper">
