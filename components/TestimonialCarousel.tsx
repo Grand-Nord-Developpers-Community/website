@@ -30,7 +30,9 @@ const TestimonialCarousel = () => {
         {testimonials.map((testimonial, index) => (
           <Card key={index} className="flex-shrink-0 w-80 snap-center">
             <CardContent className="p-6">
-              <p className="text-gray-600 mb-4">"{testimonial.content}"</p>
+              <p className="text-gray-600 mb-4">
+                &quot;{testimonial.content}&quot;
+              </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                   <span className="text-blue-500 font-semibold">

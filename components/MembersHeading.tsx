@@ -20,7 +20,7 @@ const MembersHeading = () => {
         <div className="relative mx-auto max-w-4xl grid space-y-5 sm:space-y-10">
           <div className="text-center">
             <p className="text-xs font-semibold text-white tracking-wide uppercase mb-3">
-              Un réseau d'innovateurs.
+              Un réseau d&apos;innovateurs.
             </p>
             <h1 className="text-2xl text-white font-bold sm:text-4xl lg:text-5xl lg:leading-tight">
               Contribuer au développement technologique{" "}
@@ -31,9 +31,10 @@ const MembersHeading = () => {
           <div className="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
             <div className="shrink-0 pb-5 sm:flex sm:pb-0 sm:pe-5">
               <div className="flex justify-center -space-x-3">
-                {leaders.slice(0, 4).map((leader) => {
+                {leaders.slice(0, 4).map((leader, i) => {
                   return (
                     <Image
+                      key={i}
                       className="inline-block size-8 rounded-full ring-2 ring-white"
                       width={300}
                       height={300}

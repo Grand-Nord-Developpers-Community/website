@@ -40,11 +40,12 @@ const AboutUs = () => {
             Notre Vision
           </h2>
           <p className="text-lg text-center max-w-3xl mx-auto leading-relaxed">
-            À la GNDC, nous sommes plus qu'une communauté - nous sommes un
-            mouvement. Notre passion pour la technologie et l'innovation nous
-            pousse à remodeler l'avenir du Grand Nord du Cameroun. Ensemble,
-            nous construisons un écosystème dynamique où les idées fleurissent,
-            les compétences se développent et les rêves deviennent réalité.
+            À la GNDC, nous sommes plus qu&apos;une communauté - nous sommes un
+            mouvement. Notre passion pour la technologie et l&apos;innovation
+            nous pousse à remodeler l&apos;avenir du Grand Nord du Cameroun.
+            Ensemble, nous construisons un écosystème dynamique où les idées
+            fleurissent, les compétences se développent et les rêves deviennent
+            réalité.
           </p>
           <div className="mt-8 text-center">
             <Link
@@ -121,7 +122,7 @@ const AboutUs = () => {
                 icon: <Code className="w-8 h-8 text-primary" />,
                 title: "Ateliers Techniques & Bootcamps",
                 description:
-                  "Des expériences d'apprentissage intensives et pratiques pour améliorer vos compétences",
+                  "Des expériences d&apos;apprentissage intensives et pratiques pour améliorer vos compétences",
               },
               {
                 icon: <Activity className="w-8 h-8 text-primary" />,
@@ -133,7 +134,7 @@ const AboutUs = () => {
                 icon: <Users className="w-8 h-8 text-primary" />,
                 title: "Programme de Mentorat",
                 description:
-                  "Orientation par des experts de l'industrie pour accélérer votre croissance",
+                  "Orientation par des experts de l&apos;industrie pour accélérer votre croissance",
               },
               {
                 icon: <Briefcase className="w-8 h-8 text-primary" />,
@@ -163,7 +164,7 @@ const AboutUs = () => {
             Rejoignez nous !
           </h2>
           <p className="text-lg text-center mb-8">
-            Faites partie d'une communauté qui façonne l'avenir de la
+            Faites partie d&apos;une communauté qui façonne l&apos;avenir de la
             technologie dans le Grand Nord. Il y a une place pour vous ici.
           </p>
           <div className="flex justify-center space-x-4">
