@@ -81,7 +81,7 @@ export default async function RootLayout({
       >
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip">
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="light">
             <SessionProvider session={session}>
               <ConfirmDialogProvider>
                 <TooltipProvider>
