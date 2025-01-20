@@ -55,8 +55,11 @@ export default function SignUpForm({ className, props }: UserAuthFormProps) {
       if (res && res.serverError) {
         toast.error(JSON.stringify(res.serverError) as string);
         //throw new Error(res.serverError);
+      }else{
+        if(!res.serverError) 
+	  toast.success("Votre compte a été avec success !!");
       }
-      toast.success("Votre compte a été avec success !!");
+      
     } finally {
       setIsLoading(false);
     }
