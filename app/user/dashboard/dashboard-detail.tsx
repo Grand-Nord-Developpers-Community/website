@@ -16,6 +16,7 @@ import { deleteBlog } from "@/actions/blog.actions";
 import { deleteForum } from "@/actions/forum.actions";
 import ForumEmptyImage from "@/assets/svgs/undraw_begin_chat_re_v0lw.svg";
 import BlogEmptyImage from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
+import {getReadableTextRawHTML} from "@/lib/utils"
 const Dashboard = ({
   userId,
   isUserCheckProfile,
@@ -131,17 +132,7 @@ const Dashboard = ({
       ),
     });
   };
-  function getReadableTextRawHTML(htmlString: string) {
-    if (typeof window !== "undefined" && typeof DOMParser !== "undefined") {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(htmlString, "text/html");
-      // Extract readable text
-      //@ts-ignore
-      const readableText = doc?.body?.textContent.trim();
-      return readableText ?? "";
-    }
-    return "";
-  }
+  
   const fireshoot = () => {
     const end = Date.now() + 3 * 1000; // 3 seconds
     const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];

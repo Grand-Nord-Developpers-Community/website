@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import ForumDialogButton from "@/components/forum-dialog";
@@ -19,16 +19,24 @@ import RenderContent from "@/components/renderContent";
 import { formatRelativeTime } from "@/lib/utils";
 import { MessageSquare } from "lucide-react";
 import { getUserProfileUserAuth } from "@/actions/user.actions";
+import {ReportView} from "@/components/ReportView"
+import { Redis } from "@upstash/redis";
+export const revalidate = 60;
+
+const redis = Redis.fromEnv();
 export default async function QuestionPage({ params }: { params: any }) {
   const { id } = params;
   const forum = await getForumPost(id as string);
   const forums = await getForumPosts();
   const user = await getUserProfileUserAuth();
+  const views =
+    (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
   if (!forum) {
     notFound();
   }
   return (
     <div className="w-full">
+      <ReportView id={id} type="forum" />
       <HeadingPage
         title={forum.title}
         subtitle={""}
@@ -86,14 +94,16 @@ export default async function QuestionPage({ params }: { params: any }) {
                   <div className="flex flex-col">
                     <RenderContent content={forum.content} />
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      {/*<div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1">
                         <MessageSquare className="h-4 w-4" />0{" "}
                         <span className="max-sm:hidden">Réponse</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Eye className="h-4 w-4" />0{" "}
+                        <Eye className="h-4 w-4" />{Intl.NumberFormat("en-US", { notation: "compact" }).format(
+                views,
+              )}{" "}
                         <span className="max-sm:hidden">Vue</span>
-                      </div>*/}
+                      </div>
                       <span className="text-sm text-muted-foreground">
                         Posé par {forum.author?.name}&ensp;&ensp;
                         {formatRelativeTime(new Date(forum.createdAt))}

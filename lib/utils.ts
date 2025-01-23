@@ -19,6 +19,18 @@ export function slugify(text: string): string {
         .replace(/-+$/, ""); // Trim - from end of text
 }
 
+export function getReadableTextRawHTML(htmlString: string) {
+    if (typeof window !== "undefined" && typeof DOMParser !== "undefined") {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlString, "text/html");
+      // Extract readable text
+      //@ts-ignore
+      const readableText = doc?.body?.textContent.trim();
+      return readableText ?? "";
+    }
+    return "";
+  }
+
 export function formatRelativeTime(date: Date): string {
     const now = new Date();
     const secondsDiff = Math.floor((now.getTime() - date.getTime()) / 1000);

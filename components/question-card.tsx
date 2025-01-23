@@ -7,13 +7,27 @@ import VoidQuestionIcon from "@/assets/svgs/undraw_void_-3-ggu.svg"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EditorRender } from "@/components/minimal-tiptap";
 import {formatRelativeTime} from "@/lib/utils"
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
+export type Forum = Awaited<ReturnType<typeof getForumPosts>>;
 export default async function QuestionCard() {
-  let questions=undefined
+
+  let questions:Forum[]|undefined=undefined;
   try{
-   questions=await getForumPosts()
+   questions=await getForumPosts();
+    const views = (
+    await redis.mget<number[]>(
+      ...questions.map((q) => ["pageviews", "forums", q?.id!].join(":")),
+    )
+  ).reduce((acc, v, i) => {
+    acc[questions[i]?.id!] = v ?? 0;
+    return acc;
+  }, {} as Record<string, number>);
   }catch(e){
     console.log(e)
   }
+
   return (
     <>
       {questions&&questions.length===0&&<>
@@ -56,7 +70,7 @@ export default async function QuestionCard() {
          </div>
        <div className="flex items-center gap-1">
   <Eye className="h-4 w-4" />
- 0 <span className="max-sm:hidden">Vue</span>
+ {views[q.id] ?? 0} <span className="max-sm:hidden">Vue</span>
   </div>
                     <span className="text-sm text-muted-foreground">Posé par {q.author?.name}&ensp;&ensp;{formatRelativeTime(new Date(q.createdAt))}</span>
 </div>

@@ -7,16 +7,24 @@ import { getBlogPost } from "@/actions/blog.actions";
 
 import PostDetail from "@/components/blogContent";
 import Link from "next/link";
+import {ReportView} from "@/components/ReportView"
+import { Redis } from "@upstash/redis";
+import { Clock,Eye } from "lucide-react";
+
+const redis = Redis.fromEnv();
+export const revalidate = 60;
 export default async function Page({ params }: { params: any }) {
   const { slug } = params;
   const post = await getBlogPost(slug as string);
-
+  const views =
+    (await redis.get<number>(["pageviews", "blogs", slug].join(":"))) ?? 0;
   if (!post) {
     notFound();
   }
   return (
     <div className="min-h-screen bg-white">
       {/* Article Header */}
+      <ReportView id={slug} type="blog" />
       <div className="bg-primary">
         <div className="relative screen-wrapper py-12 max-md:pb-[180px]">
           <div className="w-full gap-5 flex max-md:flex-wrap items-center justify-between">
@@ -51,15 +59,17 @@ export default async function Page({ params }: { params: any }) {
                           dateStyle: "long",
                         })}
                       </span>
-                      {/*<span className="flex items-center">
+                      <span className="flex items-center">
                         <Clock className="mr-1 h-4 w-4" /> 5 min read
                       </span>
                       <span className="flex items-center">
-                        <Eye className="mr-1 h-4 w-4" /> 1.5k views
+                        <Eye className="mr-1 h-4 w-4" /> {Intl.NumberFormat("en-US", { notation: "compact" }).format(
+                views,
+              )} vues
                       </span>
                       <span className="flex items-center">
-                        <Heart className={`mr-1 h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} /> {likes} likes
-                      </span>*/}
+                        {/*<Heart className={`mr-1 h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} /> {likes} likes*/}
+                      </span>
                     </div>
                   </div>
                 </div>
