@@ -1,16 +1,19 @@
 import { userTable as user } from "@/lib/db/schema";
 import { relations } from "drizzle-orm";
 import { blogPost } from "./blog";
-import { forumReply, blogComment } from "./comment";
+import { userVote } from "./vote";
+import { userLike } from "./like";
+import { postComment } from "./comment";
 import { forumPost } from "./forum";
 import { event } from "./event";
 
 export const userRelations = relations(user, ({ many }) => ({
   blogPosts: many(blogPost),
-  blogComments: many(blogComment),
   forumPosts: many(forumPost),
-  forumReplies: many(forumReply),
+  postReplies: many(postComment),
   events: many(event),
+  votes: many(userVote),
+  likes: many(userLike),
 }));
 
 export const blogPostRelations = relations(blogPost, ({ one, many }) => ({
@@ -18,7 +21,8 @@ export const blogPostRelations = relations(blogPost, ({ one, many }) => ({
     fields: [blogPost.authorId],
     references: [user.id],
   }),
-  comments: many(blogComment),
+  replies: many(postComment),
+  likes: many(userLike),
 }));
 
 export const forumPostRelations = relations(forumPost, ({ one, many }) => ({
@@ -26,42 +30,55 @@ export const forumPostRelations = relations(forumPost, ({ one, many }) => ({
     fields: [forumPost.authorId],
     references: [user.id],
   }),
-  replies: many(forumReply),
-  //votes: many(forumVote),
+  replies: many(postComment),
+  votes: many(userVote),
 }));
 
-export const blogCommentRelations = relations(blogComment, ({ one, many }) => ({
+export const postCommentRelations = relations(postComment, ({ one, many }) => ({
   author: one(user, {
-    fields: [blogComment.authorId],
+    fields: [postComment.authorId],
     references: [user.id],
   }),
   post: one(forumPost, {
-    fields: [blogComment.postId],
+    fields: [postComment.postId],
     references: [forumPost.id],
   }),
-  parent: one(blogComment, {
-    fields: [blogComment.parentId],
-    references: [blogComment.id],
+  blog: one(blogPost, {
+    fields: [postComment.blogId],
+    references: [blogPost.id],
   }),
-  comments: many(forumReply, { relationName: "parentChild" }),
-  //votes: many(forumVote),
+  parent: one(postComment, {
+    fields: [postComment.parentId],
+    references: [postComment.id],
+  }),
+  replies: many(postComment, { relationName: "parentChild" }),
+  votes: many(userVote),
 }));
 
-export const forumReplyRelations = relations(forumReply, ({ one, many }) => ({
-  author: one(user, {
-    fields: [forumReply.authorId],
+export const userVoteRelations = relations(userVote, ({ one }) => ({
+  user: one(user, {
+    fields: [userVote.userId],
     references: [user.id],
   }),
+  comment: one(postComment, {
+    fields: [userVote.commentId],
+    references: [postComment.id],
+  }),
   post: one(forumPost, {
-    fields: [forumReply.postId],
+    fields: [userVote.postId],
     references: [forumPost.id],
   }),
-  parent: one(forumReply, {
-    fields: [forumReply.parentId],
-    references: [forumReply.id],
+}));
+
+export const userLikeRelations = relations(userLike, ({ one }) => ({
+  user: one(user, {
+    fields: [userLike.userId],
+    references: [user.id],
   }),
-  replies: many(forumReply, { relationName: "parentChild" }),
-  //votes: many(forumVote),
+  post: one(blogPost, {
+    fields: [userLike.postId],
+    references: [blogPost.id],
+  }),
 }));
 
 export const eventRelations = relations(event, ({ one }) => ({

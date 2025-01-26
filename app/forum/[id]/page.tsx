@@ -81,7 +81,7 @@ export default async function QuestionPage({ params }: { params: any }) {
         }
       />
       <main className="screen-wrapper py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-start">
               <div>
@@ -230,9 +230,10 @@ export default async function QuestionPage({ params }: { params: any }) {
               </div>
             </Card> */}
           </div>
-
-          <div className="space-y-6 lg:sticky lg:top-20 lg:self-start">
-            <div className="p-4 max-h-[calc(100vh-6rem)] scrollbar-hide overflow-y-auto">
+          <div className="relative lg:col-span-1 max-h-[calc(100vh-4rem)] lg:sticky lg:top-15 max-sm:max-h-none  ">
+            <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+            <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+            <div className="pt-5 w-full space-y-8 scrollbar-hide h-full overflow-y-auto">
               <Card className="mb-4">
                 <CardHeader>
                   <CardTitle>Aviez vous un problème ?</CardTitle>

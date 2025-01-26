@@ -7,15 +7,17 @@ import { getBlogPost } from "@/actions/blog.actions";
 
 import PostDetail from "@/components/blogContent";
 import Link from "next/link";
-import {ReportView} from "@/components/ReportView"
+import { ReportView } from "@/components/ReportView";
 import { Redis } from "@upstash/redis";
-import { Clock,Eye } from "lucide-react";
+import { Clock, Eye } from "lucide-react";
+import { auth } from "@/lib/auth";
 
 const redis = Redis.fromEnv();
 export const revalidate = 60;
 export default async function Page({ params }: { params: any }) {
   const { slug } = params;
   const post = await getBlogPost(slug as string);
+  const { user } = await auth();
   const views =
     (await redis.get<number>(["pageviews", "blogs", slug].join(":"))) ?? 0;
   if (!post) {
@@ -32,11 +34,15 @@ export default async function Page({ params }: { params: any }) {
               {/*<span className="inline-block text-purple-600 font-medium tracking-wide text-sm uppercase">
                 Business
               </span>*/}
-              <span className="text-gray-400"><Link href="..">&larr; Retour au publication</Link></span>
+              <span className="text-gray-400">
+                <Link href="..">&larr; Retour au publication</Link>
+              </span>
               <h1 className="max-md:w-full text-4xl max-sm:text-2xl md:text-5xl font-bold tracking-tight text-secondary">
                 {post.title}
               </h1>
-              <p className="text-lg text-gray-100 max-sm:text-base">{post.description}</p>
+              <p className="text-lg text-gray-100 max-sm:text-base">
+                {post.description}
+              </p>
               <div className="flex items-center space-x-6">
                 <div className="flex items-center space-x-3">
                   <Avatar className="h-10 w-10">
@@ -63,9 +69,11 @@ export default async function Page({ params }: { params: any }) {
                         <Clock className="mr-1 h-4 w-4" /> 5 min read
                       </span>
                       <span className="flex items-center">
-                        <Eye className="mr-1 h-4 w-4" /> {Intl.NumberFormat("en-US", { notation: "compact" }).format(
-                views,
-              )} vues
+                        <Eye className="mr-1 h-4 w-4" />{" "}
+                        {Intl.NumberFormat("en-US", {
+                          notation: "compact",
+                        }).format(views)}{" "}
+                        vues
                       </span>
                       <span className="flex items-center">
                         {/*<Heart className={`mr-1 h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} /> {likes} likes*/}
@@ -99,7 +107,7 @@ export default async function Page({ params }: { params: any }) {
       </div>
       <div className="screen-wrapper py-12 max-md:mt-[120px]">
         {/* Content */}
-        <PostDetail post={post} />
+        <PostDetail post={post} user={user} />
         {/*<RelatedPosts />*/}
       </div>
     </div>

@@ -1,5 +1,11 @@
 import { userTable as user } from "./user";
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { InferSelectModel } from "drizzle-orm";
 export const blogPost = pgTable("blog_post", {
   id: text("id")
@@ -8,6 +14,7 @@ export const blogPost = pgTable("blog_post", {
   title: text("title").notNull(),
   preview: text("preview").notNull(),
   isDraft: boolean("isDraft").default(true),
+  like: integer("like").default(0),
   previewHash: text("previewHash").notNull(),
   description: text("description").notNull(),
   content: text("content").notNull(),

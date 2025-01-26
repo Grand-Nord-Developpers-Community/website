@@ -4,33 +4,40 @@ import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Button as ButtonX } from "@/components/ui/button-more";
-import { Textarea } from "@/components/ui/textarea";
 import { Comment, CommentSkeleton } from "./Comment";
 import CommentInput from "./commentComponent";
 import { SessionUser } from "@/lib/db/schema";
 import EmptyAnswerIcon from "@/assets/svgs/undraw_public-discussion_693m.svg";
 import {
   ReplyWithAuthor,
-  addForumReply,
+  addpostComment,
+  deletePostComment,
   getPostReplies,
-} from "@/actions/forum.actions";
+  updatePostComment,
+} from "@/actions/post_comment.actions";
 import { getTotalReplies } from "@/lib/utils";
 import { useAlertStore } from "./stores/useAlert";
 import Link from "next/link";
+import { LoaderIcon } from "lucide-react";
+import { toast } from "sonner";
 
 export default function CommentThread({
-  postId,
+  postId = null,
+  blogId = null,
   user,
 }: {
-  postId: string;
+  postId?: string | null;
+  blogId?: string | null;
   user: SessionUser | null;
 }) {
   const [comments, setComments] = useState<ReplyWithAuthor[]>([]);
   const { openAlert } = useAlertStore();
   const [isLoading, setIsLoading] = useState(true);
+  const [isReplying, setIsReplying] = useState(false);
+
   useEffect(() => {
     async function fetchAllComments() {
-      const reply = await getPostReplies(postId);
+      const reply = await getPostReplies({ postId, blogId });
       //toast.message(JSON.stringify(reply));
       setComments(reply);
       if (reply) {
@@ -66,10 +73,25 @@ export default function CommentThread({
     });
   };
 
-  const handleDelete = (commentId: string) => {
-    setComments((prevComments) =>
-      deleteCommentAndChildren(prevComments, commentId)
-    );
+  const handleDelete = async (commentId: string) => {
+    let sucess = false;
+    try {
+      const res = await deletePostComment(commentId);
+      if (res.sucess) {
+        setComments((prevComments) =>
+          deleteCommentAndChildren(prevComments, commentId)
+        );
+        sucess = true;
+        return true;
+      }
+    } catch (e) {
+      toast.error(e as string);
+      sucess = false;
+      return false;
+      //console.log(e);
+    } finally {
+      return sucess;
+    }
   };
 
   const deleteCommentAndChildren = (
@@ -92,10 +114,11 @@ export default function CommentThread({
       openAlert();
       //return false;
     }
-    const res = await addForumReply({
+    const res = await addpostComment({
       content: content,
       parentId,
-      postId: postId,
+      postId,
+      blogId,
     });
     //console.log(newComment);
 
@@ -140,10 +163,25 @@ export default function CommentThread({
     });
   };
 
-  const handleEdit = (commentId: string, newContent: string) => {
-    setComments((prevComments) =>
-      updateCommentContent(prevComments, commentId, newContent)
-    );
+  const handleEdit = async (commentId: string, newContent: string) => {
+    let success = false;
+    try {
+      const res = await updatePostComment(commentId, newContent);
+      if (res.success) {
+        setComments((prevComments) =>
+          updateCommentContent(prevComments, commentId, newContent)
+        );
+        success = true;
+        return true;
+      }
+    } catch (e) {
+      toast.error(e as string);
+      success = false;
+      return false;
+      //console.log(e);
+    } finally {
+      return success;
+    }
   };
 
   const updateCommentContent = (
@@ -169,35 +207,45 @@ export default function CommentThread({
   };
 
   const handleAddComment = async () => {
-    const res = await addForumReply({
-      content: newComment,
-      parentId: null,
-      postId: postId,
-    });
-    //console.log(newComment);
+    setIsReplying(true);
+    try {
+      const res = await addpostComment({
+        content: newComment,
+        parentId: null,
+        postId,
+        blogId,
+      });
+      //console.log(newComment);
 
-    if (res.success) {
-      let result = res.result;
-      const newComment: ReplyWithAuthor = {
-        author: {
-          ...result?.author!,
-          exp: result?.author?.experiencePoints!,
-        },
-        content: result?.content!,
-        createdAt: result?.createdAt!,
-        id: result?.id!,
-        score: result?.score!,
-        replies: [],
-        parentId: result?.parentId!,
-      };
-      setComments((prevComments) => [...prevComments, newComment]);
-      setNewComment("");
-    }
-    if (res.error) {
-      if (res.notLoggedIn) {
-        openAlert();
+      if (res.success) {
+        let result = res.result;
+        const newComment: ReplyWithAuthor = {
+          author: {
+            ...result?.author!,
+            exp: result?.author?.experiencePoints!,
+          },
+          content: result?.content!,
+          createdAt: result?.createdAt!,
+          id: result?.id!,
+          score: result?.score!,
+          replies: [],
+          parentId: result?.parentId!,
+        };
+        setComments((prevComments) => [...prevComments, newComment]);
+        setNewComment("");
+        setIsReplying(false);
       }
-      //toast.error(res.error);
+      if (res.error) {
+        if (res.notLoggedIn) {
+          openAlert();
+        }
+        setIsReplying(false);
+        //toast.error(res.error);
+      }
+    } catch (e) {
+      toast.error(e as string);
+    } finally {
+      setIsReplying(false);
     }
   };
 
@@ -226,7 +274,8 @@ export default function CommentThread({
   return (
     <div className="w-full py-4 space-y-4">
       <h2 className="text-lg font-semibold">
-        {isLoading ? "-" : getTotalReplies(comments)} Réponse
+        {isLoading ? "-" : getTotalReplies(comments)}{" "}
+        {blogId ? "Commentaire" : "Réponse"}
         {getTotalReplies(comments) > 1 ? "s" : ""}
       </h2>
       {isLoading ? (
@@ -264,12 +313,21 @@ export default function CommentThread({
                 output="html"
                 value={newComment}
                 placeholder="Add comment here..."
-                editable={true}
-                onChange={(e) => setNewComment(e)}
+                editable={!isReplying}
+                onChange={(e) => setNewComment(e as string)}
                 editorClassName="focus:outline-none px-5 py-4 h-full"
               />
             </div>
-            <Button onClick={handleAddComment}>Envoyer</Button>
+            <Button
+              className="w-fit flex gap-2 self-right"
+              onClick={handleAddComment}
+              disabled={isReplying}
+            >
+              {isReplying && (
+                <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Envoyer
+            </Button>
           </div>
         ) : (
           <div className="flex flex-col gap-3 justify-center items-center w-full">

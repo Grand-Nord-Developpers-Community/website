@@ -96,17 +96,27 @@ export async function getBlogPosts() {
 }
 
 export async function getUserBlogPosts(userId: string) {
-  const posts = await db
-    .select({
-      id: blogPost.id,
-      title: blogPost.title,
-      description: blogPost.description,
-      createdAt: blogPost.createdAt,
-      slug: blogPost.slug,
-    })
-    .from(blogPost)
-    .where(eq(blogPost.authorId, userId))
-    .orderBy(desc(blogPost.createdAt));
+  const posts = await db.query.blogPost.findMany({
+    orderBy: [desc(blogPost.createdAt)],
+    where: eq(blogPost.authorId, userId),
+    columns: {
+      title: true,
+      description: true,
+      createdAt: true,
+      isDraft: true,
+      slug: true,
+      id: true,
+      content: true,
+      like: true,
+    },
+    with: {
+      replies: {
+        columns: {
+          id: true,
+        },
+      },
+    },
+  });
   return posts;
 }
 
@@ -124,6 +134,11 @@ export async function getBlogPost(slug: string) {
             role: true,
             createdAt: true,
             experiencePoints: true,
+          },
+        },
+        replies: {
+          columns: {
+            id: true,
           },
         },
       },

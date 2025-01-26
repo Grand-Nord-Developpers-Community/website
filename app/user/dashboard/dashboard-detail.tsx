@@ -7,26 +7,33 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Trash } from "lucide-react";
 import Link from "next/link";
-import { type Blog, type Forum } from "@/lib/db/schema";
+import { Blog } from "@/lib/db/schema";
 import ForumDialog from "@/components/forum-dialog";
 import PostCard from "@/components/post-card";
 import { toast } from "sonner";
 import { useConfirm } from "@omit/react-confirm-dialog";
-import { deleteBlog } from "@/actions/blog.actions";
-import { deleteForum } from "@/actions/forum.actions";
+import { deleteBlog, getUserBlogPosts } from "@/actions/blog.actions";
+import { deleteForum, getUserForumPosts } from "@/actions/forum.actions";
 import ForumEmptyImage from "@/assets/svgs/undraw_begin_chat_re_v0lw.svg";
 import BlogEmptyImage from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
-import {getReadableTextRawHTML} from "@/lib/utils"
+import { getReadableTextRawHTML } from "@/lib/utils";
+export type ForumUser = Awaited<ReturnType<typeof getUserForumPosts>>;
+export type BlogUser = Awaited<ReturnType<typeof getUserBlogPosts>>;
+
 const Dashboard = ({
   userId,
   isUserCheckProfile,
   posts,
   forums,
+  viewCountForums,
+  viewCountPosts,
 }: {
   userId: string;
   isUserCheckProfile: boolean;
-  posts: Blog[];
-  forums: Forum[];
+  posts: BlogUser;
+  forums: ForumUser;
+  viewCountForums: Record<string, number>;
+  viewCountPosts: Record<string, number>;
 }) => {
   const { mutate } = useSWRConfig();
   const confirm = useConfirm();
@@ -52,10 +59,9 @@ const Dashboard = ({
   };
 
   const handleDeleteForum = async (id: string) => {
-    const title = forums.filter((f) => f.id === id)[0].title;
     const r = await confirm({
       title: "Suppression",
-      description: `Vouliez vous vraiment supprimer ce forum ayant pour question : ${title}`,
+      description: `Vouliez vous vraiment supprimer ce forum ayant pour question `,
       icon: <Trash className="size-4 text-destructive" />,
       customActions: (onConfirm, onCancel) => (
         <>
@@ -132,7 +138,7 @@ const Dashboard = ({
       ),
     });
   };
-  
+
   const fireshoot = () => {
     const end = Date.now() + 3 * 1000; // 3 seconds
     const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
@@ -201,21 +207,23 @@ const Dashboard = ({
             <TabsTrigger value="forums" className="relative">
               Forums
               <span className="ml-2 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
-                {forums.length}
+                {forums?.length}
               </span>
             </TabsTrigger>
           </TabsList>
           {activeTab === "blogs" ? (
-            <>
+            <div className="max-sm:hidden">
               <Button asChild>
                 <Link href="/blog/new">
                   <PlusCircle className="mr-2 h-4 w-4" />
                   Crée un blog
                 </Link>
               </Button>
-            </>
+            </div>
           ) : (
-            <ForumDialog />
+            <div className="max-sm:hidden">
+              <ForumDialog />
+            </div>
           )}
         </div>
         <div className="mb-8">
@@ -231,8 +239,13 @@ const Dashboard = ({
                     title={blog.title}
                     content={blog.description}
                     id={blog.id}
+                    isDraft={blog.isDraft!}
                     onEdit={handleEdit}
                     onDelete={handleDeleteBlog}
+                    views={viewCountPosts[blog?.slug!]}
+                    replies={blog?.replies?.length}
+                    likes={blog?.like!}
+                    rawContent={blog?.content!}
                   />
                 ))}
               </div>
@@ -248,18 +261,21 @@ const Dashboard = ({
             )}
           </TabsContent>
           <TabsContent value="forums">
-            {forums.length > 0 ? (
+            {forums?.length! > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {forums.map((forum) => (
+                {forums?.map((forum) => (
                   <PostCard
-                    id={forum.id}
+                    id={forum?.id!}
                     type={"forum"}
-                    key={forum.id}
-                    date={forum.createdAt}
-                    title={forum.title}
-                    content={getReadableTextRawHTML(forum.content)}
+                    key={forum?.id!}
+                    date={forum?.createdAt!}
+                    title={forum?.title!}
+                    content={forum?.textContent}
                     onEdit={handleEdit}
                     onDelete={handleDeleteForum}
+                    views={viewCountForums[forum?.id!]}
+                    replies={forum?.replies?.length}
+                    likes={forum?.score!}
                   />
                 ))}
               </div>

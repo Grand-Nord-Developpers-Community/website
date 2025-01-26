@@ -8,3 +8,5 @@ export * from "./forum";
 export * from "./event";
 export * from "./relation";
 export * from "./comment";
+export * from "./like";
+export * from "./vote";

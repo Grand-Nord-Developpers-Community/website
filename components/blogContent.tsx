@@ -9,14 +9,16 @@ import ProfilCard from "@/components/cards/hoverCardUserInfo";
 import React, { useEffect, useRef, useState } from "react";
 import { BlogType } from "@/interfaces/publication";
 import { getBlogPost } from "@/actions/blog.actions";
+import { SessionUser } from "@/lib/db/schema";
 
 export type Post = Awaited<ReturnType<typeof getBlogPost>>;
 
 interface PostDetailProps {
   post: Post;
+  user: SessionUser | null;
 }
 
-const PostDetail = ({ post }: PostDetailProps) => {
+const PostDetail = ({ post, user }: PostDetailProps) => {
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [tocItemActive, setTocItemActive] = useState<string | null>(null);
   const [showProgress, setShowProgress] = useState(false);
@@ -161,7 +163,8 @@ const PostDetail = ({ post }: PostDetailProps) => {
                   onUpdateToC={(items) => setTocItems(items)}
                   editorProps={{
                     attributes: {
-                      class: "prose lg:prose-lg prose-blue dark:prose-invert w-full",
+                      class:
+                        "prose lg:prose-lg prose-blue dark:prose-invert w-full",
                     },
                   }}
                 />
@@ -194,7 +197,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
           </div>
 
           {/* Comment Section */}
-          <CommentSection />
+          <CommentSection user={user} blogId={post?.id} />
         </div>
 
         {/* Sidebar */}
@@ -202,7 +205,6 @@ const PostDetail = ({ post }: PostDetailProps) => {
           <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
           <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
           <div className="pt-5 w-full space-y-8 scrollbar-hide h-full overflow-y-auto">
-            
             {/* About Me */}
             <div className="p-0">
               <h3 className="text-lg font-bold">Auteur</h3>

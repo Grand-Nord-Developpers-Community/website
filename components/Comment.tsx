@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import CommentInput from "./commentComponent";
+import { AlertModal } from "./modal/alert-modal";
 import {
   ChevronDown,
   ChevronUp,
   Edit2,
   Trash2,
   MessageSquare,
+  Loader,
 } from "lucide-react";
 import {
   Dialog,
@@ -18,7 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { SessionUser } from "@/lib/db/schema";
-import { ReplyWithAuthor } from "@/actions/forum.actions";
+import { ReplyWithAuthor } from "@/actions/post_comment.actions";
 import { useAlertStore } from "./stores/useAlert";
 import { formatRelativeTime } from "@/lib/utils";
 
@@ -27,9 +29,9 @@ interface CommentProps {
   currentUser: SessionUser | null;
   depth: number;
   onVote: (id: string, increment: boolean) => void;
-  onDelete: (id: string) => void;
+  onDelete: (id: string) => Promise<boolean>;
   onReply: (id: string, content: string) => Promise<boolean>;
-  onEdit: (id: string, content: string) => void;
+  onEdit: (id: string, content: string) => Promise<boolean>;
 }
 
 export function Comment({
@@ -46,18 +48,31 @@ export function Comment({
   const [isReplying, setIsReplying] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
   const [replyContent, setReplyContent] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [openModal, setOpenModel] = useState(false);
   const isAuthor = currentUser?.id === comment.author.id;
 
-  const handleEdit = () => {
-    onEdit(comment.id, editContent);
-    setIsEditing(false);
+  const handleEdit = async () => {
+    setIsLoading(true);
+    if (await onEdit(comment.id, editContent)) {
+      setIsEditing(false);
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setIsLoading(true);
+    if (await onDelete(comment.id)) {
+      setIsLoading(false);
+    }
   };
 
   const handleReply = async () => {
+    setIsLoading(true);
     if (await onReply(comment.id, replyContent)) {
       setIsReplying(false);
       setReplyContent("");
+      setIsLoading(false);
     }
   };
 
@@ -120,36 +135,22 @@ export function Comment({
               <div className="flex items-center gap-2 sm:gap-4">
                 {isAuthor ? (
                   <>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-red-500 hover:text-red-600 hover:bg-red-50 px-2 sm:px-3"
-                        >
-                          <Trash2 className="h-4 w-4 sm:mr-2" />
-                          <span className="hidden sm:inline">Delete</span>
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Delete comment</DialogTitle>
-                          <DialogDescription>
-                            Are you sure you want to delete this comment? This
-                            will remove the comment and can't be undone.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="flex justify-end gap-4 mt-4">
-                          <Button variant="secondary">NO, CANCEL</Button>
-                          <Button
-                            variant="destructive"
-                            onClick={() => onDelete(comment.id)}
-                          >
-                            YES, DELETE
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500 hover:text-red-600 hover:bg-red-50 px-2 sm:px-3"
+                      onClick={() => setOpenModel(true)}
+                    >
+                      <Trash2 className="h-4 w-4 sm:mr-2" />
+                      <span className="hidden sm:inline">Delete</span>
+                    </Button>
+                    <AlertModal
+                      onConfirm={handleDelete}
+                      onClose={() => setOpenModel(false)}
+                      isOpen={openModal}
+                      loading={isLoading}
+                    />
+
                     <Button
                       variant="ghost"
                       size="sm"
@@ -189,14 +190,24 @@ export function Comment({
                 editorContentClassName="overflow-auto h-full"
                 editorClassName="focus:outline-none px-2 py-4 h-full"
                 value={editContent}
-                onChange={(v) => setEditContent(v)}
+                editable={!isLoading}
+                onChange={(v) => setEditContent(v as string)}
                 //className="min-h-[100px]"
               />
               <div className="flex justify-end gap-2">
                 <Button variant="ghost" onClick={() => setIsEditing(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleEdit}>UPDATE</Button>
+                <Button
+                  onClick={handleEdit}
+                  disabled={isLoading}
+                  className="flex gap-2"
+                >
+                  {isLoading && (
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  UPDATE
+                </Button>
               </div>
             </div>
           ) : (
@@ -238,14 +249,22 @@ export function Comment({
             editorClassName="focus:outline-none px-2 py-4 h-full"
             placeholder={`Reply to @${comment.author.username}...`}
             value={replyContent}
-            onChange={(v) => setReplyContent(v)}
+            editable={!isLoading}
+            onChange={(v) => setReplyContent(v as string)}
             //className="min-h-[100px]"
           />
           <div className="flex justify-end gap-2">
             <Button variant="ghost" onClick={() => setIsReplying(false)}>
               Cancel
             </Button>
-            <Button onClick={handleReply}>REPLY</Button>
+            <Button
+              onClick={handleReply}
+              disabled={isLoading}
+              className="flex gap-2"
+            >
+              {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+              REPLY
+            </Button>
           </div>
         </div>
       )}

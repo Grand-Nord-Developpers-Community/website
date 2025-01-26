@@ -1,4 +1,4 @@
-import { ReplyWithAuthor } from "@/actions/forum.actions";
+import { ReplyWithAuthor } from "@/actions/post_comment.actions";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -35,6 +35,24 @@ export function getReadableTextRawHTML(htmlString: string) {
     return readableText ?? "";
   }
   return "";
+}
+
+export function calculateReadingTime(htmlContent: string): number {
+  // Strip HTML tags
+  const strippedContent = htmlContent.replace(/<\/?[^>]+(>|$)/g, "");
+
+  // Count the number of words
+  const words = strippedContent
+    .split(/\s+/)
+    .filter((word) => word.length > 0).length;
+
+  // Average reading speed in words per minute
+  const wordsPerMinute = 200;
+
+  // Calculate reading time in minutes
+  const minutes = Math.ceil(words / wordsPerMinute);
+
+  return minutes;
 }
 
 export function formatRelativeTime(date: Date): string {

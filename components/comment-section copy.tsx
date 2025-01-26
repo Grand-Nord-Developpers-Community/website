@@ -6,7 +6,7 @@ import CommentInput from "./CommentInput";
 import Modal from "./modal/Modal";
 import {
   ReplyWithAuthor,
-  addForumReply,
+  addpostComment,
   getPostReplies,
 } from "@/actions/forum.actions";
 import { SessionUser } from "@/lib/db/schema";
@@ -54,7 +54,7 @@ export default function CommentSection({
 
     if (content === "") return;
 
-    const res = await addForumReply({
+    const res = await addpostComment({
       content: content,
       parentId: parentId,
       postId: postId,

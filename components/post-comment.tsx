@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { addForumReply, createForumPost } from "@/actions/forum.actions";
+import { addpostComment, createForumPost } from "@/actions/forum.actions";
 import { getUserSession } from "@/actions/user.actions";
 type FormValues = z.infer<typeof commentSchema>;
 import type { Editor } from "@tiptap/react";
@@ -70,7 +70,7 @@ export default function ForumPostComponent({
           throw "Entrer aussi du texte !!!";
         }
         //toast.message(textContent);
-        const res = await addForumReply(form.getValues());
+        const res = await addpostComment(form.getValues());
 
         //);
         /*if (res.sucess) {
