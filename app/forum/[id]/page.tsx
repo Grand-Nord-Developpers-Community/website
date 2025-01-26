@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, Eye } from "lucide-react";
+import { ArrowLeft, ChevronDown, ChevronUp, Edit2, Eye } from "lucide-react";
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import ForumDialogButton from "@/components/forum-dialog";
 import {
   Card,
@@ -14,13 +13,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import HeadingPage from "@/sections/common/HeadingPage";
 import { getForumPost, getForumPosts } from "@/actions/forum.actions";
-import Comment from "@/components/commentComponent";
 import RenderContent from "@/components/renderContent";
 import { formatRelativeTime } from "@/lib/utils";
-import { MessageSquare } from "lucide-react";
-import { getUserProfileUserAuth } from "@/actions/user.actions";
-import {ReportView} from "@/components/ReportView"
+import { ReportView } from "@/components/ReportView";
 import { Redis } from "@upstash/redis";
+import CommentSection from "@/components/comment-section";
+import { auth } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 export const revalidate = 60;
 
 const redis = Redis.fromEnv();
@@ -28,12 +27,17 @@ export default async function QuestionPage({ params }: { params: any }) {
   const { id } = params;
   const forum = await getForumPost(id as string);
   const forums = await getForumPosts();
-  const user = await getUserProfileUserAuth();
+  const { user } = await auth();
   const views =
     (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
   if (!forum) {
     notFound();
   }
+
+  function onVote(id: string, isUpVote: boolean): void {
+    //throw new Error("Function not implemented.");
+  }
+
   return (
     <div className="w-full">
       <ReportView id={id} type="forum" />
@@ -77,9 +81,88 @@ export default async function QuestionPage({ params }: { params: any }) {
         }
       />
       <main className="screen-wrapper py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-6">
-            <Card className="p-0 border-none shadow-none">
+            <div className="flex items-start">
+              <div>
+                <Avatar className="space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2">
+                  <AvatarImage
+                    src={forum.author?.image || ""}
+                    alt={forum.author?.name || "Avatar"}
+                  />
+                  <AvatarFallback>
+                    {forum.author?.name?.slice(0, 2)?.toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 space-x-0 space-y-2 mr-3 sm:mr-4">
+                  <button
+                    //onClick={() => onVote(forum.id, true)}
+                    className="text-gray-500 hover:text-primary transition-colors"
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                  </button>
+                  <span className="text-primary font-medium">
+                    {forum.score}
+                  </span>
+                  <button
+                    //onClick={() => onVote(forum.id, false)}
+                    className="text-gray-500 hover:text-primary transition-colors"
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="flex-1 space-y-2 ">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 w-full">
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex flex-col">
+                      <div className="flex gap-2 items-center">
+                        <span className="font-medium">{forum.author.name}</span>
+                        {forum.authorId === user?.id && (
+                          <span className="bg-primary text-[10px] text-white px-2 py-0.5 rounded">
+                            you
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-gray-400 text-sm">
+                        @{forum.author.username}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 sm:gap-4">
+                      {forum.authorId === user?.id && (
+                        <>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-primary hover:text-primary/80 hover:bg-primary/10 px-2 sm:px-3"
+                            //onClick={() => setIsEditing(true)}
+                          >
+                            <Edit2 className="h-4 w-4 sm:mr-2" />
+                            <span className="hidden sm:inline">Edit</span>
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <RenderContent value={forum.content} />
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Eye className="h-4 w-4" />
+                    {Intl.NumberFormat("en-US", {
+                      notation: "compact",
+                    }).format(views)}{" "}
+                    <span className="max-sm:hidden">Vue</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    Posé par {forum.author?.name}&ensp;&ensp;
+                    {formatRelativeTime(new Date(forum.createdAt))}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* <Card className="p-0 border-none shadow-none">
               <div className="flex gap-4">
                 <Avatar>
                   <AvatarImage
@@ -95,13 +178,10 @@ export default async function QuestionPage({ params }: { params: any }) {
                     <RenderContent content={forum.content} />
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
-                        <MessageSquare className="h-4 w-4" />0{" "}
-                        <span className="max-sm:hidden">Réponse</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Eye className="h-4 w-4" />{Intl.NumberFormat("en-US", { notation: "compact" }).format(
-                views,
-              )}{" "}
+                        <Eye className="h-4 w-4" />
+                        {Intl.NumberFormat("en-US", {
+                          notation: "compact",
+                        }).format(views)}{" "}
                         <span className="max-sm:hidden">Vue</span>
                       </div>
                       <span className="text-sm text-muted-foreground">
@@ -112,41 +192,14 @@ export default async function QuestionPage({ params }: { params: any }) {
                   </div>
                 </div>
               </div>
-            </Card>
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">0 Réponse</h2>
-              {/*{Array.from({ length: 2 }).map((_, i) => (
-                <Card key={i} className="p-6">
-                  <div className="flex gap-4">
-                    <Avatar>
-                      <AvatarImage
-                        src="/placeholder.svg"
-                        alt="Answer author avatar"
-                      />
-                      <AvatarFallback>AA</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 space-y-4">
-                      <p className="text-gray-600">
-                        Duis aute irure dolor in reprehenderit in voluptate
-                        velit esse cillum dolore eu fugiat nulla pariatur.
-                        Excepteur sint occaecat cupidatat non proident.
-                      </p>
-                      <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <ArrowBigUp className="h-6 w-6 text-green-500 cursor-pointer" />
-                          <span className="text-base font-medium">8</span>
-                          <ArrowBigDown className="h-6 w-6 text-red-500 cursor-pointer" />
-                          <span className="text-base font-medium">2</span>
-                        </div>
-                        <span>Answered 1h ago by john</span>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              ))}*/}
-            </div>
+            </Card> */}
 
-            <Card className="p-6">
+            {/* <ForumPostComponent
+              postId={id}
+              parentId={"e43f9dd7-f75f-42cf-b24e-7debd7c992ac"}
+            /> */}
+            <CommentSection postId={id} user={user} />
+            {/* <Card className="p-6">
               <h2 className="text-lg font-semibold mb-4">Votre reponse</h2>
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
@@ -175,7 +228,7 @@ export default async function QuestionPage({ params }: { params: any }) {
                   Repondre
                 </Button>
               </div>
-            </Card>
+            </Card> */}
           </div>
 
           <div className="space-y-6 lg:sticky lg:top-20 lg:self-start">
@@ -208,7 +261,7 @@ export default async function QuestionPage({ params }: { params: any }) {
                             {f.title}
                           </Link>
                           <p className="text-xs text-muted-foreground">
-                            {f.author.name} · 0 Réponse
+                            {f.author.name} · {f.replies.length} Réponse
                           </p>
                         </div>
                       ))}

@@ -15,6 +15,41 @@
       "when": 1736706717239,
       "tag": "0001_mean_daimon_hellstrom",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1737677220389,
+      "tag": "0002_stale_nick_fury",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1737682935552,
+      "tag": "0003_lumpy_colossus",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1737684987462,
+      "tag": "0004_sharp_naoko",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1737686757909,
+      "tag": "0005_complex_vapor",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1737747763161,
+      "tag": "0006_mature_jigsaw",
+      "breakpoints": true
     }
   ]
 }

@@ -2,8 +2,7 @@
 import React, { useState, useCallback } from "react";
 import { LoaderIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Logo from "@/assets/images/brand/logo.png";
+import Comment from "@/components/commentComponent";
 import {
   Form,
   FormControl,
@@ -12,51 +11,51 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { LogIn, UserPlus } from "lucide-react";
 import { z } from "zod";
 //import { MinimalTiptapEditor } from "./minimal-tiptap";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { forumPublishSchema } from "@/schemas/forum-schema";
 import { toast } from "sonner";
-import { createForumPost } from "@/actions/forum.actions";
+import { addForumReply, createForumPost } from "@/actions/forum.actions";
 import { getUserSession } from "@/actions/user.actions";
-type FormValues = z.infer<typeof forumPublishSchema>;
+type FormValues = z.infer<typeof commentSchema>;
 import type { Editor } from "@tiptap/react";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import dynamic from "next/dynamic";
+import { commentSchema } from "@/schemas/comment-schema";
+import { Content } from "@radix-ui/react-dropdown-menu";
 
-const MinimalTiptapEditor = dynamic(
-  () =>
-    import("./minimal-tiptap/minimal-tiptap").then((module) => module.default),
-  {
-    ssr: false,
-  }
-);
+// const MinimalTiptapEditor = dynamic(
+//   () =>
+//     import("./minimal-tiptap/minimal-tiptap").then((module) => module.default),
+//   {
+//     ssr: false,
+//   }
+// );
 interface Props {
+  postId: string;
+  parentId?: string | null;
+  content?: string;
   onSucessCallBack?: () => void;
 }
 
-export default function ForumPostComponent({ onSucessCallBack }: Props) {
+export default function ForumPostComponent({
+  onSucessCallBack,
+  postId,
+  parentId = null,
+  content = "",
+}: Props) {
   const [loading, setLoading] = useState(false);
   const [textContent, setTextContent] = useState("");
   const [open, setOpen] = useState(false);
   const form = useForm<FormValues>({
-    resolver: zodResolver(forumPublishSchema),
+    resolver: zodResolver(commentSchema),
     defaultValues: {
-      title: "",
-      content: "",
+      parentId: parentId,
+      postId: postId,
+      content: content,
     },
   });
   const router = useRouter();
@@ -71,12 +70,10 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
           throw "Entrer aussi du texte !!!";
         }
         //toast.message(textContent);
-        const res = await createForumPost(
-          values.title,
-          values.content,
-          textContent!
-        );
-        if (res.sucess) {
+        const res = await addForumReply(form.getValues());
+
+        //);
+        /*if (res.sucess) {
           toast.message("Votre question à été soumis avec succès !!");
           form.reset();
           setTimeout(() => {
@@ -92,7 +89,7 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
           }, 3000);
 
           if (onSucessCallBack) onSucessCallBack();
-        }
+        }*/
         setTimeout(() => {}, 2000);
       } catch (e) {
         console.log("Erreur : " + e);
@@ -137,52 +134,26 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
         >
           <FormField
             control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Titre de votre question</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled={loading}
-                    placeholder="Titre de la question"
-                    className={cn("w-full", {
-                      "border-destructive focus-visible:ring-0":
-                        form.formState.errors.title,
-                    })}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
             name="content"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Contenu de votre question</FormLabel>
                 <FormControl>
-                  <MinimalTiptapEditor
+                  <Comment
                     {...field}
-                    throttleDelay={0}
-                    className={cn("h-full min-h-56 w-full rounded-xl", {
+                    throttleDelay={1000}
+                    className={cn("h-[200px] min-h-56 w-full rounded-xl", {
                       "border-destructive focus-within:border-destructive":
                         form.formState.errors.content,
                     })}
-                    editorContentClassName="w-full overflow-auto h-full flex grow"
+                    editorContentClassName="overflow-auto h-full"
                     output="html"
-                    placeholder="Saisir votre question ..."
+                    placeholder="Comment here..."
                     editable={!loading}
                     onCreate={handleCreate}
                     injectCSS={true}
                     immediatelyRender={true}
-                    editorClassName="focus:outline-none px-5 py-4 h-full grow w-full"
-                    onTransaction={(t) => {
-                      setTextContent(t.editor.getText());
-                      //toast.message(t.editor.getText());
-                    }}
+                    editorClassName="focus:outline-none px-5 py-4 h-full"
                   />
                 </FormControl>
                 <FormMessage />
@@ -202,37 +173,6 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
           </Button>
         </form>
       </Form>
-      <Dialog open={open} onOpenChange={handleChange}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Image loading="lazy" src={Logo} alt="logo GNDC" width={120} />
-            </DialogTitle>
-            <DialogDescription>
-              Pour continuer cette action, vous devriez vous connectez.
-              S&apos;il vous plait choisissez une option.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="sm:justify-start gap-3">
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={handleLogin}
-              className="w-full sm:w-auto"
-            >
-              <LogIn className="mr-2 h-4 w-4" /> Se connecter
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleSignIn}
-              className="w-full sm:w-auto"
-            >
-              <UserPlus className="mr-2 h-4 w-4" /> Créer un compte
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </>
   );
 }

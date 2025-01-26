@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { blogPost, blogComment } from "@/lib/db/schema";
+import { blogPost } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
@@ -63,7 +63,7 @@ export async function createBlogPost({
 
   revalidatePath("/blog");
   revalidatePath("/user/dashboard");
-  
+
   return {
     success: true,
     message: "votre blog a été publié avec sucèss !!",
@@ -71,29 +71,28 @@ export async function createBlogPost({
 }
 
 export async function getBlogPosts() {
-  try{
+  try {
     const posts = await db.query.blogPost.findMany({
-        orderBy: [desc(blogPost.createdAt)],
-        with: {
-          author: {
-            columns: {
-              email: true,
-              name: true,
-              image: true,
-            },
+      orderBy: [desc(blogPost.createdAt)],
+      with: {
+        author: {
+          columns: {
+            email: true,
+            name: true,
+            image: true,
           },
         },
-        columns: {
-          content: false,
-          id: false,
-        },
-      });
-    return posts
-  }catch(e){
-    console.log(e)
-    throw('Error '+e)
+      },
+      columns: {
+        content: false,
+        id: false,
+      },
+    });
+    return posts;
+  } catch (e) {
+    console.log(e);
+    throw "Error " + e;
   }
-   
 }
 
 export async function getUserBlogPosts(userId: string) {
@@ -103,7 +102,7 @@ export async function getUserBlogPosts(userId: string) {
       title: blogPost.title,
       description: blogPost.description,
       createdAt: blogPost.createdAt,
-      slug:blogPost.slug
+      slug: blogPost.slug,
     })
     .from(blogPost)
     .where(eq(blogPost.authorId, userId))
@@ -122,11 +121,11 @@ export async function getBlogPost(slug: string) {
             name: true,
             image: true,
             bio: true,
-            role:true,
-            createdAt:true,
-            experiencePoints:true,
+            role: true,
+            createdAt: true,
+            experiencePoints: true,
           },
-        }
+        },
       },
     });
     return post;
@@ -147,7 +146,7 @@ export async function deleteBlog(id: string) {
   }
 
   // Perform the deletion
-  await db.delete(blogPost).where(eq(blogPost.id, id))
+  await db.delete(blogPost).where(eq(blogPost.id, id));
 
   // Revalidate relevant paths
   revalidatePath("/user/dashboard");
@@ -155,29 +154,7 @@ export async function deleteBlog(id: string) {
   revalidatePath("/");
 
   return {
-    sucess:true,
-    message:"Blog supprimé avec succèss"
-  }
-
+    sucess: true,
+    message: "Blog supprimé avec succèss",
+  };
 }
-export async function addBlogComment(
-  postId: string,
-  content: string,
-  authorId: string,
-) {
-  await db.insert(blogComment).values({
-    content,
-    postId,
-    authorId,
-  });
-  revalidatePath(`/blog/${postId}`);
-}
-
-// export async function addBlogReaction(postId: string, userId: string, type: string) {
-//   await db.insert(blogReaction).values({
-//     postId,
-//     userId,
-//     type,
-//   })
-//   revalidatePath(`/blog/${postId}`)
-// }

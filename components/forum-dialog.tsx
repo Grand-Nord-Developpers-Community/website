@@ -25,11 +25,13 @@ export default function ForumDialog() {
             Remplir les informations ci-dessous pour poser votre question
           </DialogDescription>
         </DialogHeader>
-        <ForumPost
-          onSucessCallBack={() => {
-            setOpen(false);
-          }}
-        />
+        <div className="w-full">
+          <ForumPost
+            onSucessCallBack={() => {
+              setOpen(false);
+            }}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
