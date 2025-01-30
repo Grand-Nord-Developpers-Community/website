@@ -68,6 +68,7 @@ import { SessionProvider } from "@/components/auth/SessionProvider";
 import { auth } from "@/lib/auth";
 import HeaderWrapper from "@/components/header-wrapper";
 import AlertSignIn from "@/components/alertSignIn";
+import Scroll from "@/components/scroll";
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -80,6 +81,7 @@ export default async function RootLayout({
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
+        <Scroll />
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip">
           <ThemeProvider attribute="class" defaultTheme="light">

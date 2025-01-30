@@ -205,7 +205,7 @@ export function Comment({
                       onClick={() => setOpenModel(true)}
                     >
                       <Trash2 className="h-4 w-4 sm:mr-2" />
-                      <span className="hidden sm:inline">Delete</span>
+                      <span className="hidden sm:inline">Supprimer</span>
                     </Button>
                     <AlertModal
                       onConfirm={handleDelete}
@@ -221,7 +221,7 @@ export function Comment({
                       onClick={() => setIsEditing(true)}
                     >
                       <Edit2 className="h-4 w-4 sm:mr-2" />
-                      <span className="hidden sm:inline">Edit</span>
+                      <span className="hidden sm:inline">Editer</span>
                     </Button>
                   </>
                 ) : (
@@ -239,7 +239,7 @@ export function Comment({
                     disabled={depth >= 2}
                   >
                     <MessageSquare className="h-4 w-4 sm:mr-2" />
-                    <span className="hidden sm:inline">Reply</span>
+                    <span className="hidden sm:inline">Repondre</span>
                   </Button>
                 )}
               </div>
@@ -269,7 +269,7 @@ export function Comment({
                   {isLoading && (
                     <Loader className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  UPDATE
+                  Modifier
                 </Button>
               </div>
             </div>
