@@ -1,6 +1,6 @@
 import { GitHub, Google } from "arctic";
 
-console.log("set up providers", { url: process.env.BASE_URL });
+//console.log("set up providers", { url: process.env.BASE_URL });
 
 // https://arctic.js.org/guides/oauth2
 export const github = new GitHub(

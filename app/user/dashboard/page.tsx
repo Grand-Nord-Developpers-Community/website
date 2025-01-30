@@ -6,7 +6,6 @@ import StatWidget, { Stat } from "@/components/stat-widget";
 import { getUserProfileUserAuth } from "@/actions/user.actions";
 import { getUserBlogPosts } from "@/actions/blog.actions";
 import { getUserForumPosts } from "@/actions/forum.actions";
-import { type Blog, type Forum } from "@/lib/db/schema";
 enum widgetType {
   BLOG,
   FORUM,
@@ -14,10 +13,21 @@ enum widgetType {
   EXPERIENCE,
 }
 import DashboardPage from "./dashboard-detail";
+import { fetchPageViews } from "@/actions/utils.actions";
+
 const Dashboard: React.FC = async () => {
   const user = await getUserProfileUserAuth();
   const posts = await getUserBlogPosts(user?.id!);
   const forums = await getUserForumPosts(user?.id!);
+  const viewPosts = await fetchPageViews(
+    posts.map((p) => p.slug),
+    "blogs"
+  );
+  const viewForums = await fetchPageViews(
+    forums!.map((f) => f.id),
+    "forums"
+  );
+
   const statItems: Stat[] = [
     {
       title: "Total Blogs",
@@ -73,9 +83,11 @@ const Dashboard: React.FC = async () => {
         </div>
         <DashboardPage
           userId={user?.id!}
-          forums={forums as Forum[]}
-          posts={posts as Blog[]}
+          forums={forums}
+          posts={posts}
           isUserCheckProfile={user?.isCheckProfile!}
+          viewCountForums={viewForums}
+          viewCountPosts={viewPosts}
         />
       </div>
     </>

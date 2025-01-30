@@ -30,8 +30,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { useSession } from "@/components/auth/SessionProvider";
 import { SessionUser } from "@/lib/db/schema";
+import { shouldHideHeaderAndFooter } from "@/lib/utils";
+import clsx from "clsx";
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
@@ -44,6 +45,7 @@ const Links = [
 function Header({ user }: { user: SessionUser | null }) {
   //const { user } = useSession();
   const pathname = usePathname();
+
   const [scrollProgress, setScrollProgress] = useState(0);
   const router = useRouter();
   const trackScrollProgress = () => {
@@ -68,12 +70,12 @@ function Header({ user }: { user: SessionUser | null }) {
       toast.error(e as string);
     }
   };
-  return !pathname.includes("login") &&
-    !pathname.includes("sign-up") &&
-    !pathname.includes("/blog/new") &&
-    !pathname.includes("/admin") &&
-    !pathname.includes("complete") ? (
-    <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
+  return !shouldHideHeaderAndFooter(pathname) ? (
+    <header
+      className={clsx(
+        "sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80"
+      )}
+    >
       <div className="flex items-center justify-between screen-wrapper">
         <div>
           <span className="sr-only">GNDC</span>
@@ -84,7 +86,7 @@ function Header({ user }: { user: SessionUser | null }) {
         <div className="flex items-center gap-5 max-lg:hidden">
           <nav className="flex items-center gap-8 text-black">
             {Links.map((l, i) => (
-              <Link key={i} href={l.link}>
+              <Link href={l.link} key={i}>
                 {l.name}
               </Link>
             ))}
@@ -180,17 +182,17 @@ function Header({ user }: { user: SessionUser | null }) {
             </SheetHeader>
             <nav className="flex flex-col gap-4 text-primary my-4">
               {Links.map((l, i) => (
-                <Link key={i} href={l.link}>
-                  {l.name}
-                </Link>
+                <SheetClose key={i} asChild>
+                  <Link href={l.link}>{l.name}</Link>
+                </SheetClose>
               ))}
             </nav>
             <Separator className="my-4 bg-gray-400" />
-            <SheetFooter className="gap-3 max-sm:flex-col-reverse">
+            <SheetFooter className="gap-3 max-sm:flex-col">
               {user && user.name && (
                 <>
                   <SheetClose asChild>
-                    <Button className="grow" asChild>
+                    <Button className="grow" variant="secondary" asChild>
                       <Link href="/user/dashboard">Tableau de bord</Link>
                     </Button>
                   </SheetClose>

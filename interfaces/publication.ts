@@ -1,5 +1,6 @@
+import { getBlogPosts } from "@/actions/blog.actions";
 import User from "@/interfaces/user";
-import {type Blog} from "@/lib/db/schema"
+import { type Blog } from "@/lib/db/schema";
 
 export default interface Publication {
   featured_image: {
@@ -17,11 +18,13 @@ export default interface Publication {
   published_by: Pick<User, "name" | "profile_image" | "role">;
 }
 
-export interface BlogType extends Blog {
-  // Add any custom props you'd like here
-  author:{
-    email:string,
-    name:string,
-    image:string
-  }
-}
+export type BlogType = Awaited<ReturnType<typeof getBlogPosts>>;
+
+// export interface BlogType extends Blog {
+//   // Add any custom props you'd like here
+//   author:{
+//     email:string,
+//     name:string,
+//     image:string
+//   }
+// }

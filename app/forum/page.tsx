@@ -71,8 +71,10 @@ export default function ForumPage() {
               <QuestionLists />
             </Suspense>
           </div>
-          <div className="space-y-6 lg:sticky lg:top-20 lg:self-start">
-            <div className="bg-card text-card-foreground scrollbar-hide max-h-[calc(100vh-6rem)] overflow-y-auto">
+          <div className="relative lg:col-span-1 max-h-[calc(100vh-4rem)] lg:sticky lg:top-20 max-sm:max-h-none  ">
+            <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+            <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+            <div className="w-full pt-2 space-y-5 scrollbar-hide h-full overflow-y-auto">
               <Card>
                 <CardHeader>
                   <CardTitle>Aviez vous un problème ?</CardTitle>
@@ -87,7 +89,7 @@ export default function ForumPage() {
               </Card>
               <Suspense
                 fallback={
-                  <Card>
+                  <Card className="my-1">
                     <CardHeader>
                       <Skeleton className="h-3 w-1/2" />
                       <Skeleton className="h-20 w-full" />

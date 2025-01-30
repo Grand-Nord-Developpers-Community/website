@@ -35,5 +35,12 @@ export const userTable = pgTable("user", {
 export type User = typeof userTable.$inferSelect;
 export type SessionUser = Pick<
   User,
-  "id" | "email" | "name" | "role" | "image" | "isCompletedProfile"|"bio"|"username"
+  | "id"
+  | "email"
+  | "name"
+  | "role"
+  | "image"
+  | "isCompletedProfile"
+  | "bio"
+  | "username"
 >;

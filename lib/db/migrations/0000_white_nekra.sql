@@ -1,16 +1,8 @@
-CREATE TABLE IF NOT EXISTS "blog_comment" (
-	"id" text PRIMARY KEY NOT NULL,
-	"content" text NOT NULL,
-	"authorId" text NOT NULL,
-	"postId" text NOT NULL,
-	"createdAt" timestamp DEFAULT now() NOT NULL,
-	"updatedAt" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "blog_post" (
 	"id" text PRIMARY KEY NOT NULL,
 	"title" text NOT NULL,
 	"preview" text NOT NULL,
+	"isDraft" boolean DEFAULT true,
 	"previewHash" text NOT NULL,
 	"description" text NOT NULL,
 	"content" text NOT NULL,
@@ -21,12 +13,16 @@ CREATE TABLE IF NOT EXISTS "blog_post" (
 	CONSTRAINT "blog_post_slug_unique" UNIQUE("slug")
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "blog_reaction" (
+CREATE TABLE IF NOT EXISTS "post_comment" (
 	"id" text PRIMARY KEY NOT NULL,
-	"userId" text NOT NULL,
-	"postId" text NOT NULL,
-	"type" text NOT NULL,
-	"createdAt" timestamp DEFAULT now() NOT NULL
+	"content" text NOT NULL,
+	"score" integer DEFAULT 0,
+	"authorId" text NOT NULL,
+	"postId" text,
+	"blogId" text,
+	"parentId" text,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "email_verification_code" (
@@ -53,27 +49,11 @@ CREATE TABLE IF NOT EXISTS "forum_post" (
 	"id" text PRIMARY KEY NOT NULL,
 	"title" text NOT NULL,
 	"content" text NOT NULL,
+	"textContent" text NOT NULL,
+	"score" integer DEFAULT 0,
 	"authorId" text NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"updatedAt" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "forum_reply" (
-	"id" text PRIMARY KEY NOT NULL,
-	"content" text NOT NULL,
-	"authorId" text NOT NULL,
-	"postId" text NOT NULL,
-	"createdAt" timestamp DEFAULT now() NOT NULL,
-	"updatedAt" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "forum_vote" (
-	"id" text PRIMARY KEY NOT NULL,
-	"userId" text NOT NULL,
-	"postId" text NOT NULL,
-	"replyId" text,
-	"voteType" text NOT NULL,
-	"createdAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
@@ -103,9 +83,11 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"streak" integer DEFAULT 1,
 	"lastActive" timestamp,
 	"isCompletedProfile" boolean DEFAULT false,
+	"isCheckProfile" boolean DEFAULT false,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"updatedAt" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "user_email_unique" UNIQUE("email")
+	CONSTRAINT "user_email_unique" UNIQUE("email"),
+	CONSTRAINT "user_username_unique" UNIQUE("username")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "oauth_account" (
@@ -121,17 +103,22 @@ CREATE TABLE IF NOT EXISTS "password_reset_token" (
 	"expires_at" timestamp NOT NULL
 );
 --> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "blog_comment" ADD CONSTRAINT "blog_comment_authorId_user_id_fk" FOREIGN KEY ("authorId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
+CREATE TABLE IF NOT EXISTS "user_like" (
+	"id" text PRIMARY KEY NOT NULL,
+	"userId" text NOT NULL,
+	"postId" text,
+	"isLike" boolean NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL
+);
 --> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "blog_comment" ADD CONSTRAINT "blog_comment_postId_blog_post_id_fk" FOREIGN KEY ("postId") REFERENCES "public"."blog_post"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
+CREATE TABLE IF NOT EXISTS "user_vote" (
+	"id" text PRIMARY KEY NOT NULL,
+	"userId" text NOT NULL,
+	"commentId" text,
+	"postId" text,
+	"isUpvote" boolean NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL
+);
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "blog_post" ADD CONSTRAINT "blog_post_authorId_user_id_fk" FOREIGN KEY ("authorId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
@@ -140,13 +127,25 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "blog_reaction" ADD CONSTRAINT "blog_reaction_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "post_comment" ADD CONSTRAINT "post_comment_authorId_user_id_fk" FOREIGN KEY ("authorId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "blog_reaction" ADD CONSTRAINT "blog_reaction_postId_blog_post_id_fk" FOREIGN KEY ("postId") REFERENCES "public"."blog_post"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "post_comment" ADD CONSTRAINT "post_comment_postId_forum_post_id_fk" FOREIGN KEY ("postId") REFERENCES "public"."forum_post"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "post_comment" ADD CONSTRAINT "post_comment_blogId_blog_post_id_fk" FOREIGN KEY ("blogId") REFERENCES "public"."blog_post"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "post_comment" ADD CONSTRAINT "post_comment_parentId_post_comment_id_fk" FOREIGN KEY ("parentId") REFERENCES "public"."post_comment"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -170,36 +169,6 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "forum_reply" ADD CONSTRAINT "forum_reply_authorId_user_id_fk" FOREIGN KEY ("authorId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "forum_reply" ADD CONSTRAINT "forum_reply_postId_forum_post_id_fk" FOREIGN KEY ("postId") REFERENCES "public"."forum_post"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "forum_vote" ADD CONSTRAINT "forum_vote_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "forum_vote" ADD CONSTRAINT "forum_vote_postId_forum_post_id_fk" FOREIGN KEY ("postId") REFERENCES "public"."forum_post"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "forum_vote" ADD CONSTRAINT "forum_vote_replyId_forum_reply_id_fk" FOREIGN KEY ("replyId") REFERENCES "public"."forum_reply"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
  ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -213,6 +182,36 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "password_reset_token" ADD CONSTRAINT "password_reset_token_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_like" ADD CONSTRAINT "user_like_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_like" ADD CONSTRAINT "user_like_postId_blog_post_id_fk" FOREIGN KEY ("postId") REFERENCES "public"."blog_post"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_vote" ADD CONSTRAINT "user_vote_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_vote" ADD CONSTRAINT "user_vote_commentId_post_comment_id_fk" FOREIGN KEY ("commentId") REFERENCES "public"."post_comment"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_vote" ADD CONSTRAINT "user_vote_postId_forum_post_id_fk" FOREIGN KEY ("postId") REFERENCES "public"."forum_post"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

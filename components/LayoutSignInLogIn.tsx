@@ -20,17 +20,18 @@ function LayoutSignInLogIn({
             className="absolute inset-0 h-full w-full bg-primary object-cover"
           />
         </aside>
-
-        <main className="relative h-full flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+        <main className="relative h-full flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6 max-sm:px-4">
           <div className="max-w-xl lg:max-w-3xl">
-            <div className="absolute top-5 left-5 z-20 flex items-center text-lg font-medium  max-lg:block">
+            <div className="absolute top-5 left-17 z-20 flex items-center text-lg font-medium  max-lg:relative max-lg:top-[7.5rem] max-sm:left-0 ">
               <span className="sr-only">GNDC</span>
               <a href={"/"}>
                 <Image loading="lazy" src={Logo} alt="logo GNDC" width={150} />
               </a>
             </div>
-            {children}
-            <p className="px-8 text-center text-sm text-muted-foreground mt-5">
+            <div className="mt-14 mb-10 max-lg:mt-[8rem] w-full">
+              {children}
+            </div>
+            <p className="px-8 text-center text-sm text-muted-foreground mb-5">
               En cliquant sur continuer, vous acceptez nos{" "}
               <Link
                 href="/codeofconduct"

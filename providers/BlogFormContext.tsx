@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -8,8 +8,13 @@ import { blogPublishSchema } from "@/schemas/blog-schema";
 import { uploadImageToCloudinary } from "@/lib/api";
 import { AxiosProgressEvent } from "axios";
 import { Form } from "@/components/ui/form";
-import { createBlogPost } from "@/actions/blog.actions";
+import {
+  createBlogPost,
+  getBlogPostEdit,
+  updateBlogPost,
+} from "@/actions/blog.actions";
 import { useSWRConfig } from "swr";
+import { Post } from "@/components/blogContent";
 
 type BlogFormData = z.infer<typeof blogPublishSchema>;
 
@@ -19,7 +24,10 @@ interface FormContextProps {
   loading: boolean;
   success: boolean;
   progress: number;
+  img: string | null;
+  isEdit: boolean;
   setCompressedFile: React.Dispatch<React.SetStateAction<File | null>>;
+  onRemoveLoadedImage?: () => void;
 }
 
 // Create Context
@@ -36,31 +44,44 @@ export const useFormContext = () => {
 
 //TO BE FIX
 
-const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY||"126785599786519";
-const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET||"gndc-image-blog";
+const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || "126785599786519";
+const uploadPreset =
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "gndc-image-blog";
 
 // Layout Component
 const BlogFormContext: React.FC<{
   children: React.ReactNode;
   userId: string;
-}> = ({ children, userId }) => {
+  post?: Awaited<ReturnType<typeof getBlogPostEdit>>;
+}> = ({ children, userId, post }) => {
   const form = useForm<BlogFormData>({
     resolver: zodResolver(blogPublishSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      preview: "https://temp-image.com",
-      previewHash: "",
-      content: "",
+      title: post?.title || "",
+      description: post?.description || "",
+      preview: post?.preview || "https://temp-image.com",
+      previewHash: post?.previewHash || "",
+      content: post?.content || "",
     },
   });
   const { mutate } = useSWRConfig();
   const { setValue, setError } = form;
   const [loading, setLoading] = useState(false);
+  const [img, setImage] = useState(post?.preview || null);
+  const [isEdit, setIsEdit] = useState(post ? true : false);
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
   const [compressedFile, setCompressedFile] = useState<File | null>(null);
-
+  const [isPreviewChanged, setPreviewChanged] = useState(false);
+  function handleRemoveLoadedImage() {
+    setImage(null);
+    setPreviewChanged(true);
+  }
+  useEffect(() => {
+    if (compressedFile) {
+      setPreviewChanged(true);
+    }
+  }, [compressedFile]);
   const handleImageUpload = async () => {
     if (!compressedFile) {
       setError("preview", {
@@ -69,8 +90,6 @@ const BlogFormContext: React.FC<{
       throw "Please upload a preview image.";
       //return;
     }
-
-    setLoading(true);
 
     // Upload the image
     const formData = new FormData();
@@ -107,23 +126,28 @@ const BlogFormContext: React.FC<{
   };
 
   const onSubmit = async (data: BlogFormData) => {
+    setLoading(true);
     try {
-      const imageDataURL = await handleImageUpload();
+      const imageDataURL = isPreviewChanged ? await handleImageUpload() : img;
       const v = { ...data, preview: imageDataURL };
       //toast.message(JSON.stringify(v));
-      const res = await createBlogPost({ ...v, authorId: userId });
-      if (res.success) {
-        form.reset();
-        setSuccess(true);
-        toast.success(res.message);
+      const res = !isEdit
+        ? await createBlogPost({ ...v, authorId: userId })
+        : await updateBlogPost({ ...v, id: post?.id, authorId: userId });
+      if (res?.success) {
+        if (!isEdit) {
+          form.reset();
+          setSuccess(true);
+        }
+        toast.success(res?.message);
         //mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`);
-        mutate("/api/blogs",true);
+        mutate("/api/blogs", true);
       } else {
-        if (!res.success && res.revalidate) {
+        if (!res?.success && res?.revalidate) {
           //@ts-ignore
           setError(res.revalidate, { message: res.message });
         } else {
-          throw res.message;
+          throw res?.message;
         }
       }
     } catch (e) {
@@ -143,7 +167,16 @@ const BlogFormContext: React.FC<{
   };
   return (
     <FormContext.Provider
-      value={{ form, loading, progress, setCompressedFile, success }}
+      value={{
+        form,
+        loading,
+        progress,
+        setCompressedFile,
+        success,
+        isEdit,
+        img,
+        onRemoveLoadedImage: handleRemoveLoadedImage,
+      }}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit, onSubmitError)}>

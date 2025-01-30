@@ -67,13 +67,14 @@ import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { auth } from "@/lib/auth";
 import HeaderWrapper from "@/components/header-wrapper";
+import AlertSignIn from "@/components/alertSignIn";
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  console.log(session);
+  //console.log(session);
   return (
     <html lang="fr">
       <body
@@ -94,6 +95,7 @@ export default async function RootLayout({
         <Footer />
         <BackToTop />
         <Toaster />
+        <AlertSignIn />
       </body>
     </html>
   );

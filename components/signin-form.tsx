@@ -52,11 +52,13 @@ export default function SignIn({ className, props }: UserAuthFormProps) {
     setIsLoading(true);
     try {
       const res = await loginWithPassword(data);
-      //if (res.data) {
+      if (!res.serverError) {
       toast.success("<Bienvenue/> !!");
       router.replace(res?.data?.redirectUrl ?? "/");
       // window.location.href = "/account/complete";
-      //}
+      }else{
+        toast.error(res?.serverError??" Une erreure est survenu !!")
+      }
     } catch (e) {
       console.log(e);
       toast.error(JSON.stringify(e));

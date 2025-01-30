@@ -8,15 +8,19 @@ import CommentSection from "@/components/comment-section";
 import ProfilCard from "@/components/cards/hoverCardUserInfo";
 import React, { useEffect, useRef, useState } from "react";
 import { BlogType } from "@/interfaces/publication";
-import { getBlogPost } from "@/actions/blog.actions";
-
-export type Post = Awaited<ReturnType<typeof getBlogPost>>;
+import { getBlogPost, getBlogPostPreview } from "@/actions/blog.actions";
+import { SessionUser } from "@/lib/db/schema";
+import BlogLikeCard from "./blogLikeCard";
+export type Post =
+  | Awaited<ReturnType<typeof getBlogPost>>
+  | Awaited<ReturnType<typeof getBlogPostPreview>>;
 
 interface PostDetailProps {
   post: Post;
+  user: SessionUser | null;
 }
 
-const PostDetail = ({ post }: PostDetailProps) => {
+const PostDetail = ({ post, user }: PostDetailProps) => {
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [tocItemActive, setTocItemActive] = useState<string | null>(null);
   const [showProgress, setShowProgress] = useState(false);
@@ -38,15 +42,6 @@ const PostDetail = ({ post }: PostDetailProps) => {
       top: elementTop - offset,
       behavior: "smooth",
     });
-  };
-
-  const calculateReadingTime = () => {
-    const wpm = 225;
-    const words = editorRef.current
-      ?.getEditor()
-      ?.storage.characterCount.words();
-    const time = Math.ceil(words / wpm);
-    return time;
   };
 
   useEffect(() => {
@@ -126,48 +121,8 @@ const PostDetail = ({ post }: PostDetailProps) => {
         <div className="lg:col-span-2">
           <div className="flex gap-6">
             {/* Share Buttons */}
-            <div className="hidden lg:flex flex-col items-center space-y-4 sticky top-24 h-fit">
-              <Button
-                variant="outline"
-                size="icon"
-                aria-label="Share on Twitter"
-              >
-                <Twitter className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                aria-label="Share on Facebook"
-              >
-                <Facebook className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                aria-label="Share on LinkedIn"
-              >
-                <LinkedIn className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Article Content */}
-            <div className="flex-grow w-full">
-              <article ref={contentRef} className="w-full justify">
-                <Editor
-                  ref={editorRef}
-                  editable={false}
-                  disableEditor={true}
-                  content={post?.content || ""}
-                  onUpdateToC={(items) => setTocItems(items)}
-                  editorProps={{
-                    attributes: {
-                      class: "prose lg:prose-lg prose-blue dark:prose-invert w-full",
-                    },
-                  }}
-                />
-              </article>
-              {/* Mobile Share Buttons */}
-              <div className="flex lg:hidden justify-center space-x-4 pt-4">
+            {!post?.isDraft && (
+              <div className="hidden lg:flex flex-col items-center space-y-4 sticky top-24 h-fit">
                 <Button
                   variant="outline"
                   size="icon"
@@ -190,19 +145,78 @@ const PostDetail = ({ post }: PostDetailProps) => {
                   <LinkedIn className="h-4 w-4" />
                 </Button>
               </div>
+            )}
+
+            {/* Article Content */}
+            <div className="flex-grow w-full">
+              <article ref={contentRef} className="w-full justify">
+                <Editor
+                  ref={editorRef}
+                  editable={false}
+                  disableEditor={true}
+                  content={post?.content || ""}
+                  onUpdateToC={(items) => setTocItems(items)}
+                  editorProps={{
+                    attributes: {
+                      class:
+                        "prose lg:prose-lg prose-blue dark:prose-invert w-full",
+                    },
+                  }}
+                />
+              </article>
+              {/* Mobile Share Buttons */}
+              {!post?.isDraft && (
+                <div className="flex lg:hidden justify-center space-x-4 pt-4">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Share on Twitter"
+                  >
+                    <Twitter className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Share on Facebook"
+                  >
+                    <Facebook className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Share on LinkedIn"
+                  >
+                    <LinkedIn className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
-
+          {!post?.isDraft && (
+            <BlogLikeCard
+              id={post?.id!}
+              //value={post?.likes.map((l) => l.isLike === true).length!}
+              user={user}
+              //@ts-ignore
+              likes={post?.likes!}
+            />
+          )}
           {/* Comment Section */}
-          <CommentSection />
+          {!post?.isDraft && (
+            <CommentSection
+              user={user}
+              blogId={post?.id}
+              //@ts-ignore
+              commentLists={post?.replies}
+            />
+          )}
         </div>
 
         {/* Sidebar */}
-        <div className="relative lg:col-span-1 max-h-[calc(100vh-4rem)] lg:sticky lg:top-20 max-sm:max-h-none  ">
+        <div className="relative lg:col-span-1 max-h-[calc(100vh-4rem)] lg:sticky lg:top-15 max-sm:max-h-none  ">
           <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
           <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
           <div className="pt-5 w-full space-y-8 scrollbar-hide h-full overflow-y-auto">
-            
             {/* About Me */}
             <div className="p-0">
               <h3 className="text-lg font-bold">Auteur</h3>
@@ -214,12 +228,14 @@ const PostDetail = ({ post }: PostDetailProps) => {
                 activeItemId={tocItemActive!}
               />
               {/* Ad Block */}
-              <div className="border rounded-lg p-4 my-5">
-                <h3 className="text-lg font-semibold mb-4">Publicité</h3>
-                <div className="bg-gray-100 h-40 flex items-center justify-center rounded">
-                  <p className="text-gray-500">Espace publicitère</p>
+              {!post?.isDraft && (
+                <div className="border rounded-lg p-4 my-5">
+                  <h3 className="text-lg font-semibold mb-4">Publicité</h3>
+                  <div className="bg-gray-100 h-40 flex items-center justify-center rounded">
+                    <p className="text-gray-500">Espace publicitère</p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

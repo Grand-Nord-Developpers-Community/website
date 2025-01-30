@@ -13,12 +13,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
-import {BlogType} from "@/interfaces/publication";
+import { BlogType } from "@/interfaces/publication";
 import clsx from "clsx";
 import ImageWrapper from "../imageWrapper";
 
 type PublicationCardProps = {
-  publication:BlogType;
+  publication: BlogType[number];
   hasImage?: boolean;
   hasFooter?: boolean;
   showSummary?: boolean;
@@ -36,14 +36,14 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
     <Card className={cardClassName}>
       {hasImage && (
         <figure className="overflow-hidden aspect-video w-full h-[300px] max-sm:h-[200px] rounded-xl">
-            <ImageWrapper
-                className="w-full object-cover h-full object-top "
-                src={publication.preview}
-                hash={publication.previewHash}
-                width={1280}
-                height={680}
-                alt={publication.description}
-              />
+          <ImageWrapper
+            className="w-full object-cover h-full object-center "
+            src={publication.preview}
+            hash={publication.previewHash}
+            width={1280}
+            height={680}
+            alt={publication.description}
+          />
         </figure>
       )}
 
@@ -55,17 +55,17 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         <div className="flex gap-4 items-center justify-between text-sm pb-4 border-b border-gray-200">
           <div className="flex items-center gap-4 p-0">
             <Avatar className="size-12">
-              <AvatarImage  src={publication.author.image}/>
+              <AvatarImage src={publication?.author?.image || ""} />
               <AvatarFallback className="p-0">
-                {publication.author.name.slice(0, 2)?.toUpperCase()}
+                {publication?.author?.name?.slice(0, 2)?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-1">
               <span>{publication.author.name}</span>
               <span className="text-xs text-gray-500 font-light">
                 {new Date(publication.createdAt).toLocaleDateString("FR-fr", {
-                      dateStyle: "long",
-                    })}
+                  dateStyle: "long",
+                })}
               </span>
             </div>
           </div>

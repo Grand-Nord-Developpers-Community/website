@@ -15,14 +15,11 @@ import WhatsAppButton from "@/components/social-button/whatsAppbutton";
 import TelegramButton from "@/components/social-button/telegramButton";
 import DiscordButton from "@/components/social-button/discordButton";
 import { usePathname } from "next/navigation";
+import { shouldHideHeaderAndFooter } from "@/lib/utils";
 
 function Footer() {
   const pathname = usePathname();
-  return !pathname.includes("login") &&
-    !pathname.includes("sign-up") &&
-    !pathname.includes("/blog/new") &&
-    !pathname.includes("/admin") &&
-    !pathname.includes("complete") ? (
+  return !shouldHideHeaderAndFooter(pathname) ? (
     <footer className="bg-white pt-10 pb-4 border-t border-gray-200">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -161,8 +158,8 @@ function Footer() {
         {/* Copyright and Social Icons */}
         <div className="mt-8 pt-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-600">
-            © Grand Nord Developers Community - {new Date().getFullYear()}. Tous
-            droits réservés
+            © Grand Nord Developers Community - {new Date().getFullYear()}.
+            Tous droits réservés
           </p>
           <div className="flex items-center gap-4 md:mt-0 max-sm:gap-2 max-sm:mt-4">
             <Link href="#" className="text-gray-600">
