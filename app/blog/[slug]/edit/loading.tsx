@@ -12,7 +12,9 @@ function LoadingPage() {
       <div className="banter-loader__box"></div>
       <div className="banter-loader__box"></div>
       <div className="banter-loader__box"></div>
-      <span className="text-center text-lg text-gray-300">Chargement</span>
+      <div className="w-full flex justify-center items-center mr-20">
+        <span className="text-center text-lg text-gray-300">Chargement</span>
+      </div>
     </div>
   );
 }

@@ -217,29 +217,41 @@ const Dashboard = ({
         <div className="mb-8">
           <TabsContent value="blogs">
             {posts.length > 0 ? (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {posts.map((blog) => (
-                  <PostCard
-                    key={blog.id}
-                    type={"blog"}
-                    slug={blog.slug}
-                    date={blog.createdAt}
-                    title={blog.title}
-                    content={blog.description}
-                    id={blog.id}
-                    isDraft={blog.isDraft!}
-                    onEdit={handleBlogEdit}
-                    onDelete={(id) => {
-                      setActionId({ id, action: "delete_blog" });
-                      setOpenModal(true);
-                    }}
-                    views={viewCountPosts[blog?.slug!]}
-                    replies={blog?.replies?.length}
-                    likes={blog?.likes!.filter((l) => l.isLike === true).length}
-                    rawContent={blog?.content!}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="sm:hidden mb-4 w-full justify-end flex">
+                  <Button asChild>
+                    <Link href="/blog/new">
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      Crée un blog
+                    </Link>
+                  </Button>
+                </div>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {posts.map((blog) => (
+                    <PostCard
+                      key={blog.id}
+                      type={"blog"}
+                      slug={blog.slug}
+                      date={blog.createdAt}
+                      title={blog.title}
+                      content={blog.description}
+                      id={blog.id}
+                      isDraft={blog.isDraft!}
+                      onEdit={handleBlogEdit}
+                      onDelete={(id) => {
+                        setActionId({ id, action: "delete_blog" });
+                        setOpenModal(true);
+                      }}
+                      views={viewCountPosts[blog?.slug!]}
+                      replies={blog?.replies?.length}
+                      likes={
+                        blog?.likes!.filter((l) => l.isLike === true).length
+                      }
+                      rawContent={blog?.content!}
+                    />
+                  ))}
+                </div>
+              </>
             ) : (
               <>
                 <div className="flex flex-col h-[300px] justify-center items-center my-5">
@@ -248,31 +260,44 @@ const Dashboard = ({
                     Vous n&apos;avez pas posté un blog pour l&apos;instant !
                   </h2>
                 </div>
+                <div className="sm:hidden  w-full justify-center flex">
+                  <Button asChild>
+                    <Link href="/blog/new">
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      Crée un blog
+                    </Link>
+                  </Button>
+                </div>
               </>
             )}
           </TabsContent>
           <TabsContent value="forums">
             {forums?.length! > 0 ? (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {forums?.map((forum) => (
-                  <PostCard
-                    id={forum?.id!}
-                    type={"forum"}
-                    key={forum?.id!}
-                    date={forum?.createdAt!}
-                    title={forum?.title!}
-                    content={forum?.textContent}
-                    onEdit={handleEdit}
-                    views={viewCountForums[forum?.id!]}
-                    replies={forum?.replies?.length}
-                    likes={forum?.votes?.filter((v) => v.isUpvote).length}
-                    onDelete={(id) => {
-                      setActionId({ id, action: "delete_forum" });
-                      setOpenModal(true);
-                    }}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="sm:hidden mb-4 w-full justify-end flex">
+                  <ForumDialog />
+                </div>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {forums?.map((forum) => (
+                    <PostCard
+                      id={forum?.id!}
+                      type={"forum"}
+                      key={forum?.id!}
+                      date={forum?.createdAt!}
+                      title={forum?.title!}
+                      content={forum?.textContent}
+                      onEdit={handleEdit}
+                      views={viewCountForums[forum?.id!]}
+                      replies={forum?.replies?.length}
+                      likes={forum?.votes?.filter((v) => v.isUpvote).length}
+                      onDelete={(id) => {
+                        setActionId({ id, action: "delete_forum" });
+                        setOpenModal(true);
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
             ) : (
               <>
                 <div className="flex flex-col h-[300px] justify-center items-center my-5">
@@ -281,6 +306,9 @@ const Dashboard = ({
                     Vous n&apos;avez pas posté une question pour l&apos;instant
                     !
                   </h2>
+                </div>
+                <div className="sm:hidden  w-full justify-center flex">
+                  <ForumDialog />
                 </div>
               </>
             )}
