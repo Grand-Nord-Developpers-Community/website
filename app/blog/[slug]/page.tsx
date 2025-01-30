@@ -120,7 +120,7 @@ export default async function Page({ params }: { params: any }) {
                     {isLiked ? 'Liked' : 'Like'}
                   </Button>
                   <Button variant="outline" size="sm">
-                    <Edit className="mr-2 h-4 w-4" /> Edit
+                    <Edit className="mr-2 h-4 w-4" /> Editer
                   </Button>
                 </div>*/}
               </div>

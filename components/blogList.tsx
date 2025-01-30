@@ -37,7 +37,7 @@ const BlogList = async () => {
           <div className="flex flex-col h-[300px] justify-center items-center my-5">
             <EmptyBlog className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
             <h2 className="text-xl max-sm:text-base mx-auto text-center font-medium my-3 text-gray-400">
-              il y'a pas de blog pour l&apos;instant !
+              il y&apos;a pas de blog pour l&apos;instant !
             </h2>
             <div className="flex w-full justify-center my-2">
               <Button className="px-4" asChild variant="secondary">

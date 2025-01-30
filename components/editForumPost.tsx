@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import ForumPost from "@/components/forum-post-component";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Forum } from "./question-card";
-import { open } from "inspector/promises";
 interface Props {
   post: Omit<Forum[number], "author" | "score" | "replies">;
   isOpen: boolean;
   onSuccess: () => void;
   onClose: () => void;
 }
-export default function EditForumPost({
+import Dialog from "@/components/Dialog";
+import ForumPost from "@/components/forum-post-component";
+
+export default function ForumDialog({
   post,
   onSuccess,
   isOpen = false,
@@ -30,24 +25,20 @@ export default function EditForumPost({
     onClose();
   }
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Modifier votre question</DialogTitle>
-          <qDialogDescription>
-            Remplir les informations ci-dessous pour modifier votre question
-          </qDialogDescription>
-        </DialogHeader>
-        <div className="w-full">
-          <ForumPost
-            forum={post}
-            onSucessCallBack={() => {
-              setOpen(false);
-              onSuccess();
-            }}
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Dialog open={open} onClose={handleClose}>
+        <h2 className="text-lg font-semibold">Modifier votre question</h2>
+        <p className="text-gray-500 mb-4">
+          Remplir les informations ci-dessous pour modifier votre question
+        </p>
+        <ForumPost
+          forum={post}
+          onSucessCallBack={() => {
+            setOpen(false);
+            onSuccess();
+          }}
+        />
+      </Dialog>
+    </>
   );
 }

@@ -259,7 +259,7 @@ export function Comment({
               />
               <div className="flex justify-end gap-2">
                 <Button variant="ghost" onClick={() => setIsEditing(false)}>
-                  Cancel
+                  Retour
                 </Button>
                 <Button
                   onClick={handleEdit}
@@ -318,7 +318,7 @@ export function Comment({
           />
           <div className="flex justify-end gap-2">
             <Button variant="ghost" onClick={() => setIsReplying(false)}>
-              Cancel
+              Retour
             </Button>
             <Button
               onClick={handleReply}

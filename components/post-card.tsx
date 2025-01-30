@@ -76,11 +76,11 @@ export default function PostCard({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => onEdit(id)}>
                 <Pencil className="mr-2 h-4 w-4" />
-                Edit
+                Editer
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onDelete(id)}>
                 <Trash2 className="mr-2 h-4 w-4" />
-                Delete
+                Supprimer
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

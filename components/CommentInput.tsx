@@ -71,7 +71,7 @@ function CommentInput({
                   className="bg-grayishBlue text-white w-24 py-2 rounded-lg font-semibold hover:bg-opacity-50"
                   onClick={cancelClickHandler}
                 >
-                  CANCEL
+                  Retour
                 </button>
               </>
             )}
@@ -110,7 +110,7 @@ function CommentInput({
                     className="bg-grayishBlue text-white w-24 py-2 rounded-lg font-semibold hover:bg-opacity-50"
                     onClick={cancelClickHandler}
                   >
-                    CANCEL
+                    Retour
                   </button>
                 </>
               )}

@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { addpostComment, createForumPost } from "@/actions/forum.actions";
+import { createForumPost } from "@/actions/forum.actions";
 import { getUserSession } from "@/actions/user.actions";
 type FormValues = z.infer<typeof commentSchema>;
 import type { Editor } from "@tiptap/react";
@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { commentSchema } from "@/schemas/comment-schema";
 import { Content } from "@radix-ui/react-dropdown-menu";
+import { addpostComment } from "@/actions/post_comment.actions";
 
 // const MinimalTiptapEditor = dynamic(
 //   () =>

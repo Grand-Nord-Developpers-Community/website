@@ -28,6 +28,7 @@ function BlogLikeCard({
     fetchIntialLikeStatus();
   }, []);
 
+  //@ts-ignore
   const handleLike = async (e) => {
     if (!user) {
       e.preventDefault();
@@ -51,6 +52,7 @@ function BlogLikeCard({
     }
   };
 
+  //@ts-ignore
   const handleDislike = async (e) => {
     if (!user) {
       e.preventDefault();
