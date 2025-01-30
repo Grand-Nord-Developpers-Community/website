@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession } from "@/components/auth/SessionProvider";
 import { SessionUser } from "@/lib/db/schema";
+import { shouldHideHeaderAndFooter } from "@/lib/utils";
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
@@ -44,6 +45,8 @@ const Links = [
 function Header({ user }: { user: SessionUser | null }) {
   //const { user } = useSession();
   const pathname = usePathname();
+  const pathsToHide = ["sign-up", "/blog/new", "/admin", "complete"];
+
   const [scrollProgress, setScrollProgress] = useState(0);
   const router = useRouter();
   const trackScrollProgress = () => {
@@ -68,11 +71,7 @@ function Header({ user }: { user: SessionUser | null }) {
       toast.error(e as string);
     }
   };
-  return !pathname.includes("login") &&
-    !pathname.includes("sign-up") &&
-    !pathname.includes("/blog/new") &&
-    !pathname.includes("/admin") &&
-    !pathname.includes("complete") ? (
+  return !shouldHideHeaderAndFooter(pathname) ? (
     <header className="sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80">
       <div className="flex items-center justify-between screen-wrapper">
         <div>

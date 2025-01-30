@@ -1,9 +1,10 @@
 "use server";
-import { postComment, userTable as user } from "@/lib/db/schema";
+import { postComment, userTable as user, userVote } from "@/lib/db/schema";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, or, inArray, and, not, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { notEqual } from "assert";
 
 export interface ReplyWithAuthor {
   id: string;
@@ -18,6 +19,10 @@ export interface ReplyWithAuthor {
     image: string | null;
     exp: number;
   };
+  votes: {
+    userId: string;
+    isUpvote: boolean;
+  }[];
   replies: ReplyWithAuthor[];
 }
 interface replyProps {
@@ -125,6 +130,35 @@ export async function getPostReplies({
     .leftJoin(user, eq(postComment.authorId, user.id))
     .where(eq(fieldToFilter, valueToFilter!))
     .orderBy(desc(postComment.createdAt));
+  // Extract comment IDs
+  const commentIds = replies.map((r) => r.id);
+
+  if (commentIds.length === 0) return []; // Avoid unnecessary vote query if no comments
+  const votes = await db
+    .select({
+      commentId: userVote.commentId,
+      userId: userVote.userId,
+      isUpvote: userVote.isUpvote,
+    })
+    .from(userVote)
+    .where(
+      and(
+        inArray(userVote.commentId, commentIds),
+        not(isNull(userVote.commentId))
+      )
+    );
+
+  const voteMap = new Map<string, { userId: string; isUpvote: boolean }[]>();
+
+  votes.forEach((vote) => {
+    if (!voteMap.has(vote.commentId!)) {
+      voteMap.set(vote.commentId!, []);
+    }
+    voteMap.get(vote.commentId!)!.push({
+      userId: vote.userId,
+      isUpvote: vote.isUpvote,
+    });
+  });
 
   //console.table(replies);
   const replyMap = new Map<string, ReplyWithAuthor>();
@@ -143,6 +177,7 @@ export async function getPostReplies({
         username: reply.authorUsername,
         exp: reply.authorExperience || 0,
       },
+      votes: voteMap.get(reply.id) || [],
       replies: [],
     });
   });
@@ -160,7 +195,7 @@ export async function getPostReplies({
       topLevelReplies.push(replyWithAuthor);
     }
   });
-  //console.log(JSON.stringify(topLevelReplies));
+  console.log(JSON.stringify(votes));
   return topLevelReplies;
 }
 

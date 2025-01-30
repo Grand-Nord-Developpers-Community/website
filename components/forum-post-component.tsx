@@ -28,7 +28,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forumPublishSchema } from "@/schemas/forum-schema";
 import { toast } from "sonner";
-import { createForumPost } from "@/actions/forum.actions";
+import { createForumPost, updateForumPost } from "@/actions/forum.actions";
 import { getUserSession } from "@/actions/user.actions";
 type FormValues = z.infer<typeof forumPublishSchema>;
 import type { Editor } from "@tiptap/react";
@@ -36,27 +36,30 @@ import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { Forum } from "./question-card";
+import MinimalTiptapEditor from "./minimal-tiptap/minimal-tiptap"
 
-const MinimalTiptapEditor = dynamic(
-  () =>
-    import("./minimal-tiptap/minimal-tiptap").then((module) => module.default),
-  {
-    ssr: false,
-  }
-);
+// const MinimalTiptapEditor = dynamic(
+//   () =>
+//     import("./minimal-tiptap/minimal-tiptap").then((module) => module.default),
+//   {
+//     ssr: false,
+//   }
+// );
 interface Props {
+  forum?: Omit<Forum[number], "author" | "score" | "replies">;
   onSucessCallBack?: () => void;
 }
 
-export default function ForumPostComponent({ onSucessCallBack }: Props) {
+export default function ForumPostComponent({ forum, onSucessCallBack }: Props) {
   const [loading, setLoading] = useState(false);
   const [textContent, setTextContent] = useState("");
   const [open, setOpen] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(forumPublishSchema),
     defaultValues: {
-      title: "",
-      content: "",
+      title: forum?.title || "",
+      content: forum?.content || "",
     },
   });
   const router = useRouter();
@@ -71,11 +74,15 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
           throw "Entrer aussi du texte !!!";
         }
         //toast.message(textContent);
-        const res = await createForumPost(
-          values.title,
-          values.content,
-          textContent!
-        );
+
+        const res = !forum
+          ? await createForumPost(values.title, values.content, textContent!)
+          : await updateForumPost(
+              forum.id,
+              values.title,
+              values.content,
+              textContent!
+            );
         if (res.sucess) {
           toast.message("Votre question à été soumis avec succès !!");
           form.reset();
@@ -198,7 +205,7 @@ export default function ForumPostComponent({ onSucessCallBack }: Props) {
             }}
           >
             {loading && <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />}
-            Envoyer
+            {!forum ? "Envoyer" : "Modifier"}
           </Button>
         </form>
       </Form>

@@ -17,6 +17,8 @@ interface ImageUploadProps {
   progress: number;
   onRemoveHandler: () => void;
   onReset: boolean;
+  loadedImage?: string | null;
+  onRemoveLoadedImage?: () => void;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
@@ -26,10 +28,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   progress,
   onHashChange,
   onReset,
+  loadedImage = null,
+  onRemoveLoadedImage,
 }: ImageUploadProps) => {
   //const [loading, setLoading] = useState<boolean>(false);
   //const [progress, setProgress] = useState<number>(0);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(
+    loadedImage
+  );
   const [hashImage, setHashImage] = useState("");
   const [compressedFile, setCompressedFile] = useState<File | null>(null);
   // const [uploadedImagePath, setUploadedImagePath] = useState<string | null>(
@@ -121,6 +127,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const reset = () => {
     onRemoveHandler();
     setSelectedImage(null);
+    if (onRemoveLoadedImage) {
+      onRemoveLoadedImage();
+    }
   };
 
   //@ts-ignore

@@ -5,9 +5,8 @@ import { updateUserCheckProfile } from "@/actions/user.actions";
 import { useSWRConfig } from "swr";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Trash } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { Blog } from "@/lib/db/schema";
 import ForumDialog from "@/components/forum-dialog";
 import PostCard from "@/components/post-card";
 import { toast } from "sonner";
@@ -16,7 +15,10 @@ import { deleteBlog, getUserBlogPosts } from "@/actions/blog.actions";
 import { deleteForum, getUserForumPosts } from "@/actions/forum.actions";
 import ForumEmptyImage from "@/assets/svgs/undraw_begin_chat_re_v0lw.svg";
 import BlogEmptyImage from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
-import { getReadableTextRawHTML } from "@/lib/utils";
+import { AlertModal } from "@/components/modal/alert-modal";
+import { useRouter } from "next/navigation";
+import EditForumPost from "@/components/editForumPost";
+import { Forum } from "@/components/question-card";
 export type ForumUser = Awaited<ReturnType<typeof getUserForumPosts>>;
 export type BlogUser = Awaited<ReturnType<typeof getUserBlogPosts>>;
 
@@ -37,8 +39,11 @@ const Dashboard = ({
 }) => {
   const { mutate } = useSWRConfig();
   const confirm = useConfirm();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [post, setPost] =
+    useState<Omit<Forum[number], "author" | "score" | "replies">>();
+  const [openEditForum, setOpenEditForum] = useState(false);
   useEffect(() => {
     confirm.updateConfig((prev) => ({
       ...prev,
@@ -47,96 +52,79 @@ const Dashboard = ({
     }));
   }, [isLoading]);
   const [activeTab, setActiveTab] = useState<"blogs" | "forums">("blogs");
+  const [actionId, setActionId] = useState<{ id: string; action: string }>({
+    id: "",
+    action: "",
+  });
   //const [blogs, setBlogs] = useState<Post[]>([])
   //const [forums, setForums] = useState<Post[]>([])
 
   //const [isCountLoading, setIsCountLoading] = useState(true)
+  const [openModal, setOpenModal] = useState(false);
   const [isFirstTimeToDashboard] = useState<boolean>(isUserCheckProfile);
 
   const handleEdit = (id: string) => {
-    toast.message("Edition n'est pas implémenter pour le moment");
+    const f = forums?.filter((f) => f.id === id)[0];
+    setPost(f);
+    setOpenEditForum(true);
+    //toast.message("Edition n'est pas implémenter pour le moment");
     //console.log(`Editing ${activeTab} post with id: ${id}`);
   };
-
+  const handleBlogEdit = (id: string) => {
+    const slug = posts.filter((p) => p.id === id)[0].slug;
+    router.push("/blog/" + slug + "/edit");
+    //toast.message("Edition n'est pas implémenter pour le moment");
+    //console.log(`Editing ${activeTab} post with id: ${id}`);
+  };
+  const handleAction = async () => {
+    if (actionId.id === "" || actionId.action === "") return;
+    const { id, action } = actionId;
+    if (action === "delete_blog") {
+      await handleDeleteBlog(id);
+    } else if (action === "delete_forum") {
+      await handleDeleteForum(id);
+    }
+  };
   const handleDeleteForum = async (id: string) => {
-    const r = await confirm({
-      title: "Suppression",
-      description: `Vouliez vous vraiment supprimer ce forum ayant pour question `,
-      icon: <Trash className="size-4 text-destructive" />,
-      customActions: (onConfirm, onCancel) => (
-        <>
-          <Button onClick={onCancel} disabled={isLoading} variant="outline">
-            Annuler
-          </Button>
-          <Button
-            onClick={async () => {
-              if (!isLoading) {
-                setIsLoading(true);
-                try {
-                  const res = await deleteForum(id);
-                  if (res.sucess) {
-                    onConfirm();
-                    toast.success(res.message);
-                  }
-                } catch (e) {
-                  onCancel();
-                  toast("Error : " + e);
-                } finally {
-                  setIsLoading(false);
-                }
-              } else {
-                toast("Opération de suppression en cours d'execution");
-              }
-            }}
-            disabled={isLoading}
-            className="bg-red-500 hover:bg-red-600 text-white"
-          >
-            Supprimer
-          </Button>
-        </>
-      ),
-    });
+    if (!isLoading) {
+      setIsLoading(true);
+      try {
+        const res = await deleteForum(id);
+        if (res.sucess) {
+          //onConfirm();
+          toast.success(res.message);
+        }
+      } catch (e) {
+        //onCancel();
+        toast("Error : " + e);
+      } finally {
+        setIsLoading(false);
+        setOpenModal(false);
+      }
+    } else {
+      toast("Opération de suppression en cours d'execution");
+    }
   };
   const handleDeleteBlog = async (id: string) => {
-    const title = posts.filter((p) => p.id === id)[0].title;
-    const r = await confirm({
-      title: "Suppression",
-      description: `Vouliez vous vraiment supprimer ce blog ayant pour titre : ${title}`,
-      icon: <Trash className="size-4 text-destructive" />,
-      customActions: (onConfirm, onCancel) => (
-        <>
-          <Button onClick={onCancel} disabled={isLoading} variant="outline">
-            Annuler
-          </Button>
-          <Button
-            onClick={async () => {
-              if (!isLoading) {
-                setIsLoading(true);
-                try {
-                  const res = await deleteBlog(id);
-                  if (res.sucess) {
-                    mutate("/api/blogs", true);
-                    onConfirm();
-                    toast.success(res.message);
-                  }
-                } catch (e) {
-                  onCancel();
-                  toast("Error : " + e);
-                } finally {
-                  setIsLoading(false);
-                }
-              } else {
-                toast("Opération de suppression en cours d'execution");
-              }
-            }}
-            disabled={isLoading}
-            className="bg-red-500 hover:bg-red-600 text-white"
-          >
-            Supprimer
-          </Button>
-        </>
-      ),
-    });
+    if (!isLoading) {
+      setIsLoading(true);
+      try {
+        const res = await deleteBlog(id);
+        if (res.sucess) {
+          mutate("/api/blogs", true);
+          //onConfirm();
+          toast.success(res.message);
+        }
+      } catch (e) {
+        //onCancel();
+        toast("Error : " + e);
+      } finally {
+        setIsLoading(false);
+        setOpenModal(false);
+      }
+    } else {
+      toast("Opération de suppression en cours d'execution");
+    }
   };
 
   const fireshoot = () => {
@@ -240,11 +228,14 @@ const Dashboard = ({
                     content={blog.description}
                     id={blog.id}
                     isDraft={blog.isDraft!}
-                    onEdit={handleEdit}
-                    onDelete={handleDeleteBlog}
+                    onEdit={handleBlogEdit}
+                    onDelete={(id) => {
+                      setActionId({ id, action: "delete_blog" });
+                      setOpenModal(true);
+                    }}
                     views={viewCountPosts[blog?.slug!]}
                     replies={blog?.replies?.length}
-                    likes={blog?.like!}
+                    likes={blog?.likes!.filter((l) => l.isLike === true).length}
                     rawContent={blog?.content!}
                   />
                 ))}
@@ -272,10 +263,13 @@ const Dashboard = ({
                     title={forum?.title!}
                     content={forum?.textContent}
                     onEdit={handleEdit}
-                    onDelete={handleDeleteForum}
                     views={viewCountForums[forum?.id!]}
                     replies={forum?.replies?.length}
-                    likes={forum?.score!}
+                    likes={forum?.votes?.filter((v) => v.isUpvote).length}
+                    onDelete={(id) => {
+                      setActionId({ id, action: "delete_forum" });
+                      setOpenModal(true);
+                    }}
                   />
                 ))}
               </div>
@@ -293,6 +287,18 @@ const Dashboard = ({
           </TabsContent>
         </div>
       </Tabs>
+      <AlertModal
+        onConfirm={handleAction}
+        onClose={() => setOpenModal(false)}
+        isOpen={openModal}
+        loading={isLoading}
+      />
+      <EditForumPost
+        post={post!}
+        isOpen={openEditForum}
+        onSuccess={() => setOpenEditForum(false)}
+        onClose={() => setOpenEditForum(false)}
+      />
     </>
   );
 };

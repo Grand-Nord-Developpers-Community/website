@@ -1,33 +1,34 @@
 import { notFound } from "next/navigation";
 import React from "react";
 import ImageWrapper from "@/components/imageWrapper";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getBlogPost } from "@/actions/blog.actions";
-
+import { getBlogPostPreview } from "@/actions/blog.actions";
 import PostDetail from "@/components/blogContent";
 import Link from "next/link";
-import { ReportView } from "@/components/ReportView";
-import { Redis } from "@upstash/redis";
 import { Clock, Eye, ThumbsUp } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { calculateReadingTime } from "@/lib/utils";
 
-const redis = Redis.fromEnv();
 export const revalidate = 60;
 export default async function Page({ params }: { params: any }) {
   const { slug } = params;
-  const post = await getBlogPost(slug as string);
+  const post = await getBlogPostPreview(slug as string);
   const { user } = await auth();
-  const views =
-    (await redis.get<number>(["pageviews", "blogs", slug].join(":"))) ?? 0;
   if (!post) {
+    notFound();
+  }
+
+  const isUserAuthorized =
+    user?.id === post.authorId ||
+    user?.role === "admin" ||
+    user?.role === "manager";
+
+  if (!isUserAuthorized) {
     notFound();
   }
   return (
     <div className="min-h-screen bg-white">
       {/* Article Header */}
-      <ReportView id={slug} type="blog" />
       <div className="bg-primary">
         <div className="relative screen-wrapper py-12 max-md:pb-[180px]">
           <div className="w-full gap-5 flex max-md:flex-wrap items-center justify-between">
@@ -41,6 +42,11 @@ export default async function Page({ params }: { params: any }) {
               <h1 className="max-md:w-full text-4xl max-sm:text-2xl md:text-5xl font-bold tracking-tight text-secondary">
                 {post.title}
               </h1>
+              {post.isDraft && (
+                <p className="text-white bg-secondary p-2 mt-5 w-fit text-sm">
+                  Brouillon
+                </p>
+              )}
               <p className="text-lg text-gray-100 max-sm:text-base">
                 {post.description}
               </p>
@@ -71,21 +77,6 @@ export default async function Page({ params }: { params: any }) {
                           <Clock className="mr-1 h-4 w-4" />{" "}
                           {calculateReadingTime(post.content)} min lire
                         </span>
-                        <span className="flex items-center">
-                          <Eye className="mr-1 h-4 w-4" />{" "}
-                          {Intl.NumberFormat("en-US", {
-                            notation: "compact",
-                          }).format(views)}{" "}
-                          vues
-                        </span>
-                        <span className="flex items-center">
-                          <ThumbsUp className="mr-1 h-4 w-4" />{" "}
-                          {Intl.NumberFormat("en-US", {
-                            notation: "compact",
-                          }).format(
-                            post.likes.filter((l) => l.isLike === true).length
-                          )}{" "}
-                        </span>
                       </div>
                       <span className="flex items-center">
                         {/*<Heart className={`mr-1 h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} /> {likes} likes*/}
@@ -97,21 +88,6 @@ export default async function Page({ params }: { params: any }) {
                   <span className="flex items-center">
                     <Clock className="mr-1 h-4 w-4" />{" "}
                     {calculateReadingTime(post.content)} min lire
-                  </span>
-                  <span className="flex items-center">
-                    <Eye className="mr-1 h-4 w-4" />{" "}
-                    {Intl.NumberFormat("en-US", {
-                      notation: "compact",
-                    }).format(views)}{" "}
-                    vues
-                  </span>
-                  <span className="flex items-center">
-                    <ThumbsUp className="mr-1 h-4 w-4" />{" "}
-                    {Intl.NumberFormat("en-US", {
-                      notation: "compact",
-                    }).format(
-                      post.likes.filter((l) => l.isLike === true).length
-                    )}{" "}
                   </span>
                 </div>
                 {/*<div className="flex space-x-2">

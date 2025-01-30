@@ -45,8 +45,16 @@ import { logout } from "@/lib/api/auth/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 export function AppSidebar({ user }: { user: SessionUser }) {
-  const { form, setCompressedFile, loading, progress, success } =
-    useFormContext();
+  const {
+    form,
+    setCompressedFile,
+    loading,
+    progress,
+    success,
+    img,
+    onRemoveLoadedImage,
+    isEdit,
+  } = useFormContext();
   const { setValue } = form;
   const router = useRouter();
   const onLogoutClick = async () => {
@@ -85,6 +93,8 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                         onRemoveHandler={() => setCompressedFile(null)}
                         loading={loading}
                         progress={progress}
+                        loadedImage={img}
+                        onRemoveLoadedImage={onRemoveLoadedImage}
                         onHashChange={(h) =>
                           setValue("previewHash", h, { shouldValidate: true })
                         }
@@ -136,7 +146,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
               type="submit"
               disabled={loading}
             >
-              Publish
+              {!isEdit ? "Publier" : "Modifier"}
             </Button>
           </SidebarGroupContent>
         </SidebarGroup>

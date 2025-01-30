@@ -61,7 +61,7 @@ export default function PostCard({
         <div className="flex justify-between items-start">
           <CardTitle className="line-clamp-2 hover:text-secondary">
             <Link
-              href={`${type === "blog" ? `/blog/${slug}` : `/forum/${id}`}`}
+              href={`${type === "blog" ? `/blog/${slug}${isDraft ? "/preview" : ""}` : `/forum/${id}`}`}
             >
               {title}
             </Link>

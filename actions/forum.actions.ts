@@ -49,6 +49,15 @@ export async function getUserForumPosts(userId: string) {
           columns: {
             id: true,
           },
+          with: {
+            votes: true,
+          },
+        },
+        votes: {
+          columns: {
+            id: true,
+            isUpvote: true,
+          },
         },
       },
     });
@@ -71,6 +80,40 @@ export async function getUserForumPosts(userId: string) {
   }
 }
 
+export async function updateForumPost(
+  id: string,
+  title: string,
+  content: string,
+  textContent: string
+) {
+  const forumPostToUpdate = await db.query.forumPost.findFirst({
+    where: eq(forumPost.id, id),
+  });
+
+  if (!forumPostToUpdate) {
+    throw new Error("Forum post not found");
+  }
+  const res = await db
+    .update(forumPost)
+    .set({
+      title,
+      content,
+      textContent,
+    })
+    .where(eq(forumPost.id, id))
+    .returning();
+  if (!res[0]) {
+    throw new Error("Forum post not found");
+  }
+  revalidatePath("/user/dashboard");
+  revalidatePath("/forum");
+  revalidatePath("/");
+  return {
+    sucess: true,
+    message: "forum modifié avec succèss",
+  };
+}
+
 export async function getForumPosts() {
   const res = await db.query.forumPost.findMany({
     orderBy: [desc(forumPost.createdAt)],
@@ -87,12 +130,21 @@ export async function getForumPosts() {
         columns: {
           id: true,
         },
+        with: {
+          votes: true,
+        },
       },
       author: {
         columns: {
           name: true,
           image: true,
           username: true,
+        },
+      },
+      votes: {
+        columns: {
+          id: true,
+          isUpvote: true,
         },
       },
     },
@@ -142,11 +194,19 @@ export async function getForumPost(id: string) {
           experiencePoints: true,
         },
       },
+      votes: {
+        columns: {
+          userId: true,
+          isUpvote: true,
+          commentId: true,
+        },
+      },
     },
   });
 
   if (!post) {
-    throw new Error("Forum post not found");
+    return undefined;
+    //throw new Error("Forum post not found");
   }
   return post;
 }

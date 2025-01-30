@@ -107,10 +107,10 @@ const LatestPublicationsSection: FC = () => {
 
 const EmptyPublicationPlaceHolder: FC = () => {
   return (
-    <div className="flex flex-col h-[400px] justify-center items-center my-5">
+    <div className="flex flex-col h-[300px] justify-center items-center my-5">
       <VoidImage className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
-      <h2 className="text-2xl mx-auto text-center font-medium my-3 text-gray-400">
-        Pas de publications pour l&apos;instant !
+      <h2 className="text-xl max-sm:text-base mx-auto text-center font-medium my-3 text-gray-400">
+        il y'a pas de blog pour l&apos;instant !
       </h2>
       <div className="flex w-full justify-center my-2">
         <Button className="px-4" asChild variant="secondary">
@@ -121,7 +121,7 @@ const EmptyPublicationPlaceHolder: FC = () => {
   );
 };
 
-const OurPublicationsGrid: FC<{ publications: BlogType[] }> = ({
+const OurPublicationsGrid: FC<{ publications: BlogType }> = ({
   publications,
 }) => {
   return (

@@ -28,7 +28,7 @@ interface CommentProps {
   comment: ReplyWithAuthor;
   currentUser: SessionUser | null;
   depth: number;
-  onVote: (id: string, increment: boolean) => void;
+  onVote: (id: string, increment: boolean) => Promise<boolean>;
   onDelete: (id: string) => Promise<boolean>;
   onReply: (id: string, content: string) => Promise<boolean>;
   onEdit: (id: string, content: string) => Promise<boolean>;
@@ -51,7 +51,13 @@ export function Comment({
   const [isLoading, setIsLoading] = useState(false);
   const [openModal, setOpenModel] = useState(false);
   const isAuthor = currentUser?.id === comment.author.id;
-
+  const v = comment.votes.reduce(
+    (total, vote) => total + (vote.isUpvote ? 1 : -1),
+    0
+  );
+  const isCurrentUserVoted = comment.votes.find(
+    (vote) => vote.userId === currentUser?.id
+  );
   const handleEdit = async () => {
     setIsLoading(true);
     if (await onEdit(comment.id, editContent)) {
@@ -70,6 +76,19 @@ export function Comment({
   const handleReply = async () => {
     setIsLoading(true);
     if (await onReply(comment.id, replyContent)) {
+      setIsReplying(false);
+      setReplyContent("");
+      setIsLoading(false);
+    }
+  };
+
+  const handleVote = async (id: string, isVoted: boolean) => {
+    if (!currentUser) {
+      openAlert();
+      return false;
+    }
+    setIsLoading(true);
+    if (await onVote(id, isVoted)) {
       setIsReplying(false);
       setReplyContent("");
       setIsLoading(false);
@@ -96,10 +115,10 @@ export function Comment({
               {comment.author?.name?.slice(0, 2)?.toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 space-x-0 space-y-2 mr-3 sm:mr-4">
+          {/* <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 space-x-0 space-y-2 mr-3 sm:mr-4">
             <button
               onClick={() => onVote(comment.id, true)}
-              className="text-gray-500 hover:text-primary transition-colors"
+              className="text-gray-500 hover:bg-primary/20 rounded-lg w-[95%] flex  hover:text-primary transition-colors"
             >
               <ChevronUp className="h-4 w-4" />
             </button>
@@ -110,7 +129,51 @@ export function Comment({
             >
               <ChevronDown className="h-4 w-4" />
             </button>
-          </div>
+          </div> */}
+          <UpVoteComponent
+            id={comment.id}
+            onVote={handleVote}
+            loading={isLoading}
+            value={v}
+            isCurrentUserVoted={isCurrentUserVoted}
+          />
+          {/* <div
+            className="flex flex-col items-center rounded-full bg-white border border-border space-x-0 space-y-2 mr-3 sm:mr-4"
+            style={{ padding: "6px" }}
+          >
+            <button
+              //onClick={() => handleVote("up")}
+              onClick={() => onVote(comment.id, true)}
+              className={`rounded-full p-1 transition-all duration-200 ${
+                isCurrentUserVoted && isCurrentUserVoted.isUpvote
+                  ? "bg-gray-100 text-blue-500"
+                  : "text-gray-400 hover:bg-gray-50 hover:text-gray-600"
+              }`}
+              aria-label="Upvote"
+            >
+              <ChevronUp className="h-5 w-5" strokeWidth={2.5} />
+            </button>
+
+            <span className="my-1 text-sm font-medium text-gray-700">
+              {comment.votes.reduce(
+                (total, vote) => total + (vote.isUpvote ? 1 : -1),
+                0
+              )}
+            </span>
+
+            <button
+              //onClick={() => handleVote("down")}
+              onClick={() => onVote(comment.id, false)}
+              className={`rounded-full p-1 transition-all duration-200 ${
+                isCurrentUserVoted && !isCurrentUserVoted.isUpvote
+                  ? "bg-gray-100 text-blue-500"
+                  : "text-gray-400 hover:bg-gray-50 hover:text-gray-600"
+              }`}
+              aria-label="Downvote"
+            >
+              <ChevronDown className="h-5 w-5" strokeWidth={2.5} />
+            </button>
+          </div> */}
         </div>
 
         <div className="flex-1 space-y-2 ">
@@ -274,6 +337,7 @@ export function Comment({
 
 import { Skeleton } from "@/components/ui/skeleton";
 import RenderContent from "./renderContent";
+import UpVoteComponent from "./upVoteComponent";
 
 interface CommentSkeletonProps {
   depth?: number;

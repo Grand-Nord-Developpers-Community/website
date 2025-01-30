@@ -2,11 +2,13 @@
 
 import { db } from "@/lib/db";
 import { blogPost } from "@/lib/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { blogPublishSchema } from "@/schemas/blog-schema";
+import { auth } from "@/lib/auth";
 type blogValueProps = {
+  id?: string;
   title: string;
   description: string;
   preview: string;
@@ -74,12 +76,26 @@ export async function getBlogPosts() {
   try {
     const posts = await db.query.blogPost.findMany({
       orderBy: [desc(blogPost.createdAt)],
+      where: eq(blogPost.isDraft, false),
       with: {
         author: {
           columns: {
             email: true,
             name: true,
             image: true,
+          },
+        },
+        replies: {
+          columns: {
+            id: true,
+          },
+          with: {
+            votes: true,
+          },
+        },
+        likes: {
+          columns: {
+            isLike: true,
           },
         },
       },
@@ -114,16 +130,23 @@ export async function getUserBlogPosts(userId: string) {
         columns: {
           id: true,
         },
+        with: {
+          votes: true,
+        },
+      },
+      likes: {
+        columns: {
+          isLike: true,
+        },
       },
     },
   });
   return posts;
 }
-
-export async function getBlogPost(slug: string) {
+export async function getBlogPostPreview(slug: string) {
   try {
     const post = await db.query.blogPost.findFirst({
-      where: eq(blogPost.slug, slug),
+      where: and(eq(blogPost.slug, slug), eq(blogPost.isDraft, true)),
       with: {
         author: {
           columns: {
@@ -136,9 +159,120 @@ export async function getBlogPost(slug: string) {
             experiencePoints: true,
           },
         },
-        replies: {
+      },
+    });
+    return post;
+  } catch (e) {
+    console.log(e);
+    return undefined;
+  }
+}
+
+export async function updateBlogPost({
+  id,
+  title,
+  description,
+  preview,
+  previewHash,
+  content,
+  authorId,
+}: blogValueProps) {
+  blogPublishSchema.parse({
+    title,
+    description,
+    preview,
+    previewHash,
+    content,
+  });
+  const slug = slugify(title);
+  const post = await db.query.blogPost.findFirst({
+    where: eq(blogPost.id, id!),
+    columns: {
+      slug: true,
+    },
+    with: {
+      author: {
+        columns: {
+          id: true,
+        },
+      },
+    },
+  });
+  if (!post || post.author.id !== authorId) {
+    return {
+      success: false,
+      message: "Un problème est survenue",
+    };
+  }
+  if (post?.slug === slug && post?.author.id !== authorId) {
+    return {
+      success: false,
+      message: "Un blog avec ce même titre à été publié",
+      revalidate: "title",
+    };
+  }
+  const res = await db
+    .update(blogPost)
+    .set({
+      title,
+      description,
+      preview,
+      previewHash,
+      content,
+      slug,
+      isDraft: true,
+    })
+    .where(eq(blogPost.slug, post.slug))
+    .returning();
+  if (!res[0]) {
+    return {
+      success: false,
+      message: "Un problème est survenue",
+    };
+  } else {
+    revalidatePath("/blog");
+    revalidatePath("/user/dashboard");
+    return {
+      success: true,
+      message: "votre blog a été modifié avec sucèss !!",
+    };
+  }
+}
+
+export async function getBlogPostEdit(slug: string) {
+  try {
+    const { user } = await auth();
+    if (!user) {
+      return undefined;
+    }
+    const post = await db.query.blogPost.findFirst({
+      where: and(eq(blogPost.slug, slug), eq(blogPost.authorId, user?.id!)),
+    });
+    return post;
+  } catch (e) {
+    console.log(e);
+    return undefined;
+  }
+}
+export async function getBlogPost(slug: string) {
+  try {
+    const post = await db.query.blogPost.findFirst({
+      where: and(eq(blogPost.slug, slug), eq(blogPost.isDraft, false)),
+      with: {
+        author: {
           columns: {
-            id: true,
+            email: true,
+            name: true,
+            image: true,
+            bio: true,
+            role: true,
+            createdAt: true,
+            experiencePoints: true,
+          },
+        },
+        likes: {
+          columns: {
+            isLike: true,
           },
         },
       },

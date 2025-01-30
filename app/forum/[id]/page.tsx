@@ -20,23 +20,25 @@ import { Redis } from "@upstash/redis";
 import CommentSection from "@/components/comment-section";
 import { auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import UpVoteWrapper from "@/components/upVoteWrapper";
 export const revalidate = 60;
 
 const redis = Redis.fromEnv();
 export default async function QuestionPage({ params }: { params: any }) {
   const { id } = params;
   const forum = await getForumPost(id as string);
-  const forums = await getForumPosts();
-  const { user } = await auth();
-  const views =
-    (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
   if (!forum) {
     notFound();
   }
-
-  function onVote(id: string, isUpVote: boolean): void {
-    //throw new Error("Function not implemented.");
-  }
+  const forums = await getForumPosts();
+  const vote = forum.votes.reduce(
+    (total, vote) =>
+      total + (vote.commentId === null ? (vote.isUpvote ? 1 : -1) : 0),
+    0
+  );
+  const { user } = await auth();
+  const views =
+    (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
 
   return (
     <div className="w-full">
@@ -94,23 +96,12 @@ export default async function QuestionPage({ params }: { params: any }) {
                     {forum.author?.name?.slice(0, 2)?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 space-x-0 space-y-2 mr-3 sm:mr-4">
-                  <button
-                    //onClick={() => onVote(forum.id, true)}
-                    className="text-gray-500 hover:text-primary transition-colors"
-                  >
-                    <ChevronUp className="h-4 w-4" />
-                  </button>
-                  <span className="text-primary font-medium">
-                    {forum.score}
-                  </span>
-                  <button
-                    //onClick={() => onVote(forum.id, false)}
-                    className="text-gray-500 hover:text-primary transition-colors"
-                  >
-                    <ChevronDown className="h-4 w-4" />
-                  </button>
-                </div>
+                <UpVoteWrapper
+                  id={forum.id}
+                  value={vote}
+                  user={user}
+                  voteList={forum.votes}
+                />
               </div>
               <div className="flex-1 space-y-2 ">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 w-full">
@@ -128,7 +119,7 @@ export default async function QuestionPage({ params }: { params: any }) {
                         @{forum.author.username}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 sm:gap-4">
+                    {/* <div className="flex items-center gap-2 sm:gap-4">
                       {forum.authorId === user?.id && (
                         <>
                           <Button
@@ -142,7 +133,7 @@ export default async function QuestionPage({ params }: { params: any }) {
                           </Button>
                         </>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <RenderContent value={forum.content} />
@@ -198,7 +189,12 @@ export default async function QuestionPage({ params }: { params: any }) {
               postId={id}
               parentId={"e43f9dd7-f75f-42cf-b24e-7debd7c992ac"}
             /> */}
-            <CommentSection postId={id} user={user} />
+            <CommentSection
+              postId={id}
+              user={user}
+              //@ts-ignore
+              commentLists={forum?.replies}
+            />
             {/* <Card className="p-6">
               <h2 className="text-lg font-semibold mb-4">Votre reponse</h2>
               <div className="space-y-4">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface TableOfContentProps {
   items: any[];
@@ -9,20 +9,25 @@ interface TableOfContentProps {
 const TableOfContent = ({
   items,
   activeItemId,
-  onItemClick
+  onItemClick,
 }: TableOfContentProps) => {
   return (
     <>
-      <div className='text-lg mb-2 font-bold'>Dans cette page</div>
-      <ul className=''>
+      <div className="text-lg mb-2 font-bold">Table de matière</div>
+      <ul className="">
+        {items.length === 0 && (
+          <li className="text-sm block h-full py-1.5 font-medium">
+            Aucun contenu
+          </li>
+        )}
         {items.map((item) => (
-          <li key={item.id} className=''>
+          <li key={item.id} className="">
             <a
               href={`#${item.id}`}
-              className={`text-sm block h-full py-1.5 font-medium ${activeItemId === item.id ? 'font-bold text-blue-600' : ''}`}
+              className={`text-sm block h-full py-1.5 font-medium ${activeItemId === item.id ? "font-bold text-blue-600" : ""}`}
               onClick={(e) => onItemClick(e, item.id)}
               style={{
-                paddingLeft: (item.level - 2) * 16
+                paddingLeft: (item.level - 2) * 16,
               }}
             >
               {item.text}

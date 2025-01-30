@@ -37,6 +37,20 @@ export function getReadableTextRawHTML(htmlString: string) {
   return "";
 }
 
+export function shouldHideHeaderAndFooter(pathname: string) {
+  const pathsToHide = ["sign-up", "login", "/blog/new", "/admin", "complete"];
+
+  // Regular expression to match `/blog/[slug]/edit` pattern
+  const editPageRegex = /^\/blog\/[^/]+\/edit$/;
+
+  // Check if the current pathname matches any of the specified conditions
+  const isHide =
+    pathsToHide.some((path) => pathname.includes(path)) ||
+    editPageRegex.test(pathname);
+
+  return isHide;
+}
+
 export function calculateReadingTime(htmlContent: string): number {
   // Strip HTML tags
   const strippedContent = htmlContent.replace(/<\/?[^>]+(>|$)/g, "");
