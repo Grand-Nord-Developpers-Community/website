@@ -30,6 +30,8 @@ import {
   UserCircle2Icon,
   UserX2Icon,
   UserRoundCogIcon,
+  NewspaperIcon,
+  MessageCircleQuestionIcon,
   X
 } from 'lucide-react';
 
@@ -61,7 +63,9 @@ export const Icons = {
   arrowRight: ArrowRight,
   help: HelpCircle,
   pizza: Pizza,
+  blog: NewspaperIcon,
   sun: SunMedium,
+  forum:MessageCircleQuestionIcon,
   moon: Moon,
   laptop: Laptop,
   gitHub: ({ ...props }: LucideProps) => (

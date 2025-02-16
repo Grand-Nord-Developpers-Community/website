@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SessionUser } from "@/lib/db/schema";
 import { shouldHideHeaderAndFooter } from "@/lib/utils";
+import {useIs404Store} from "@/components/stores/useIs404"
 import clsx from "clsx";
 const Links = [
   { name: "Nos activités", link: "/events" },
@@ -45,6 +46,7 @@ const Links = [
 function Header({ user }: { user: SessionUser | null }) {
   //const { user } = useSession();
   const pathname = usePathname();
+  const {is404}=useIs404Store()
 
   const [scrollProgress, setScrollProgress] = useState(0);
   const router = useRouter();
@@ -70,7 +72,7 @@ function Header({ user }: { user: SessionUser | null }) {
       toast.error(e as string);
     }
   };
-  return !shouldHideHeaderAndFooter(pathname) ? (
+  return !shouldHideHeaderAndFooter(pathname)||is404 ? (
     <header
       className={clsx(
         "sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80"

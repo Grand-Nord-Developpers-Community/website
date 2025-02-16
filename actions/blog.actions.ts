@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { blogPost } from "@/lib/db/schema";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, count } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { blogPublishSchema } from "@/schemas/blog-schema";
@@ -111,6 +111,15 @@ export async function getBlogPosts() {
   }
 }
 
+export async function getTotalBlogPosts() {
+  try {
+    const blogs = await db.select({ count: count() }).from(blogPost);
+    return blogs[0].count;
+  } catch (e) {
+    console.log("Error : " + e);
+    return 0;
+  }
+}
 export async function getUserBlogPosts(userId: string) {
   const posts = await db.query.blogPost.findMany({
     orderBy: [desc(blogPost.createdAt)],

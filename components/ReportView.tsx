@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-export type pageTrackerType = "blog" | "forum";
-export const ReportView: React.FC<{ id: string; type: pageTrackerType }> = ({
+import { mutate } from "swr";
+export type pageTrackerType = "blog" | "forum" | "app";
+export const ReportView: React.FC<{ id?: string; type: pageTrackerType }> = ({
   id,
   type,
 }) => {

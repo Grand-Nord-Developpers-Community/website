@@ -1,29 +1,34 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import type { pageTrackerType } from "@/components/ReportView";
+
 const redis = Redis.fromEnv();
 export const runtime = "edge";
-
+export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest): Promise<NextResponse> {
   if (req.headers.get("Content-Type") !== "application/json") {
     return new NextResponse("must be json", { status: 400 });
   }
 
   const body = await req.json();
-  let id: string | undefined = undefined;
+  let id: string | undefined = body.id;
   let type: pageTrackerType = body.type;
-  if ("id" in body) {
-    id = body.id;
-  }
-  if (!id) {
-    return new NextResponse("id not found", { status: 400 });
-  }
+
   if (!type) {
-    return new NextResponse("type not undefined", { status: 400 });
+    return new NextResponse("type is required", { status: 400 });
   }
+  if (!id && type !== "app") {
+    return new NextResponse("id is required for this type", { status: 400 });
+  }
+
+  // Detect device type
+  const userAgent = req.headers.get("user-agent") || "";
+  const isMobile = /Mobi|Android|iPhone/i.test(userAgent);
+  const deviceType = isMobile ? "mobile" : "desktop";
+
   const ip = req.ip;
   if (ip) {
-    // Hash the IP in order to not store it directly in your db.
+    // Hash the IP for privacy
     const buf = await crypto.subtle.digest(
       "SHA-256",
       new TextEncoder().encode(ip)
@@ -32,25 +37,28 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
 
-    // deduplicate the ip for each id
-    const isNew = await redis.set(["deduplicate", hash, id].join(":"), true, {
-      nx: true,
-      ex: 24 * 60 * 60,
-    });
+    // Deduplicate views for 24 hours
+    const isNew = await redis.set(
+      ["deduplicate", hash, type, id ?? "global"].join(":"),
+      true,
+      {
+        nx: true,
+        ex: 24 * 60 * 60,
+      }
+    );
+
     if (!isNew) {
-      new NextResponse(null, { status: 202 });
+      return new NextResponse(null, { status: 202 });
     }
   }
-  switch (type) {
-    case "blog":
-      await redis.incr(["pageviews", "blogs", id].join(":"));
-      break;
-    case "forum":
-      await redis.incr(["pageviews", "forums", id].join(":"));
-      break;
-    default:
-      return new NextResponse("type not found", { status: 400 });
-  }
+
+  const date = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+  // Increment total views and views by date & device type
+  await redis.incr(["pageviews", type, id ?? "global", deviceType].join(":"));
+  await redis.incr(
+    ["pageviews", type, id ?? "global", date, deviceType].join(":")
+  );
 
   return new NextResponse(null, { status: 202 });
 }

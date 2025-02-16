@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { TrendingUp } from 'lucide-react';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import * as React from "react";
+import { TrendingUp, Loader2 } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -9,99 +10,150 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+  CardTitle,
+} from "@/components/ui/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent
-} from '@/components/ui/chart';
-const chartData = [
-  { month: 'January', desktop: 186, mobile: 80 },
-  { month: 'February', desktop: 305, mobile: 200 },
-  { month: 'March', desktop: 237, mobile: 120 },
-  { month: 'April', desktop: 73, mobile: 190 },
-  { month: 'May', desktop: 209, mobile: 130 },
-  { month: 'June', desktop: 214, mobile: 140 }
-];
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { useGetSiteInsightData } from "@/hooks/use-hook";
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
-    color: 'hsl(var(--chart-1))'
+    label: "Ordinateur",
+    color: "hsl(var(--chart-1))",
   },
   mobile: {
-    label: 'Mobile',
-    color: 'hsl(var(--chart-2))'
-  }
-} satisfies ChartConfig;
+    label: "Mobile",
+    color: "hsl(var(--chart-2))",
+  },
+};
+
+// French month mapping
+const monthMapping = {
+  "01": "Janv",
+  "02": "Févr",
+  "03": "Mars",
+  "04": "Avr",
+  "05": "Mai",
+  "06": "Juin",
+  "07": "Juil",
+  "08": "Août",
+  "09": "Sept",
+  "10": "Oct",
+  "11": "Nov",
+  "12": "Déc",
+};
 
 export function AreaGraph() {
+  const [chartData, setChartData] = React.useState([]);
+  const { data, isLoading, isError } = useGetSiteInsightData();
+  React.useEffect(() => {
+    if (data) {
+      const formattedData = (data || [])
+        .map((item: { date: string; desktop: number; mobile: number }) => {
+          const dateParts = item.date.split("-");
+          //@ts-ignore
+          const month = monthMapping[dateParts[1]] || "N/A";
+          return {
+            month,
+            desktop: item.desktop,
+            mobile: item.mobile,
+          };
+        })
+        .reduce(
+          (
+            acc: any[],
+            {
+              month,
+              desktop,
+              mobile,
+            }: { month: string; desktop: number; mobile: number }
+          ) => {
+            // Check if the month already exists in the accumulator
+            let existingMonth = acc.find((item) => item.month === month);
+
+            if (existingMonth) {
+              // If it exists, sum the values of desktop and mobile
+              existingMonth.desktop += desktop;
+              existingMonth.mobile += mobile;
+            } else {
+              // Otherwise, add a new entry for that month
+              acc.push({ month, desktop, mobile });
+            }
+
+            return acc;
+          },
+          []
+        );
+      setChartData(formattedData);
+    }
+  }, [data]);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
+        <CardTitle>Graphique de visiteurs</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Affichage du total des visiteurs pour les 3 derniers mois
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-auto h-[310px] w-full"
-        >
-          <AreaChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="dot" />}
-            />
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="var(--color-mobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-              stackId="a"
-            />
-          </AreaChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
+        {isLoading ? (
+          <div className="flex justify-center items-center h-56">
+            <Loader2 className="animate-spin text-muted-foreground w-10 h-10" />
           </div>
-        </div>
-      </CardFooter>
+        ) : (
+          <ChartContainer
+            config={chartConfig}
+            className="aspect-auto h-[310px] w-full"
+          >
+            <AreaChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                left: 12,
+                right: 12,
+              }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    indicator="dot"
+                    nameKey="visiteurs"
+                    labelFormatter={(value) => value}
+                  />
+                }
+              />
+              <Area
+                dataKey="mobile"
+                type="natural"
+                fill={chartConfig.mobile.color}
+                fillOpacity={0.4}
+                stroke={chartConfig.mobile.color}
+                stackId="a"
+              />
+              <Area
+                dataKey="desktop"
+                type="natural"
+                fill={chartConfig.desktop.color}
+                fillOpacity={0.4}
+                stroke={chartConfig.desktop.color}
+                stackId="a"
+              />
+            </AreaChart>
+          </ChartContainer>
+        )}
+      </CardContent>
     </Card>
   );
 }

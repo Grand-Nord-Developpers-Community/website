@@ -1,17 +1,20 @@
 "use server";
 import { db } from "@/lib/db";
-import { userTable as user } from "@/lib/db/schema";
+import { userTable as user, userTable } from "@/lib/db/schema";
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq, sql, desc } from "drizzle-orm";
+import { eq, sql, desc, count } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { lucia, auth } from "@/lib/auth";
-import { loginWithGithub as loginGithub, loginWithGoogle } from "@/lib/api/auth/login";
+import {
+  loginWithGithub as loginGithub,
+  loginWithGoogle,
+} from "@/lib/api/auth/login";
 
 export async function getUserFromDb(email: string, password: string) {
   try {
@@ -94,14 +97,14 @@ export async function getUserFromDb(email: string, password: string) {
 }*/
 
 export async function loginWithGithub(props: {
-  searchParams: { callbackUrl: string | undefined }
+  searchParams: { callbackUrl: string | undefined };
 }) {
   //await signIn("github");
   try {
     await loginGithub();
   } catch (error) {
     console.log(error);
-    return redirect(`/error-auth?error=${error}`)
+    return redirect(`/error-auth?error=${error}`);
   }
 }
 
@@ -191,7 +194,7 @@ export async function updateUserRole(
 
 export async function getUserSession() {
   const session = await auth();
-  return session?.user?.name ? session : undefined
+  return session?.user?.name ? session : undefined;
 }
 
 export async function getUserProfileUserAuth() {
@@ -217,7 +220,7 @@ export async function getUserProfileUserAuth() {
         instagramLink: true,
         lastActive: true,
         isCompletedProfile: true,
-        isCheckProfile:true,
+        isCheckProfile: true,
         createdAt: true,
       },
     });
@@ -252,7 +255,7 @@ export async function getUserProfile(userId: string) {
       lastActive: true,
       isCompletedProfile: true,
       createdAt: true,
-      isCheckProfile:true
+      isCheckProfile: true,
     },
   });
 
@@ -272,16 +275,44 @@ export async function getUsersListByRank() {
         name: true,
         email: true,
         experiencePoints: true,
-        createdAt: true
+        createdAt: true,
       },
     });
     return users;
   } catch (e) {
-    console.log("Error : " + e)
-    return undefined
+    console.log("Error : " + e);
+    return undefined;
   }
+}
 
+export async function getNewUsersList() {
+  try {
+    const users = await db.query.userTable.findMany({
+      orderBy: [desc(user.createdAt)],
+      columns: {
+        image: true,
+        name: true,
+        email: true,
+        experiencePoints: true,
+        createdAt: true,
+      },
+      limit: 5,
+    });
+    return users;
+  } catch (e) {
+    console.log("Error : " + e);
+    return undefined;
+  }
+}
 
+export async function getTotalUsers() {
+  try {
+    const users = await db.select({ count: count() }).from(userTable);
+    return users[0].count;
+  } catch (e) {
+    console.log("Error : " + e);
+    return 0;
+  }
 }
 
 export async function getUserProfileImage(userId: string) {
@@ -392,21 +423,20 @@ export async function updateUserProfileCompletion(
   try {
     const validatedData = completeProfileSchema.parse(data);
 
-
     const userAccount = await db.query.userTable.findFirst({
       //@ts-ignore
       where: (user, { eq }) => eq(user.username, data.username),
     });
 
-  if (userAccount) {
-    const error= new Error("USERNAME_TAKEN")
-    throw error
-  }
+    if (userAccount) {
+      const error = new Error("USERNAME_TAKEN");
+      throw error;
+    }
     const res = await db
       .update(user)
       .set({
         ...validatedData,
-        isCompletedProfile:true,
+        isCompletedProfile: true,
         updatedAt: new Date(),
       })
       .where(eq(user.id, userId));
@@ -417,11 +447,10 @@ export async function updateUserProfileCompletion(
     const session = await auth();
     await lucia.invalidateSession(session?.session?.id!);
 
-    //create 
+    //create
     const s = await lucia.createSession(session?.user?.id!, {});
     const sessionCookie = lucia.createSessionCookie(s.id);
     cookies().set(sessionCookie);
-    
 
     revalidatePath(`/profile/${userId}`);
     revalidatePath("/user");
@@ -432,8 +461,8 @@ export async function updateUserProfileCompletion(
   } catch (error: any) {
     return {
       sucess: false,
-      username:`${error.message}`==="USERNAME_TAKEN",
-      message:`Une erreure s'est produite lors de la completion de votre profile\n: ${error.message}`,
+      username: `${error.message}` === "USERNAME_TAKEN",
+      message: `Une erreure s'est produite lors de la completion de votre profile\n: ${error.message}`,
     };
   }
 }
