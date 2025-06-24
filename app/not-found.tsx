@@ -1,16 +1,16 @@
-"use client"
-import React,{useEffect} from "react";
+"use client";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {useIs404Store} from "@/components/stores/useIs404"
+import { useIs404Store } from "@/components/stores/useIs404";
 
 function NotFoundPage() {
-  const {setIs404}=useIs404Store()
-   useEffect(() => {
-       document.title="GNDC | Notfound"
-       setIs404(true);
-       return () => setIs404(false);
-    }, []);
+  const { setIs404 } = useIs404Store();
+  useEffect(() => {
+    document.title = "GNDC | Notfound";
+    setIs404(true);
+    return () => setIs404(false);
+  }, []);
   return (
     <section className="w-full">
       <div className="screen-wrapper">

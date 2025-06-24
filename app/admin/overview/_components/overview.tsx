@@ -16,23 +16,26 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSession } from "@/components/auth/SessionProvider";
+
 import {
   EyeIcon,
   Loader2,
   MessageCircleQuestionIcon,
   Newspaper,
 } from "lucide-react";
-export default function OverViewPage({
-  totalBlogs,
-  totalForums,
-  totalUsers,
-  totalViews,
-}: {
-  totalUsers: number;
-  totalBlogs: number;
-  totalForums: number;
-  totalViews: number;
-}) {
+import { ViewData } from "../page";
+
+type Stats = {
+  stat: {
+    totalUsers: number;
+    totalBlogs: number;
+    totalForums: number;
+    totalViews: number;
+  };
+  totalViewData: ViewData;
+};
+export default function OverViewPage({ stat, totalViewData }: Stats) {
+  const { totalBlogs, totalForums, totalUsers, totalViews } = stat;
   const session = useSession();
   return (
     <PageContainer scrollable>
@@ -136,7 +139,7 @@ export default function OverViewPage({
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <div className="col-span-4">
-                <BarGraph />
+                <BarGraph data={totalViewData} />
               </div>
               <Card className="col-span-4 md:col-span-3">
                 <CardHeader>
@@ -158,10 +161,10 @@ export default function OverViewPage({
                 </CardContent>
               </Card>
               <div className="col-span-4">
-                <AreaGraph />
+                <AreaGraph data={totalViewData} />
               </div>
               <div className="col-span-4 md:col-span-3">
-                <PieGraph />
+                <PieGraph data={totalViewData} />
               </div>
             </div>
           </TabsContent>

@@ -1,35 +1,35 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+"use client";
+import { Button } from "@/components/ui/button";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from '@/components/ui/table';
+  TableRow,
+} from "@/components/ui/table";
 import {
   DoubleArrowLeftIcon,
-  DoubleArrowRightIcon
-} from '@radix-ui/react-icons';
+  DoubleArrowRightIcon,
+} from "@radix-ui/react-icons";
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   PaginationState,
-  useReactTable
-} from '@tanstack/react-table';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import { parseAsInteger, useQueryState } from 'nuqs';
+  useReactTable,
+} from "@tanstack/react-table";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { parseAsInteger, useQueryState } from "nuqs";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,22 +42,22 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   totalItems,
-  pageSizeOptions = [10, 20, 30, 40, 50]
+  pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTableProps<TData, TValue>) {
   const [currentPage, setCurrentPage] = useQueryState(
-    'page',
+    "page",
     parseAsInteger.withOptions({ shallow: false }).withDefault(1)
   );
   const [pageSize, setPageSize] = useQueryState(
-    'limit',
+    "limit",
     parseAsInteger
-      .withOptions({ shallow: false, history: 'push' })
+      .withOptions({ shallow: false, history: "push" })
       .withDefault(10)
   );
 
   const paginationState = {
     pageIndex: currentPage - 1, // zero-based index for React Table
-    pageSize: pageSize
+    pageSize: pageSize,
   };
 
   const pageCount = Math.ceil(totalItems / pageSize);
@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>({
       | ((old: PaginationState) => PaginationState)
   ) => {
     const pagination =
-      typeof updaterOrValue === 'function'
+      typeof updaterOrValue === "function"
         ? updaterOrValue(paginationState)
         : updaterOrValue;
 
@@ -81,20 +81,20 @@ export function DataTable<TData, TValue>({
     columns,
     pageCount: pageCount,
     state: {
-      pagination: paginationState
+      pagination: paginationState,
     },
     onPaginationChange: handlePaginationChange,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
-    manualFiltering: true
+    manualFiltering: true,
   });
 
   return (
     <div className="space-y-4">
       <ScrollArea className="h-[calc(80vh-220px)] rounded-md border md:h-[calc(90dvh-240px)]">
         <Table className="relative">
-          <TableHeader>
+          <TableHeader className="sticky z-10 top-0 w-full h-10 border-b-2 border-border rounded-t-md  bg-gray-200">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -115,7 +115,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -147,16 +147,16 @@ export function DataTable<TData, TValue>({
           <div className="flex-1 text-sm text-muted-foreground">
             {totalItems > 0 ? (
               <>
-                Showing{' '}
-                {paginationState.pageIndex * paginationState.pageSize + 1} to{' '}
+                Showing{" "}
+                {paginationState.pageIndex * paginationState.pageSize + 1} to{" "}
                 {Math.min(
                   (paginationState.pageIndex + 1) * paginationState.pageSize,
                   totalItems
-                )}{' '}
+                )}{" "}
                 of {totalItems} entries
               </>
             ) : (
-              'No entries found'
+              "No entries found"
             )}
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
@@ -169,17 +169,16 @@ export function DataTable<TData, TValue>({
                 onValueChange={(value) => {
                   table.setPageSize(Number(value));
                 }}
-                
               >
-                <SelectTrigger 
+                <SelectTrigger
                 //className="h-8 w-[70px]"
                 >
-                  <SelectValue 
-                  
-                  //placeholder={paginationState.pageSize} 
+                  <SelectValue
+
+                  //placeholder={paginationState.pageSize}
                   />
                 </SelectTrigger>
-                <SelectContent 
+                <SelectContent
                 //side="top"
                 >
                   {pageSizeOptions.map((pageSize) => (
@@ -199,7 +198,7 @@ export function DataTable<TData, TValue>({
                 Page {paginationState.pageIndex + 1} of {table.getPageCount()}
               </>
             ) : (
-              'No pages'
+              "No pages"
             )}
           </div>
           <div className="flex items-center space-x-2">

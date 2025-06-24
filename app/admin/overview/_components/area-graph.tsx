@@ -45,10 +45,11 @@ const monthMapping = {
   "11": "Nov",
   "12": "Déc",
 };
-
-export function AreaGraph() {
+import {ViewData} from "../page"
+export function AreaGraph({data}:{data:ViewData}) {
   const [chartData, setChartData] = React.useState([]);
-  const { data, isLoading, isError } = useGetSiteInsightData();
+  //const { data, isLoading, isError } = useGetSiteInsightData();
+  const [isLoading,_]=React.useState(false)
   React.useEffect(() => {
     if (data) {
       const formattedData = (data || [])
@@ -87,6 +88,7 @@ export function AreaGraph() {
           },
           []
         );
+      //@ts-ignore
       setChartData(formattedData);
     }
   }, [data]);

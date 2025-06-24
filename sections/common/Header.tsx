@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SessionUser } from "@/lib/db/schema";
 import { shouldHideHeaderAndFooter } from "@/lib/utils";
-import {useIs404Store} from "@/components/stores/useIs404"
+import { useIs404Store } from "@/components/stores/useIs404";
 import clsx from "clsx";
 const Links = [
   { name: "Nos activités", link: "/events" },
@@ -42,11 +42,75 @@ const Links = [
   { name: "Contact", link: "/contact" },
 ];
 
+const onLogoutClick = async () => {
+  try {
+    await logout();
+  } catch (e) {
+    toast.error(e as string);
+  }
+};
+function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
+  return (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="relczative h-8 w-8 rounded-full">
+          <Avatar className="h-11 w-11">
+            <AvatarImage src={user?.image ?? ""} alt="@GNDC" />
+            <AvatarFallback className="uppercase">
+              {user?.name?.slice(0, 2)}
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        className="w-56"
+        align="end"
+        forceMount
+        sideOffset={10}
+      >
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{user?.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {user?.email}
+            </p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href="/user/dashboard">Tableau de bord</Link>
+            {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
+          </DropdownMenuItem>
+          {user?.role !== "user" && (
+            <DropdownMenuItem asChild>
+              <Link href="/admin/overview">Administration</Link>
+              {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuItem asChild>
+            <Link href="/user/profil">Profil</Link>
+            {/*<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>*/}
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/user/setting">Paramètre</Link>
+            {/*<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>*/}
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={onLogoutClick}>
+          Se deconnecter
+          {/*<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>*/}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 //import { SessionUser } from "@/lib/db/schema/user";
 function Header({ user }: { user: SessionUser | null }) {
   //const { user } = useSession();
   const pathname = usePathname();
-  const {is404}=useIs404Store()
+  const { is404 } = useIs404Store();
 
   const [scrollProgress, setScrollProgress] = useState(0);
   const router = useRouter();
@@ -65,14 +129,8 @@ function Header({ user }: { user: SessionUser | null }) {
       window.removeEventListener("scroll", trackScrollProgress);
     };
   }, []);
-  const onLogoutClick = async () => {
-    try {
-      await logout();
-    } catch (e) {
-      toast.error(e as string);
-    }
-  };
-  return !shouldHideHeaderAndFooter(pathname)||is404 ? (
+
+  return !shouldHideHeaderAndFooter(pathname) || is404 ? (
     <header
       className={clsx(
         "sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80"
@@ -96,60 +154,9 @@ function Header({ user }: { user: SessionUser | null }) {
           {user && user.isCompletedProfile && (
             <>
               <Button variant="secondary" className="ml-5 text-white" asChild>
-                <Link href="/user/dashboard">Tableau de bord</Link>
+                <Link href={user?.role==="user"?"/user/dashboard":"/admin/overview"}>{user?.role==="user"?"Tableau de bord":"Administration"}</Link>
               </Button>
-              <DropdownMenu modal={false}>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relczative h-8 w-8 rounded-full"
-                  >
-                    <Avatar className="h-11 w-11">
-                      <AvatarImage src={user?.image ?? ""} alt="@GNDC" />
-                      <AvatarFallback className="uppercase">
-                        {user?.name?.slice(0, 2)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-56"
-                  align="end"
-                  forceMount
-                  sideOffset={10}
-                >
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user?.name}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user?.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                      <Link href="/user/dashboard">Tableau de bord</Link>
-                      {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/user/profil">Profil</Link>
-                      {/*<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>*/}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/user/setting">Paramètre</Link>
-                      {/*<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>*/}
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={onLogoutClick}>
-                    Se deconnecter
-                    {/*<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>*/}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <AvatarMenuDropDown user={user} />
             </>
           )}
           {user && !user.isCompletedProfile && (
@@ -171,11 +178,16 @@ function Header({ user }: { user: SessionUser | null }) {
           )}
         </div>
         <Sheet>
-          <SheetTrigger asChild>
-            <Button className="lg:hidden border" variant="outline">
-              <MenuIcon />
-            </Button>
-          </SheetTrigger>
+          <div className="flex items-center gap-3 lg:hidden">
+            <SheetTrigger asChild>
+              <Button className=" border" variant="outline">
+                <MenuIcon />
+              </Button>
+            </SheetTrigger>
+            {user && user.isCompletedProfile && (
+              <AvatarMenuDropDown user={user} />
+            )}
+          </div>
           <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
             <SheetHeader>
               <SheetTitle>

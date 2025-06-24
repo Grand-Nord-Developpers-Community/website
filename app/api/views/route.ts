@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const redis = Redis.fromEnv();
 export const runtime = "edge";
-
+export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const url = new URL(req.url);
   const type = url.searchParams.get("type");

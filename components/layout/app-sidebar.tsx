@@ -71,6 +71,7 @@ export default function AppSidebar({
 }) {
   const [mounted, setMounted] = React.useState(false);
   const session = useSession();
+  const router = useRouter();
   //const session={}
   const pathname = usePathname();
   // Only render after first client-side mount
@@ -82,7 +83,7 @@ export default function AppSidebar({
     return null; // or a loading skeleton
   }
 
-  const router = useRouter();
+  
   const onLogoutClick = async () => {
     try {
       await logout();
@@ -106,7 +107,7 @@ export default function AppSidebar({
         </SidebarHeader>
         <SidebarContent className="overflow-x-hidden">
           <SidebarGroup>
-            <SidebarGroupLabel>Vue d'ensemble</SidebarGroupLabel>
+            <SidebarGroupLabel>Vue d&apos;ensemble</SidebarGroupLabel>
             <SidebarMenu>
               {navItems.map((item) => {
                 const Icon = item.icon ? Icons[item.icon] : Icons.logo;

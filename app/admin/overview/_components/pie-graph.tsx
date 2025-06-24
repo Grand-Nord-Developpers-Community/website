@@ -50,12 +50,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function PieGraph() {
+import { ViewData } from "../page";
+export function PieGraph({ data }: { data: ViewData }) {
   const [chartData, setChartData] = React.useState<
     { device: string; visitors: number; fill: string }[]
   >([]);
   const [total, setTotal] = React.useState(0);
-  const { data, isLoading, isError } = useGetSiteInsightData();
+  const [isLoading, _] = React.useState(false);
+  //const { data, isLoading, isError } = useGetSiteInsightData();
   React.useEffect(() => {
     if (data) {
       const totalDesktop = data?.reduce(

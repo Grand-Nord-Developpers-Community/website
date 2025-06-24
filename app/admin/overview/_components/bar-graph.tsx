@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/chart";
 import { Loader2 } from "lucide-react";
 import { useGetSiteInsightData } from "@/hooks/use-hook";
+import { ViewData } from "../page";
 
 export const description = "An interactive bar chart";
 
@@ -35,12 +36,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function BarGraph() {
+export function BarGraph({ data }: { data: ViewData }) {
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>("desktop");
-  const [chartData, setChartData] = React.useState([]);
+  const [chartData, setChartData] = React.useState(data);
   const [total, setTotal] = React.useState({ desktop: 0, mobile: 0 });
-  const { data, isLoading, isError } = useGetSiteInsightData();
+  //const { data, isLoading, isError } = useGetSiteInsightData();
+  const [isLoading, _] = React.useState(false);
   React.useEffect(() => {
     if (data) {
       setChartData(data);
