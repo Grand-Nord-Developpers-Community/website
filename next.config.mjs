@@ -45,7 +45,11 @@ const nextConfig = {
         destination: '/account/complete',
         permanent: true,
       },
-      
+      {
+        source: '/admin',
+        destination: '/admin/overview',
+        permanent: true,
+      },
     ]
   },
   images: {

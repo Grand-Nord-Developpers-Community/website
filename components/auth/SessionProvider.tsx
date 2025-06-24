@@ -3,9 +3,9 @@
 import { auth } from "@/lib/auth";
 import { PropsWithChildren, createContext, useContext } from "react";
 
-type ContextType = Awaited<ReturnType<typeof auth>>;
+export type ContextTypeAuth = Awaited<ReturnType<typeof auth>>;
 
-export const SessionContext = createContext<ContextType>({
+export const SessionContext = createContext<ContextTypeAuth>({
   session: null,
   user: null,
 });
@@ -13,7 +13,7 @@ export const SessionContext = createContext<ContextType>({
 export const SessionProvider = ({
   children,
   session,
-}: PropsWithChildren<{ session: ContextType }>) => {
+}: PropsWithChildren<{ session: ContextTypeAuth }>) => {
   return (
     <SessionContext.Provider value={session}>
       {children}
@@ -21,4 +21,6 @@ export const SessionProvider = ({
   );
 };
 
-export const useSession = () => useContext(SessionContext);
+export function useSession() {
+  return useContext(SessionContext);
+}

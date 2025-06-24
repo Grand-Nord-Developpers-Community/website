@@ -40,12 +40,14 @@ import {
   ChevronRight,
   ChevronsUpDown,
   CreditCard,
+  User,
   GalleryVerticalEnd,
+  LayoutDashboard,
   LogOut,
 } from "lucide-react";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
 import { Breadcrumbs } from "../breadcrumbs";
 import { Icons } from "../icons";
@@ -53,11 +55,13 @@ import SearchInput from "../search-input";
 import ThemeToggle from "./ThemeToggle/theme-toggle";
 import { UserNav } from "./user-nav";
 import { useSession } from "../auth/SessionProvider";
+import { logout } from "@/lib/api/auth/logout";
+import { toast } from "sonner";
 
 export const company = {
-  name: "Acme Inc",
+  name: "GNDC",
   logo: GalleryVerticalEnd,
-  plan: "Enterprise",
+  plan: "Community",
 };
 
 export default function AppSidebar({
@@ -67,6 +71,7 @@ export default function AppSidebar({
 }) {
   const [mounted, setMounted] = React.useState(false);
   const session = useSession();
+  const router = useRouter();
   //const session={}
   const pathname = usePathname();
   // Only render after first client-side mount
@@ -78,6 +83,14 @@ export default function AppSidebar({
     return null; // or a loading skeleton
   }
 
+  
+  const onLogoutClick = async () => {
+    try {
+      await logout();
+    } catch (e) {
+      toast.error(e as string);
+    }
+  };
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
@@ -94,7 +107,7 @@ export default function AppSidebar({
         </SidebarHeader>
         <SidebarContent className="overflow-x-hidden">
           <SidebarGroup>
-            <SidebarGroupLabel>Overview</SidebarGroupLabel>
+            <SidebarGroupLabel>Vue d&apos;ensemble</SidebarGroupLabel>
             <SidebarMenu>
               {navItems.map((item) => {
                 const Icon = item.icon ? Icons[item.icon] : Icons.logo;
@@ -214,23 +227,21 @@ export default function AppSidebar({
                   <DropdownMenuSeparator />
 
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <BadgeCheck />
-                      Account
+                    <DropdownMenuItem onClick={() => router.push("/user")}>
+                      <LayoutDashboard className="text-gray-400 mr-2 size-5" />
+                      Tableau de board
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <CreditCard />
-                      Billing
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Bell />
-                      Notifications
+                    <DropdownMenuItem
+                      onClick={() => router.push("/user/setting")}
+                    >
+                      <User className="text-gray-400 mr-2 size-5" />
+                      Paramètre
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <LogOut />
-                    Log out
+                  <DropdownMenuItem onClick={onLogoutClick}>
+                    <LogOut className="text-gray-400 mr-2 size-5" />
+                    Se deconnecter
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -246,13 +257,13 @@ export default function AppSidebar({
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumbs />
           </div>
-          <div className=" hidden w-1/3 items-center gap-2 px-4 md:flex ">
+          {/* <div className=" hidden w-1/3 items-center gap-2 px-4 md:flex ">
             <SearchInput />
           </div>
           <div className="flex items-center gap-2 px-4">
             <UserNav />
-            <ThemeToggle />
-          </div>
+            <ThemeToggle /> 
+          </div> */}
         </header>
         {/* page main content */}
         {children}

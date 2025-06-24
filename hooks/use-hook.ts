@@ -17,6 +17,15 @@ export function useUserProfile() {
   };
 }
 
+export function useGetSiteInsightData() {
+  const { data, error, isLoading } = useSWR(`/api/views?type=app`, fetcher);
+  return {
+    data,
+    isLoading,
+    isError: error,
+  };
+}
+
 export function useUserProfileImage() {
   preload(`/api/user/profile/image`, fetcher);
   const { data, error, isLoading } = useSWR(`/api/user/profile/image`, fetcher);

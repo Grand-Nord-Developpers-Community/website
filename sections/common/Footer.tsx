@@ -16,10 +16,11 @@ import TelegramButton from "@/components/social-button/telegramButton";
 import DiscordButton from "@/components/social-button/discordButton";
 import { usePathname } from "next/navigation";
 import { shouldHideHeaderAndFooter } from "@/lib/utils";
-
+import {useIs404Store} from "@/components/stores/useIs404"
 function Footer() {
   const pathname = usePathname();
-  return !shouldHideHeaderAndFooter(pathname) ? (
+  const {is404}=useIs404Store()
+  return !shouldHideHeaderAndFooter(pathname)||is404 ? (
     <footer className="bg-white pt-10 pb-4 border-t border-gray-200">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

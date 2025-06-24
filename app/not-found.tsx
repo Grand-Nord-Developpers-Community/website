@@ -1,13 +1,16 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "GNDC | Notfound",
-  description:
-    "GNDC | La page que vous essayez de chercher n'est pas disponible !!! ",
-};
+import { useIs404Store } from "@/components/stores/useIs404";
+
 function NotFoundPage() {
+  const { setIs404 } = useIs404Store();
+  useEffect(() => {
+    document.title = "GNDC | Notfound";
+    setIs404(true);
+    return () => setIs404(false);
+  }, []);
   return (
     <section className="w-full">
       <div className="screen-wrapper">

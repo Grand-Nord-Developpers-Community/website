@@ -69,6 +69,7 @@ import { auth } from "@/lib/auth";
 import HeaderWrapper from "@/components/header-wrapper";
 import AlertSignIn from "@/components/alertSignIn";
 import Scroll from "@/components/scroll";
+import { ReportView } from "@/components/ReportView";
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -82,6 +83,7 @@ export default async function RootLayout({
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <Scroll />
+        <ReportView type="app" />
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip">
           <ThemeProvider attribute="class" defaultTheme="light">

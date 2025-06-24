@@ -4,12 +4,20 @@ import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { Suspense } from "react";
+import { useIs404Store } from "@/components/stores/useIs404";
 const Custom500 = ({ error, reset }: { error: Error; reset: () => void }) => {
   const [Error, setError] = useState("");
+
   useEffect(() => {
     // Log the error to an error reporting service
     setError(JSON.stringify(error));
   }, [error]);
+  const { setIs404 } = useIs404Store();
+  useEffect(() => {
+    document.title = "GNDC | Error";
+    setIs404(true);
+    return () => setIs404(false);
+  }, []);
   return (
     <div className="screen-wrapper">
       <div className="w-full min-h-[80vh] flex justify-center items-center">

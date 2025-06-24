@@ -2,7 +2,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { forumPost } from "@/lib/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, count } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Redis } from "@upstash/redis";
 //import { columns } from "@/app/admin/employee/_components/employee-tables/columns";
@@ -29,6 +29,16 @@ export async function createForumPost(
   return {
     sucess: true,
   };
+}
+
+export async function getTotalForumPosts() {
+  try {
+    const forums = await db.select({ count: count() }).from(forumPost);
+    return forums[0].count;
+  } catch (e) {
+    console.log("Error : " + e);
+    return 0;
+  }
 }
 
 export async function getUserForumPosts(userId: string) {
