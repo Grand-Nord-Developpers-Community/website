@@ -36,7 +36,7 @@ const Toolbar = ({ editor }: { editor: Editor }) => (
           "code",
           "clearFormatting",
         ]}
-        mainActionCount={3}
+        mainActionCount={2}
       />
 
       <Separator orientation="vertical" className="mx-2 h-7" />

@@ -1,24 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import CommentInput from "./commentComponent";
 import { AlertModal } from "./modal/alert-modal";
-import {
-  ChevronDown,
-  ChevronUp,
-  Edit2,
-  Trash2,
-  MessageSquare,
-  Loader,
-} from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Edit2, Trash2, MessageSquare, Loader } from "lucide-react";
 import { SessionUser } from "@/lib/db/schema";
 import { ReplyWithAuthor } from "@/actions/post_comment.actions";
 import { useAlertStore } from "./stores/useAlert";
@@ -115,21 +100,6 @@ export function Comment({
               {comment.author?.name?.slice(0, 2)?.toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          {/* <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 space-x-0 space-y-2 mr-3 sm:mr-4">
-            <button
-              onClick={() => onVote(comment.id, true)}
-              className="text-gray-500 hover:bg-primary/20 rounded-lg w-[95%] flex  hover:text-primary transition-colors"
-            >
-              <ChevronUp className="h-4 w-4" />
-            </button>
-            <span className="text-primary font-medium">{comment.score}</span>
-            <button
-              onClick={() => onVote(comment.id, false)}
-              className="text-gray-500 hover:text-primary transition-colors"
-            >
-              <ChevronDown className="h-4 w-4" />
-            </button>
-          </div> */}
           <UpVoteComponent
             id={comment.id}
             onVote={handleVote}
@@ -137,43 +107,6 @@ export function Comment({
             value={v}
             isCurrentUserVoted={isCurrentUserVoted}
           />
-          {/* <div
-            className="flex flex-col items-center rounded-full bg-white border border-border space-x-0 space-y-2 mr-3 sm:mr-4"
-            style={{ padding: "6px" }}
-          >
-            <button
-              //onClick={() => handleVote("up")}
-              onClick={() => onVote(comment.id, true)}
-              className={`rounded-full p-1 transition-all duration-200 ${
-                isCurrentUserVoted && isCurrentUserVoted.isUpvote
-                  ? "bg-gray-100 text-blue-500"
-                  : "text-gray-400 hover:bg-gray-50 hover:text-gray-600"
-              }`}
-              aria-label="Upvote"
-            >
-              <ChevronUp className="h-5 w-5" strokeWidth={2.5} />
-            </button>
-
-            <span className="my-1 text-sm font-medium text-gray-700">
-              {comment.votes.reduce(
-                (total, vote) => total + (vote.isUpvote ? 1 : -1),
-                0
-              )}
-            </span>
-
-            <button
-              //onClick={() => handleVote("down")}
-              onClick={() => onVote(comment.id, false)}
-              className={`rounded-full p-1 transition-all duration-200 ${
-                isCurrentUserVoted && !isCurrentUserVoted.isUpvote
-                  ? "bg-gray-100 text-blue-500"
-                  : "text-gray-400 hover:bg-gray-50 hover:text-gray-600"
-              }`}
-              aria-label="Downvote"
-            >
-              <ChevronDown className="h-5 w-5" strokeWidth={2.5} />
-            </button>
-          </div> */}
         </div>
 
         <div className="flex-1 space-y-2 ">
@@ -276,16 +209,6 @@ export function Comment({
           ) : (
             <>
               <RenderContent value={comment.content} />
-              {/* <CommentInput
-                throttleDelay={1000}
-                className={"h-[100px] min-h-56 w-full rounded-xl"}
-                editorContentClassName="overflow-auto h-full"
-                editorClassName="focus:outline-none px-5 py-4 h-full"
-                value={comment.content}
-                editable={false}
-                //handleChangeCallback={setEditContent}
-                //className="min-h-[100px]"
-              /> */}
             </>
           )}
         </div>
@@ -326,7 +249,7 @@ export function Comment({
               className="flex gap-2"
             >
               {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-              REPLY
+              Répondre
             </Button>
           </div>
         </div>

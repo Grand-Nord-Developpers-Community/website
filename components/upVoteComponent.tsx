@@ -34,12 +34,12 @@ function UpVoteComponent({
       >
         <ChevronUp className="h-5 w-5" strokeWidth={2.5} />
       </button>
-      {loading && (
+      {/* {loading && (
         <LoaderIcon className="my-1 text-sm text-gray-500 h-4 w-4 animate-spin" />
-      )}
-      {!loading && (
-        <span className="my-1 text-sm font-medium text-gray-700">{value}</span>
-      )}
+      )} */}
+      {/* {!loading && ( */}
+      <span className="my-1 text-sm font-medium text-gray-700">{value}</span>
+      {/* )} */}
 
       <button
         //onClick={() => handleVote("down")}

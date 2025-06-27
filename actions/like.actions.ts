@@ -40,8 +40,9 @@ export async function likeDislikePost(
     }
 
     // Revalidate paths
-    revalidatePath(`/blog/${postId}`);
+    //revalidatePath(`/blog/${postId}`);
     revalidatePath(`/blog`);
+    revalidatePath(`/`);
     revalidatePath(`/user/dashboard`);
 
     return { success: true };
