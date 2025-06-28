@@ -337,7 +337,7 @@ export default function CommentThread({
     return commentsToRender.map((comment) => (
       <div
         key={comment.id}
-        className={`space-y-4 w-full ${depth > 0 ? "ml-4 sm:ml-8 pl-4 sm:pl-8 border-l-2 border-gray-200" : ""}`}
+        className={`space-y-4 ${depth > 0 ? "ml-4 sm:ml-8 pl-4 sm:pl-8 border-l-2 border-gray-200" : ""}`}
       >
         <Comment
           comment={comment}

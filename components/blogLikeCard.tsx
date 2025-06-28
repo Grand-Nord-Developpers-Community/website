@@ -21,12 +21,12 @@ function BlogLikeCard({
   const [likeStatus, setLikeStatus] = useState<null | boolean>(null);
   const { openAlert } = useAlertStore();
   const [pending, setPending] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const [likeCount, setLikeCount] = useState(likes.filter((l) => l.isLike === true).length);
   useEffect(() => {
     const fetchIntialLikeStatus = async () => {
       const val = await isUserLikedPost(id, user?.id!);
       setLikeStatus(val ? val.isLike : null);
-      setLikeCount(likes.filter((l) => l.isLike === true).length);
+      //setLikeCount(likes.filter((l) => l.isLike === true).length);
     };
     fetchIntialLikeStatus();
   }, []);

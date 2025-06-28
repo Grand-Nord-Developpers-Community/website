@@ -111,16 +111,16 @@ export function Comment({
 
         <div className="flex-1 space-y-2 ">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 w-full">
-            <div className="flex items-center justify-between w-full">
+            <div className="flex items-center justify-between w-full max-md:w-[80%]">
               <div className="flex flex-col">
                 <div className="flex gap-2 items-center">
-                  <span className="font-medium">{comment.author.name}</span>
+                  <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">{comment.author.name}</span>
                   {isAuthor && (
                     <span className="bg-primary text-[10px] text-white px-2 py-0.5 rounded">
-                      you
+                      vous
                     </span>
                   )}
-                  <span className="bg-secondary text-[10px] text-white px-2 py-0.5 rounded">
+                  <span className="bg-secondary whitespace-nowrap text-[10px] text-white px-2 py-0.5 rounded">
                     {comment.author.exp} Xp
                   </span>
                 </div>
@@ -128,7 +128,7 @@ export function Comment({
                   @{comment.author.username}
                 </span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-2">
                 {isAuthor ? (
                   <>
                     <Button
@@ -137,8 +137,8 @@ export function Comment({
                       className="text-red-500 hover:text-red-600 hover:bg-red-50 px-2 sm:px-3"
                       onClick={() => setOpenModel(true)}
                     >
-                      <Trash2 className="h-4 w-4 sm:mr-2" />
-                      <span className="hidden sm:inline">Supprimer</span>
+                      <Trash2 className="h-4 w-4 lg:mr-2" />
+                      <span className="hidden lg:inline">Supprimer</span>
                     </Button>
                     <AlertModal
                       onConfirm={handleDelete}
@@ -147,15 +147,15 @@ export function Comment({
                       loading={isLoading}
                     />
 
-                    <Button
+                    {!isEditing&&<Button
                       variant="ghost"
                       size="sm"
-                      className="text-primary hover:text-primary/80 hover:bg-primary/10 px-2 sm:px-3"
+                      className="text-primary hover:text-primary/80 hover:bg-primary/10 px-2 sm:px-3 "
                       onClick={() => setIsEditing(true)}
                     >
-                      <Edit2 className="h-4 w-4 sm:mr-2" />
-                      <span className="hidden sm:inline">Editer</span>
-                    </Button>
+                      <Edit2 className="h-4 w-4 lg:mr-2" />
+                      <span className="hidden lg:inline">Editer</span>
+                    </Button>}
                   </>
                 ) : (
                   <Button
@@ -179,7 +179,7 @@ export function Comment({
             </div>
           </div>
           {isEditing ? (
-            <div className="space-y-4">
+            <div className={`space-y-4 ${depth<2?"max-sm:max-w-[88%]":"max-sm:max-w-[78%]"}`}>
               <CommentInput
                 throttleDelay={1000}
                 className={"h-[100px] min-h-56 w-full rounded-xl"}
