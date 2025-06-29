@@ -4,7 +4,6 @@ import { twMerge } from "tailwind-merge";
 
 export function getTotalReplies(replies: ReplyWithAuthor[]): number {
   return replies.reduce((count, reply) => {
-    // Add 1 for the current reply and recursively count the nested replies
     return count + 1 + getTotalReplies(reply.replies);
   }, 0);
 }
@@ -74,21 +73,22 @@ export function formatRelativeTime(date: Date): string {
   const secondsDiff = Math.floor((now.getTime() - date.getTime()) / 1000);
 
   const rtf = new Intl.RelativeTimeFormat("fr", { numeric: "auto" });
-
-  if (secondsDiff < 60) {
-    return rtf.format(-secondsDiff, "seconds");
-  } else if (secondsDiff < 3600) {
-    return rtf.format(Math.floor(-secondsDiff / 60), "minutes");
-  } else if (secondsDiff < 86400) {
-    return rtf.format(Math.floor(-secondsDiff / 3600), "hours");
-  } else if (secondsDiff < 2592000) {
-    return rtf.format(Math.floor(-secondsDiff / 86400), "days");
-  } else if (secondsDiff < 31536000) {
-    return rtf.format(Math.floor(-secondsDiff / 2592000), "months");
+  console.table({now:now.toISOString(),postdate:date.toISOString()})
+  if (Math.abs(secondsDiff) < 60) {
+    return rtf.format(secondsDiff, "second");
+  } else if (Math.abs(secondsDiff) < 3600) {
+    return rtf.format(Math.floor(secondsDiff / 60), "minute");
+  } else if (Math.abs(secondsDiff) < 86400) {
+    return rtf.format(Math.floor(secondsDiff / 3600), "hour");
+  } else if (Math.abs(secondsDiff) < 2592000) {
+    return rtf.format(Math.floor(secondsDiff / 86400), "day");
+  } else if (Math.abs(secondsDiff) < 31536000) {
+    return rtf.format(Math.floor(secondsDiff / 2592000), "month");
   } else {
-    return rtf.format(Math.floor(-secondsDiff / 31536000), "years");
+    return rtf.format(Math.floor(secondsDiff / 31536000), "year");
   }
 }
+
 
 //@ts-ignore
 export const fetcher = (...args) => fetch(...args).then((res) => res.json());

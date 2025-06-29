@@ -164,8 +164,13 @@ export async function deleteForum(id: string) {
 
   // Perform the deletion
   await db.delete(forumPost).where(eq(forumPost.id, id));
+  
   const pageKey = ["pageviews", "forums", id].join(":");
-  await redis.del(pageKey);
+  try {
+    await redis.del(pageKey);
+  } catch (error) {
+    console.error("Redis deletion failed:", error);
+  }
 
   // Revalidate relevant paths
   revalidatePath("/user/dashboard");

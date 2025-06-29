@@ -4,6 +4,7 @@ import { useAlertStore } from "@/components/stores/useAlert";
 import UpVoteComponent from "@/components/upVoteComponent";
 import { SessionUser } from "@/lib/db/schema";
 import React from "react";
+
 type Props = {
   value: number;
   id: string;
@@ -12,84 +13,82 @@ type Props = {
 };
 
 function UpVoteWrapper({ value, id, user, voteList }: Props) {
-  //const [value, setValue] = React.useState(initalValue);
-  const [loading, setLoading] = React.useState(false);
-  const isCurrentUserVoted = voteList.find((vote) => vote.userId === user?.id);
-  const [userUpVoted, setUserUpVoted] = React.useState<
-    { userId: string; isUpvote: boolean } | undefined
-  >(isCurrentUserVoted);
   const { openAlert } = useAlertStore();
-  const [vote, setVote] = React.useState<0 | 1 | -1>(
-    isCurrentUserVoted?.isUpvote
-      ? 1
-      : isCurrentUserVoted?.isUpvote === false
-        ? -1
-        : 0
-  ); // Default: 0 (no vote)
 
-  const handleUpVote = () => {
-    setVote((prev) => (prev === 1 ? 0 : 1)); // If already upvoted, reset to 0; otherwise, upvote (+1)
+  // Find current user's vote from the list (initial state)
+  const initialUserVote = voteList.find((vote) => vote.userId === user?.id);
+
+  // Local state to track optimistic vote
+  // null = no vote, true = upvoted, false = downvoted
+  const [userUpVoted, setUserUpVoted] = React.useState<boolean | null>(
+    initialUserVote ? initialUserVote.isUpvote : null
+  );
+  const [loading, setLoading] = React.useState(false);
+
+  // Calculate optimistic displayed vote count:
+  // total votes + (user vote delta compared to initial)
+  const calculateDisplayValue = () => {
+    if (!initialUserVote) {
+      // User had no vote before
+      if (userUpVoted === true) return value + 1;
+      if (userUpVoted === false) return value - 1;
+      return value;
+    }
+
+    // User had a previous vote
+    if (userUpVoted === null) {
+      // User removed their vote
+      return initialUserVote.isUpvote ? value - 1 : value + 1;
+    }
+
+    if (userUpVoted === initialUserVote.isUpvote) {
+      // Vote unchanged
+      return value;
+    }
+
+    // User switched vote: remove previous vote and add opposite
+    return userUpVoted ? value + 2 : value - 2;
   };
 
-  const handleDownVote = () => {
-    setVote((prev) => (prev === -1 ? 0 : -1)); // If already downvoted, reset to 0; otherwise, downvote (-1)
-  };
 
-  // useEffect(() => {
-  //   setValue((v) => v + vote===0?:vote);
-  //   switch (vote) {
-  //     case 0:
-  //       setUserUpVoted(undefined);
-  //     case 1:
-  //       setUserUpVoted({ userId: user?.id || "", isUpvote: true });
-  //       break;
-  //     case -1:
-  //       setUserUpVoted({ userId: user?.id || "", isUpvote: false });
-  //       break;
-  //   }
-  // }, [vote]);
-
+  // Handler for vote click
   const onVote = async (id: string, isUpVoted: boolean) => {
-    setLoading(true);
-
     if (!user) {
       openAlert();
-      setLoading(false);
       return false;
     }
+
+    // Compute new optimistic vote state
+    let newVoteState: boolean | null;
+    if (userUpVoted === isUpVoted) {
+      newVoteState = null; // toggle off if same vote clicked
+    } else {
+      newVoteState = isUpVoted;
+    }
+
+    // Optimistic UI update
+    setUserUpVoted(newVoteState);
+    setLoading(true);
 
     try {
       const res = await upVotePost({
         postId: id,
         commentId: null,
-        isUpvote: isUpVoted,
+        isUpvote: newVoteState,
         userId: user.id,
       });
 
       if (res.error) {
-        console.log(res.error);
+        // Rollback if error
+        setUserUpVoted(userUpVoted);
+        console.error(res.error);
         return false;
       }
-
-      setUserUpVoted((prevVote) => {
-        if (!prevVote) {
-          // ✅ First-time voting (+1 or -1)
-          //setValue((value) => value + (isUpVoted ? 1 : -1));
-          return { userId: user.id, isUpvote: isUpVoted };
-        } else if (prevVote.isUpvote === isUpVoted) {
-          // ✅ Removing vote (toggle off)
-          //setValue(initalValue - vote);
-          return undefined;
-        } else {
-          // ✅ Switching vote (upvote → downvote or vice versa)
-          //setValue((value) => value + (isUpVoted ? 1 : -1));
-          return { userId: user.id, isUpvote: isUpVoted };
-        }
-      });
-
       return true;
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      // Rollback on exception
+      setUserUpVoted(userUpVoted);
+      console.error(error);
       return false;
     } finally {
       setLoading(false);
@@ -97,15 +96,17 @@ function UpVoteWrapper({ value, id, user, voteList }: Props) {
   };
 
   return (
-    <>
-      <UpVoteComponent
-        id={id}
-        onVote={onVote}
-        value={value}
-        loading={loading}
-        isCurrentUserVoted={userUpVoted}
-      />
-    </>
+    <UpVoteComponent
+      id={id}
+      onVote={onVote}
+      value={calculateDisplayValue()}
+      loading={loading}
+      isCurrentUserVoted={
+        userUpVoted === null
+          ? undefined
+          : { userId: user?.id || "", isUpvote: userUpVoted }
+      }
+    />
   );
 }
 

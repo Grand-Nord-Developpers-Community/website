@@ -53,8 +53,11 @@ export async function upVotePost({
     const userVoteStatus = await isuserVotedPost({ postId, userId, commentId });
 
     if (userVoteStatus) {
-      // If user already liked/disliked, update or remove
-      if (userVoteStatus.isUpvote === isUpvote) {
+      
+      if (isUpvote === null) {
+        // User wants to remove their vote - DELETE the vote record
+        await db.delete(userVote).where(eq(userVote.id, userVoteStatus.id));
+      } else if (userVoteStatus.isUpvote === isUpvote) {
         // Remove like/dislike
         await db.delete(userVote).where(eq(userVote.id, userVoteStatus.id));
       } else {

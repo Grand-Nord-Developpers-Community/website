@@ -39,8 +39,15 @@ export default async function QuestionPage({ params }: { params: any }) {
     0
   );
   const { user } = await auth();
-  const views =
-    (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
+  let views = 0;
+
+  try {
+    views = (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
+  } catch (error) {
+    console.error("Failed to fetch views from Redis:", error);
+    // fallback to 0, or handle gracefully
+  }
+
 
   //console.log(forum);
   //console.log(forums);
@@ -113,7 +120,7 @@ export default async function QuestionPage({ params }: { params: any }) {
                   <div className="flex items-center justify-between w-full">
                     <div className="flex flex-col">
                       <div className="flex gap-2 items-center">
-                        <span className="font-medium">{forum.author.name}</span>
+                        <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">{forum.author.name}</span>
                         {forum.authorId === user?.id && (
                           <span className="bg-primary text-[10px] text-white px-2 py-0.5 rounded">
                             vous
@@ -136,8 +143,8 @@ export default async function QuestionPage({ params }: { params: any }) {
                     <span className="max-sm:hidden">Vue</span>
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    Posé par {forum.author?.name}&ensp;&ensp;
-                    {formatRelativeTime(new Date(forum.createdAt))}
+                    {/*Posé par {forum.author?.name}&ensp;&ensp;*/}
+                    {formatRelativeTime(forum.createdAt)}
                   </span>
                 </div>
               </div>
