@@ -109,15 +109,18 @@ export function Comment({
           />
         </div>
 
-        <div className="flex-1 space-y-2 ">
+        <div className={clsx("flex-1 space-y-2 w-full max-md:w-[85%]",{
+		"max-[375px]:w-[83%]": depth == 1,
+		"max-[375px]:w-[80%] max-[425px]:w-[83%]": depth == 2
+	})}>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 w-full">
             <div
               className={clsx(
                 "flex items-center justify-between w-full max-md:w-[100%]",
                 {
-                  "xs-max:w-[60%] max-md:w-[79%]": isEditing && depth == 0,
-                  "max-md:w-[75%]": isEditing && depth == 1,
-                  "max-md:w-[65%]": isEditing && depth == 2,
+                  "clevel-0": isEditing && depth == 0,
+                  "clevel-1": isEditing && depth == 1,
+                  "clevel-2": isEditing && depth == 2,
                 }
               )}
             >
@@ -139,7 +142,9 @@ export function Comment({
                   @{comment.author.username}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className={clsx("flex items-center gap-2",{
+		  "max-[375px]:flex-col": depth == 2
+		})}>
                 {isAuthor ? (
                   <>
                     <Button
@@ -193,13 +198,14 @@ export function Comment({
           </div>
           {isEditing ? (
             <div
-              className={clsx("space-y-4", {
-                "max-sm:max-w-[83%]": depth == 0,
-                "max-sm:max-w-[73%]": depth == 1,
-                "max-sm:max-w-[65%]": depth == 2,
+              className={clsx("space-y-4 w-full", {
+                "clevel-0-editor": depth == 0,
+                "clevel-1-editor": depth == 1,
+                "clevel-2-editor": depth == 2,
               })}
             >
-              <CommentInput
+	      <div className="w-full">
+		<CommentInput
                 throttleDelay={1000}
                 className={"h-[100px] min-h-56 w-full rounded-xl"}
                 editorContentClassName="overflow-auto h-full"
@@ -209,6 +215,8 @@ export function Comment({
                 onChange={(v) => setEditContent(v as string)}
                 //className="min-h-[100px]"
               />
+	      </div>
+              
               <div className="flex justify-end gap-2">
                 <Button variant="ghost" onClick={() => setIsEditing(false)}>
                   Retour

@@ -17,20 +17,6 @@ const config: Config = {
   },
   theme: {
     extend: {
-      screens: {
-        "max-375": {
-          max: "375px",
-        },
-        "max-425": {
-          max: "425px",
-        },
-        "max-640": {
-          max: "640px",
-        },
-        "max-768": {
-          max: "768px",
-        },
-      },
       colors: {
         toolbar: "hsl(var(--toolbar))",
         background: "hsl(var(--background))",
