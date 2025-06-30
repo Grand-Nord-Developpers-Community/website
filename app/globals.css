@@ -4,13 +4,13 @@
 
 /* For Webkit-based browsers (Chrome, Safari and Opera) */
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* For IE, Edge and Firefox */
 .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 @layer base {
@@ -90,15 +90,32 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .screen-wrapper {
-    @apply max-w-[var(--max-width)] px-3 mx-auto max-xl:px-5 max-sm:w-full max-sm:px-3;
+    @apply max-w-[var(--max-width)] px-3 mx-auto;
   }
-  body { @apply !min-w-full; }
+
+  @media (max-width: 1279px) {
+    .screen-wrapper {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .screen-wrapper {
+      width: 100%;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+  }
+  body {
+    @apply !min-w-full;
+  }
 }
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   /* color:#bf8440 */
 }
 html {
