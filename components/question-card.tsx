@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import EmptyQuestionIcon from "@/assets/svgs/undraw_opinion_re_jix4.svg";
 import VoidQuestionIcon from "@/assets/svgs/undraw_void_-3-ggu.svg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { EditorRender } from "@/components/minimal-tiptap";
 import { formatRelativeTime } from "@/lib/utils";
 import { Redis } from "@upstash/redis";
 import { getForumPosts } from "@/actions/forum.actions";
