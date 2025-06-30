@@ -1,5 +1,11 @@
-import { drizzle as drizzleNeon } from "drizzle-orm/neon-serverless";
-import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
+import {
+  drizzle as drizzleNeon,
+  NeonDatabase,
+} from "drizzle-orm/neon-serverless";
+import {
+  drizzle as drizzlePg,
+  NodePgDatabase,
+} from "drizzle-orm/node-postgres";
 import { Pool as NeonPool } from "@neondatabase/serverless";
 import { Pool as PgPool } from "pg";
 import * as schema from "./schema";
@@ -8,7 +14,7 @@ const connectionString = process.env.DATABASE_URL!;
 const url = new URL(connectionString);
 const isSupabase = url.hostname.endsWith(".supabase.com");
 
-let db: ReturnType<typeof drizzlePg> | ReturnType<typeof drizzleNeon>;
+let db: NeonDatabase<typeof schema> | NodePgDatabase<typeof schema>;
 
 if (isSupabase) {
   const pool = new NeonPool({ connectionString });
