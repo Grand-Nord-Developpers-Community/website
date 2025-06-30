@@ -51,14 +51,20 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return new NextResponse(null, { status: 202 });
     }
   }
-
-  const date = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-
-  // Increment total views and views by date & device type
-  await redis.incr(["pageviews", type, id ?? "global", deviceType].join(":"));
-  await redis.incr(
-    ["pageviews", type, id ?? "global", date, deviceType].join(":")
-  );
+  try {
+    switch (type) {
+      case "blog":
+        await redis.incr(["pageviews", "blogs", id].join(":"));
+        break;
+      case "forum":
+        await redis.incr(["pageviews", "forums", id].join(":"));
+        break;
+      default:
+        return new NextResponse("type not found", { status: 400 });
+    }
+  } catch (error) {
+    console.error("Redis increment failed:", error);
+  }
 
   return new NextResponse(null, { status: 202 });
 }

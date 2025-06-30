@@ -21,10 +21,18 @@ export async function isuserVotedPost({
     .from(userVote)
     .where(
       and(
-        eq(fieldSelect, valueField!),
-        postId ? isNull(userVote.commentId) : not(isNull(userVote.commentId))
+        eq(userVote.userId, userId),
+        commentId
+          ? eq(userVote.commentId, commentId)
+          : eq(userVote.postId, postId!)
       )
     );
+  // .where(
+  //   and(
+  //     eq(fieldSelect, valueField!),
+  //     postId ? isNull(userVote.commentId) : not(isNull(userVote.commentId))
+  //   )
+  // );
 
   return result[0] || null;
 }
@@ -45,8 +53,11 @@ export async function upVotePost({
     const userVoteStatus = await isuserVotedPost({ postId, userId, commentId });
 
     if (userVoteStatus) {
-      // If user already liked/disliked, update or remove
-      if (userVoteStatus.isUpvote === isUpvote) {
+      
+      if (isUpvote === null) {
+        // User wants to remove their vote - DELETE the vote record
+        await db.delete(userVote).where(eq(userVote.id, userVoteStatus.id));
+      } else if (userVoteStatus.isUpvote === isUpvote) {
         // Remove like/dislike
         await db.delete(userVote).where(eq(userVote.id, userVoteStatus.id));
       } else {
@@ -57,13 +68,18 @@ export async function upVotePost({
           .where(eq(userVote.id, userVoteStatus.id));
       }
     } else if (isUpvote !== null) {
-      // If no prior like/dislike, insert new record
-      await db.insert(userVote).values({ postId, commentId, userId, isUpvote });
+      const insertData = commentId
+        ? { commentId, userId, isUpvote }
+        : { postId, userId, isUpvote };
+
+      await db.insert(userVote).values(insertData);
+      //await db.insert(userVote).values({ postId, commentId, userId, isUpvote });
     }
 
     // Revalidate paths
     //revalidatePath(`/forum/${postId}`);
     revalidatePath(`/forum`);
+    revalidatePath(`/blog`);
     revalidatePath(`/user/dashboard`);
 
     return { success: true };

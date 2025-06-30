@@ -7,7 +7,6 @@ import { TocItem } from "@/components/editor/lib/table-of-contents";
 import CommentSection from "@/components/comment-section";
 import ProfilCard from "@/components/cards/hoverCardUserInfo";
 import React, { useEffect, useRef, useState } from "react";
-import { BlogType } from "@/interfaces/publication";
 import { getBlogPost, getBlogPostPreview } from "@/actions/blog.actions";
 import { SessionUser } from "@/lib/db/schema";
 import BlogLikeCard from "./blogLikeCard";
@@ -202,14 +201,7 @@ const PostDetail = ({ post, user }: PostDetailProps) => {
             />
           )}
           {/* Comment Section */}
-          {!post?.isDraft && (
-            <CommentSection
-              user={user}
-              blogId={post?.id}
-              //@ts-ignore
-              commentLists={post?.replies}
-            />
-          )}
+          {!post?.isDraft && <CommentSection user={user} blogId={post?.id} />}
         </div>
 
         {/* Sidebar */}

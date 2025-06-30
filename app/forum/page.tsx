@@ -5,6 +5,7 @@ import ForumPostComponent from "@/components/forum-post-component";
 import HeadingPage from "@/sections/common/HeadingPage";
 import { MessageCircleQuestionIcon } from "lucide-react";
 import ForumDialogButton from "@/components/forum-dialog";
+import ForumQuestionCard from "@/components/forumQuestionCard";
 import {
   Card,
   CardContent,
@@ -48,9 +49,9 @@ export default function ForumPage() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative">
           <div className="lg:col-span-2 space-y-6">
-            <Card className="p-4">
+            {/*<Card className="p-4">
               <ForumPostComponent />
-            </Card>
+            </Card>*/}
             <Suspense
               fallback={
                 <div className="space-y-3">
@@ -75,18 +76,7 @@ export default function ForumPage() {
             <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
             <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
             <div className="w-full pt-2 space-y-5 scrollbar-hide h-full overflow-y-auto">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Aviez vous un problème ?</CardTitle>
-                  <CardDescription>
-                    si vous aviez un problème ou vous rencontrez des difficulté
-                    posez les !
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ForumDialogButton />
-                </CardContent>
-              </Card>
+              <ForumQuestionCard />
               <Suspense
                 fallback={
                   <Card className="my-1">

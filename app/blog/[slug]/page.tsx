@@ -19,8 +19,14 @@ export default async function Page({ params }: { params: any }) {
   const { slug } = params;
   const post = await getBlogPost(slug as string);
   const { user } = await auth();
-  const views =
-    (await redis.get<number>(["pageviews", "blogs", slug].join(":"))) ?? 0;
+  
+  let views = 0;
+  try {
+    views = (await redis.get<number>(["pageviews", "blogs", slug].join(":"))) ?? 0;
+  } catch (error) {
+    console.error("Failed to fetch views from Redis:", error);
+  }
+  
   if (!post) {
     notFound();
   }

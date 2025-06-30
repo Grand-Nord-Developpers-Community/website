@@ -86,7 +86,7 @@ export default async function QuestionCard() {
                       </span>
                     </div>
                     <span className="text-sm text-muted-foreground">
-                      Posé par {q.author?.name}&ensp;&ensp;
+                      {/*Posé par <span className="max-md:truncate max-md:max-w-[115px] max-sm:max-w-[80px]">{q.author?.name}</span>&ensp;&ensp;*/}
                       {formatRelativeTime(new Date(q.createdAt))}
                     </span>
                   </div>

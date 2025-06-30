@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Button as ButtonX } from "@/components/ui/button-more";
@@ -8,7 +8,6 @@ import { Comment, CommentSkeleton } from "./Comment";
 import CommentInput from "./commentComponent";
 import { SessionUser } from "@/lib/db/schema";
 import EmptyAnswerIcon from "@/assets/svgs/undraw_public-discussion_693m.svg";
-import { Form, FormItem, FormField } from "@/components/ui/form";
 import {
   ReplyWithAuthor,
   addpostComment,
@@ -22,7 +21,6 @@ import Link from "next/link";
 import { LoaderIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Editor } from "@tiptap/react";
-import { getForumPost } from "@/actions/forum.actions";
 import { upVotePost } from "@/actions/vote.actions";
 
 export default function CommentThread({
@@ -40,17 +38,36 @@ export default function CommentThread({
   const [isLoading, setIsLoading] = useState(true);
   const [isReplying, setIsReplying] = useState(false);
   const [clearContent, setClearContent] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
+  const commentRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    async function fetchAllComments() {
-      const reply = await getPostReplies({ postId, blogId });
-      //toast.message(JSON.stringify(reply));
-      setComments(reply);
-      if (reply) {
-        setIsLoading(false);
+    const observer = new IntersectionObserver(
+      async ([entry]) => {
+        if (entry.isIntersecting && !hasFetched) {
+          const reply = await getPostReplies({ postId, blogId });
+          setComments(reply);
+          setIsLoading(false);
+          setHasFetched(true);
+          observer.disconnect();
+        }
+      },
+      {
+        root: null, // viewport
+        rootMargin: "0px",
+        threshold: 0.1, // trigger when 10% visible
       }
+    );
+
+    if (commentRef.current) {
+      observer.observe(commentRef.current);
     }
-    fetchAllComments();
-  }, []);
+
+    return () => {
+      if (commentRef.current) {
+        observer.unobserve(commentRef.current);
+      }
+    };
+  }, [postId, blogId, hasFetched]);
   const [newComment, setNewComment] = useState("");
 
   const handleVote = async (commentId: string, isUpVote: boolean) => {
@@ -58,29 +75,28 @@ export default function CommentThread({
       openAlert();
       return false;
     }
+    const previous = structuredClone(comments);
+    setComments((prev) => updateCommentScore(prev, commentId, isUpVote));
     try {
       const res = await upVotePost({
         postId,
         commentId,
         isUpvote: isUpVote,
-        userId: user?.id!,
+        userId: user.id,
       });
+
       if (res.error) {
-        //setLikeStatus(likeStatus);
         console.log(res.error);
+        setComments(previous); // rollback
         return false;
-      } else {
-        setComments((prevComments) =>
-          updateCommentScore(prevComments, commentId, isUpVote)
-        );
-        return true;
       }
+
+      return true;
     } catch (e) {
-      //setLikeStatus(likeStatus);
-      console.log(e);
+      console.error(e);
+      setComments(previous); // rollback
       return false;
     }
-    return false;
   };
 
   const updateCommentScore = (
@@ -89,33 +105,38 @@ export default function CommentThread({
     isUpVote: boolean
   ): ReplyWithAuthor[] => {
     return comments.map((comment) => {
-      const isVoted = comment.votes.find((vote) => vote.userId === user?.id);
-
       if (comment.id === targetId) {
-        let votes = comment.votes;
-        if (isVoted) {
-          if (isVoted.isUpvote === isUpVote)
-            votes = votes.filter((vote) => vote.userId !== user?.id);
-          else
-            votes = votes.map((vote) =>
-              vote.userId === user?.id ? { ...vote, isUpvote: isUpVote } : vote
+        const existingVote = comment.votes.find((v) => v.userId === user?.id);
+        let updatedVotes;
+
+        if (existingVote) {
+          if (existingVote.isUpvote === isUpVote) {
+            // User toggles off their vote
+            updatedVotes = comment.votes.filter((v) => v.userId !== user?.id);
+          } else {
+            // User switches vote direction
+            updatedVotes = comment.votes.map((v) =>
+              v.userId === user?.id ? { ...v, isUpvote: isUpVote } : v
             );
-          return {
-            ...comment,
-            votes,
-          };
+          }
+        } else {
+          // New vote
+          updatedVotes = [
+            ...comment.votes,
+            { isUpvote: isUpVote, userId: user!.id },
+          ];
         }
-        return {
-          ...comment,
-          votes: [...votes, { isUpvote: isUpVote, userId: user?.id! }],
-        };
+
+        return { ...comment, votes: updatedVotes };
       }
+
       if (comment.replies.length > 0) {
         return {
           ...comment,
           replies: updateCommentScore(comment.replies, targetId, isUpVote),
         };
       }
+
       return comment;
     });
   };
@@ -335,7 +356,7 @@ export default function CommentThread({
   };
 
   return (
-    <div className="w-full py-4 space-y-4">
+    <div className="w-full py-4 space-y-4" ref={commentRef}>
       <h2 className="text-lg font-semibold">
         {isLoading ? "-" : getTotalReplies(comments)}{" "}
         {blogId ? "Commentaire" : "Réponse"}

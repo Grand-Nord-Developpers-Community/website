@@ -37,11 +37,13 @@ export function useUserProfileImage() {
 }
 
 export function useGetListBlog() {
-  const { data, error, isLoading } = useSWR(`/api/blogs`, fetcher);
+  const result = useSWR(`/api/blogs`, fetcher);
+  const { data, error, isLoading }=result
+  console.log(result)
   return {
     data: data as BlogType,
     isLoading,
-    isError: error,
+    isError: result.data?.error||undefined,
   };
 }
 

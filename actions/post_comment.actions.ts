@@ -130,10 +130,10 @@ export async function getPostReplies({
     .leftJoin(user, eq(postComment.authorId, user.id))
     .where(eq(fieldToFilter, valueToFilter!))
     .orderBy(desc(postComment.createdAt));
-  // Extract comment IDs
+
   const commentIds = replies.map((r) => r.id);
 
-  if (commentIds.length === 0) return []; // Avoid unnecessary vote query if no comments
+  if (commentIds.length === 0) return [];
   const votes = await db
     .select({
       commentId: userVote.commentId,
@@ -195,7 +195,7 @@ export async function getPostReplies({
       topLevelReplies.push(replyWithAuthor);
     }
   });
-  console.log(JSON.stringify(votes));
+  //console.log(JSON.stringify(votes));
   return topLevelReplies;
 }
 
