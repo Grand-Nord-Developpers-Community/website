@@ -73,7 +73,7 @@ export function formatRelativeTime(date: Date): string {
   const secondsDiff = Math.floor((date.getTime()-now.getTime()) / 1000);
 
   const rtf = new Intl.RelativeTimeFormat("fr", { numeric: "auto" });
-  console.table({now:now.toISOString(),postdate:date.toISOString()})
+  //console.table({now:now.toISOString(),postdate:date.toISOString()})
   if (Math.abs(secondsDiff) < 60) {
     return rtf.format(secondsDiff, "second");
   } else if (Math.abs(secondsDiff) < 3600) {

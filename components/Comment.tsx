@@ -109,12 +109,26 @@ export function Comment({
           />
         </div>
 
-        <div className="flex-1 space-y-2 ">
+        <div className={clsx("flex-1 space-y-2 w-full max-md:w-[85%]",{
+		"max-[375px]:w-[83%]": depth == 1,
+		"max-[375px]:w-[80%] max-[425px]:w-[83%]": depth == 2
+	})}>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 w-full">
-            <div className="flex items-center justify-between w-full max-md:w-[80%]">
+            <div
+              className={clsx(
+                "flex items-center justify-between w-full max-md:w-[100%]",
+                {
+                  "clevel-0": isEditing && depth == 0,
+                  "clevel-1": isEditing && depth == 1,
+                  "clevel-2": isEditing && depth == 2,
+                }
+              )}
+            >
               <div className="flex flex-col">
                 <div className="flex gap-2 items-center">
-                  <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">{comment.author.name}</span>
+                  <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">
+                    {comment.author.name}
+                  </span>
                   {isAuthor && (
                     <span className="bg-primary text-[10px] text-white px-2 py-0.5 rounded">
                       vous
@@ -128,7 +142,9 @@ export function Comment({
                   @{comment.author.username}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className={clsx("flex items-center gap-2",{
+		  "max-[375px]:flex-col": depth == 2
+		})}>
                 {isAuthor ? (
                   <>
                     <Button
@@ -147,15 +163,17 @@ export function Comment({
                       loading={isLoading}
                     />
 
-                    {!isEditing&&<Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-primary hover:text-primary/80 hover:bg-primary/10 px-2 sm:px-3 "
-                      onClick={() => setIsEditing(true)}
-                    >
-                      <Edit2 className="h-4 w-4 lg:mr-2" />
-                      <span className="hidden lg:inline">Editer</span>
-                    </Button>}
+                    {!isEditing && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-primary hover:text-primary/80 hover:bg-primary/10 px-2 sm:px-3 "
+                        onClick={() => setIsEditing(true)}
+                      >
+                        <Edit2 className="h-4 w-4 lg:mr-2" />
+                        <span className="hidden lg:inline">Editer</span>
+                      </Button>
+                    )}
                   </>
                 ) : (
                   <Button
@@ -179,8 +197,15 @@ export function Comment({
             </div>
           </div>
           {isEditing ? (
-            <div className={`space-y-4 ${depth<2?"max-sm:max-w-[88%]":"max-sm:max-w-[78%]"}`}>
-              <CommentInput
+            <div
+              className={clsx("space-y-4 w-full", {
+                "clevel-0-editor": depth == 0,
+                "clevel-1-editor": depth == 1,
+                "clevel-2-editor": depth == 2,
+              })}
+            >
+	      <div className="w-full">
+		<CommentInput
                 throttleDelay={1000}
                 className={"h-[100px] min-h-56 w-full rounded-xl"}
                 editorContentClassName="overflow-auto h-full"
@@ -190,6 +215,8 @@ export function Comment({
                 onChange={(v) => setEditContent(v as string)}
                 //className="min-h-[100px]"
               />
+	      </div>
+              
               <div className="flex justify-end gap-2">
                 <Button variant="ghost" onClick={() => setIsEditing(false)}>
                   Retour
@@ -261,6 +288,7 @@ export function Comment({
 import { Skeleton } from "@/components/ui/skeleton";
 import RenderContent from "./renderContent";
 import UpVoteComponent from "./upVoteComponent";
+import clsx from "clsx";
 
 interface CommentSkeletonProps {
   depth?: number;

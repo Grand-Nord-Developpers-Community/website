@@ -4,13 +4,13 @@
 
 /* For Webkit-based browsers (Chrome, Safari and Opera) */
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* For IE, Edge and Firefox */
 .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 @layer base {
@@ -90,20 +90,90 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .screen-wrapper {
-    @apply max-w-[var(--max-width)] px-3 mx-auto max-xl:px-5 max-sm:w-full max-sm:px-3;
+    @apply max-w-[var(--max-width)] px-3 mx-auto;
   }
-  body { @apply !min-w-full; }
+
+  @media (max-width: 1279px) {
+    .screen-wrapper {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .screen-wrapper {
+      width: 100%;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+  }
+  body {
+    @apply !min-w-full;
+  }
 }
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   /* color:#bf8440 */
 }
 html {
   scroll-behavior: smooth;
 }
+
+/*
+{
+                  "xs-max:w-[60%] max-md:w-[79%]": isEditing && depth == 0,
+                  "max-md:w-[75%]": isEditing && depth == 1,
+                  "max-md:w-[65%]": isEditing && depth == 2,
+                }
+{
+                "max-sm:max-w-[83%]": depth == 0,
+                "max-sm:max-w-[73%]": depth == 1,
+                "max-sm:max-w-[65%]": depth == 2,
+              }
+.clevel-0{}
+.clevel-1{}
+.clevel-2{}
+.clevel-0-editor{}
+.clevel-1-editor{}
+.clevel-2-editor{}
+*/
+
+
+@media only screen and (max-width: 320px) {
+  /* You had no rules here, so nothing added */
+}
+
+/*@media only screen and (max-width: 375px) {
+  .clevel-0 { width: 50%!important; }
+  .clevel-1 { width: 65%; }
+  .clevel-2 { width: 65%; }
+  .clevel-0-editor { width: 70%!important; }
+  .clevel-1-editor { width: 73%; }
+  .clevel-2-editor { width: 65%; }
+}
+
+@media only screen and (max-width: 425px) {
+  .clevel-0 { width: 79%; }
+  .clevel-1 { width: 75%; }
+  .clevel-2 { width: 65%; }
+  .clevel-0-editor { width: 83%; }
+  .clevel-1-editor { width: 73%; }
+  .clevel-2-editor { width: 65%; }
+}
+
+@media only screen and (max-width: 543px) {
+  .clevel-2 { width: 90%; }
+  .clevel-2-editor { width: 95%; }
+}
+
+@media only screen and (max-width: 555px) {
+  .clevel-2 { width: 95%; }
+  .clevel-2-editor { width: 98%; }
+}*/
+
 @layer base {
   * {
     @apply border-border;
