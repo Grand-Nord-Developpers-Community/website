@@ -50,7 +50,6 @@ function UpVoteWrapper({ value, id, user, voteList }: Props) {
     return userUpVoted ? value + 2 : value - 2;
   };
 
-
   // Handler for vote click
   const onVote = async (id: string, isUpVoted: boolean) => {
     if (!user) {
@@ -96,7 +95,7 @@ function UpVoteWrapper({ value, id, user, voteList }: Props) {
   };
 
   return (
-    <><UpVoteComponent
+    <UpVoteComponent
       id={id}
       onVote={onVote}
       value={calculateDisplayValue()}
@@ -106,7 +105,7 @@ function UpVoteWrapper({ value, id, user, voteList }: Props) {
           ? undefined
           : { userId: user?.id || "", isUpvote: userUpVoted }
       }
-    />{JSON.stringify(new Date())}</>
+    />
   );
 }
 
