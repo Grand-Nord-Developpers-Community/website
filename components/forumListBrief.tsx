@@ -24,7 +24,7 @@ function forumListBrief({ forumId, forums }: Props) {
                   {f.title}
                 </Link>
                 <p className="text-xs text-muted-foreground">
-                  {f.author.name} · {f.replies.length} Réponse
+                  <span className="max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">{f.author.name}</span>· {f.replies.length} Réponse
                 </p>
               </div>
             ))}

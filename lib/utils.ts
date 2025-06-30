@@ -70,7 +70,7 @@ export function calculateReadingTime(htmlContent: string): number {
 
 export function formatRelativeTime(date: Date): string {
   const now = new Date();
-  const secondsDiff = Math.floor((now.getTime() - date.getTime()) / 1000);
+  const secondsDiff = Math.floor((date.getTime()-now.getTime()) / 1000);
 
   const rtf = new Intl.RelativeTimeFormat("fr", { numeric: "auto" });
   console.table({now:now.toISOString(),postdate:date.toISOString()})

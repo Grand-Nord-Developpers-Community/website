@@ -111,8 +111,9 @@ const BlogFormContext: React.FC<{
     } catch (error) {
       //toast.error("Error uploading image: " + error);
       //@ts-ignore
-      throw "Error uploading image: " + error?.message;
-      //return ""
+      //[!!TOFIX]
+      //throw "Error uploading image: " + error?.message;
+      return "https://res.cloudinary.com/lol"
     }
   };
 

@@ -87,7 +87,7 @@ function flatten(toc: ToCObject, depth: number): TocItem[] {
 
   for (const item of toc.children) {
     //@ts-ignore
-    if (item.level > depth) return;
+    if (item.level > depth) return [];
     const { children, ...rest } = item;
     items.push(rest, ...flatten(item, depth));
   }
