@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { NuqsAdapter } from "nuqs/adapters/next";
+import "@/styles/globals.scss";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
