@@ -169,7 +169,7 @@ const BlogFormContext: React.FC<{
   //@ts-ignore
   const onSubmitError = (data) => {
     //toast.error(JSON.stringify(data))
-    if (data.content) toast.message(JSON.stringify(data));
+    if (data.content) toast.message(JSON.stringify(data.content.message));
     if (data.preview || data.previewHash)
       setError("preview", { message: "une previsualisation du blog" });
   };

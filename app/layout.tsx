@@ -4,7 +4,7 @@ import "@/styles/globals.scss";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
-import "prismjs/themes/prism.css";
+//import "prismjs/themes/prism.css";
 import { Toaster } from "@/components/ui/sonner";
 //import { Montserrat } from "next/font/google";
 //const montserrat = Montserrat({ subsets: ["latin"] });

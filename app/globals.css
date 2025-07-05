@@ -122,57 +122,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/*
-{
-                  "xs-max:w-[60%] max-md:w-[79%]": isEditing && depth == 0,
-                  "max-md:w-[75%]": isEditing && depth == 1,
-                  "max-md:w-[65%]": isEditing && depth == 2,
-                }
-{
-                "max-sm:max-w-[83%]": depth == 0,
-                "max-sm:max-w-[73%]": depth == 1,
-                "max-sm:max-w-[65%]": depth == 2,
-              }
-.clevel-0{}
-.clevel-1{}
-.clevel-2{}
-.clevel-0-editor{}
-.clevel-1-editor{}
-.clevel-2-editor{}
-*/
-
-@media only screen and (max-width: 320px) {
-  /* You had no rules here, so nothing added */
-}
-
-/*@media only screen and (max-width: 375px) {
-  .clevel-0 { width: 50%!important; }
-  .clevel-1 { width: 65%; }
-  .clevel-2 { width: 65%; }
-  .clevel-0-editor { width: 70%!important; }
-  .clevel-1-editor { width: 73%; }
-  .clevel-2-editor { width: 65%; }
-}
-
-@media only screen and (max-width: 425px) {
-  .clevel-0 { width: 79%; }
-  .clevel-1 { width: 75%; }
-  .clevel-2 { width: 65%; }
-  .clevel-0-editor { width: 83%; }
-  .clevel-1-editor { width: 73%; }
-  .clevel-2-editor { width: 65%; }
-}
-
-@media only screen and (max-width: 543px) {
-  .clevel-2 { width: 90%; }
-  .clevel-2-editor { width: 95%; }
-}
-
-@media only screen and (max-width: 555px) {
-  .clevel-2 { width: 95%; }
-  .clevel-2-editor { width: 98%; }
-}*/
-
 @layer base {
   * {
     @apply border-border;
