@@ -22,7 +22,7 @@ function BlogContent({
       className={clsx(
         "grid grid-cols-1 w-full lg:w-auto lg:grid-cols-[minmax(auto,36px)_minmax(auto,1fr)_minmax(auto,320px)] px-4 gap-6 lg:gap-12 py-12",
         {
-          "md:pl-3 lg:grid-cols-[minmax(auto,1fr)_minmax(auto,320px)]":
+          "md:!pl-3 lg:!grid-cols-[minmax(auto,1fr)_minmax(auto,320px)]":
             post?.isDraft,
         }
       )}
@@ -46,7 +46,7 @@ function BlogContent({
       </div>
       <div
         className={clsx("order-1 lg:order-3 max-lg:hidden", {
-          "lg:order-2": post?.isDraft,
+          "lg:!order-2": post?.isDraft,
         })}
       >
         <ProfilCard {...post!.author} />
