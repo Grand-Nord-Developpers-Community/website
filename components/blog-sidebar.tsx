@@ -54,6 +54,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
     img,
     onRemoveLoadedImage,
     isEdit,
+    onSubmit,
   } = useFormContext();
   const { setValue } = form;
   const router = useRouter();
@@ -143,7 +144,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
             <Button
               className="w-full mt-3 text-white"
               variant="secondary"
-              type="submit"
+              onClick={onSubmit}
               disabled={loading}
             >
               {!isEdit ? "Publier" : "Modifier"}

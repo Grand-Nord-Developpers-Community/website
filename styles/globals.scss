@@ -15,7 +15,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   background-color: #fff;
-  background-image: linear-gradient(rgba(#fff, 0.85), rgba(#fff, 0.95)), url("/background.svg");
+  background-image: linear-gradient(rgba(#fff, 0.85), rgba(#fff, 0.95)),
+    url("/background.svg");
 }
 
 html.dark {
@@ -24,8 +25,8 @@ html.dark {
   body {
     color: var(--foreground);
     background-color: #0d1018;
-    background-image: linear-gradient(rgba(#0d1018, 0.85), rgba(#0d1018, 0.95)),
-      url("/background.svg");
+    // background-image: linear-gradient(rgba(#0d1018, 0.85), rgba(#0d1018, 0.95)),
+    //   url("/background.svg");
   }
 }
 

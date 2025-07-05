@@ -31,9 +31,9 @@ const PostToc = () => {
   if (!items.length) return null;
 
   return (
-    <div className="order-1 lg:order-3">
+    <>
       <div className="lg:sticky lg:h-[calc(100vh-120px)] lg:top-24 overflow-auto">
-        <h2 className="text-sm font-bold uppercase">On this page</h2>
+        <h2 className="text-sm font-bold uppercase">Dans cette page</h2>
         <ul className="mt-4 space-y-3.5 text-sm">
           {items.map((item) => (
             <li
@@ -55,7 +55,7 @@ const PostToc = () => {
           ))}
         </ul>
       </div>
-    </div>
+    </>
   );
 };
 

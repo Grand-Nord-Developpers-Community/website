@@ -1,4 +1,3 @@
-"use client";
 import { Twitter, Facebook, Linkedin as LinkedIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Editor, EditorRef } from "@/components/editor";

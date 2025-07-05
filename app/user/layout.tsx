@@ -12,7 +12,7 @@ export default async function UserRootLayout({
 }>) {
   const { session, user } = await auth();
   if (!session) {
-    //redirect("/login");
+    redirect("/login");
   } else {
     if (user && !user?.isCompletedProfile) {
       redirect("/account/complete");

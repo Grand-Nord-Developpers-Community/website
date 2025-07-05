@@ -93,14 +93,14 @@
     @apply max-w-[var(--max-width)] px-3 mx-auto;
   }
 
-  @media (max-width: 1279px) {
+  @media only screen and (max-width: 1279px) {
     .screen-wrapper {
       padding-left: 1.25rem;
       padding-right: 1.25rem;
     }
   }
 
-  @media (max-width: 639px) {
+  @media only screen and (max-width: 639px) {
     .screen-wrapper {
       width: 100%;
       padding-left: 0.75rem;
@@ -140,7 +140,6 @@ html {
 .clevel-1-editor{}
 .clevel-2-editor{}
 */
-
 
 @media only screen and (max-width: 320px) {
   /* You had no rules here, so nothing added */

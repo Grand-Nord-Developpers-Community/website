@@ -1,7 +1,7 @@
 import PostHeader from "@/components/shared/PostHeader";
 import PostToc from "@/components/shared/PostToc";
 import PostContent from "@/components/shared/PostContent";
-import PostSharing from "@/components/shared/PostSharing";
+import PostSharing from "@/app/blog/(common)/PostSharing";
 import PostReadingProgress from "@/components/shared/PostReadingProgress";
 import TiptapRenderer from "@/components/TiptapRenderer/ServerRenderer";
 import Image from "next/image";
@@ -33,7 +33,13 @@ export default async function PostPage() {
         </PostContent>
         <PostToc />
       </div>
-      <Image src={"/doraemon.png"} width={350} height={350} alt="" className="mx-auto mt-20" />
+      <Image
+        src={"/doraemon.png"}
+        width={350}
+        height={350}
+        alt=""
+        className="mx-auto mt-20"
+      />
     </article>
   );
 }

@@ -1,7 +1,54 @@
-import React from "react";
-import Editor from "../(common)/blogContentEditor";
-export default function Home() {
-  return <Editor />;
+"use client";
+import { useEffect, useRef } from "react";
+import TiptapEditor, { type TiptapEditorRef } from "@/components/TiptapEditor";
+import { useFormContext } from "@/providers/BlogFormContext";
+import "./style.scss";
+
+export default function EditorWrapper() {
+  const editorRef = useRef<TiptapEditorRef>(null);
+  const { form, loading, success } = useFormContext();
+  const content = form.getValues("content") as string;
+  const { setValue } = form;
+
+  useEffect(() => {
+    setValue("content", content, { shouldValidate: true });
+  }, []);
+
+  useEffect(() => {
+    if (!loading && success) {
+      const editor = editorRef.current?.getInstance();
+      if (!editor) return;
+      editor.options.element.querySelector('[contenteditable="true"]');
+
+      setValue("content", "", { shouldValidate: true });
+      editor?.commands.clearContent();
+      editor?.commands.setContent("");
+    }
+  }, [loading, success]);
+
+  return (
+    <TiptapEditor
+      ref={editorRef}
+      ssr={true}
+      output="html"
+      placeholder={{
+        paragraph: "Type your content here...",
+        imageCaption: "Type caption for image (optional)",
+      }}
+      contentClass="w-full h-full"
+      containerClass="w-full h-full"
+      menuBarClass="pl-10"
+      contentMinHeight={"100%"}
+      contentMaxHeight={"100%"}
+      disabled={loading}
+      hideStatusBar
+      onContentChange={(val) => {
+        //console.log(val);
+        setValue("content", val as string, { shouldValidate: true });
+      }}
+      initialContent={content}
+    />
+  );
 }
 
 // "use client";

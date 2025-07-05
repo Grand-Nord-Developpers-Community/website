@@ -86,7 +86,7 @@ export default async function RootLayout({
         <Scroll />
         <ReportView type="app" />
         <HeaderWrapper />
-        <main className="w-full min-h-screen overflow-x-clip">
+        <main className="w-full min-h-screen overflow-x-clip relative">
           <ThemeProvider attribute="class" defaultTheme="light">
             <SessionProvider session={session}>
               <ConfirmDialogProvider>
