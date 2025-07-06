@@ -1,4 +1,5 @@
-import { Icons } from '@/components/icons';
+import { getBlogPost, getBlogPostPreview } from "@/actions/blog.actions";
+import { Icons } from "@/components/icons";
 
 export interface NavItem {
   title: string;
@@ -32,3 +33,6 @@ export interface FooterItem {
 export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
+export type Post =
+  | Awaited<ReturnType<typeof getBlogPost>>
+  | Awaited<ReturnType<typeof getBlogPostPreview>>;

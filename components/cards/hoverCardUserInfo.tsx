@@ -1,7 +1,7 @@
 import { CalendarIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { type Post } from "@/components/blogContent";
+import { type Post } from "@/types";
 
 type AuthorType = Exclude<Post, undefined>["author"];
 

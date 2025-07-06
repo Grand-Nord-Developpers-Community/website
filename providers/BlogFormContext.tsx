@@ -14,7 +14,9 @@ import {
   updateBlogPost,
 } from "@/actions/blog.actions";
 import { useSWRConfig } from "swr";
-import { Post } from "@/components/blogContent";
+import { Post } from "@/types";
+import { useRouter, usePathname } from "next/navigation";
+import { slugify } from "@/lib/utils";
 
 type BlogFormData = z.infer<typeof blogPublishSchema>;
 
@@ -28,6 +30,7 @@ interface FormContextProps {
   isEdit: boolean;
   setCompressedFile: React.Dispatch<React.SetStateAction<File | null>>;
   onRemoveLoadedImage?: () => void;
+  onSubmit: () => void;
 }
 
 // Create Context
@@ -42,11 +45,8 @@ export const useFormContext = () => {
   return context;
 };
 
-//TO BE FIX
-
-const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || "126785599786519";
-const uploadPreset =
-  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "gndc-image-blog";
+const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 // Layout Component
 const BlogFormContext: React.FC<{
@@ -68,6 +68,8 @@ const BlogFormContext: React.FC<{
   const { setValue, setError } = form;
   const [loading, setLoading] = useState(false);
   const [img, setImage] = useState(post?.preview || null);
+  const router = useRouter();
+  const pathname = usePathname();
   const [isEdit, setIsEdit] = useState(post ? true : false);
   const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -109,11 +111,9 @@ const BlogFormContext: React.FC<{
         return uploadedUrl;
       }
     } catch (error) {
-      //toast.error("Error uploading image: " + error);
+      toast.error("Error uploading image: " + error);
       //@ts-ignore
-      //[!!TOFIX]
-      //throw "Error uploading image: " + error?.message;
-      return "https://res.cloudinary.com/lol"
+      throw "Error uploading image: " + error?.message;
     }
   };
 
@@ -140,7 +140,14 @@ const BlogFormContext: React.FC<{
           form.reset();
           setSuccess(true);
         }
+        const currentSlug = pathname.split("/").pop();
+        const newSlug = slugify(form.getValues("title") as string);
+
         toast.success(res?.message);
+        if (isEdit && currentSlug !== newSlug) {
+          router.push(`/blog/${newSlug}/edit`);
+          //return;
+        }
         //mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`);
         mutate("/api/blogs", true);
       } else {
@@ -177,13 +184,12 @@ const BlogFormContext: React.FC<{
         isEdit,
         img,
         onRemoveLoadedImage: handleRemoveLoadedImage,
+        onSubmit: () => {
+          form.handleSubmit(onSubmit, onSubmitError)();
+        },
       }}
     >
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit, onSubmitError)}>
-          {children}
-        </form>
-      </Form>
+      <Form {...form}>{children}</Form>
     </FormContext.Provider>
   );
 };

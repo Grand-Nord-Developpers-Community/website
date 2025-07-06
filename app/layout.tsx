@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { NuqsAdapter } from "nuqs/adapters/next";
+import "@/styles/globals.scss";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
-import "prismjs/themes/prism.css";
+//import "prismjs/themes/prism.css";
 import { Toaster } from "@/components/ui/sonner";
 //import { Montserrat } from "next/font/google";
 //const montserrat = Montserrat({ subsets: ["latin"] });
@@ -85,7 +86,7 @@ export default async function RootLayout({
         <Scroll />
         <ReportView type="app" />
         <HeaderWrapper />
-        <main className="w-full min-h-screen overflow-x-clip">
+        <main className="w-full min-h-screen overflow-x-clip relative">
           <ThemeProvider attribute="class" defaultTheme="light">
             <SessionProvider session={session}>
               <ConfirmDialogProvider>

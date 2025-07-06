@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import "@/styles/blogLikeCard.css";
 import { SessionUser } from "@/lib/db/schema";
@@ -11,17 +12,13 @@ function BlogLikeCard({
   likes,
 }: {
   id: string;
-  //value: number;
   user: SessionUser | null;
-  likes: {
-    //id: string;
-    isLike: boolean;
-  }[];
+  likes: number;
 }) {
   const [likeStatus, setLikeStatus] = useState<null | boolean>(null);
   const { openAlert } = useAlertStore();
   const [pending, setPending] = useState(false);
-  const [likeCount, setLikeCount] = useState(likes.filter((l) => l.isLike === true).length);
+  const [likeCount, setLikeCount] = useState(likes);
   useEffect(() => {
     const fetchIntialLikeStatus = async () => {
       const val = await isUserLikedPost(id, user?.id!);
