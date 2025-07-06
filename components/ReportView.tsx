@@ -1,5 +1,5 @@
 "use client";
-
+import { useTrackActivity } from "@/hooks/useTrackActivity";
 import { useEffect } from "react";
 
 export type pageTrackerType = "blog" | "forum" | "app";

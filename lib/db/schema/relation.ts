@@ -6,14 +6,18 @@ import { userLike } from "./like";
 import { postComment } from "./comment";
 import { forumPost } from "./forum";
 import { event } from "./event";
-
-export const userRelations = relations(user, ({ many }) => ({
+import { userActivity } from "./activity";
+export const userRelations = relations(user, ({ many, one }) => ({
   blogPosts: many(blogPost),
   forumPosts: many(forumPost),
   postReplies: many(postComment),
   events: many(event),
   votes: many(userVote),
   likes: many(userLike),
+  activity: one(userActivity, {
+    fields: [user.id],
+    references: [userActivity.userId],
+  }),
 }));
 
 export const blogPostRelations = relations(blogPost, ({ one, many }) => ({
@@ -78,6 +82,13 @@ export const userLikeRelations = relations(userLike, ({ one }) => ({
   post: one(blogPost, {
     fields: [userLike.postId],
     references: [blogPost.id],
+  }),
+}));
+
+export const userActivityRelations = relations(userActivity, ({ one }) => ({
+  user: one(user, {
+    fields: [userActivity.userId],
+    references: [user.id],
   }),
 }));
 

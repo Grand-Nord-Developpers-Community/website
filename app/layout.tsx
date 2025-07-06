@@ -71,12 +71,16 @@ import HeaderWrapper from "@/components/header-wrapper";
 import AlertSignIn from "@/components/alertSignIn";
 import Scroll from "@/components/scroll";
 import { ReportView } from "@/components/ReportView";
+import { processActivity } from "@/actions/activity.actions";
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  if (session.user) {
+    processActivity(session.user.id);
+  }
   //console.log(session);
   return (
     <html lang="fr">

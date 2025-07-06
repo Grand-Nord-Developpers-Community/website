@@ -89,11 +89,11 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
             </DropdownMenuItem>
           )}
           <DropdownMenuItem asChild>
-            <Link href="/user/profil">Profil</Link>
+            <Link href="/user/profile">Profil</Link>
             {/*<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>*/}
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/user/setting">Paramètre</Link>
+            <Link href="/user/settings">Paramètre</Link>
             {/*<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>*/}
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -154,7 +154,15 @@ function Header({ user }: { user: SessionUser | null }) {
           {user && user.isCompletedProfile && (
             <>
               <Button variant="secondary" className="ml-5 text-white" asChild>
-                <Link href={user?.role==="user"?"/user/dashboard":"/admin/overview"}>{user?.role==="user"?"Tableau de bord":"Administration"}</Link>
+                <Link
+                  href={
+                    user?.role === "user"
+                      ? "/user/dashboard"
+                      : "/admin/overview"
+                  }
+                >
+                  {user?.role === "user" ? "Tableau de bord" : "Administration"}
+                </Link>
               </Button>
               <AvatarMenuDropDown user={user} />
             </>
