@@ -92,7 +92,9 @@
   .screen-wrapper {
     @apply max-w-[var(--max-width)] px-3 mx-auto;
   }
-
+  .article-content code:not(pre code) {
+    @apply inline-block mx-1 rounded border border-[var(--mt-code-color)] bg-[var(--mt-code-background)] px-1 py-0.5 text-sm after:content-[''] before:content-[''];
+  }
   @media only screen and (max-width: 1279px) {
     .screen-wrapper {
       padding-left: 1.25rem;
