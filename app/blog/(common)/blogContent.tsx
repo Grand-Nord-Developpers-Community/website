@@ -1,4 +1,4 @@
-import type { Post } from "@/components/blogContent";
+import type { Post } from "@/types";
 import PostSharing from "../(common)/PostSharing";
 import PostToc from "../(common)/PostToc";
 import TiptapRenderer from "@/components/TiptapRenderer/ServerRenderer";

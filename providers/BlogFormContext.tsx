@@ -14,7 +14,7 @@ import {
   updateBlogPost,
 } from "@/actions/blog.actions";
 import { useSWRConfig } from "swr";
-import { Post } from "@/components/blogContent";
+import { Post } from "@/types";
 import { useRouter, usePathname } from "next/navigation";
 import { slugify } from "@/lib/utils";
 

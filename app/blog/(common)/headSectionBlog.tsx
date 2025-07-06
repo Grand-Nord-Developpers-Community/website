@@ -1,4 +1,4 @@
-import type { Post } from "@/components/blogContent";
+import type { Post } from "@/types";
 import ImageWrapper from "@/components/imageWrapper";
 import { calculateReadingTime } from "@/lib/utils";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
