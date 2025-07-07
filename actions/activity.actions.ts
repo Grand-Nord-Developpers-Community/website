@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { userActivity } from "@/lib/db/schema";
 import { Redis } from "@upstash/redis";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 const redis = Redis.fromEnv();
@@ -97,12 +98,10 @@ export async function processActivity(userId: string) {
   const lastProcessed = cookieStore.get(cookieKey)?.value;
 
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-
+  //console.table({ lastProcessed, today });
   if (lastProcessed === today) {
-    console.log("saved !!");
     return;
   }
-  console.log("nope");
   const [activity] = await db
     .select()
     .from(userActivity)
@@ -149,4 +148,6 @@ export async function processActivity(userId: string) {
     sameSite: "lax",
     maxAge: 60 * 60 * 24, // 1 day
   });
+  revalidatePath("/");
+  revalidatePath("/user/dashboard");
 }
