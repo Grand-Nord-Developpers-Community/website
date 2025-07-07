@@ -4,6 +4,7 @@ import {
   boolean,
   timestamp,
   integer,
+  json,
 } from "drizzle-orm/pg-core";
 
 export const userTable = pgTable("user", {
@@ -25,6 +26,7 @@ export const userTable = pgTable("user", {
   instagramLink: text("instagramLink"),
   websiteLink: text("websiteLink"),
   streak: integer("streak").default(1),
+  skills: json("skills").$type<string[]>().default([]),
   lastActive: timestamp("lastActive", { mode: "date" }),
   isCompletedProfile: boolean("isCompletedProfile").default(false),
   isCheckProfile: boolean("isCheckProfile").default(false),

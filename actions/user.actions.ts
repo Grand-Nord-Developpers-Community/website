@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/lib/db";
-import { userTable as user, userTable } from "@/lib/db/schema";
+import { blogPost, userTable as user, userTable } from "@/lib/db/schema";
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
@@ -244,12 +244,39 @@ export async function getUserProfile(userId: string) {
           totalDaysActive: true,
         },
       },
+      blogPosts: {
+        where: eq(blogPost.isDraft, false),
+        columns: {
+          content: false,
+        },
+        with: {
+          likes: {
+            columns: {
+              id: true,
+            },
+          },
+        },
+      },
+      forumPosts: {
+        columns: {
+          content: false,
+        },
+        with: {
+          replies: {
+            columns: {
+              id: true,
+            },
+          },
+        },
+      },
     },
     columns: {
       id: false,
+      username: true,
       name: true,
       image: true,
       bio: true,
+      skills: true,
       websiteLink: true,
       experiencePoints: true,
       streak: false,
