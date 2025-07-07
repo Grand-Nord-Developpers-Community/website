@@ -7,80 +7,12 @@ import { Github, Twitter, Linkedin, ExternalLink } from "lucide-react";
 import touzaImage from "@/assets/images/leaders/touza.jpg";
 import ArticleImage from "@/app/opengraph-image.jpg";
 import { Badge } from "@/components/ui/badge";
+import ProfileSection from "../(common)/profil-section";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState("articles");
-
-  const articles = [
-    {
-      image: ArticleImage,
-      tags: ["Laravel", "Open Source", "PHP"],
-      title: "Laravel 11.24 nouvelle release",
-      content:
-        "La team Laravel a publié la version 11.26 cette semaine, avec la possibilité d'arrêter un pool de processus, l'utilisation d'Enums...",
-      date: "4 Octobre 2024",
-      readTime: "2 min de lecture",
-    },
-    {
-      image: ArticleImage,
-      tags: ["Astuces"],
-      title: "Configurer un fichier .gitignore global",
-      content:
-        "Quand on développe en équipe et que nous avons plusieurs développeurs qui utilisent divers éditeurs de code (IDE), ça nous arrive...",
-      date: "19 Juillet 2023",
-      readTime: "2 min de lecture",
-    },
-    {
-      image: ArticleImage,
-      tags: ["React", "JavaScript"],
-      title: "Introduction à React Hooks",
-      content:
-        "React Hooks sont une fonctionnalité introduite dans React 16.8 qui permet d'utiliser l'état et d'autres fonctionnalités de React sans écrire de classe...",
-      date: "15 Septembre 2024",
-      readTime: "5 min de lecture",
-    },
-  ];
-
-  const discussions = [
-    {
-      title: "Quelle est votre stack technique préférée ?",
-      content:
-        "Je suis curieux de connaître les stacks techniques que vous utilisez dans vos projets. Personnellement, j'utilise beaucoup Laravel et Vue.js...",
-      responses: 12,
-      views: 89,
-      date: "Il y a 2 jours",
-    },
-    {
-      title: "Comment gérez-vous la sécurité dans vos applications web ?",
-      content:
-        "La sécurité est un aspect crucial du développement web. Quelles sont vos meilleures pratiques pour sécuriser vos applications ?",
-      responses: 8,
-      views: 56,
-      date: "Il y a 5 jours",
-    },
-  ];
-
-  const questions = [
-    {
-      title: "Comment implémenter l'authentification JWT avec Laravel ?",
-      content:
-        "Je travaille sur une API RESTful avec Laravel et j'aimerais utiliser JWT pour l'authentification. Quelqu'un peut-il me guider sur la meilleure façon de l'implémenter ?",
-      responses: 3,
-      views: 45,
-      date: "Il y a 1 jour",
-    },
-    {
-      title: "Quelle est la différence entre useMemo et useCallback en React ?",
-      content:
-        "Je suis nouveau dans React et je ne comprends pas bien la différence entre useMemo et useCallback. Pouvez-vous m'expliquer quand utiliser l'un plutôt que l'autre ?",
-      responses: 5,
-      views: 67,
-      date: "Il y a 3 jours",
-    },
-  ];
-
   return (
-    <>
+    <div className="bg-gray-50">
       <section className="relative block max-sm:h-[300px] h-[400px] w-full">
         <div className="absolute top-0 w-full h-full bg-center bg-cover bg-[url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')]">
           <span
@@ -89,19 +21,22 @@ const ProfilePage = () => {
           ></span>
         </div>
       </section>
-      <section className="relative py-16 bg-blueGray-200">
-        <div className="container mx-auto px-4">
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-            <div className="px-6">
+      <section className="relative py-16">
+        <div className="container mx-auto px-4 max-sm:px-2">
+          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 border border-border  rounded-lg -mt-64">
+            <div className="px-6 max-sm:px-2">
               <div className="flex flex-wrap justify-between">
                 <div className="w-full lg:w-[40%] px-4 flex justify-center">
                   <div className="relative w-full -m-16 -ml-20 lg:-ml-16 ">
                     <div className="flex gap-5  align-middle absolute w-full">
-                      <img
-                        alt="..."
-                        src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg"
-                        className="shadow-xl rounded-full w-[150px] grow-0 h-[150px] object-cover  border-none "
-                      />
+                      <Avatar className="shadow-xl rounded-full w-[150px] grow-0 h-[150px] object-cover  border-4 border-primary ">
+                        <AvatarImage
+                          src={touzaImage.src}
+                          className="object-cover"
+                          alt={"lol"}
+                        />
+                        <AvatarFallback>unija</AvatarFallback>
+                      </Avatar>
                       <div className="mt-20">
                         <h1 className="text-2xl font-bold text-primary truncate max-sm:max-w-[200px]">
                           mohamed el bachir bouba nga
@@ -132,49 +67,33 @@ const ProfilePage = () => {
                   <div className="flex justify-center py-4 lg:pt-4 pt-8">
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        22
+                        22<span className="text-xs"> j</span>
                       </span>
-                      <span className="text-sm text-blueGray-400">Friends</span>
+                      <span className="text-sm text-blueGray-400">
+                        Activitées
+                      </span>
                     </div>
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                         10
                       </span>
-                      <span className="text-sm text-blueGray-400">Photos</span>
+                      <span className="text-sm text-blueGray-400">Forums</span>
                     </div>
                     <div className="lg:mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                         89
                       </span>
-                      <span className="text-sm text-blueGray-400">
-                        Comments
-                      </span>
+                      <span className="text-sm text-blueGray-400">Blogs</span>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-                <div className="flex flex-wrap justify-center">
-                  <div className="w-full lg:w-9/12 px-4">
-                    <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                      An artist of considerable range, Jenna the name taken by
-                      Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                      performs and records all of his own music, giving it a
-                      warm, intimate feel with a solid groove structure. An
-                      artist of considerable range.
-                    </p>
-                    <a href="#pablo" className="font-normal text-pink-500">
-                      Show more
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <ProfileSection />
             </div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

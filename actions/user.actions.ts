@@ -237,14 +237,22 @@ export async function getUserProfileUserAuth() {
 export async function getUserProfile(userId: string) {
   const profile = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
+    with: {
+      activity: {
+        columns: {
+          currentStreak: true,
+          totalDaysActive: true,
+        },
+      },
+    },
     columns: {
-      id: true,
+      id: false,
       name: true,
       image: true,
       bio: true,
       websiteLink: true,
       experiencePoints: true,
-      streak: true,
+      streak: false,
       email: true,
       role: true,
       location: true,
@@ -252,10 +260,9 @@ export async function getUserProfile(userId: string) {
       githubLink: true,
       twitterLink: true,
       instagramLink: true,
-      lastActive: true,
+      lastActive: false,
       isCompletedProfile: true,
       createdAt: true,
-      isCheckProfile: true,
     },
   });
 
