@@ -43,8 +43,14 @@ export default async function QuestionCard() {
         questions.map((q, i) => (
           <Card className="p-4 overflow-hidden" key={i}>
             <div className="flex gap-4">
-              <Avatar>
-                <AvatarImage src={q?.author?.image || ""} alt="Author avatar" />
+              <Avatar className="bg-gray-50">
+                <AvatarImage
+                  src={
+                    q?.author?.image ||
+                    `https://dummyjson.com/icon/${q?.author.username}/150`
+                  }
+                  alt="Author avatar"
+                />
                 <AvatarFallback>
                   {q.author?.name?.slice(0, 2)?.toUpperCase()}
                 </AvatarFallback>

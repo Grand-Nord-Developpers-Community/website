@@ -66,14 +66,21 @@ const Dashboard: React.FC = async () => {
         descClassName={"mb-5"}
         description={"Voici une vue d'ensemble de vos dernières activités"}
         icon={
-          <Avatar className="h-11 w-11">
-            <AvatarImage src={user?.image || ""} alt={user?.name!} />
+          <Avatar className="bg-gray-50 h-11 w-11">
+            <AvatarImage
+              src={
+                user?.image ||
+                `https://dummyjson.com/icon/${user?.username}/150`
+              }
+              alt={user?.name!}
+            />
             <AvatarFallback className="uppercase">
               {user?.name!.slice(0, 2)}
             </AvatarFallback>
           </Avatar>
         }
       />
+      {/* {JSON.stringify(userActivity)} */}
       <div className="screen-wrapper mt-5">
         <h1 className="text-2xl font-bold mb-6">Tableau de bord</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

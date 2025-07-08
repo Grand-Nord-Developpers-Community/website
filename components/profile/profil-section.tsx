@@ -16,7 +16,7 @@ import {
   Instagram,
   Twitter,
   ExternalLink,
-  MessageSquare,
+  ThumbsUp,
 } from "lucide-react";
 import ImageWrapper from "@/components/imageWrapper";
 import Link from "next/link";
@@ -98,7 +98,8 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                   ADRESSE EMAIL
                 </p>
                 <a
-                  href="mailto:hello@nguyen.shane.com"
+                  href={`mailto:${user.email}`}
+                  target=""
                   className="text-blue-600 hover:text-blue-800 font-medium"
                 >
                   {user.email}
@@ -195,6 +196,10 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                               }
                             )}
                           </span>
+                          <div className="flex items-center text-gray-400 gap-1">
+                            <ThumbsUp className="h-4 w-4 " />
+                            {item.likes.length}
+                          </div>
                         </div>
                       </CardContent>
                     </Card>

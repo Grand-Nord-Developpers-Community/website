@@ -54,8 +54,14 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relczative h-8 w-8 rounded-full">
-          <Avatar className="h-11 w-11">
-            <AvatarImage src={user?.image ?? ""} alt="@GNDC" />
+          <Avatar className="bg-gray-50 h-11 w-11">
+            <AvatarImage
+              src={
+                user?.image ??
+                `https://dummyjson.com/icon/${user?.username}/150`
+              }
+              alt={user?.username || ""}
+            />
             <AvatarFallback className="uppercase">
               {user?.name?.slice(0, 2)}
             </AvatarFallback>

@@ -83,6 +83,7 @@ export async function getBlogPosts() {
             email: true,
             name: true,
             image: true,
+            username: true,
           },
         },
         replies: {
@@ -166,6 +167,7 @@ export async function getBlogPostPreview(slug: string) {
             role: true,
             createdAt: true,
             experiencePoints: true,
+            username: true,
           },
         },
       },
@@ -277,6 +279,7 @@ export async function getBlogPost(slug: string) {
             role: true,
             createdAt: true,
             experiencePoints: true,
+            username: true,
           },
         },
         likes: {

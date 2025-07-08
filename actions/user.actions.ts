@@ -207,6 +207,7 @@ export async function getUserProfileUserAuth() {
         id: true,
         name: true,
         image: true,
+        username: true,
         bio: true,
         websiteLink: true,
         experiencePoints: true,
@@ -310,6 +311,7 @@ export async function getUsersListByRank() {
         email: true,
         experiencePoints: true,
         createdAt: true,
+        username: true,
       },
     });
     return users;

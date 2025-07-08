@@ -34,8 +34,13 @@ function CommentInput({
 
       {user && (
         <>
-          <Avatar>
-            <AvatarImage src={user?.image || ""} alt={user?.name || "Avatar"} />
+          <Avatar className="bg-gray-50">
+            <AvatarImage
+              src={
+                user?.image || `https://dummyjson.com/icon/${user.username}/150`
+              }
+              alt={user?.name || "Avatar"}
+            />
             <AvatarFallback>
               {user?.name?.slice(0, 2)?.toUpperCase()}
             </AvatarFallback>
@@ -78,10 +83,13 @@ function CommentInput({
           </div>
 
           {/* Mobile footer */}
-          <div className="flex md:hidden flex-row items-center w-full justify-between">
+          <div className="bg-gray-50 flex md:hidden flex-row items-center w-full justify-between">
             <Avatar>
               <AvatarImage
-                src={user?.image || ""}
+                src={
+                  user?.image ||
+                  `https://dummyjson.com/icon/${user.username}/150`
+                }
                 alt={user?.name || "Avatar"}
               />
               <AvatarFallback>

@@ -91,9 +91,12 @@ export function Comment({
       )}
       <div className="flex items-start">
         <div>
-          <Avatar className="space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2">
+          <Avatar className="bg-gray-50 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2">
             <AvatarImage
-              src={comment.author?.image || ""}
+              src={
+                comment.author?.image ||
+                `https://dummyjson.com/icon/${comment.author.username}/150`
+              }
               alt={comment.author?.name || "Avatar"}
             />
             <AvatarFallback>
@@ -109,10 +112,12 @@ export function Comment({
           />
         </div>
 
-        <div className={clsx("flex-1 space-y-2 w-full max-md:w-[85%]",{
-		"max-[375px]:w-[83%]": depth == 1,
-		"max-[375px]:w-[80%] max-[425px]:w-[83%]": depth == 2
-	})}>
+        <div
+          className={clsx("flex-1 space-y-2 w-full max-md:w-[85%]", {
+            "max-[375px]:w-[83%]": depth == 1,
+            "max-[375px]:w-[80%] max-[425px]:w-[83%]": depth == 2,
+          })}
+        >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 w-full">
             <div
               className={clsx(
@@ -142,9 +147,11 @@ export function Comment({
                   @{comment.author.username}
                 </span>
               </div>
-              <div className={clsx("flex items-center gap-2",{
-		  "max-[375px]:flex-col": depth == 2
-		})}>
+              <div
+                className={clsx("flex items-center gap-2", {
+                  "max-[375px]:flex-col": depth == 2,
+                })}
+              >
                 {isAuthor ? (
                   <>
                     <Button
@@ -204,19 +211,19 @@ export function Comment({
                 "clevel-2-editor": depth == 2,
               })}
             >
-	      <div className="w-full">
-		<CommentInput
-                throttleDelay={1000}
-                className={"h-[100px] min-h-56 w-full rounded-xl"}
-                editorContentClassName="overflow-auto h-full"
-                editorClassName="focus:outline-none px-2 py-4 h-full"
-                value={editContent}
-                editable={!isLoading}
-                onChange={(v) => setEditContent(v as string)}
-                //className="min-h-[100px]"
-              />
-	      </div>
-              
+              <div className="w-full">
+                <CommentInput
+                  throttleDelay={1000}
+                  className={"h-[100px] min-h-56 w-full rounded-xl"}
+                  editorContentClassName="overflow-auto h-full"
+                  editorClassName="focus:outline-none px-2 py-4 h-full"
+                  value={editContent}
+                  editable={!isLoading}
+                  onChange={(v) => setEditContent(v as string)}
+                  //className="min-h-[100px]"
+                />
+              </div>
+
               <div className="flex justify-end gap-2">
                 <Button variant="ghost" onClick={() => setIsEditing(false)}>
                   Retour
@@ -243,9 +250,12 @@ export function Comment({
       {isReplying && currentUser && (
         <div className="mt-4 space-y-4 border-t border-gray-200 pt-4">
           <div className="flex gap-2 items-center">
-            <Avatar>
+            <Avatar className="bg-gray-50">
               <AvatarImage
-                src={currentUser?.image || ""}
+                src={
+                  currentUser?.image ||
+                  `https://dummyjson.com/icon/${currentUser.username}/150`
+                }
                 alt={currentUser?.name || "Avatar"}
               />
               <AvatarFallback>

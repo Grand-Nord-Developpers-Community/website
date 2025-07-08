@@ -92,8 +92,14 @@ export const CardBlog = ({
           />
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-3">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src={author?.image || ""} alt="Author" />
+              <Avatar className="bg-gray-50 h-10 w-10">
+                <AvatarImage
+                  src={
+                    author?.image ||
+                    `https://dummyjson.com/icon/${author.username}/150`
+                  }
+                  alt="Author"
+                />
                 <AvatarFallback>
                   {author?.name?.slice(0, 2)?.toUpperCase()}
                 </AvatarFallback>
