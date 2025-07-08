@@ -1,16 +1,20 @@
 import { PropsWithChildren } from "react";
-
+import "./styles.css";
 export default function ProfileWrapper({ children }: PropsWithChildren) {
   return (
     <>
       <div className="bg-gray-50">
         <section className="relative block max-sm:h-[300px] h-[400px] w-full">
-          <div className="absolute top-0 w-full h-full bg-center bg-cover bg-[url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')]">
+          <div id="hex-grid">
+            {/* <div className="light"></div> */}
+            <div className="grid"></div>
+          </div>
+          {/* <div className="absolute top-0 w-full h-full bg-center bg-cover bg-[url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')]">
             <span
               id="blackOverlay"
               className="w-full h-full absolute  opacity-50 bg-primary/80"
             ></span>
-          </div>
+          </div> */}
         </section>
         <section className="relative py-16">
           <div className="container mx-auto px-4 max-sm:px-2">

@@ -1,0 +1,35 @@
+:root {
+  --hex_size: 500px; /* Size of the hexahons */
+  --border_radius: 25%;
+  --glow_size: 15em;
+  --grid_height: 150vh;
+  --grid_width: 100vw;
+}
+
+#hex-grid {
+  height: 100%;
+  width: 100%;
+  background: hsl(var(--secondary));
+}
+
+#hex-grid .grid {
+  position: absolute;
+  background: url(./grid.svg) repeat;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-size: var(--hex_size);
+}
+
+#hex-grid .light {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--glow_size);
+  height: var(--glow_size);
+  filter: blur(15px);
+  background: linear-gradient(90deg, #335bf4 0%, #2ae9c9 100%);
+  z-index: 0;
+  border-radius: var(--border_radius);
+}
