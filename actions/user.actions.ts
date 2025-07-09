@@ -4,7 +4,7 @@ import { blogPost, userTable as user, userTable } from "@/lib/db/schema";
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq, sql, desc, count, or } from "drizzle-orm";
+import { eq, sql, desc, count, or, ilike } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -245,7 +245,7 @@ export async function getUserProfileUserAuth() {
 }
 export async function getUserProfile(userId: string) {
   const profile = await db.query.userTable.findFirst({
-    where: or(eq(user.username, userId), eq(user.id, userId)),
+    where: or(or(ilike(user.username, userId), eq(user.id, userId))),
     with: {
       activity: {
         columns: {
@@ -478,7 +478,11 @@ export async function updateUserProfileCompletion(
 
     const userAccount = await db.query.userTable.findFirst({
       //@ts-ignore
-      where: (user, { eq }) => eq(user.username, data.username),
+      where: (user, { eq }) =>
+        or(
+          eq(user.username, data.username),
+          ilike(user.username, data.username)
+        ),
     });
 
     if (userAccount || RESTRICTED_USERNAME.includes(validatedData.username)) {

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { User, Lock, Palette, Bell, CreditCard, Menu, X } from "lucide-react";
 
 const tabs = [
-  { href: "/user/settings/profile", label: "Mon profil", icon: User },
+  { href: "/user/settings", label: "Mon profil", icon: User },
   { href: "/user/settings/password", label: "Mot de passe", icon: Lock },
   //   { href: "/user/settings/appearance", label: "Apparence", icon: Palette },
   { href: "/user/settings/notification", label: "Notifications", icon: Bell },
@@ -50,7 +50,7 @@ export default function SideBar({ children }: { children: ReactNode }) {
 
   return (
     <div className="relative screen-wrapper">
-      <h1 className="text-3xl font-bold mb-6">Paramètres</h1>
+      <h1 className="text-3xl font-bold my-6">Paramètres</h1>
       <div className="flex flex-col md:flex-row gap-6">
         {/* Desktop Sidebar */}
         <aside className="hidden md:block md:w-1/4">
