@@ -165,8 +165,8 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
           <>
             {user!.blogPosts.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {user?.blogPosts.map((item) => (
-                  <Link href={`/blog/${item.slug}`}>
+                {user?.blogPosts.map((item, i) => (
+                  <Link href={`/blog/${item.slug}`} key={i}>
                     <Card key={item.id} className="group">
                       <CardContent className="p-4">
                         <div className="w-full h-48 overflow-hidden  rounded-lg mb-4">
@@ -222,8 +222,8 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
           <>
             {user!.forumPosts.length > 0 && (
               <div className="space-y-4">
-                {user?.forumPosts.map((item) => (
-                  <Link href={`/forum/${item.id}`}>
+                {user?.forumPosts.map((item, i) => (
+                  <Link href={`/forum/${item.id}`} key={i}>
                     <Card key={item.id} className="group mb-4">
                       <CardContent className="p-6">
                         <div className="flex items-start space-x-4">

@@ -62,11 +62,11 @@ export default function ProfilePage() {
         {/* Avatar */}
         <div>
           <FormLabel>Photo de profil</FormLabel>
-          <AvatarUpload
+          {/* <AvatarUpload
             onChange={(file) => {
               //field.onChange(file);
             }}
-          />
+          /> */}
         </div>
 
         {/* Username */}
