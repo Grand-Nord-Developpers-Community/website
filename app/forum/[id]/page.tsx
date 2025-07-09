@@ -42,12 +42,12 @@ export default async function QuestionPage({ params }: { params: any }) {
   let views = 0;
 
   try {
-    views = (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
+    views =
+      (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
   } catch (error) {
     console.error("Failed to fetch views from Redis:", error);
     // fallback to 0, or handle gracefully
   }
-
 
   //console.log(forum);
   //console.log(forums);
@@ -62,8 +62,13 @@ export default async function QuestionPage({ params }: { params: any }) {
         descClassName={"mb-5"}
         description={
           <div className="flex gap-4 text-left sm:mx-auto w-fit">
-            <Avatar className="size-12">
-              <AvatarImage src={forum.author.image || ""} />
+            <Avatar className="bg-gray-50 size-12">
+              <AvatarImage
+                src={
+                  forum.author.image ||
+                  `https://dummyjson.com/icon/${forum.author.username}/150`
+                }
+              />
               <AvatarFallback className="p-0 font-medium">
                 {forum.author?.name?.slice(0, 2)?.toUpperCase()}
               </AvatarFallback>
@@ -99,9 +104,12 @@ export default async function QuestionPage({ params }: { params: any }) {
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-start">
               <div>
-                <Avatar className="space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2">
+                <Avatar className="bg-gray-50 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2">
                   <AvatarImage
-                    src={forum.author?.image || ""}
+                    src={
+                      forum.author?.image ||
+                      `https://dummyjson.com/icon/${forum.author.username}/150`
+                    }
                     alt={forum.author?.name || "Avatar"}
                   />
                   <AvatarFallback>
@@ -120,7 +128,9 @@ export default async function QuestionPage({ params }: { params: any }) {
                   <div className="flex items-center justify-between w-full">
                     <div className="flex flex-col">
                       <div className="flex gap-2 items-center">
-                        <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">{forum.author.name}</span>
+                        <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">
+                          {forum.author.name}
+                        </span>
                         {forum.authorId === user?.id && (
                           <span className="bg-primary text-[10px] text-white px-2 py-0.5 rounded">
                             vous

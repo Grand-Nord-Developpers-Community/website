@@ -1,8 +1,18 @@
+CREATE TABLE IF NOT EXISTS "user_activity" (
+	"id" text PRIMARY KEY NOT NULL,
+	"last_seen" timestamp with time zone DEFAULT now() NOT NULL,
+	"current_streak" integer DEFAULT 1 NOT NULL,
+	"lastActiveDate" timestamp NOT NULL,
+	"total_days_active" integer DEFAULT 0 NOT NULL,
+	"userId" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "blog_post" (
 	"id" text PRIMARY KEY NOT NULL,
 	"title" text NOT NULL,
 	"preview" text NOT NULL,
 	"isDraft" boolean DEFAULT true,
+	"like" integer DEFAULT 0,
 	"previewHash" text NOT NULL,
 	"description" text NOT NULL,
 	"content" text NOT NULL,
@@ -119,6 +129,12 @@ CREATE TABLE IF NOT EXISTS "user_vote" (
 	"isUpvote" boolean NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL
 );
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_activity" ADD CONSTRAINT "user_activity_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "blog_post" ADD CONSTRAINT "blog_post_authorId_user_id_fk" FOREIGN KEY ("authorId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;

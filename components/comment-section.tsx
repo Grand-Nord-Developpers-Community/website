@@ -383,9 +383,12 @@ export default function CommentThread({
           <div className="flex flex-col gap-3">
             <div className="flex items-start gap-4 max-sm:flex-col">
               <div className="flex items-center gap-4">
-                <Avatar>
+                <Avatar className="bg-gray-50">
                   <AvatarImage
-                    src={user?.image || ""}
+                    src={
+                      user?.image ||
+                      `https://dummyjson.com/icon/${user.username}/150`
+                    }
                     alt={user?.name || "Avatar"}
                   />
                   <AvatarFallback>

@@ -15,6 +15,7 @@ export default function HoverCardProfile({
   createdAt,
   experiencePoints,
   role,
+  username,
 }: AuthorType) {
   return (
     // <HoverCard >
@@ -48,10 +49,10 @@ export default function HoverCardProfile({
       <CardHeader className="relative p-4">
         <div className="flex items-start gap-5">
           <div className="relative">
-            <Avatar className="w-20 h-20 rounded-lg object-cover">
+            <Avatar className="bg-gray-50 w-20 h-20 rounded-lg object-cover">
               <AvatarImage
                 className="size-full rounded-lg object-cover"
-                src={image || ""}
+                src={image || `https://dummyjson.com/icon/${username}/150`}
               />
               <AvatarFallback className="size-full object-cover rounded-lg">
                 {name?.slice(0, 2)?.toUpperCase() || ""}

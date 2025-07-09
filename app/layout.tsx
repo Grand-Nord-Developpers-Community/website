@@ -71,12 +71,17 @@ import HeaderWrapper from "@/components/header-wrapper";
 import AlertSignIn from "@/components/alertSignIn";
 import Scroll from "@/components/scroll";
 import { ReportView } from "@/components/ReportView";
+import { processActivity } from "@/actions/activity.actions";
+import ReportActivity from "@/components/ReportActivity";
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  // if (session.user) {
+  //   processActivity(session.user.id);
+  // }
   //console.log(session);
   return (
     <html lang="fr">
@@ -84,6 +89,7 @@ export default async function RootLayout({
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <Scroll />
+        <ReportActivity userId={session.user?.id} />
         <ReportView type="app" />
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip relative">

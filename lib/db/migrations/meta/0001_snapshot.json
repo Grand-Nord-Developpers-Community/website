@@ -1,9 +1,72 @@
 {
-  "id": "4fd50236-808c-4a03-b9ad-fb4afb82a7aa",
-  "prevId": "41ce27db-e170-4048-b626-07984e40a071",
+  "id": "fd0d34f2-3d47-4156-b3c3-6244146f7c08",
+  "prevId": "04464966-2d2e-47da-8208-369a5e0b5aea",
   "version": "6",
   "dialect": "postgresql",
   "tables": {
+    "public.user_activity": {
+      "name": "user_activity",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "last_seen": {
+          "name": "last_seen",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "current_streak": {
+          "name": "current_streak",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "lastActiveDate": {
+          "name": "lastActiveDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_days_active": {
+          "name": "total_days_active",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_activity_userId_user_id_fk": {
+          "name": "user_activity_userId_user_id_fk",
+          "tableFrom": "user_activity",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.blog_post": {
       "name": "blog_post",
       "schema": "",
@@ -599,6 +662,13 @@
           "primaryKey": false,
           "notNull": false,
           "default": 1
+        },
+        "skills": {
+          "name": "skills",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'[]'::json"
         },
         "lastActive": {
           "name": "lastActive",

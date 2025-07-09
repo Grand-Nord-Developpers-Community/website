@@ -54,8 +54,13 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
       >
         <div className="flex gap-4 items-center justify-between text-sm pb-4 border-b border-gray-200">
           <div className="flex items-center gap-4 p-0">
-            <Avatar className="size-12">
-              <AvatarImage src={publication?.author?.image || ""} />
+            <Avatar className="bg-gray-50 size-12">
+              <AvatarImage
+                src={
+                  publication?.author?.image ||
+                  `https://dummyjson.com/icon/${publication?.author?.username}/150`
+                }
+              />
               <AvatarFallback className="p-0">
                 {publication?.author?.name?.slice(0, 2)?.toUpperCase()}
               </AvatarFallback>

@@ -54,9 +54,12 @@ function headSectionBlog({
             </p>
             <div className="flex max-sm:flex-col  sm:items-center sm:space-x-6">
               <div className="flex items-center space-x-3">
-                <Avatar className="h-10 w-10">
+                <Avatar className="h-10 w-10 bg-gray-50">
                   <AvatarImage
-                    src={post!.author.image ?? ""}
+                    src={
+                      post!.author.image ??
+                      `https://dummyjson.com/icon/${post!.author.username}/150`
+                    }
                     alt={post!.author.name!}
                   />
                   <AvatarFallback>

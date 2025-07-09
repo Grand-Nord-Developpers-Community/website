@@ -189,9 +189,12 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <Avatar className="h-8 w-8 rounded-lg">
+                  <Avatar className="bg-gray-50 h-8 w-8 rounded-lg">
                     <AvatarImage
-                      src={user?.image || ""}
+                      src={
+                        user?.image ||
+                        `https://dummyjson.com/icon/${user.username}/150`
+                      }
                       alt={user?.name || ""}
                     />
                     <AvatarFallback className="rounded-lg">
@@ -217,9 +220,12 @@ export function AppSidebar({ user }: { user: SessionUser }) {
               >
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <Avatar className="h-8 w-8 rounded-lg">
+                    <Avatar className="h-8 bg-gray-50 w-8 rounded-lg">
                       <AvatarImage
-                        src={user?.image || ""}
+                        src={
+                          user?.image ||
+                          `https://dummyjson.com/icon/${user?.username}/150`
+                        }
                         alt={user?.name || ""}
                       />
                       <AvatarFallback className="rounded-lg">

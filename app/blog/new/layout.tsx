@@ -11,16 +11,13 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/blog-sidebar";
 import BlogFormContext from "@/providers/BlogFormContext";
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { withAuth } from "@/lib/withAuth";
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await auth();
-  if (!user) redirect("/login?fallBackURL");
-  if (user && !user.isCompletedProfile) redirect("/account/complete");
+  const { user } = await withAuth({ requireProfileCompletion: true });
   return (
     <BlogFormContext userId={user?.id}>
       <SidebarProvider>

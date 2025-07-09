@@ -1,10 +1,10 @@
 "use server";
 import { db } from "@/lib/db";
-import { userTable as user, userTable } from "@/lib/db/schema";
+import { blogPost, userTable as user, userTable } from "@/lib/db/schema";
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq, sql, desc, count } from "drizzle-orm";
+import { eq, sql, desc, count, or, ilike } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -207,6 +207,7 @@ export async function getUserProfileUserAuth() {
         id: true,
         name: true,
         image: true,
+        username: true,
         bio: true,
         websiteLink: true,
         experiencePoints: true,
@@ -223,6 +224,14 @@ export async function getUserProfileUserAuth() {
         isCheckProfile: true,
         createdAt: true,
       },
+      with: {
+        activity: {
+          columns: {
+            currentStreak: true,
+            totalDaysActive: true,
+          },
+        },
+      },
     });
 
     if (!profile) {
@@ -236,15 +245,50 @@ export async function getUserProfileUserAuth() {
 }
 export async function getUserProfile(userId: string) {
   const profile = await db.query.userTable.findFirst({
-    where: eq(user.id, userId),
+    where: or(or(ilike(user.username, userId), eq(user.id, userId))),
+    with: {
+      activity: {
+        columns: {
+          currentStreak: true,
+          totalDaysActive: true,
+        },
+      },
+      blogPosts: {
+        where: eq(blogPost.isDraft, false),
+        columns: {
+          content: false,
+        },
+        with: {
+          likes: {
+            columns: {
+              id: true,
+            },
+          },
+        },
+      },
+      forumPosts: {
+        columns: {
+          content: false,
+        },
+        with: {
+          replies: {
+            columns: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
     columns: {
-      id: true,
+      id: false,
+      username: true,
       name: true,
       image: true,
       bio: true,
+      skills: true,
       websiteLink: true,
       experiencePoints: true,
-      streak: true,
+      streak: false,
       email: true,
       role: true,
       location: true,
@@ -252,15 +296,14 @@ export async function getUserProfile(userId: string) {
       githubLink: true,
       twitterLink: true,
       instagramLink: true,
-      lastActive: true,
+      lastActive: false,
       isCompletedProfile: true,
       createdAt: true,
-      isCheckProfile: true,
     },
   });
 
   if (!profile) {
-    throw new Error("User not found");
+    return undefined;
   }
 
   return profile;
@@ -276,6 +319,7 @@ export async function getUsersListByRank() {
         email: true,
         experiencePoints: true,
         createdAt: true,
+        username: true,
       },
     });
     return users;
@@ -416,6 +460,15 @@ const updateUserSchema = z
     }
   );
 
+const RESTRICTED_USERNAME = [
+  "dashboard",
+  "profile",
+  "profil",
+  "settings",
+  "setting",
+  "admin",
+  "api",
+];
 export async function updateUserProfileCompletion(
   userId: string,
   data: z.infer<typeof completeProfileSchema>
@@ -425,10 +478,14 @@ export async function updateUserProfileCompletion(
 
     const userAccount = await db.query.userTable.findFirst({
       //@ts-ignore
-      where: (user, { eq }) => eq(user.username, data.username),
+      where: (user, { eq }) =>
+        or(
+          eq(user.username, data.username),
+          ilike(user.username, data.username)
+        ),
     });
 
-    if (userAccount) {
+    if (userAccount || RESTRICTED_USERNAME.includes(validatedData.username)) {
       const error = new Error("USERNAME_TAKEN");
       throw error;
     }
