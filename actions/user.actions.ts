@@ -15,6 +15,8 @@ import {
   loginWithGithub as loginGithub,
   loginWithGoogle,
 } from "@/lib/api/auth/login";
+import { updateUserSchema } from "@/schemas/user-schema";
+import { Argon2id } from "oslo/password";
 
 export async function getUserFromDb(email: string, password: string) {
   try {
@@ -211,24 +213,67 @@ export async function getUserProfileUserAuth() {
         bio: true,
         websiteLink: true,
         experiencePoints: true,
-        streak: true,
         email: true,
-        role: true,
-        location: true,
-        phoneNumber: true,
-        githubLink: true,
-        twitterLink: true,
-        instagramLink: true,
-        lastActive: true,
-        isCompletedProfile: true,
         isCheckProfile: true,
-        createdAt: true,
       },
       with: {
         activity: {
           columns: {
             currentStreak: true,
             totalDaysActive: true,
+          },
+        },
+        forumPosts: {
+          columns: {
+            score: true,
+            textContent: true,
+            title: true,
+            content: true,
+            createdAt: true,
+            id: true,
+          },
+          with: {
+            replies: {
+              columns: {
+                id: true,
+              },
+              with: {
+                votes: true,
+              },
+            },
+            votes: {
+              columns: {
+                id: true,
+                isUpvote: true,
+              },
+            },
+          },
+        },
+        blogPosts: {
+          columns: {
+            title: true,
+            description: true,
+            createdAt: true,
+            isDraft: true,
+            slug: true,
+            id: true,
+            content: true,
+            like: true,
+          },
+          with: {
+            replies: {
+              columns: {
+                id: true,
+              },
+              with: {
+                votes: true,
+              },
+            },
+            likes: {
+              columns: {
+                isLike: true,
+              },
+            },
           },
         },
       },
@@ -418,48 +463,6 @@ export async function deleteUser(userId: string) {
   revalidatePath("/events");
 }
 
-// User update action
-const updateUserSchema = z
-  .object({
-    name: z.string().min(2).max(100).optional(),
-    email: z.string().email().optional(),
-    currentPassword: z.string().optional(),
-    newPassword: z.string().min(8).optional(),
-    confirmNewPassword: z.string().optional(),
-    image: z.string().url().optional(),
-    bio: z.string().url().optional(),
-    location: z.string().max(100).optional(),
-    phoneNumber: z.string().max(20).optional(),
-    githubLink: z.string().url().optional(),
-    twitterLink: z.string().url().optional(),
-    instagramLink: z.string().url().optional(),
-    websiteLink: z.string().url().optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.newPassword) {
-        return data.newPassword === data.confirmNewPassword;
-      }
-      return true;
-    },
-    {
-      message: "New passwords do not match",
-      path: ["confirmNewPassword"],
-    }
-  )
-  .refine(
-    (data) => {
-      if (data.newPassword) {
-        return !!data.currentPassword;
-      }
-      return true;
-    },
-    {
-      message: "Current password is required to set a new password",
-      path: ["currentPassword"],
-    }
-  );
-
 const RESTRICTED_USERNAME = [
   "dashboard",
   "profile",
@@ -498,17 +501,7 @@ export async function updateUserProfileCompletion(
       })
       .where(eq(user.id, userId));
 
-    //update session
-
-    //clean previous authentification credential
-    const session = await auth();
-    await lucia.invalidateSession(session?.session?.id!);
-
-    //create
-    const s = await lucia.createSession(session?.user?.id!, {});
-    const sessionCookie = lucia.createSessionCookie(s.id);
-    cookies().set(sessionCookie);
-
+    await refreshSession();
     revalidatePath(`/profile/${userId}`);
     revalidatePath("/user");
     return {
@@ -523,7 +516,17 @@ export async function updateUserProfileCompletion(
     };
   }
 }
+export async function refreshSession() {
+  //clean previous authentification credential
+  const session = await auth();
+  await lucia.invalidateSession(session?.session?.id!);
 
+  //create
+  const s = await lucia.createSession(session?.user?.id!, {});
+  const sessionCookie = lucia.createSessionCookie(s.id);
+  cookies().set(sessionCookie);
+  return s;
+}
 export async function updateUserStreak(userId: string) {
   const userRecord = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
@@ -634,21 +637,35 @@ export async function updateUser(
 
   // Handle password update
   if (validatedData.newPassword) {
-    // Verify current password
-    const isCurrentPasswordValid = await bcryptjs.compare(
-      validatedData.currentPassword!,
-      currentUser.password!
+    const isCurrentPasswordValid = await new Argon2id().verify(
+      currentUser.password!,
+      validatedData.currentPassword!
     );
     if (!isCurrentPasswordValid) {
       throw new Error("Current password is incorrect");
     }
 
     // Hash and set new password
-    updateObject.password = await bcryptjs.hash(validatedData.newPassword, 10);
+    updateObject.password = await new Argon2id().hash(
+      validatedData.newPassword
+    );
   }
 
-  // Handle other fields
   if (validatedData.name) updateObject.name = validatedData.name;
+  if (validatedData.username) {
+    const userAccount = await db.query.userTable.findFirst({
+      where: (user, { eq }) =>
+        or(
+          eq(user.username, validatedData.username),
+          ilike(user.username, validatedData.username)
+        ),
+    });
+
+    if (userAccount || RESTRICTED_USERNAME.includes(validatedData.username)) {
+      const error = new Error("USERNAME_TAKEN");
+      throw error;
+    }
+  }
   if (validatedData.email) updateObject.email = validatedData.email;
   if (validatedData.image) updateObject.image = validatedData.image;
   if (validatedData.bio) updateObject.bio = validatedData.bio;
@@ -671,6 +688,9 @@ export async function updateUser(
   await db.update(user).set(updateObject).where(eq(user.id, userId));
 
   // Revalidate relevant paths
-  revalidatePath(`/users/${userId}`);
+  await refreshSession();
+  revalidatePath(`/user/${updateObject.username || currentUser.username}`);
   revalidatePath("/admin/users");
+  revalidatePath("/user/dashboard");
+  revalidatePath("/user/profile");
 }

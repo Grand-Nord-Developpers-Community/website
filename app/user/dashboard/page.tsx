@@ -4,8 +4,6 @@ import HeadingPage from "@/sections/common/HeadingPage";
 import { BookOpen, MessageSquare, Activity, Award } from "lucide-react";
 import StatWidget, { Stat } from "@/components/stat-widget";
 import { getUserProfileUserAuth } from "@/actions/user.actions";
-import { getUserBlogPosts } from "@/actions/blog.actions";
-import { getUserForumPosts } from "@/actions/forum.actions";
 enum widgetType {
   BLOG,
   FORUM,
@@ -16,8 +14,8 @@ import DashboardPage from "./dashboard-detail";
 import { fetchPageViews } from "@/actions/utils.actions";
 const Dashboard: React.FC = async () => {
   const user = await getUserProfileUserAuth();
-  const posts = await getUserBlogPosts(user?.id!);
-  const forums = await getUserForumPosts(user?.id!);
+  const posts = user?.blogPosts || [];
+  const forums = user?.forumPosts || [];
   const viewPosts = await fetchPageViews(
     posts.map((p) => p.slug),
     "blogs"

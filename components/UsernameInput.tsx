@@ -14,7 +14,7 @@ export default function UsernameInput({
     <div className="*:not-first:mt-2">
       <Label htmlFor={id}>Pseudo</Label>
       <div className="flex rounded-md shadow-xs">
-        <span className="border-input bg-background text-muted-foreground -z-10 inline-flex items-center rounded-s-md border px-3 text-sm">
+        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
           gndc.cm/user/
         </span>
         <Input

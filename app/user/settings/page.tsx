@@ -24,6 +24,7 @@ const formSchema = z.object({
   username: z.string().min(3),
   bio: z.string().optional(),
   name: z.string(),
+  image: z.string().url(),
   email: z.string().email(),
   location: z.string().optional(),
   phoneNumber: z.string().optional(),
@@ -42,6 +43,7 @@ export default function ProfilePage() {
       bio: "",
       name: "",
       email: "",
+      image: "",
       location: "",
       phoneNumber: "",
       websiteLink: "",
@@ -58,31 +60,25 @@ export default function ProfilePage() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* Avatar */}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mb-5">
         <div>
-          <FormLabel>Photo de profil</FormLabel>
-          {/* <AvatarUpload
-            onChange={(file) => {
-              //field.onChange(file);
-            }}
-          /> */}
+          <h2 className="text-xl font-semibold mb-2">Profil</h2>
+          <p className="text-gray-600 mb-4">
+            Vous trouverez ci-dessous les informations de votre profil pour
+            votre compte.
+          </p>
         </div>
 
-        {/* Username */}
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Pseudo</FormLabel>
               <UsernameInput {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
-
-        {/* Bio */}
         <FormField
           control={form.control}
           name="bio"
@@ -98,7 +94,39 @@ export default function ProfilePage() {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Photo de profil</FormLabel>
+              <AvatarUpload />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="websiteLink"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Site Web ou portfolio</FormLabel>
+              <FormControl>
+                <Input placeholder="https://example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div>
+          <h2 className="text-xl font-semibold mb-2">
+            Informations personnelles
+          </h2>
+          <p className="text-gray-600 mb-4">
+            Mettez à jour vos informations personnelles. Votre adresse ne sera
+            jamais accessible au public.
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="name"
@@ -106,7 +134,7 @@ export default function ProfilePage() {
             <FormItem>
               <FormLabel>Nom</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="votre nom" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,11 +143,12 @@ export default function ProfilePage() {
         <FormField
           control={form.control}
           name="email"
+          disabled
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" {...field} />
+                <Input type="email" {...field} placeholder="email@gmail.com" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -132,7 +161,7 @@ export default function ProfilePage() {
             <FormItem>
               <FormLabel>Localisation</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="votre localisation" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -145,19 +174,27 @@ export default function ProfilePage() {
             <FormItem>
               <FormLabel>Téléphone</FormLabel>
               <FormControl>
-                <Input type="tel" {...field} />
+                <Input
+                  type="tel"
+                  {...field}
+                  placeholder="votre numéro de téléphone"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Réseaux sociaux</h2>
+          <p className="text-gray-600 mb-4">
+            Faites savoir à tout le monde où ils peuvent vous trouver.
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="twitterLink"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Twitter</FormLabel>
               <div className="flex items-center">
                 <Twitter className="mr-2 text-muted-foreground w-5 h-5" />
                 <FormControl>
@@ -173,7 +210,6 @@ export default function ProfilePage() {
           name="githubLink"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>GitHub</FormLabel>
               <div className="flex items-center">
                 <Github className="mr-2 text-muted-foreground w-5 h-5" />
                 <FormControl>
@@ -189,7 +225,6 @@ export default function ProfilePage() {
           name="linkedinLink"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>LinkedIn</FormLabel>
               <div className="flex items-center">
                 <Linkedin className="mr-2 text-muted-foreground w-5 h-5" />
                 <FormControl>
@@ -200,27 +235,20 @@ export default function ProfilePage() {
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="websiteLink"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Site Web</FormLabel>
-              <FormControl>
-                <Input placeholder="https://example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Vos compétences</h2>
+          <p className="text-gray-600 ">
+            Listez vos compétences. Votre compétence sera accessible au public.
+          </p>
+          <p className="text-green-400">
+            vous pouvez utiliser la virgule pour ajouter d&apos;autre
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="skills"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Compétences</FormLabel>
               <SkillsInput
                 value={field.value || []}
                 onChange={field.onChange}

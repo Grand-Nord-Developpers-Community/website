@@ -15,7 +15,7 @@ export default function Component() {
   const fileName = files[0]?.file.name || null;
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div>
       <div className="inline-flex items-center gap-2 align-top">
         <div
           className="border-input relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md border"
@@ -38,8 +38,8 @@ export default function Component() {
           )}
         </div>
         <div className="relative inline-block">
-          <Button onClick={openFileDialog} aria-haspopup="dialog">
-            {fileName ? "Change image" : "Upload image"}
+          <Button type="button" onClick={openFileDialog} aria-haspopup="dialog">
+            {fileName ? "Changer d'image" : "Téleverser une image"}
           </Button>
           <input
             {...getInputProps()}
@@ -59,23 +59,10 @@ export default function Component() {
             className="text-destructive font-medium hover:underline"
             aria-label={`Remove ${fileName}`}
           >
-            Remove
+            supprimer
           </button>
         </div>
       )}
-      <p
-        aria-live="polite"
-        role="region"
-        className="text-muted-foreground mt-2 text-xs"
-      >
-        Basic image uploader ∙{" "}
-        <a
-          href="https://github.com/origin-space/originui/tree/main/docs/use-file-upload.md"
-          className="hover:text-foreground underline"
-        >
-          Docs
-        </a>
-      </p>
     </div>
   );
 }
