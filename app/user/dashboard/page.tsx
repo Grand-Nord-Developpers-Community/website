@@ -14,7 +14,6 @@ enum widgetType {
 }
 import DashboardPage from "./dashboard-detail";
 import { fetchPageViews } from "@/actions/utils.actions";
-import { getActivity } from "@/actions/activity.actions";
 const Dashboard: React.FC = async () => {
   const user = await getUserProfileUserAuth();
   const posts = await getUserBlogPosts(user?.id!);
@@ -27,7 +26,6 @@ const Dashboard: React.FC = async () => {
     forums!.map((f) => f.id),
     "forums"
   );
-  const userActivity = await getActivity(user?.id!);
 
   const statItems: Stat[] = [
     {
@@ -44,7 +42,7 @@ const Dashboard: React.FC = async () => {
     },
     {
       title: "Activitées",
-      value: userActivity?.activity.currentStreak || 0,
+      value: user?.activity.totalDaysActive || 0,
       icon: <Activity className="h-6 w-6" />,
       unit: "jour",
       color: "from-yellow-500 to-yellow-600",

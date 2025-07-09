@@ -30,8 +30,8 @@ export async function UserRanking() {
               </Link>
               <div className="flex-1 min-w-0">
                 <Link
-                  href={`#`}
-                  className="font-medium hover:text-blue-600 line-clamp-1"
+                  href={`/user/${user.username}`}
+                  className="font-medium hover:text-secondary line-clamp-1"
                 >
                   {user.name}
                 </Link>

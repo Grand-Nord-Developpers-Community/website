@@ -14,6 +14,7 @@ import BlogFormContext from "@/providers/BlogFormContext";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getBlogPost, getBlogPostEdit } from "@/actions/blog.actions";
+import { withAuth } from "@/lib/withAuth";
 export default async function Layout({
   children,
   params,
@@ -22,13 +23,10 @@ export default async function Layout({
   params: any;
 }) {
   const { slug } = params;
-  console.log(slug)
   const post = await getBlogPostEdit(slug);
   if (!post) notFound();
 
-  const { user } = await auth();
-  if (!user) redirect("/login");
-  if (user && !user.isCompletedProfile) redirect("/account/complete");
+  const { user } = await withAuth({ requireProfileCompletion: true });
   return (
     <BlogFormContext userId={user?.id} post={post}>
       <SidebarProvider>

@@ -4,7 +4,7 @@ import { blogPost, userTable as user, userTable } from "@/lib/db/schema";
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq, sql, desc, count } from "drizzle-orm";
+import { eq, sql, desc, count, or } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -224,6 +224,14 @@ export async function getUserProfileUserAuth() {
         isCheckProfile: true,
         createdAt: true,
       },
+      with: {
+        activity: {
+          columns: {
+            currentStreak: true,
+            totalDaysActive: true,
+          },
+        },
+      },
     });
 
     if (!profile) {
@@ -237,7 +245,7 @@ export async function getUserProfileUserAuth() {
 }
 export async function getUserProfile(userId: string) {
   const profile = await db.query.userTable.findFirst({
-    where: eq(user.id, userId),
+    where: or(eq(user.username, userId), eq(user.id, userId)),
     with: {
       activity: {
         columns: {
@@ -295,7 +303,7 @@ export async function getUserProfile(userId: string) {
   });
 
   if (!profile) {
-    throw new Error("User not found");
+    return undefined;
   }
 
   return profile;
@@ -452,6 +460,15 @@ const updateUserSchema = z
     }
   );
 
+const RESTRICTED_USERNAME = [
+  "dashboard",
+  "profile",
+  "profil",
+  "settings",
+  "setting",
+  "admin",
+  "api",
+];
 export async function updateUserProfileCompletion(
   userId: string,
   data: z.infer<typeof completeProfileSchema>
@@ -464,7 +481,7 @@ export async function updateUserProfileCompletion(
       where: (user, { eq }) => eq(user.username, data.username),
     });
 
-    if (userAccount) {
+    if (userAccount || RESTRICTED_USERNAME.includes(validatedData.username)) {
       const error = new Error("USERNAME_TAKEN");
       throw error;
     }

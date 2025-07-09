@@ -51,10 +51,10 @@ export function ButtonLink({ href, type }: ButtonLinkProps) {
 export default function ProfileSection({ user }: { user: UserProfile }) {
   const [activeTab, setActiveTab] = useState("about");
   const hasLinks =
-    user.websiteLink ||
-    user.githubLink ||
-    user.instagramLink ||
-    user.twitterLink;
+    user?.websiteLink ||
+    user?.githubLink ||
+    user?.instagramLink ||
+    user?.twitterLink;
   return (
     <div className="w-full lg:mt-10 ">
       <div className="border-b border-gray-200">
@@ -85,7 +85,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
               </h2>
               <div className="space-y-4">
                 <p className="text-gray-600 leading-relaxed">
-                  {user.bio || "Pas de bio pour le moment"}
+                  {user?.bio || "Pas de bio pour le moment"}
                 </p>
               </div>
             </div>
@@ -98,11 +98,11 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                   ADRESSE EMAIL
                 </p>
                 <a
-                  href={`mailto:${user.email}`}
+                  href={`mailto:${user?.email}`}
                   target=""
                   className="text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  {user.email}
+                  {user?.email}
                 </a>
               </div>
               <div className="mb-8">
@@ -112,20 +112,20 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                 <div className="flex space-x-3">
                   {hasLinks ? (
                     <>
-                      {user.websiteLink && (
-                        <ButtonLink href={user.websiteLink} type="web" />
+                      {user?.websiteLink && (
+                        <ButtonLink href={user?.websiteLink} type="web" />
                       )}
-                      {user.githubLink && (
-                        <ButtonLink href={user.githubLink} type="github" />
+                      {user?.githubLink && (
+                        <ButtonLink href={user?.githubLink} type="github" />
                       )}
-                      {user.instagramLink && (
+                      {user?.instagramLink && (
                         <ButtonLink
-                          href={user.instagramLink}
+                          href={user?.instagramLink}
                           type="instagram"
                         />
                       )}
-                      {user.twitterLink && (
-                        <ButtonLink href={user.twitterLink} type="twitter" />
+                      {user?.twitterLink && (
+                        <ButtonLink href={user?.twitterLink} type="twitter" />
                       )}
                     </>
                   ) : (
@@ -141,7 +141,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                   COMPÉTENCES
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {user.skills?.map((skill, index) => (
+                  {user?.skills?.map((skill, index) => (
                     <Badge
                       key={index}
                       variant="secondary"
@@ -150,7 +150,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                       {skill}
                     </Badge>
                   ))}
-                  {user.skills?.length === 0 && (
+                  {user?.skills?.length === 0 && (
                     <span className="text-sm text-gray-500">
                       Pas de compétences ajouté
                     </span>
@@ -163,9 +163,9 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
 
         {activeTab === "blog" && (
           <>
-            {user.blogPosts.length > 0 && (
+            {user!.blogPosts.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {user.blogPosts.map((item) => (
+                {user?.blogPosts.map((item) => (
                   <Link href={`/blog/${item.slug}`}>
                     <Card key={item.id} className="group">
                       <CardContent className="p-4">
@@ -207,7 +207,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                 ))}
               </div>
             )}
-            {user.blogPosts.length === 0 && (
+            {user?.blogPosts.length === 0 && (
               <>
                 <EmptyAnswerIcon className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
                 <h2 className="text-lg mx-auto text-center font-medium my-3 text-gray-400">
@@ -220,9 +220,9 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
 
         {activeTab === "forums" && (
           <>
-            {user.forumPosts.length > 0 && (
+            {user!.forumPosts.length > 0 && (
               <div className="space-y-4">
-                {user.forumPosts.map((item) => (
+                {user?.forumPosts.map((item) => (
                   <Link href={`/forum/${item.id}`}>
                     <Card key={item.id} className="group mb-4">
                       <CardContent className="p-6">
@@ -249,7 +249,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                 ))}
               </div>
             )}
-            {user.forumPosts.length === 0 && (
+            {user?.forumPosts.length === 0 && (
               <>
                 <EmptyAnswerIcon className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
                 <h2 className="text-lg mx-auto text-center font-medium my-3 text-gray-400">

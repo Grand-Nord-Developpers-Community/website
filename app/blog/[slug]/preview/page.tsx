@@ -1,23 +1,23 @@
 import { notFound } from "next/navigation";
 import React from "react";
 import { getBlogPostPreview } from "@/actions/blog.actions";
-import { auth } from "@/lib/auth";
 import BlogContent from "../../(common)/blogContent";
 import HeadSectionBlog from "../../(common)/headSectionBlog";
+import { withAuth } from "@/lib/withAuth";
 
 export const revalidate = 60;
 export default async function Page({ params }: { params: any }) {
   const { slug } = params;
   const post = await getBlogPostPreview(slug as string);
-  const { user } = await auth();
+  const { user } = await withAuth();
   if (!post) {
     notFound();
   }
 
   const isUserAuthorized =
-    user?.id === post.authorId ||
-    user?.role === "admin" ||
-    user?.role === "manager";
+    user.id === post.authorId ||
+    user.role === "admin" ||
+    user.role === "manager";
 
   if (!isUserAuthorized) {
     notFound();
