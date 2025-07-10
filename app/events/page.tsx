@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ActivitiesAndEventsSection } from "@/sections/home";
 import Link from "next/link";
 import HeadingPage from "@/sections/common/HeadingPage";
+import { EmptyActivityAndEventPlaceholder } from "@/sections/home/ActivitiesAndEventsSection";
 export const metadata: Metadata = {
   title: "GNDC | Nos évenements",
   description:
@@ -25,20 +26,24 @@ const page = () => {
           <CardContent className="flex gap-5 items-center justify-between py-4 max-sm:flex-col max-sm:gap-0 ">
             <p className="font-medium text-left text-lg max-sm:text-base">
               Notre prochaine activité :{" "}
-              <span className="text-primary font-bold">The Night of Code</span>,
-              le 17 Octobre 2024
+              <span className="text-primary font-bold">Jabbama Code</span>, le
+              14 Juillet 2025
             </p>
 
-            <Link className="mt-4 block transition sm:mt-0" href={"#"}>
-              <Button variant={"outline"} size={"lg"}>
+            <Link
+              className="mt-4 block transition sm:mt-0 max-sm:w-full"
+              href={"#"}
+            >
+              <Button variant={"outline"} className="max-sm:w-full" size={"lg"}>
                 Réserver
               </Button>
             </Link>
           </CardContent>
         </Card>
       </HeadingPage>
-      <div className="my-16 screen-wrapper max-sm:mt-24" id="explore">
-        <ActivitiesAndEventsSection limit={6} isHome={false} />
+      <div className="mt-24 mb-16 screen-wrapper max-sm:mt-24" id="explore">
+        {/* <ActivitiesAndEventsSection limit={6} isHome={false} /> */}
+        <EmptyActivityAndEventPlaceholder />
       </div>
     </section>
   );
