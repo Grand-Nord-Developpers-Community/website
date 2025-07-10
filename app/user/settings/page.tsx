@@ -24,8 +24,11 @@ import { useUserSettings } from "./(common)/user-setting-context";
 import { Tag } from "emblor";
 import { InstagramLogoIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
+import { useState } from "react";
+import { updateUser } from "@/actions/user.actions";
 export type UserFormData = z.infer<typeof updateUserSchema>;
 export default function ProfilePage() {
+  const [isLoading, setLoading] = useState(false);
   const { user } = useUserSettings();
   const form = useForm({
     resolver: zodResolver(updateUserSchema),
@@ -34,7 +37,7 @@ export default function ProfilePage() {
       bio: user?.bio || "",
       name: user?.name || "",
       email: user?.email || "",
-      image: user?.image || `https://dummyjson.com/icon/${user?.username}/150`,
+      image: user?.image || null,
       location: user?.location || "",
       phoneNumber: user?.phoneNumber || "",
       websiteLink: user?.websiteLink || "",
@@ -44,9 +47,25 @@ export default function ProfilePage() {
       skills: user?.skills || [],
     },
   });
-
-  const onSubmit = (data: UserFormData) => {
-    toast(JSON.stringify(data));
+  const { setError } = form;
+  const onSubmit = async (data: UserFormData) => {
+    setLoading(true);
+    try {
+      const res = await updateUser(user!.id, data);
+      if (res?.sucess) {
+        toast.success(res?.message);
+      } else {
+        if (!res?.sucess && res?.revalidate) {
+          setError(res.revalidate as any, { message: res.message });
+        } else {
+          throw res?.message;
+        }
+      }
+    } catch (e) {
+      toast.error(e as string);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -91,7 +110,11 @@ export default function ProfilePage() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Photo de profil</FormLabel>
-              <AvatarUpload value={field.value} onChange={field.onChange} />
+              <AvatarUpload
+                value={field.value}
+                username={user!.username!}
+                onChange={field.onChange}
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -231,7 +254,7 @@ export default function ProfilePage() {
           <p className="text-gray-600 ">
             Listez vos compétences. Votre compétence sera accessible au public.
           </p>
-          <p className="text-green-400">
+          <p className="text-green-500">
             vous pouvez utiliser la virgule pour ajouter d&apos;autre
           </p>
         </div>
@@ -250,7 +273,9 @@ export default function ProfilePage() {
         />
 
         <div className="flex justify-end">
-          <Button type="submit">Enregistrer</Button>
+          <Button disabled={isLoading} type="submit">
+            Enregistrer
+          </Button>
         </div>
       </form>
     </Form>

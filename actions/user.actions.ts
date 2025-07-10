@@ -17,6 +17,10 @@ import {
 } from "@/lib/api/auth/login";
 import { updateUserSchema } from "@/schemas/user-schema";
 import { Argon2id } from "oslo/password";
+import {
+  UpdatePasswordInput,
+  updatePasswordSchema,
+} from "@/schemas/password-schema";
 
 export async function getUserFromDb(email: string, password: string) {
   try {
@@ -330,7 +334,7 @@ export async function getUserProfile(userId: string) {
       },
     },
     columns: {
-      id: false,
+      id: true,
       username: true,
       name: true,
       image: true,
@@ -640,24 +644,12 @@ export async function updateUser(
   // Prepare update object
   const updateObject: Partial<typeof user.$inferInsert> = {};
 
-  // Handle password update
-  if (validatedData.newPassword) {
-    const isCurrentPasswordValid = await new Argon2id().verify(
-      currentUser.password!,
-      validatedData.currentPassword!
-    );
-    if (!isCurrentPasswordValid) {
-      throw new Error("Current password is incorrect");
-    }
-
-    // Hash and set new password
-    updateObject.password = await new Argon2id().hash(
-      validatedData.newPassword
-    );
-  }
-
   if (validatedData.name) updateObject.name = validatedData.name;
-  if (validatedData.username) {
+  if (
+    validatedData.username &&
+    validatedData.username.toLowerCase() !==
+      currentUser.username?.toLocaleLowerCase()
+  ) {
     const userAccount = await db.query.userTable.findFirst({
       where: (user, { eq }) =>
         or(
@@ -667,24 +659,28 @@ export async function updateUser(
     });
 
     if (userAccount || RESTRICTED_USERNAME.includes(validatedData.username)) {
-      const error = new Error("USERNAME_TAKEN");
-      throw error;
+      return {
+        sucess: false,
+        message: "cet identifiant a été deja prise",
+        revalidate: "username",
+      };
+      //const error = new Error("USERNAME_TAKEN");
+      //throw error;
+    } else {
+      updateObject.username = validatedData.username;
     }
   }
   if (validatedData.email) updateObject.email = validatedData.email;
-  if (validatedData.image) updateObject.image = validatedData.image;
-  if (validatedData.bio) updateObject.bio = validatedData.bio;
-  if (validatedData.location) updateObject.location = validatedData.location;
-  if (validatedData.phoneNumber)
-    updateObject.phoneNumber = validatedData.phoneNumber;
-  if (validatedData.githubLink)
-    updateObject.githubLink = validatedData.githubLink;
-  if (validatedData.twitterLink)
-    updateObject.twitterLink = validatedData.twitterLink;
-  if (validatedData.instagramLink)
-    updateObject.instagramLink = validatedData.instagramLink;
-  if (validatedData.websiteLink)
-    updateObject.websiteLink = validatedData.websiteLink;
+
+  updateObject.image = validatedData.image;
+  updateObject.bio = validatedData.bio;
+  updateObject.location = validatedData.location;
+  updateObject.phoneNumber = validatedData.phoneNumber;
+  updateObject.githubLink = validatedData.githubLink;
+  updateObject.twitterLink = validatedData.twitterLink;
+  updateObject.instagramLink = validatedData.instagramLink;
+  updateObject.websiteLink = validatedData.websiteLink;
+  updateObject.skills = validatedData.skills;
 
   // Add updatedAt timestamp
   updateObject.updatedAt = new Date();
@@ -698,4 +694,53 @@ export async function updateUser(
   revalidatePath("/admin/users");
   revalidatePath("/user/dashboard");
   revalidatePath("/user/profile");
+  revalidatePath("/user/settings");
+  return {
+    success: true,
+    message: "Votre profil est mise à jour avec sucess",
+  };
+}
+
+export async function updateUserPassword(
+  userId: string,
+  data: UpdatePasswordInput
+) {
+  const validatedData = updatePasswordSchema.parse(data);
+
+  const currentUser = await db.query.userTable.findFirst({
+    where: eq(user.id, userId),
+  });
+
+  if (!currentUser) {
+    throw new Error("User not found");
+  }
+
+  // Prepare update object
+  const updateObject: Partial<typeof user.$inferInsert> = {};
+
+  // Handle password update
+  if (validatedData.newPassword) {
+    const isCurrentPasswordValid = await new Argon2id().verify(
+      currentUser.password!,
+      validatedData.currentPassword!
+    );
+    if (!isCurrentPasswordValid) {
+      return {
+        success: false,
+        message: "Mot de passe courant est incorrect",
+        revalidate: "currentPassword",
+      };
+      //throw new Error("Current password is incorrect");
+    }
+
+    // Hash and set new password
+    updateObject.password = await new Argon2id().hash(
+      validatedData.newPassword
+    );
+  }
+  await db.update(user).set(updateObject).where(eq(user.id, userId));
+  return {
+    success: true,
+    message: "Mot de passe modifier avec succès",
+  };
 }

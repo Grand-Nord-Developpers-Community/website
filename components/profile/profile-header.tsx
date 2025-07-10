@@ -14,10 +14,7 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
           <div className="flex gap-5  align-middle absolute w-full">
             <Avatar className="shadow-xl bg-gray-50 rounded-full w-[150px] grow-0 h-[150px] object-cover  border-4 border-primary ">
               <AvatarImage
-                src={
-                  user?.image ||
-                  `https://dummyjson.com/icon/${user?.username}/150`
-                }
+                src={user?.image || `/api/avatar?username=${user?.username}`}
                 className="object-cover"
                 alt={"lol"}
               />

@@ -36,9 +36,7 @@ function CommentInput({
         <>
           <Avatar className="bg-gray-50">
             <AvatarImage
-              src={
-                user?.image || `https://dummyjson.com/icon/${user.username}/150`
-              }
+              src={user?.image || `/api/avatar?username=${user.username}`}
               alt={user?.name || "Avatar"}
             />
             <AvatarFallback>
@@ -86,10 +84,7 @@ function CommentInput({
           <div className="bg-gray-50 flex md:hidden flex-row items-center w-full justify-between">
             <Avatar>
               <AvatarImage
-                src={
-                  user?.image ||
-                  `https://dummyjson.com/icon/${user.username}/150`
-                }
+                src={user?.image || `/api/avatar?username=${user.username}`}
                 alt={user?.name || "Avatar"}
               />
               <AvatarFallback>

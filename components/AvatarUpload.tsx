@@ -10,11 +10,12 @@ import { AxiosProgressEvent } from "axios";
 import { uploadImageToCloudinary } from "@/lib/api";
 
 type Props = {
-  value?: string;
+  value?: string | null;
+  username?: string;
   onChange: (fileUrl: string | null) => void;
 };
 
-export default function AvatarUpload({ value, onChange }: Props) {
+export default function AvatarUpload({ value, onChange, username }: Props) {
   const [{ files }, { removeFile, openFileDialog, getInputProps }] =
     useFileUpload({
       accept: "image/*",
@@ -24,10 +25,12 @@ export default function AvatarUpload({ value, onChange }: Props) {
   const [progress, setProgress] = useState(0);
 
   const [previewUrl, setPreviewUrl] = useState(
-    files[0]?.preview || value || null
+    files[0]?.preview ||
+      value ||
+      (username ? `/api/avatar?username=${username}` : null)
   );
   const [fileName, setFileName] = useState(
-    files[0]?.file.name || (value ? "profile" : null)
+    files[0]?.file.name || (username ? "profile" : null)
   );
 
   const reset = () => {

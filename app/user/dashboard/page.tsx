@@ -64,10 +64,7 @@ const Dashboard: React.FC = async () => {
         icon={
           <Avatar className="bg-gray-50 h-11 w-11">
             <AvatarImage
-              src={
-                user?.image ||
-                `https://dummyjson.com/icon/${user?.username}/150`
-              }
+              src={user?.image || `/api/avatar?username=${user?.username}`}
               alt={user?.name!}
             />
             <AvatarFallback className="uppercase">

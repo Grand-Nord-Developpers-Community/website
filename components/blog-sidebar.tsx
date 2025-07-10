@@ -192,8 +192,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                   <Avatar className="bg-gray-50 h-8 w-8 rounded-lg">
                     <AvatarImage
                       src={
-                        user?.image ||
-                        `https://dummyjson.com/icon/${user.username}/150`
+                        user?.image || `/api/avatar?username=${user.username}`
                       }
                       alt={user?.name || ""}
                     />
@@ -224,7 +223,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                       <AvatarImage
                         src={
                           user?.image ||
-                          `https://dummyjson.com/icon/${user?.username}/150`
+                          `/api/avatar?username=${user?.username}`
                         }
                         alt={user?.name || ""}
                       />

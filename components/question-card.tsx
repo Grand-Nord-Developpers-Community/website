@@ -47,7 +47,7 @@ export default async function QuestionCard() {
                 <AvatarImage
                   src={
                     q?.author?.image ||
-                    `https://dummyjson.com/icon/${q?.author.username}/150`
+                    `/api/avatar?username=${q?.author.username}`
                   }
                   alt="Author avatar"
                 />

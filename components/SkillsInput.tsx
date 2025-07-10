@@ -26,7 +26,6 @@ export default function SkillsInput({
           } else {
             onChange(next);
           }
-          toast(JSON.stringify(next));
         }}
         placeholder="Ajouter une compétence"
         styleClasses={{

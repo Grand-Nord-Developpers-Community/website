@@ -58,7 +58,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
               <AvatarImage
                 src={
                   publication?.author?.image ||
-                  `https://dummyjson.com/icon/${publication?.author?.username}/150`
+                  `/api/avatar?username=${publication?.author?.username}`
                 }
               />
               <AvatarFallback className="p-0">

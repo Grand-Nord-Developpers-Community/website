@@ -52,7 +52,7 @@ export default function HoverCardProfile({
             <Avatar className="bg-gray-50 w-20 h-20 rounded-lg object-cover">
               <AvatarImage
                 className="size-full rounded-lg object-cover"
-                src={image || `https://dummyjson.com/icon/${username}/150`}
+                src={image || `/api/avatar?username=${username}`}
               />
               <AvatarFallback className="size-full object-cover rounded-lg">
                 {name?.slice(0, 2)?.toUpperCase() || ""}

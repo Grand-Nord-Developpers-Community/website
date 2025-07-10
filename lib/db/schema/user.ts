@@ -26,7 +26,7 @@ export const userTable = pgTable("user", {
   instagramLink: text("instagramLink"),
   websiteLink: text("websiteLink"),
   streak: integer("streak").default(1),
-  skills: json("skills").$type<string[]>().default([]),
+  skills: json("skills").$type<{ id: string; text: string }[]>().default([]),
   lastActive: timestamp("lastActive", { mode: "date" }),
   isCompletedProfile: boolean("isCompletedProfile").default(false),
   isCheckProfile: boolean("isCheckProfile").default(false),

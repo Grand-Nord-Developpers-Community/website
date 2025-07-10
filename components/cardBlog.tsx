@@ -95,8 +95,7 @@ export const CardBlog = ({
               <Avatar className="bg-gray-50 h-10 w-10">
                 <AvatarImage
                   src={
-                    author?.image ||
-                    `https://dummyjson.com/icon/${author.username}/150`
+                    author?.image || `/api/avatar?username=${author.username}`
                   }
                   alt="Author"
                 />

@@ -56,10 +56,7 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
         <Button variant="ghost" className="relczative h-8 w-8 rounded-full">
           <Avatar className="bg-gray-50 h-11 w-11">
             <AvatarImage
-              src={
-                user?.image ??
-                `https://dummyjson.com/icon/${user?.username}/150`
-              }
+              src={user?.image ?? `/api/avatar?username=${user?.username}`}
               alt={user?.username || ""}
             />
             <AvatarFallback className="uppercase">
