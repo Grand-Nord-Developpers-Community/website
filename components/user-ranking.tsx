@@ -27,7 +27,7 @@ export async function UserRanking() {
               </Link>
               <div className="flex-1 min-w-0">
                 <Link
-                  href={`/user/${user.username}`}
+                  href={user.username ? `/user/${user.username}` : "#"}
                   className="font-medium hover:text-secondary line-clamp-1"
                 >
                   {user.name}

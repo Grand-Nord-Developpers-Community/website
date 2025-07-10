@@ -38,7 +38,7 @@ const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
   { name: "Forum", link: "/forum" },
-  { name: "Formation", link: "/formation" },
+  // { name: "Formation", link: "/formation" },
   { name: "Contact", link: "/contact" },
 ];
 
@@ -56,7 +56,7 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
         <Button variant="ghost" className="relczative h-8 w-8 rounded-full">
           <Avatar className="bg-gray-50 h-11 w-11">
             <AvatarImage
-              src={user?.image ?? `/api/avatar?username=${user?.username}`}
+              src={user?.image || `/api/avatar?username=${user?.username}`}
               alt={user?.username || ""}
             />
             <AvatarFallback className="uppercase">
@@ -148,11 +148,18 @@ function Header({ user }: { user: SessionUser | null }) {
         </div>
         <div className="flex items-center gap-5 max-lg:hidden">
           <nav className="flex items-center gap-8 text-black">
-            {Links.map((l, i) => (
-              <Link href={l.link} key={i}>
-                {l.name}
-              </Link>
-            ))}
+            {Links.map((l, i) => {
+              const isActive = pathname === l.link;
+              return (
+                <Link
+                  href={l.link}
+                  key={i}
+                  className={`${!isActive ? "text-black" : "text-secondary"}`}
+                >
+                  {l.name}
+                </Link>
+              );
+            })}
           </nav>
           {user && user.isCompletedProfile && (
             <>
@@ -206,11 +213,19 @@ function Header({ user }: { user: SessionUser | null }) {
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col gap-4 text-primary my-4">
-              {Links.map((l, i) => (
-                <SheetClose key={i} asChild>
-                  <Link href={l.link}>{l.name}</Link>
-                </SheetClose>
-              ))}
+              {Links.map((l, i) => {
+                const isActive = pathname === l.link;
+                return (
+                  <SheetClose key={i} asChild>
+                    <Link
+                      href={l.link}
+                      className={`${!isActive ? "text-black" : "text-secondary"}`}
+                    >
+                      {l.name}
+                    </Link>
+                  </SheetClose>
+                );
+              })}
             </nav>
             <Separator className="my-4 bg-gray-400" />
             <SheetFooter className="gap-3 max-sm:flex-col">
