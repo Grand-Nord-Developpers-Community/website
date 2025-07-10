@@ -95,7 +95,7 @@ export function Comment({
             <AvatarImage
               src={
                 comment.author?.image ||
-                `https://dummyjson.com/icon/${comment.author.username}/150`
+                `/api/avatar?username=${comment.author.username}`
               }
               alt={comment.author?.name || "Avatar"}
             />
@@ -254,7 +254,7 @@ export function Comment({
               <AvatarImage
                 src={
                   currentUser?.image ||
-                  `https://dummyjson.com/icon/${currentUser.username}/150`
+                  `/api/avatar?username=${currentUser.username}`
                 }
                 alt={currentUser?.name || "Avatar"}
               />

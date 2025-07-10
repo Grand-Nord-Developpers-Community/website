@@ -19,70 +19,76 @@ import SkillsInput from "@/components/SkillsInput"; // from Origin UI comp-57
 import UsernameInput from "@/components/UsernameInput"; // from Origin UI comp-14
 
 import { Twitter, Github, Linkedin } from "lucide-react";
-
-const formSchema = z.object({
-  username: z.string().min(3),
-  bio: z.string().optional(),
-  name: z.string(),
-  email: z.string().email(),
-  location: z.string().optional(),
-  phoneNumber: z.string().optional(),
-  websiteLink: z.string().url().optional(),
-  githubLink: z.string().url().optional(),
-  twitterLink: z.string().url().optional(),
-  linkedinLink: z.string().url().optional(),
-  skills: z.array(z.string()).optional(),
-});
-
+import { updateUserSchema } from "@/schemas/user-schema";
+import { useUserSettings } from "./(common)/user-setting-context";
+import { Tag } from "emblor";
+import { InstagramLogoIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
+import { useState } from "react";
+import { updateUser } from "@/actions/user.actions";
+export type UserFormData = z.infer<typeof updateUserSchema>;
 export default function ProfilePage() {
+  const [isLoading, setLoading] = useState(false);
+  const { user } = useUserSettings();
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(updateUserSchema),
     defaultValues: {
-      username: "",
-      bio: "",
-      name: "",
-      email: "",
-      location: "",
-      phoneNumber: "",
-      websiteLink: "",
-      githubLink: "",
-      twitterLink: "",
-      linkedinLink: "",
-      skills: [],
+      username: user?.username || "",
+      bio: user?.bio || "",
+      name: user?.name || "",
+      email: user?.email || "",
+      image: user?.image || null,
+      location: user?.location || "",
+      phoneNumber: user?.phoneNumber || "",
+      websiteLink: user?.websiteLink || "",
+      githubLink: user?.githubLink || "",
+      twitterLink: user?.twitterLink || "",
+      instagramLink: user?.instagramLink || "",
+      skills: user?.skills || [],
     },
   });
-
-  const onSubmit = (data: any) => {
-    console.log("Submitted profile data", data);
+  const { setError } = form;
+  const onSubmit = async (data: UserFormData) => {
+    setLoading(true);
+    try {
+      const res = await updateUser(user!.id, data);
+      if (res?.sucess) {
+        toast.success(res?.message);
+      } else {
+        if (!res?.sucess && res?.revalidate) {
+          setError(res.revalidate as any, { message: res.message });
+        } else {
+          throw res?.message;
+        }
+      }
+    } catch (e) {
+      toast.error(e as string);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* Avatar */}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mb-5">
         <div>
-          <FormLabel>Photo de profil</FormLabel>
-          {/* <AvatarUpload
-            onChange={(file) => {
-              //field.onChange(file);
-            }}
-          /> */}
+          <h2 className="text-xl font-semibold mb-2">Profil</h2>
+          <p className="text-gray-600 mb-4">
+            Vous trouverez ci-dessous les informations de votre profil pour
+            votre compte.
+          </p>
         </div>
 
-        {/* Username */}
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Pseudo</FormLabel>
               <UsernameInput {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
-
-        {/* Bio */}
         <FormField
           control={form.control}
           name="bio"
@@ -98,7 +104,43 @@ export default function ProfilePage() {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Photo de profil</FormLabel>
+              <AvatarUpload
+                value={field.value}
+                username={user!.username!}
+                onChange={field.onChange}
+              />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="websiteLink"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Site Web ou portfolio</FormLabel>
+              <FormControl>
+                <Input placeholder="https://example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div>
+          <h2 className="text-xl font-semibold mb-2">
+            Informations personnelles
+          </h2>
+          <p className="text-gray-600 mb-4">
+            Mettez à jour vos informations personnelles. Votre adresse ne sera
+            jamais accessible au public.
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="name"
@@ -106,7 +148,7 @@ export default function ProfilePage() {
             <FormItem>
               <FormLabel>Nom</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="votre nom" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,11 +157,12 @@ export default function ProfilePage() {
         <FormField
           control={form.control}
           name="email"
+          disabled
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" {...field} />
+                <Input type="email" {...field} placeholder="email@gmail.com" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -132,7 +175,7 @@ export default function ProfilePage() {
             <FormItem>
               <FormLabel>Localisation</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="votre localisation" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -145,19 +188,27 @@ export default function ProfilePage() {
             <FormItem>
               <FormLabel>Téléphone</FormLabel>
               <FormControl>
-                <Input type="tel" {...field} />
+                <Input
+                  type="tel"
+                  {...field}
+                  placeholder="votre numéro de téléphone"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Réseaux sociaux</h2>
+          <p className="text-gray-600 mb-4">
+            Faites savoir à tout le monde où ils peuvent vous trouver.
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="twitterLink"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Twitter</FormLabel>
               <div className="flex items-center">
                 <Twitter className="mr-2 text-muted-foreground w-5 h-5" />
                 <FormControl>
@@ -173,7 +224,6 @@ export default function ProfilePage() {
           name="githubLink"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>GitHub</FormLabel>
               <div className="flex items-center">
                 <Github className="mr-2 text-muted-foreground w-5 h-5" />
                 <FormControl>
@@ -186,12 +236,11 @@ export default function ProfilePage() {
         />
         <FormField
           control={form.control}
-          name="linkedinLink"
+          name="instagramLink"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>LinkedIn</FormLabel>
               <div className="flex items-center">
-                <Linkedin className="mr-2 text-muted-foreground w-5 h-5" />
+                <InstagramLogoIcon className="mr-2 text-muted-foreground w-5 h-5" />
                 <FormControl>
                   <Input placeholder="https://linkedin.com/in/" {...field} />
                 </FormControl>
@@ -200,29 +249,22 @@ export default function ProfilePage() {
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="websiteLink"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Site Web</FormLabel>
-              <FormControl>
-                <Input placeholder="https://example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Vos compétences</h2>
+          <p className="text-gray-600 ">
+            Listez vos compétences. Votre compétence sera accessible au public.
+          </p>
+          <p className="text-green-500">
+            vous pouvez utiliser la virgule pour ajouter d&apos;autre
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="skills"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Compétences</FormLabel>
               <SkillsInput
-                value={field.value || []}
+                value={(field.value as unknown as Tag[]) || []}
                 onChange={field.onChange}
               />
               <FormMessage />
@@ -231,7 +273,9 @@ export default function ProfilePage() {
         />
 
         <div className="flex justify-end">
-          <Button type="submit">Enregistrer</Button>
+          <Button disabled={isLoading} type="submit">
+            Enregistrer
+          </Button>
         </div>
       </form>
     </Form>

@@ -15,6 +15,12 @@ import {
   loginWithGithub as loginGithub,
   loginWithGoogle,
 } from "@/lib/api/auth/login";
+import { updateUserSchema } from "@/schemas/user-schema";
+import { Argon2id } from "oslo/password";
+import {
+  UpdatePasswordInput,
+  updatePasswordSchema,
+} from "@/schemas/password-schema";
 
 export async function getUserFromDb(email: string, password: string) {
   try {
@@ -211,24 +217,67 @@ export async function getUserProfileUserAuth() {
         bio: true,
         websiteLink: true,
         experiencePoints: true,
-        streak: true,
         email: true,
-        role: true,
-        location: true,
-        phoneNumber: true,
-        githubLink: true,
-        twitterLink: true,
-        instagramLink: true,
-        lastActive: true,
-        isCompletedProfile: true,
         isCheckProfile: true,
-        createdAt: true,
       },
       with: {
         activity: {
           columns: {
             currentStreak: true,
             totalDaysActive: true,
+          },
+        },
+        forumPosts: {
+          columns: {
+            score: true,
+            textContent: true,
+            title: true,
+            content: true,
+            createdAt: true,
+            id: true,
+          },
+          with: {
+            replies: {
+              columns: {
+                id: true,
+              },
+              with: {
+                votes: true,
+              },
+            },
+            votes: {
+              columns: {
+                id: true,
+                isUpvote: true,
+              },
+            },
+          },
+        },
+        blogPosts: {
+          columns: {
+            title: true,
+            description: true,
+            createdAt: true,
+            isDraft: true,
+            slug: true,
+            id: true,
+            content: true,
+            like: true,
+          },
+          with: {
+            replies: {
+              columns: {
+                id: true,
+              },
+              with: {
+                votes: true,
+              },
+            },
+            likes: {
+              columns: {
+                isLike: true,
+              },
+            },
           },
         },
       },
@@ -242,6 +291,11 @@ export async function getUserProfileUserAuth() {
     console.log(e);
     return undefined;
   }
+}
+export async function getUserProfileInformation() {
+  const { user } = await auth();
+  const profile = getUserProfile(user?.id as string);
+  return profile;
 }
 export async function getUserProfile(userId: string) {
   const profile = await db.query.userTable.findFirst({
@@ -280,7 +334,7 @@ export async function getUserProfile(userId: string) {
       },
     },
     columns: {
-      id: false,
+      id: true,
       username: true,
       name: true,
       image: true,
@@ -418,48 +472,6 @@ export async function deleteUser(userId: string) {
   revalidatePath("/events");
 }
 
-// User update action
-const updateUserSchema = z
-  .object({
-    name: z.string().min(2).max(100).optional(),
-    email: z.string().email().optional(),
-    currentPassword: z.string().optional(),
-    newPassword: z.string().min(8).optional(),
-    confirmNewPassword: z.string().optional(),
-    image: z.string().url().optional(),
-    bio: z.string().url().optional(),
-    location: z.string().max(100).optional(),
-    phoneNumber: z.string().max(20).optional(),
-    githubLink: z.string().url().optional(),
-    twitterLink: z.string().url().optional(),
-    instagramLink: z.string().url().optional(),
-    websiteLink: z.string().url().optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.newPassword) {
-        return data.newPassword === data.confirmNewPassword;
-      }
-      return true;
-    },
-    {
-      message: "New passwords do not match",
-      path: ["confirmNewPassword"],
-    }
-  )
-  .refine(
-    (data) => {
-      if (data.newPassword) {
-        return !!data.currentPassword;
-      }
-      return true;
-    },
-    {
-      message: "Current password is required to set a new password",
-      path: ["currentPassword"],
-    }
-  );
-
 const RESTRICTED_USERNAME = [
   "dashboard",
   "profile",
@@ -498,17 +510,7 @@ export async function updateUserProfileCompletion(
       })
       .where(eq(user.id, userId));
 
-    //update session
-
-    //clean previous authentification credential
-    const session = await auth();
-    await lucia.invalidateSession(session?.session?.id!);
-
-    //create
-    const s = await lucia.createSession(session?.user?.id!, {});
-    const sessionCookie = lucia.createSessionCookie(s.id);
-    cookies().set(sessionCookie);
-
+    await refreshSession();
     revalidatePath(`/profile/${userId}`);
     revalidatePath("/user");
     return {
@@ -523,7 +525,17 @@ export async function updateUserProfileCompletion(
     };
   }
 }
+export async function refreshSession() {
+  //clean previous authentification credential
+  const session = await auth();
+  await lucia.invalidateSession(session?.session?.id!);
 
+  //create
+  const s = await lucia.createSession(session?.user?.id!, {});
+  const sessionCookie = lucia.createSessionCookie(s.id);
+  cookies().set(sessionCookie);
+  return s;
+}
 export async function updateUserStreak(userId: string) {
   const userRecord = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
@@ -632,37 +644,43 @@ export async function updateUser(
   // Prepare update object
   const updateObject: Partial<typeof user.$inferInsert> = {};
 
-  // Handle password update
-  if (validatedData.newPassword) {
-    // Verify current password
-    const isCurrentPasswordValid = await bcryptjs.compare(
-      validatedData.currentPassword!,
-      currentUser.password!
-    );
-    if (!isCurrentPasswordValid) {
-      throw new Error("Current password is incorrect");
-    }
-
-    // Hash and set new password
-    updateObject.password = await bcryptjs.hash(validatedData.newPassword, 10);
-  }
-
-  // Handle other fields
   if (validatedData.name) updateObject.name = validatedData.name;
+  if (
+    validatedData.username &&
+    validatedData.username.toLowerCase() !==
+      currentUser.username?.toLocaleLowerCase()
+  ) {
+    const userAccount = await db.query.userTable.findFirst({
+      where: (user, { eq }) =>
+        or(
+          eq(user.username, validatedData.username),
+          ilike(user.username, validatedData.username)
+        ),
+    });
+
+    if (userAccount || RESTRICTED_USERNAME.includes(validatedData.username)) {
+      return {
+        sucess: false,
+        message: "cet identifiant a été deja prise",
+        revalidate: "username",
+      };
+      //const error = new Error("USERNAME_TAKEN");
+      //throw error;
+    } else {
+      updateObject.username = validatedData.username;
+    }
+  }
   if (validatedData.email) updateObject.email = validatedData.email;
-  if (validatedData.image) updateObject.image = validatedData.image;
-  if (validatedData.bio) updateObject.bio = validatedData.bio;
-  if (validatedData.location) updateObject.location = validatedData.location;
-  if (validatedData.phoneNumber)
-    updateObject.phoneNumber = validatedData.phoneNumber;
-  if (validatedData.githubLink)
-    updateObject.githubLink = validatedData.githubLink;
-  if (validatedData.twitterLink)
-    updateObject.twitterLink = validatedData.twitterLink;
-  if (validatedData.instagramLink)
-    updateObject.instagramLink = validatedData.instagramLink;
-  if (validatedData.websiteLink)
-    updateObject.websiteLink = validatedData.websiteLink;
+
+  updateObject.image = validatedData.image;
+  updateObject.bio = validatedData.bio;
+  updateObject.location = validatedData.location;
+  updateObject.phoneNumber = validatedData.phoneNumber;
+  updateObject.githubLink = validatedData.githubLink;
+  updateObject.twitterLink = validatedData.twitterLink;
+  updateObject.instagramLink = validatedData.instagramLink;
+  updateObject.websiteLink = validatedData.websiteLink;
+  updateObject.skills = validatedData.skills;
 
   // Add updatedAt timestamp
   updateObject.updatedAt = new Date();
@@ -671,6 +689,58 @@ export async function updateUser(
   await db.update(user).set(updateObject).where(eq(user.id, userId));
 
   // Revalidate relevant paths
-  revalidatePath(`/users/${userId}`);
+  await refreshSession();
+  revalidatePath(`/user/${updateObject.username || currentUser.username}`);
   revalidatePath("/admin/users");
+  revalidatePath("/user/dashboard");
+  revalidatePath("/user/profile");
+  revalidatePath("/user/settings");
+  return {
+    success: true,
+    message: "Votre profil est mise à jour avec sucess",
+  };
+}
+
+export async function updateUserPassword(
+  userId: string,
+  data: UpdatePasswordInput
+) {
+  const validatedData = updatePasswordSchema.parse(data);
+
+  const currentUser = await db.query.userTable.findFirst({
+    where: eq(user.id, userId),
+  });
+
+  if (!currentUser) {
+    throw new Error("User not found");
+  }
+
+  // Prepare update object
+  const updateObject: Partial<typeof user.$inferInsert> = {};
+
+  // Handle password update
+  if (validatedData.newPassword) {
+    const isCurrentPasswordValid = await new Argon2id().verify(
+      currentUser.password!,
+      validatedData.currentPassword!
+    );
+    if (!isCurrentPasswordValid) {
+      return {
+        success: false,
+        message: "Mot de passe courant est incorrect",
+        revalidate: "currentPassword",
+      };
+      //throw new Error("Current password is incorrect");
+    }
+
+    // Hash and set new password
+    updateObject.password = await new Argon2id().hash(
+      validatedData.newPassword
+    );
+  }
+  await db.update(user).set(updateObject).where(eq(user.id, userId));
+  return {
+    success: true,
+    message: "Mot de passe modifier avec succès",
+  };
 }

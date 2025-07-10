@@ -17,10 +17,7 @@ export async function UserRanking() {
               <Link href={`#`}>
                 <Avatar className="bg-gray-50">
                   <AvatarImage
-                    src={
-                      user.image ||
-                      `https://dummyjson.com/icon/${user.username}/150`
-                    }
+                    src={user.image || `/api/avatar?username=${user.username}`}
                     alt="Author avatar"
                   />
                   <AvatarFallback>
@@ -30,7 +27,7 @@ export async function UserRanking() {
               </Link>
               <div className="flex-1 min-w-0">
                 <Link
-                  href={`/user/${user.username}`}
+                  href={user.username ? `/user/${user.username}` : "#"}
                   className="font-medium hover:text-secondary line-clamp-1"
                 >
                   {user.name}

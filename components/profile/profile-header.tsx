@@ -10,14 +10,11 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
   return (
     <div className="flex flex-wrap justify-between">
       <div className="w-full lg:w-[40%] px-4 flex justify-center">
-        <div className="relative w-full -m-16 -ml-20 lg:-ml-16 ">
+        <div className="relative w-full -m-16 -ml-20 lg:-ml-16 max-sm:-mt-12 ">
           <div className="flex gap-5  align-middle absolute w-full">
-            <Avatar className="shadow-xl bg-gray-50 rounded-full w-[150px] grow-0 h-[150px] object-cover  border-4 border-primary ">
+            <Avatar className="bg-gray-50 rounded-full w-[150px] grow-0 h-[150px] max-sm:size-[100px] object-cover  border-4 border-primary ">
               <AvatarImage
-                src={
-                  user?.image ||
-                  `https://dummyjson.com/icon/${user?.username}/150`
-                }
+                src={user?.image || `/api/avatar?username=${user?.username}`}
                 className="object-cover"
                 alt={"lol"}
               />
@@ -25,7 +22,7 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
                 {user?.name?.slice(0, 2)}
               </AvatarFallback>
             </Avatar>
-            <div className="mt-20">
+            <div className="mt-20 max-sm:mt-16">
               <h1 className="text-2xl font-bold text-primary truncate max-sm:max-w-[200px]">
                 {user?.name}
               </h1>

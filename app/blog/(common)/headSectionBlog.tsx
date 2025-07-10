@@ -58,7 +58,7 @@ function headSectionBlog({
                   <AvatarImage
                     src={
                       post!.author.image ??
-                      `https://dummyjson.com/icon/${post!.author.username}/150`
+                      `/api/avatar?username=${post!.author.username}`
                     }
                     alt={post!.author.name!}
                   />

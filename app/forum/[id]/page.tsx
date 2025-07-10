@@ -66,7 +66,7 @@ export default async function QuestionPage({ params }: { params: any }) {
               <AvatarImage
                 src={
                   forum.author.image ||
-                  `https://dummyjson.com/icon/${forum.author.username}/150`
+                  `/api/avatar?username=${forum.author.username}`
                 }
               />
               <AvatarFallback className="p-0 font-medium">
@@ -108,7 +108,7 @@ export default async function QuestionPage({ params }: { params: any }) {
                   <AvatarImage
                     src={
                       forum.author?.image ||
-                      `https://dummyjson.com/icon/${forum.author.username}/150`
+                      `/api/avatar?username=${forum.author.username}`
                     }
                     alt={forum.author?.name || "Avatar"}
                   />

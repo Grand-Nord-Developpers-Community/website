@@ -177,7 +177,7 @@ export default function AppSidebar({
                       <AvatarImage
                         src={
                           session?.user?.image ||
-                          `https://dummyjson.com/icon/${session?.user?.username}/150`
+                          `/api/avatar?username=${session?.user?.username}`
                         }
                         alt={session?.user?.name || ""}
                       />
@@ -209,7 +209,7 @@ export default function AppSidebar({
                         <AvatarImage
                           src={
                             session?.user?.image ||
-                            `https://dummyjson.com/icon/${session?.user?.username}/150`
+                            `/api/avatar?username=${session?.user?.username}`
                           }
                           alt={session?.user?.name || ""}
                         />
