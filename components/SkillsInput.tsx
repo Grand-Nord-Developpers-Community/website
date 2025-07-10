@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import { Tag, TagInput } from "emblor";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 export default function SkillsInput({
   value,
@@ -25,6 +26,7 @@ export default function SkillsInput({
           } else {
             onChange(next);
           }
+          toast(JSON.stringify(next));
         }}
         placeholder="Ajouter une compétence"
         styleClasses={{

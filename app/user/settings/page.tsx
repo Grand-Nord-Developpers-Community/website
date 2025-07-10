@@ -19,43 +19,34 @@ import SkillsInput from "@/components/SkillsInput"; // from Origin UI comp-57
 import UsernameInput from "@/components/UsernameInput"; // from Origin UI comp-14
 
 import { Twitter, Github, Linkedin } from "lucide-react";
-
-const formSchema = z.object({
-  username: z.string().min(3),
-  bio: z.string().optional(),
-  name: z.string(),
-  image: z.string().url(),
-  email: z.string().email(),
-  location: z.string().optional(),
-  phoneNumber: z.string().optional(),
-  websiteLink: z.string().url().optional(),
-  githubLink: z.string().url().optional(),
-  twitterLink: z.string().url().optional(),
-  linkedinLink: z.string().url().optional(),
-  skills: z.array(z.string()).optional(),
-});
-
+import { updateUserSchema } from "@/schemas/user-schema";
+import { useUserSettings } from "./(common)/user-setting-context";
+import { Tag } from "emblor";
+import { InstagramLogoIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
+export type UserFormData = z.infer<typeof updateUserSchema>;
 export default function ProfilePage() {
+  const { user } = useUserSettings();
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(updateUserSchema),
     defaultValues: {
-      username: "",
-      bio: "",
-      name: "",
-      email: "",
-      image: "",
-      location: "",
-      phoneNumber: "",
-      websiteLink: "",
-      githubLink: "",
-      twitterLink: "",
-      linkedinLink: "",
-      skills: [],
+      username: user?.username || "",
+      bio: user?.bio || "",
+      name: user?.name || "",
+      email: user?.email || "",
+      image: user?.image || `https://dummyjson.com/icon/${user?.username}/150`,
+      location: user?.location || "",
+      phoneNumber: user?.phoneNumber || "",
+      websiteLink: user?.websiteLink || "",
+      githubLink: user?.githubLink || "",
+      twitterLink: user?.twitterLink || "",
+      instagramLink: user?.instagramLink || "",
+      skills: user?.skills || [],
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log("Submitted profile data", data);
+  const onSubmit = (data: UserFormData) => {
+    toast(JSON.stringify(data));
   };
 
   return (
@@ -100,7 +91,7 @@ export default function ProfilePage() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Photo de profil</FormLabel>
-              <AvatarUpload />
+              <AvatarUpload value={field.value} onChange={field.onChange} />
               <FormMessage />
             </FormItem>
           )}
@@ -222,11 +213,11 @@ export default function ProfilePage() {
         />
         <FormField
           control={form.control}
-          name="linkedinLink"
+          name="instagramLink"
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center">
-                <Linkedin className="mr-2 text-muted-foreground w-5 h-5" />
+                <InstagramLogoIcon className="mr-2 text-muted-foreground w-5 h-5" />
                 <FormControl>
                   <Input placeholder="https://linkedin.com/in/" {...field} />
                 </FormControl>
@@ -250,7 +241,7 @@ export default function ProfilePage() {
           render={({ field }) => (
             <FormItem>
               <SkillsInput
-                value={field.value || []}
+                value={(field.value as unknown as Tag[]) || []}
                 onChange={field.onChange}
               />
               <FormMessage />

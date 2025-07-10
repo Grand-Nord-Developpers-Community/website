@@ -25,13 +25,13 @@ export const updateUserSchema = z
     currentPassword: z.string().optional(),
     newPassword: z.string().min(8).optional(),
     confirmNewPassword: z.string().optional(),
-    image: z.string().url().optional(),
+    image: z.string().url().optional().nullable(),
     location: z.string().max(100).optional(),
     phoneNumber: z.string().max(20).optional(),
-    githubLink: z.string().url().optional(),
-    twitterLink: z.string().url().optional(),
-    instagramLink: z.string().url().optional(),
-    websiteLink: z.string().url().optional(),
+    githubLink: z.string().url().or(z.literal("")),
+    twitterLink: z.string().url().or(z.literal("")),
+    instagramLink: z.string().url().or(z.literal("")),
+    websiteLink: z.string().url().or(z.literal("")),
     skills: z.array(z.string()).optional(),
   })
   .refine(

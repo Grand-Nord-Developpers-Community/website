@@ -288,6 +288,11 @@ export async function getUserProfileUserAuth() {
     return undefined;
   }
 }
+export async function getUserProfileInformation() {
+  const { user } = await auth();
+  const profile = getUserProfile(user?.id as string);
+  return profile;
+}
 export async function getUserProfile(userId: string) {
   const profile = await db.query.userTable.findFirst({
     where: or(or(ilike(user.username, userId), eq(user.id, userId))),
