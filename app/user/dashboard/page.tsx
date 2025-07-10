@@ -40,7 +40,7 @@ const Dashboard: React.FC = async () => {
     },
     {
       title: "Activitées",
-      value: user?.activity.totalDaysActive || 0,
+      value: user?.activity?.totalDaysActive || 0,
       icon: <Activity className="h-6 w-6" />,
       unit: "jour",
       color: "from-yellow-500 to-yellow-600",
