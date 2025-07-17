@@ -269,6 +269,18 @@ export async function getBlogPost(slug: string) {
   try {
     const post = await db.query.blogPost.findFirst({
       where: and(eq(blogPost.slug, slug), eq(blogPost.isDraft, false)),
+      columns: {
+        title: true,
+        description: true,
+        preview: true,
+        previewHash: true,
+        createdAt: true,
+        id: true,
+        slug: true,
+        isDraft: true,
+        authorId: true,
+       content: true,
+      },
       with: {
         author: {
           columns: {
@@ -294,6 +306,42 @@ export async function getBlogPost(slug: string) {
     console.log(e);
     return undefined;
   }
+}
+
+export async function getBlogPostMeta(slug: string) {
+  return db.query.blogPost.findFirst({
+    where: and(eq(blogPost.slug, slug), eq(blogPost.isDraft, false)),
+    columns: {
+      title: true,
+      description: true,
+      preview: true,
+      previewHash: true,
+      createdAt: true,
+      id: true,
+      slug: true,
+      isDraft: true,
+      authorId: true,
+    },
+    with: {
+      author: {
+        columns: {
+          email: true,
+          name: true,
+          image: true,
+          bio: true,
+          role: true,
+          createdAt: true,
+          experiencePoints: true,
+          username: true,
+        },
+      },
+      likes: {
+        columns: {
+          isLike: true,
+        },
+      },
+    },
+  });
 }
 
 export async function deleteBlog(id: string) {

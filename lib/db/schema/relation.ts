@@ -1,4 +1,4 @@
-import { userTable as user } from "@/lib/db/schema";
+import { oauthAccountTable, userTable as user } from "@/lib/db/schema";
 import { relations } from "drizzle-orm";
 import { blogPost } from "./blog";
 import { userVote } from "./vote";
@@ -18,6 +18,7 @@ export const userRelations = relations(user, ({ many, one }) => ({
     fields: [user.id],
     references: [userActivity.userId],
   }),
+  oauthAccounts: many(oauthAccountTable),
 }));
 
 export const blogPostRelations = relations(blogPost, ({ one, many }) => ({
@@ -95,6 +96,12 @@ export const userActivityRelations = relations(userActivity, ({ one }) => ({
 export const eventRelations = relations(event, ({ one }) => ({
   creator: one(user, {
     fields: [event.creatorId],
+    references: [user.id],
+  }),
+}));
+export const oauthAccountRelations = relations(oauthAccountTable, ({ one }) => ({
+  user: one(user, {
+    fields: [oauthAccountTable.user_id],
     references: [user.id],
   }),
 }));

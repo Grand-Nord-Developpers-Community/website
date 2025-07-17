@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import React from "react";
-import { getBlogPost } from "@/actions/blog.actions";
+import { getBlogPost, getBlogPostMeta } from "@/actions/blog.actions";
 import { ReportView } from "@/components/ReportView";
 import { Redis } from "@upstash/redis";
 import BlogContent from "../(common)/blogContent";
@@ -8,8 +8,51 @@ import HeadSectionBlog from "../(common)/headSectionBlog";
 import { auth } from "@/lib/auth";
 
 const redis = Redis.fromEnv();
-export const revalidate = 60;
-export default async function Page({ params }: { params: any }) {
+
+//export const revalidate = 60;
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const post = await getBlogPostMeta(params.slug);
+  if (!post) return {};
+
+  const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+  const url = `${baseUrl}/blog/${params.slug}`;
+  const description = post.description;
+  const ogImage = `/api/og/blog/${params.slug}`;
+
+  return {
+    title: post.title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: post.title,
+      description,
+      url,
+      type: "article",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
+
+export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const post = await getBlogPost(slug as string);
   const { user } = await auth();

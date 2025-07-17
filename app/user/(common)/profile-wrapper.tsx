@@ -3,7 +3,7 @@ import "./styles.css";
 export default function ProfileWrapper({ children }: PropsWithChildren) {
   return (
     <>
-      <div className="bg-gray-50">
+      <div className="bg-gray-50 h-full">
         <section className="relative block max-sm:h-[300px] h-[400px] w-full">
           <div id="hex-grid">
             {/* <div className="light"></div> */}
