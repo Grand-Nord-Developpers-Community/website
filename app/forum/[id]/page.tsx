@@ -26,6 +26,44 @@ import ForumQuestionCard from "@/components/forumQuestionCard";
 export const revalidate = 60;
 
 const redis = Redis.fromEnv();
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const post = await getForumPost(params.id);
+  if (!post) return {};
+
+  const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+  const url = `${baseUrl}/blog/${params.id}`;
+  const description = post.textContent;
+  const ogImage = `/api/og/forum/${params.id}`;
+
+  return {
+    title: post.title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: post.title,
+      description,
+      url,
+      type: "article",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
+
 export default async function QuestionPage({ params }: { params: any }) {
   const { id } = params;
   const forum = await getForumPost(id as string);
@@ -74,7 +112,11 @@ export default async function QuestionPage({ params }: { params: any }) {
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-1">
-              <span>{forum.author.name}</span>
+              <span>
+                <Link href={`/user/${forum?.author.username}`}>
+                  {forum.author.name}
+                </Link>
+              </span>
               <span className="text-xs text-gray-300 font-light">
                 Posée le{" "}
                 {new Date(forum.createdAt).toLocaleDateString("FR-fr", {
@@ -129,7 +171,9 @@ export default async function QuestionPage({ params }: { params: any }) {
                     <div className="flex flex-col">
                       <div className="flex gap-2 items-center">
                         <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">
-                          {forum.author.name}
+                          <Link href={`/user/${forum?.author.username}`}>
+                            {forum.author.name}
+                          </Link>
                         </span>
                         {forum.authorId === user?.id && (
                           <span className="bg-primary text-[10px] text-white px-2 py-0.5 rounded">

@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/lib/db";
-import { blogPost, userTable as user, userTable } from "@/lib/db/schema";
+import { blogPost, oauthAccountTable, userTable as user, userTable } from "@/lib/db/schema";
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
@@ -330,6 +330,12 @@ export async function getUserProfile(userId: string) {
               id: true,
             },
           },
+        },
+      },
+      oauthAccounts: {
+        columns: {
+          provider_id: true,
+          provider_user_id: true,
         },
       },
     },

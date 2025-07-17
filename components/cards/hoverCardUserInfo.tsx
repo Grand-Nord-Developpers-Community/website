@@ -7,6 +7,7 @@ type AuthorType = Exclude<Post, undefined>["author"];
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function HoverCardProfile({
   name,
@@ -67,7 +68,9 @@ export default function HoverCardProfile({
           </div>
           <div className="space-y-1 flex-1">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold line-clamp-1">{name}</h2>
+              <h2 className="text-2xl font-bold line-clamp-1">
+                <Link href={`/user/${username}`}>{name}</Link>
+              </h2>
             </div>
             <Badge variant="outline">
               {role === "user" ? "membre" : "Moderator"}

@@ -1,5 +1,5 @@
-import ProfileLoading from "../(common)/profil-loading";
+import LoadingComponent from "@/components/loader";
 
 export default function Loading() {
-  return <ProfileLoading />;
+  return <LoadingComponent />;
 }

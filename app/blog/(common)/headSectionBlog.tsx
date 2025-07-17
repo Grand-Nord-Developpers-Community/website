@@ -23,9 +23,16 @@ function headSectionBlog({
       <div className="relative screen-wrapper py-12 max-md:pb-[180px]">
         <div className="w-full gap-5 flex max-md:flex-wrap items-center justify-between">
           <div className="space-y-4">
-            <span className="text-gray-400">
-              <Link href="..">&larr; Retour au publication</Link>
-            </span>
+            {!post?.isDraft && (
+              <span className="text-gray-400">
+                <Link href="/blog">&larr; Retour au publication</Link>
+              </span>
+            )}
+            {post?.isDraft && (
+              <span className="text-gray-400">
+                <Link href="/user/dashboard">&larr; Retour au dashboard</Link>
+              </span>
+            )}
             <h1 className="max-md:w-full text-4xl max-sm:text-2xl md:text-5xl font-bold tracking-tight text-secondary">
               {post!.title}
             </h1>
@@ -52,7 +59,7 @@ function headSectionBlog({
             <p className="text-lg text-gray-100 max-sm:text-base">
               {post!.description}
             </p>
-            <div className="flex max-sm:flex-col  sm:items-center sm:space-x-6">
+            <div className="max-md:hidden flex max-sm:flex-col  sm:items-center sm:space-x-6">
               <div className="flex items-center space-x-3">
                 <Avatar className="h-10 w-10 bg-gray-50">
                   <AvatarImage
@@ -68,7 +75,9 @@ function headSectionBlog({
                 </Avatar>
                 <div>
                   <p className="text-sm font-medium text-white">
-                    {post!.author.name}
+                    <Link href={`/user/${post?.author.username}`}>
+                      {post!.author.name}
+                    </Link>
                   </p>
                   <div className="flex items-center space-x-4 text-sm text-gray-400">
                     <span>
@@ -137,7 +146,7 @@ function headSectionBlog({
                 </div>*/}
             </div>
           </div>
-          <div className="relative bg-gray-300 aspect-[6/3] max-md:absolute max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2 max-md:translate-y-1/2  max-md:w-[95%] max-md:h-[250px]  h-[400px] rounded-xl overflow-hidden flex items-center justify-center text-white">
+          <div className="relative bg-gray-300 aspect-[6/3] max-md:absolute max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2 max-md:translate-y-[20%]  max-md:w-[95%] max-md:h-[200px]  h-[400px] rounded-xl overflow-hidden flex items-center justify-center text-white">
             <ImageWrapper
               className="w-full object-cover h-full object-center "
               src={post!.preview}

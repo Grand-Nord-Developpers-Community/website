@@ -196,6 +196,16 @@ export async function deleteForum(id: string) {
 export async function getForumPost(id: string) {
   const post = await db.query.forumPost.findFirst({
     where: eq(forumPost.id, id),
+    columns:{
+      content: true,
+      title: true,
+      textContent: true,
+      createdAt: true,
+      id: true,
+      score: true,
+      authorId: true,
+      updatedAt: true,
+    },
     with: {
       author: {
         columns: {
@@ -216,6 +226,11 @@ export async function getForumPost(id: string) {
           commentId: true,
         },
       },
+      replies:{
+        columns:{
+          id: true,
+        }
+      }
     },
   });
 

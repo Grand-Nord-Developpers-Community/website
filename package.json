@@ -73,6 +73,7 @@
     "@types/canvas-confetti": "^1.6.4",
     "@upstash/ratelimit": "^1.1.2",
     "@upstash/redis": "^1.30.0",
+    "@vercel/og": "^0.7.2",
     "arctic": "^1.5.0",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
