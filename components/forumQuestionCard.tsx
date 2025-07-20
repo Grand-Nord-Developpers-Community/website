@@ -14,7 +14,9 @@ function forumQuestionCard({ className }: Props) {
   return (
     <Card className={cn("mb-4", className)}>
       <CardHeader>
-        <CardTitle>Aviez vous un problème ?</CardTitle>
+        <CardTitle className="max-sm:text-lg">
+          Aviez vous un problème ?
+        </CardTitle>
         <CardDescription>
           si vous aviez un problème ou vous rencontrez des difficulté posez les
           !

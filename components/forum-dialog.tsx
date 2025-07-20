@@ -47,7 +47,9 @@ export default function ForumDialog() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Nouveau forum</Button>
+      <Button className="max-sm:w-full" onClick={() => setOpen(true)}>
+        Nouveau forum
+      </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <h2 className="text-lg font-semibold">Poser votre question</h2>
         <p className="text-gray-500 mb-4">

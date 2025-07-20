@@ -1,6 +1,7 @@
 import NumberTicker from "@/components/ui/number-ticker";
+import Image from "next/image";
 import React from "react";
-
+import AyukImage from "@/assets/images/ayuk.png";
 interface StatProps {
   number: number;
   title: string;
@@ -54,18 +55,18 @@ const TestimonialsWithStats = () => {
 
               <div className="relative z-10">
                 <p className="text-xl italic text-gray-400">
-                  Une communauté de devs formidables avec qui travailler. Le
-                  grand Nord possède un incroyable talent
+                  Le grand Nord possède un incroyable talent
                 </p>
               </div>
 
               <footer className="mt-6">
                 <div className="flex items-center gap-x-4">
                   <div className="shrink-0">
-                    <img
-                      loading="lazy"
+                    <Image
                       className="size-8 rounded-full object-cover"
-                      src="https://bachdev.vercel.app/_image?href=%2F_astro%2Fme.CjM5Kvkr.jpeg&w=768&f=webp"
+                      src={AyukImage}
+                      width={AyukImage.width}
+                      height={AyukImage.height}
                       alt="Avatar"
                     />
                   </div>
@@ -80,24 +81,24 @@ const TestimonialsWithStats = () => {
 
           <div className="mt-10 lg:mt-0 lg:col-span-6 lg:col-end-13">
             <div className="space-y-6 sm:space-y-8">
-              <ul className="grid grid-cols-2 divide-y divide-y-2 divide-x divide-x-2 divide-gray-200 overflow-hidden">
+              <ul className="grid grid-cols-2 divide-y-2 divide-x-2 divide-gray-200 overflow-hidden">
                 <StatCard
                   number={500}
                   title="Développeurs"
                   description="engagés, unis par la passion de l'innovation."
                 />
                 <StatCard
-                  number={20}
+                  number={1}
                   title="Projets"
                   description="technologiques concrets ayant un impact positif sur la communauté locale."
                 />
                 <StatCard
-                  number={10}
+                  number={2}
                   title="Évènements"
                   description="organisés, rassemblant des centaines de participants chaque année."
                 />
                 <StatCard
-                  number={30}
+                  number={2}
                   title="Initiatives"
                   description="en cours, allant de solutions numériques à des applications innovantes."
                 />

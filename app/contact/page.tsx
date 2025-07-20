@@ -70,18 +70,18 @@ const ContactUs: React.FC = () => {
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="w-full lg:w-1/2">
               <h1 className="text-4xl font-bold mb-4 text-secondary">
-                Contact Us
+                Nous contacter
               </h1>
               <p className="text-lg">
-                Feel free to contact us! Submit your questions here, and we’ll
-                get back to you as soon as possible.
+                Sentez vous libre de nous contacter! Soumettez vos questions
+                ici, et nous vous répondrons dès que possible.
               </p>
             </div>
             <div className="w-full lg:w-1/2 relative">
               <Card className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
                 <CardContent className="p-4">
                   <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-                    Send us a message
+                    Envoyer un message
                   </h2>
                 </CardContent>
               </Card>
@@ -130,7 +130,7 @@ const ContactUs: React.FC = () => {
                   className="w-full bg-primary text-white hover:bg-primary-dark"
                   disabled={isSending}
                 >
-                  {isSending ? "Sending..." : "Send"}
+                  {isSending ? "En cours d'envoie..." : "Envoyer le Message"}
                 </Button>
               </form>
             </div>
@@ -169,7 +169,7 @@ const ContactUs: React.FC = () => {
 
       {/* Map */}
       <div className="container mx-auto px-4 py-10">
-        <h2 className="text-2xl font-semibold mb-4">Our Location</h2>
+        <h2 className="text-2xl font-semibold mb-4">Notre Localisation</h2>
         <div className="h-64 rounded-lg overflow-hidden">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15686.172842329875!2d14.3226566!3d10.5951428!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDM1JzQ0LjUiTiAxNMKwMTknMjMuNiJF!5e0!3m2!1sen!2scm!4v1696264521879!5m2!1sen!2scm"
