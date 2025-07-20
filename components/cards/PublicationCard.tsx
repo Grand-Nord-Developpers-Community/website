@@ -1,7 +1,15 @@
 import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Image as ImageIcon, CircleUser } from "lucide-react";
+import {
+  Image as ImageIcon,
+  CircleUser,
+  Eye,
+  ThumbsUp,
+  MessagesSquareIcon,
+  MessageSquare,
+  EyeIcon,
+} from "lucide-react";
 
 import {
   Card,
@@ -23,6 +31,7 @@ type PublicationCardProps = {
   hasFooter?: boolean;
   showSummary?: boolean;
   cardClassName?: string;
+  views?: number;
 };
 
 const LatestPublicationCard: FC<PublicationCardProps> = ({
@@ -31,6 +40,7 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
   hasFooter,
   showSummary,
   cardClassName = "",
+  views = 0,
 }) => {
   return (
     <Card className={cardClassName}>
@@ -53,40 +63,54 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         })}
       >
         <div className="flex gap-4 items-center justify-between text-sm pb-4 border-b border-gray-200">
-          <div className="flex items-center gap-4 p-0">
-            <Avatar className="bg-gray-50 size-12">
-              <AvatarImage
-                src={
-                  publication?.author?.image ||
-                  `/api/avatar?username=${publication?.author?.username}`
-                }
-              />
-              <AvatarFallback className="p-0">
-                {publication?.author?.name?.slice(0, 2)?.toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col gap-1">
-              <span>{publication.author.name}</span>
-              <span className="text-xs text-gray-500 font-light">
-                {new Date(publication.createdAt).toLocaleDateString("FR-fr", {
-                  dateStyle: "long",
-                })}
-              </span>
+          <div className="w-full flex items-center justify-between gap-4 p-0">
+            <div className="flex items-center gap-2">
+              <Avatar className="bg-gray-50 size-12">
+                <AvatarImage
+                  src={
+                    publication?.author?.image ||
+                    `/api/avatar?username=${publication?.author?.username}`
+                  }
+                />
+                <AvatarFallback className="p-0">
+                  {publication?.author?.name?.slice(0, 2)?.toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col gap-1">
+                <Link
+                  className="hover:text-secondary truncate max-w-32"
+                  href={`/user/${publication.author.username}`}
+                >
+                  {publication.author.name}
+                </Link>
+                <span className="text-xs text-gray-500 font-light">
+                  {new Date(publication.createdAt).toLocaleDateString("FR-fr", {
+                    dateStyle: "long",
+                  })}
+                </span>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex items-center gap-1">
+                <EyeIcon className="size-4 text-gray-500" />
+                <span className="text-sm text-gray-500">{views}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <ThumbsUp className="size-4 text-gray-500" />
+                <span className="text-sm text-gray-500">
+                  {publication.likes.map((l) => l.isLike).length || 0}
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <MessageSquare className="size-4 text-gray-500" />
+                <span className="text-sm text-gray-500">
+                  {publication.replies.length || 0}
+                </span>
+              </div>
             </div>
           </div>
         </div>
         <CardTitle>
-          {/*<div className="flex gap-2 my-2">
-            {tags.map((t, i) => (
-              <Link
-                key={i}
-                href="#"
-                className="p-2 rounded font-medium bg-primary/30 text-sm text-gray-800"
-              >
-                {t}
-              </Link>
-            ))}
-          </div>*/}
           <Link
             href={`/blog/${publication.slug}`}
             className="text-xl max-sm:text-lg hover:text-secondary hover:text-opacity-85 active:text-opacity-85"

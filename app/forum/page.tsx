@@ -1,4 +1,3 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import QuestionLists from "@/components/question-card";
 import { UserRanking } from "@/components/user-ranking";
 import HeadingPage from "@/sections/common/HeadingPage";

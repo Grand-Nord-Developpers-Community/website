@@ -81,8 +81,12 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild className="sm:hidden">
             <Link href="/user/dashboard">Tableau de bord</Link>
+            {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/blog/new">Publier un Blog</Link>
             {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
           </DropdownMenuItem>
           {user?.role !== "user" && (

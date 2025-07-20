@@ -101,15 +101,6 @@ function BlogContent({
             )}
           </div>
           <Separator className="mt-2 mb-4 bg-primary/30" />
-          {/*<div className="flex space-x-2">
-                  <Button variant="outline" size="sm" onClick={handleLike}>
-                    <Heart className={`mr-2 h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
-                    {isLiked ? 'Liked' : 'Like'}
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Edit className="mr-2 h-4 w-4" /> Editer
-                  </Button>
-                </div>*/}
         </div>
         <article className="min-w-full prose prose-blue dark:prose-invert prose-headings:scroll-m-20 article-content">
           <TiptapRenderer>{post!.content}</TiptapRenderer>
