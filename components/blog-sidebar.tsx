@@ -250,7 +250,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                     Tableau de board
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => router.push("/user/setting")}
+                    onClick={() => router.push("/user/settings")}
                   >
                     <User className="text-gray-400 mr-2 size-5" />
                     Paramètre
