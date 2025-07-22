@@ -12,7 +12,43 @@ import { Clock, Eye, ThumbsUp } from "lucide-react";
 import { calculateReadingTime } from "@/lib/utils";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { getMoreBlogPosts } from "@/actions/blog.actions";
+import { fetchPageViews } from "@/actions/utils.actions";
+import { CardBlog } from "@/components/cardBlog";
+import EmptyBlog from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
+import { Button } from "@/components/ui/button";
 
+async function MoreBlogPosts({ id, limit }: { id: string; limit: number }) {
+  const blogs = await getMoreBlogPosts(id, limit);
+  const views = await fetchPageViews(
+    blogs?.map((b) => b.slug),
+    "blogs"
+  );
+  return (
+    <div className="w-full">
+      <h3 className="my-5 font-semibold text-lg sm:text-2xl">Autre blogs</h3>
+      <div className="flex flex-wrap gap-3 justify-start">
+        {blogs?.map((blog, i) => (
+          <CardBlog
+            {...blog}
+            view={views[blog.slug]}
+            key={i}
+            className="w-full md:w-[49%] lg:w-[32.5%] xl:w-[33%]"
+            imageClassName="!h-[150px]"
+          />
+        ))}
+      </div>
+      {blogs?.length === 0 && (
+        <div className="flex flex-col h-[300px] justify-center items-center my-5">
+          <EmptyBlog className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
+          <h2 className="text-xl max-sm:text-base mx-auto text-center font-medium my-3 text-gray-400">
+            il y&apos;a pas d&apos;autre blog pour l&apos;instant !
+          </h2>
+        </div>
+      )}{" "}
+    </div>
+  );
+}
 function BlogContent({
   post,
   user,
@@ -109,6 +145,7 @@ function BlogContent({
           <>
             <BlogLikeCard id={post?.id!} user={user} likes={likes} />
             <CommentSection user={user} blogId={post?.id} />
+            <MoreBlogPosts id={post?.id!} limit={3} />
           </>
         )}
       </div>

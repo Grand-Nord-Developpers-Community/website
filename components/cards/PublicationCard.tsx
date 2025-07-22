@@ -65,17 +65,20 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
         <div className="flex gap-4 items-center justify-between text-sm pb-4 border-b border-gray-200">
           <div className="w-full flex items-center justify-between gap-4 p-0">
             <div className="flex items-center gap-2">
-              <Avatar className="bg-gray-50 size-12">
-                <AvatarImage
-                  src={
-                    publication?.author?.image ||
-                    `/api/avatar?username=${publication?.author?.username}`
-                  }
-                />
-                <AvatarFallback className="p-0">
-                  {publication?.author?.name?.slice(0, 2)?.toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+              <Link href={`/user/${publication.author.username}`}>
+                <Avatar className="bg-gray-50 size-12">
+                  <AvatarImage
+                    src={
+                      publication?.author?.image ||
+                      `/api/avatar?username=${publication?.author?.username}`
+                    }
+                  />
+                  <AvatarFallback className="p-0">
+                    {publication?.author?.name?.slice(0, 2)?.toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+
               <div className="flex flex-col gap-1">
                 <Link
                   className="hover:text-secondary truncate max-w-32"

@@ -21,7 +21,7 @@ function Footer() {
   const pathname = usePathname();
   const { is404 } = useIs404Store();
   return !shouldHideHeaderAndFooter(pathname) || is404 ? (
-    <footer className="bg-white pt-10 mt-10 pb-4 border-t border-gray-200">
+    <footer className="bg-white pt-10 pb-4 border-t border-gray-200">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-8">
           {/* Logo and Description */}

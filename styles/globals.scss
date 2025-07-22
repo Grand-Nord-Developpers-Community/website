@@ -10,14 +10,7 @@ html {
   font-family: var(--font-sans);
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  position: relative;
-  background-color: #fff;
-  background-image: linear-gradient(rgba(#fff, 0.85), rgba(#fff, 0.95)),
-    url("/background.svg");
-}
+
 
 html.dark {
   --foreground: #f0f6fc;
