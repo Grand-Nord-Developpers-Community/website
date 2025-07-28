@@ -19,33 +19,6 @@ export default function HoverCardProfile({
   username,
 }: AuthorType) {
   return (
-    // <HoverCard >
-    //   <HoverCardTrigger asChild>
-    //     <Button variant="link" className="p-0">@{name}</Button>
-    //   </HoverCardTrigger>
-    //   <HoverCardContent className="w-[300px]">
-    //     <div className="flex justify-between space-x-2">
-    //       <Avatar>
-    //         <AvatarImage src={image||""}/>
-    //         <AvatarFallback>{name?.slice(0, 2)?.toUpperCase()||""}</AvatarFallback>
-    //       </Avatar>
-    //       <div className="space-y-1">
-    //         <h4 className="text-sm font-semibold">{name}</h4>
-    //         <p className="text-sm">{bio ? bio : "Pas de Bio maintenant !"}</p>
-    // <div className="flex items-center pt-2">
-    //   <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
-    //   <span className="text-xs text-muted-foreground">
-    //     Rejoint le{" "}
-    //     {new Date(createdAt).toLocaleDateString("FR-fr", {
-    //       dateStyle: "long",
-    //     })}
-    //   </span>
-    // </div>
-    //         <Button variant={"link"} className="px-0">Voir le profil</Button>
-    //       </div>
-    //     </div>
-    //   </HoverCardContent>
-    // </HoverCard>
     <Card className="my-5 w-full">
       <CardHeader className="relative p-4">
         <div className="flex items-start gap-5">
@@ -68,7 +41,7 @@ export default function HoverCardProfile({
           </div>
           <div className="space-y-1 flex-1">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold line-clamp-1">
+              <h2 className="text-xl hover:text-secondary sm:text-2xl font-bold line-clamp-1">
                 <Link href={`/user/${username}`}>{name}</Link>
               </h2>
             </div>

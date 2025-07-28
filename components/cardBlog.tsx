@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { fetchPageViews } from "@/actions/utils.actions";
 import { Eye, MessageCircle, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
+import clsx from "clsx";
 
 function PostStats({
   views,
@@ -37,6 +38,8 @@ function PostStats({
 type BlogTy = BlogType[number];
 interface BlogT extends BlogTy {
   view: number;
+  className?: string;
+  imageClassName?: string;
 }
 export const CardBlog = ({
   title,
@@ -49,13 +52,22 @@ export const CardBlog = ({
   replies,
   likes,
   view,
+  className = "",
+  imageClassName = "",
 }: BlogT) => {
   return (
-    <div className="w-full md:w-[49%] lg:w-[32.5%] xl:w-[24.2%]">
+    <div
+      className={clsx("w-full md:w-[49%] lg:w-[32.5%] xl:w-[24.2%]", className)}
+    >
       <div className="w-full mx-auto rounded-xl dark:bg-zinc-950 bg-zinc-50 overflow-hidden p-2 border pb-3  ">
-        <div className="w-full h-[200px] rounded-xl overflow-hidden shadow-[0px_0px_5px_#A1A1AA] dark:shadow-[0px_0px_12px_rgb(39,39,42,0.7)]">
+        <div
+          className={clsx(
+            "w-full h-[200px] rounded-xl overflow-hidden shadow-[0px_0px_5px_#A1A1AA] dark:shadow-[0px_0px_12px_rgb(39,39,42,0.7)]",
+            imageClassName
+          )}
+        >
           <ImageWrapper
-            className="w-full object-cover h-full object-center "
+            className={"w-full object-cover h-full object-center "}
             src={preview}
             hash={previewHash}
             width={1280}
@@ -92,19 +104,27 @@ export const CardBlog = ({
           />
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-3">
-              <Avatar className="bg-gray-50 h-10 w-10">
-                <AvatarImage
-                  src={
-                    author?.image || `/api/avatar?username=${author.username}`
-                  }
-                  alt="Author"
-                />
-                <AvatarFallback>
-                  {author?.name?.slice(0, 2)?.toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+              <Link href={`/user/${author.username}`}>
+                <Avatar className="bg-gray-50 h-10 w-10">
+                  <AvatarImage
+                    src={
+                      author?.image || `/api/avatar?username=${author.username}`
+                    }
+                    alt="Author"
+                  />
+                  <AvatarFallback>
+                    {author?.name?.slice(0, 2)?.toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+
               <div>
-                <p className="text-sm font-medium">{author.name}</p>
+                <Link
+                  className="text-sm hover:text-secondary font-medium"
+                  href={`/user/${author.username}`}
+                >
+                  {author.name}
+                </Link>
                 <div className="flex items-center space-x-1 text-sm text-gray-500">
                   <span>publié le </span>
                   <span>

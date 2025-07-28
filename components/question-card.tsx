@@ -10,7 +10,7 @@ import { getForumPosts } from "@/actions/forum.actions";
 
 const redis = Redis.fromEnv();
 export type Forum = Awaited<ReturnType<typeof getForumPosts>>;
-export default async function QuestionCard() {
+export default async function QuestionCard({ filter }: { filter: string }) {
   let questions = await getForumPosts();
   let views: Record<string, number> = {};
   try {
@@ -28,6 +28,11 @@ export default async function QuestionCard() {
   } catch (e) {
     console.log(e);
   }
+  if (filter === "unanswered") {
+    questions = questions.filter((q) => q.replies.length === 0);
+  } else if (filter === "answered") {
+    questions = questions.filter((q) => q.replies.length > 0);
+  }
 
   return (
     <>
@@ -43,18 +48,21 @@ export default async function QuestionCard() {
         questions.map((q, i) => (
           <Card className="p-4 overflow-hidden" key={i}>
             <div className="flex gap-4">
-              <Avatar className="bg-gray-50">
-                <AvatarImage
-                  src={
-                    q?.author?.image ||
-                    `/api/avatar?username=${q?.author.username}`
-                  }
-                  alt="Author avatar"
-                />
-                <AvatarFallback>
-                  {q.author?.name?.slice(0, 2)?.toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+              <Link href={`/user/${q.author.username}`}>
+                <Avatar className="bg-gray-50">
+                  <AvatarImage
+                    src={
+                      q?.author?.image ||
+                      `/api/avatar?username=${q?.author.username}`
+                    }
+                    alt="Author avatar"
+                  />
+                  <AvatarFallback>
+                    {q.author?.name?.slice(0, 2)?.toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+
               <div className="flex-1 space-y-4">
                 <Link href={`/forum/${q.id}`} className="block">
                   <h2 className="text-lg font-semibold hover:text-secondary">
@@ -62,16 +70,6 @@ export default async function QuestionCard() {
                   </h2>
                 </Link>
                 <div className="flex flex-col">
-                  {/* <EditorRender
-                    throttleDelay={0}
-                    className={"h-full pb-5 min-h-10 w-full rounded-xl"}
-                    editorContentClassName="overflow-auto h-full flex grow"
-                    output="html"
-                    placeholder="Saisir votre question ..."
-                    editable={false}
-                    value={q.content}
-                    editorClassName="focus:outline-none h-full grow"
-                  />  */}
                   <p className="h-full pb-5 min-h-10 w-full line-clamp-5">
                     {q.textContent}
                   </p>
@@ -109,58 +107,5 @@ export default async function QuestionCard() {
         </>
       )}
     </>
-    // <Card className="p-4">
-    //   <div className="flex gap-4">
-    //     <Link href={`/users/${author.name}`}>
-    //       <Image
-    //         src={author.avatar}
-    //         alt={author.name}
-    //         width={40}
-    //         height={40}
-    //         className="rounded-full"
-    //       />
-    //     </Link>
-    //     <div className="flex-1 space-y-2">
-    //       <Link href={`/questions/${id}`} className="block">
-    //         <h2 className="text-lg font-semibold hover:text-blue-600">{title}</h2>
-    //       </Link>
-    //       {image && (
-    //         <Image
-    //           src={image}
-    //           alt="Question image"
-    //           width={200}
-    //           height={150}
-    //           className="rounded-md"
-    //         />
-    //       )}
-    //       <div className="flex flex-wrap gap-2">
-    //         {tags.map((tag) => (
-    //           <Badge key={tag} variant="secondary" className="bg-blue-50">
-    //             {tag}
-    //           </Badge>
-    //         ))}
-    //       </div>
-    //       <div className="flex items-center gap-4 text-sm text-muted-foreground">
-    //         <div className="flex items-center gap-1">
-    //           <ArrowBigUp className="h-5 w-5 text-green-500 cursor-pointer" />
-    //           <span>{stats.upvotes}</span>
-    //         </div>
-    //         <div className="flex items-center gap-1">
-    //           <ArrowBigDown className="h-5 w-5 text-red-500 cursor-pointer" />
-    //           <span>{stats.downvotes}</span>
-    //         </div>
-    //         <div className="flex items-center gap-1">
-    //           <MessageSquare className="h-4 w-4" />
-    //           {stats.answers} Answers
-    //         </div>
-    //         <div className="flex items-center gap-1">
-    //           <Eye className="h-4 w-4" />
-    //           {stats.views} Views
-    //         </div>
-    //         <span className="ml-auto">Asked {timeAgo}</span>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </Card>
   );
 }

@@ -1,11 +1,6 @@
-import React, { useEffect, useState, Suspense } from "react";
 import { CardBlog } from "@/components/cardBlog";
-import { useGetListBlog } from "@/hooks/use-hook";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import EmptyBlog from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
-import ErrorComponent from "@/components/errorComponent";
 import Link from "next/link";
 import { fetchPageViews } from "@/actions/utils.actions";
 import { getBlogPosts } from "@/actions/blog.actions";
@@ -27,13 +22,6 @@ const BlogList = async () => {
         </div>
 
         {blogs?.length === 0 && (
-          // <>
-          //   <EmptyBlog className="mx-auto lg:w-1/5 h-auto  max-md:w-1/2" />
-          //   <h2 className="text-2xl mx-auto text-center font-medium my-3 text-gray-400">
-          //     Il y&apos;a pas de blog disponible
-          //   </h2>
-
-          // </>
           <div className="flex flex-col h-[300px] justify-center items-center my-5">
             <EmptyBlog className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
             <h2 className="text-xl max-sm:text-base mx-auto text-center font-medium my-3 text-gray-400">
@@ -46,12 +34,6 @@ const BlogList = async () => {
             </div>
           </div>
         )}
-
-        {/* {!blogs && !isLoading && (
-          <>
-            <ErrorComponent message={"Erreur de chargement !!"} />
-          </>
-        )} */}
       </div>
     </>
   );

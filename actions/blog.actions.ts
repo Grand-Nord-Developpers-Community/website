@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { blogPost } from "@/lib/db/schema";
-import { eq, desc, and, count } from "drizzle-orm";
+import { eq, desc, and, count, not } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { blogPublishSchema } from "@/schemas/blog-schema";
@@ -279,7 +279,7 @@ export async function getBlogPost(slug: string) {
         slug: true,
         isDraft: true,
         authorId: true,
-       content: true,
+        content: true,
       },
       with: {
         author: {
@@ -342,6 +342,27 @@ export async function getBlogPostMeta(slug: string) {
       },
     },
   });
+}
+
+export async function getMoreBlogPosts(id: string, limit: number) {
+  const posts = await db.query.blogPost.findMany({
+    orderBy: [desc(blogPost.createdAt)],
+    where: and(eq(blogPost.isDraft, false), not(eq(blogPost.id, id))),
+    limit,
+    with: {
+      author: true,
+      likes: true,
+      replies: {
+        columns: {
+          id: true,
+        },
+        with: {
+          votes: true,
+        },
+      },
+    },
+  });
+  return posts;
 }
 
 export async function deleteBlog(id: string) {

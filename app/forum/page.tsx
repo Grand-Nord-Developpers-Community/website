@@ -1,21 +1,25 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import QuestionLists from "@/components/question-card";
 import { UserRanking } from "@/components/user-ranking";
-import ForumPostComponent from "@/components/forum-post-component";
 import HeadingPage from "@/sections/common/HeadingPage";
 import { MessageCircleQuestionIcon } from "lucide-react";
-import ForumDialogButton from "@/components/forum-dialog";
 import ForumQuestionCard from "@/components/forumQuestionCard";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import AdBlock from "@/components/adblock";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-export default function ForumPage() {
+import Link from "next/link";
+import { ForumTabs } from "./ForumTab";
+export const metadata = {
+  title: "Forums | Questions et Réponses de la Communauté",
+  description:
+    "Participez aux forums communautaires. Posez vos questions, obtenez des réponses et partagez vos connaissances.",
+};
+
+export default function ForumPage({
+  searchParams,
+}: {
+  searchParams: { tab?: string };
+}) {
   return (
     <div className="h-full w-full">
       <HeadingPage
@@ -29,22 +33,12 @@ export default function ForumPage() {
             <MessageCircleQuestionIcon />
           </div>
         }
-      />
-      <main className="screen-wrapper py-6">
+      >
+        <ForumQuestionCard className="sm:hidden absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[75%] bg-white max-lg:w-[95%] lg:max-w-screen-lg" />
+      </HeadingPage>
+      <main className="screen-wrapper pt-36 pb-6 sm:py-6">
         <div className="flex justify-between items-center mb-6 max-sm:hidden">
-          <Tabs defaultValue="latest">
-            <TabsList>
-              <TabsTrigger value="latest" disabled={true}>
-                Tout
-              </TabsTrigger>
-              <TabsTrigger value="unanswered" disabled={true}>
-                Pas de reponse
-              </TabsTrigger>
-              <TabsTrigger value="trending" disabled={true}>
-                Avec reponse
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <ForumTabs />
           {/* <Button>Poser une question</Button> */}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative">
@@ -69,14 +63,14 @@ export default function ForumPage() {
                 </div>
               }
             >
-              <QuestionLists />
+              <QuestionLists filter={searchParams.tab ?? "all"} />
             </Suspense>
           </div>
-          <div className="relative lg:col-span-1 max-h-[calc(100vh-4rem)] lg:sticky lg:top-20 max-sm:max-h-none  ">
+          <div className="relative lg:col-span-1 sm:max-h-[calc(100vh-4rem)] lg:sticky lg:top-10 max-sm:max-h-none  ">
             <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
-            <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
-            <div className="w-full pt-2 space-y-5 scrollbar-hide h-full overflow-y-auto">
-              <ForumQuestionCard />
+            {/* <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" /> */}
+            <div className="w-full  space-y-5 scrollbar-hide h-full overflow-y-auto">
+              <ForumQuestionCard className="max-sm:hidden" />
               <Suspense
                 fallback={
                   <Card className="my-1">
@@ -92,12 +86,7 @@ export default function ForumPage() {
               >
                 <UserRanking />
               </Suspense>
-              <div className="border rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-4">Publicité</h3>
-                <div className="bg-gray-100 h-40 flex items-center justify-center rounded">
-                  <p className="text-gray-500">Espace publicitère</p>
-                </div>
-              </div>
+              <AdBlock />
             </div>
           </div>
         </div>

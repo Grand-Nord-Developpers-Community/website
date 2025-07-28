@@ -37,7 +37,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Forum } from "./question-card";
-import MinimalTiptapEditor from "./minimal-tiptap/minimal-tiptap"
+import MinimalTiptapEditor from "./minimal-tiptap/minimal-tiptap";
 
 // const MinimalTiptapEditor = dynamic(
 //   () =>
@@ -174,10 +174,13 @@ export default function ForumPostComponent({ forum, onSucessCallBack }: Props) {
                   <MinimalTiptapEditor
                     {...field}
                     throttleDelay={0}
-                    className={cn("h-full min-h-56 w-full rounded-xl", {
-                      "border-destructive focus-within:border-destructive":
-                        form.formState.errors.content,
-                    })}
+                    className={cn(
+                      "h-full min-h-56 max-h-40  w-full rounded-xl",
+                      {
+                        "border-destructive focus-within:border-destructive":
+                          form.formState.errors.content,
+                      }
+                    )}
                     editorContentClassName="w-full overflow-auto h-full flex grow"
                     output="html"
                     placeholder="Saisir votre question ..."
