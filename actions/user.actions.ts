@@ -1,6 +1,11 @@
 "use server";
 import { db } from "@/lib/db";
-import { blogPost, oauthAccountTable, userTable as user, userTable } from "@/lib/db/schema";
+import {
+  blogPost,
+  oauthAccountTable,
+  userTable as user,
+  userTable,
+} from "@/lib/db/schema";
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
@@ -690,6 +695,8 @@ export async function updateUser(
 
   // Add updatedAt timestamp
   updateObject.updatedAt = new Date();
+
+  //console.log("Updating user with data:", updateObject);
 
   // Perform the update
   await db.update(user).set(updateObject).where(eq(user.id, userId));
