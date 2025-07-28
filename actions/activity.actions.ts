@@ -128,6 +128,9 @@ export async function processActivity(userId: string) {
         ? activity.currentStreak + 1
         : 1;
 
+    if (last.toDateString() === today) {
+      return;
+    }
     await db
       .update(userActivity)
       .set({
