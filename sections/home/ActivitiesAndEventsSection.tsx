@@ -1,21 +1,44 @@
 import { FC } from "react";
-import { useActivitiesAndEvents } from "@/hooks/activitiesAndEvents";
 import { ActivityAndEventCard } from "@/components/cards";
 import ActivityAndEvent from "@/interfaces/activityAndEvent";
 import ActivityAndEventProps from "@/interfaces/activityAndEventsProps";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Button as ButtonX } from "@/components/ui/button-more";
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 import VoidImage from "@/assets/svgs/undraw_void_-3-ggu.svg";
-const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = ({
+import { getEvents } from "@/actions/event.action";
+const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = async ({
   isHome,
   limit,
 }) => {
-  const activitiesAndEvents = useActivitiesAndEvents({ limit: limit });
+  const events = await getEvents();
 
-  const isEmpty = true;
+  const normalizedEvents: ActivityAndEvent[] = events.map((e) => ({
+    ...e,
+    datetime:
+      e.datetime instanceof Date ? e.datetime.toISOString() : e.datetime,
+    createdAt:
+      e.createdAt instanceof Date ? e.createdAt.toISOString() : e.createdAt,
+    updatedAt:
+      e.updatedAt instanceof Date ? e.updatedAt.toISOString() : e.updatedAt,
+    creator: {
+      ...e.creator,
+      lastActive:
+        e.creator.lastActive instanceof Date
+          ? e.creator.lastActive.toISOString()
+          : e.creator.lastActive,
+      createdAt:
+        e.creator.createdAt instanceof Date
+          ? e.creator.createdAt.toISOString()
+          : e.creator.createdAt,
+      updatedAt:
+        e.creator.updatedAt instanceof Date
+          ? e.creator.updatedAt.toISOString()
+          : e.creator.updatedAt,
+    },
+  }));
+
+  const isEmpty = normalizedEvents.length === 0;
 
   return (
     <section className="my-12 screen-wrapper">
@@ -38,18 +61,23 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = ({
         <EmptyActivityAndEventPlaceholder />
       ) : (
         <>
-          <ActivitiesAndEventsGrid activitiesAndEvents={activitiesAndEvents} />
-          <p className="flex justify-center">
-            <ButtonX
-              asChild
-              variant="expandIcon"
-              className="bg-secondary hover:bg-secondary/90"
-              Icon={<ArrowRightIcon className="size-4" />}
-              iconPlacement="right"
-            >
-              <Link href="/events">Voir tous les évènemenets</Link>
-            </ButtonX>
-          </p>
+          <ActivitiesAndEventsGrid
+            activitiesAndEvents={normalizedEvents}
+            isHome={isHome}
+          />
+          {isHome && (
+            <p className="flex justify-center">
+              <ButtonX
+                asChild
+                variant="expandIcon"
+                className="bg-secondary hover:bg-secondary/90"
+                Icon={<ArrowRightIcon className="size-4" />}
+                iconPlacement="right"
+              >
+                <Link href="/events">Voir tous les évènemenets</Link>
+              </ButtonX>
+            </p>
+          )}
         </>
       )}
     </section>
@@ -69,7 +97,17 @@ export const EmptyActivityAndEventPlaceholder: FC = () => {
 
 const ActivitiesAndEventsGrid: FC<{
   activitiesAndEvents: ActivityAndEvent[];
-}> = ({ activitiesAndEvents: activitiesAndEvents }) => {
+  isHome: boolean;
+}> = ({
+  activitiesAndEvents,
+  isHome,
+}: {
+  activitiesAndEvents: ActivityAndEvent[];
+  isHome: boolean;
+}) => {
+  activitiesAndEvents = isHome
+    ? activitiesAndEvents.slice(0, 3)
+    : activitiesAndEvents;
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 pt-6 pb-8">
       {activitiesAndEvents.map((activityAndEvent, index) => {
