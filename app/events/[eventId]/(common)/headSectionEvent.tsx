@@ -57,7 +57,7 @@ function HeadSectionEvent({
                 onClick={handleRegisterClick}
                 className="mt-4 px-4 py-2 bg-secondary text-white font-semibold rounded hover:bg-secondary/80 transition"
               >
-                S'enregistrer
+                S&apos;enregistrer
               </button>
             )}
 

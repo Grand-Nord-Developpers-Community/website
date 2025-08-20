@@ -8,14 +8,14 @@ const OurPublicationsGrid: FC<{ publications: BlogType }> = async ({
 }) => {
   const views = await fetchPageViews(
     publications?.map((b) => b.slug),
-    "blogs"
+    "blog"
   );
   return (
     <div className="w-full">
       <div className="flex gap-4 w-full  my-10 max-lg:flex-col max-lg:w-[95%] max-md:w-full mx-auto ">
         <PublicationCard
           publication={publications[0]}
-          views={views[publications[0].slug]}
+          views={views[publications[0]?.slug]}
           cardClassName="p-4 bg-white rounded-xl lg:w-[55%] h-fit max-lg:w-full"
           hasImage
           hasFooter

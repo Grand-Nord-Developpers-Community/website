@@ -13,9 +13,10 @@ import {
 import { Button } from "../ui/button-more";
 
 import ActivityAndEvent from "@/interfaces/activityAndEvent";
+import { shortDateParts } from "@/lib/utils";
 
 type ActvityAndEventCardProps = {
-  activityAndEvent: Omit<ActivityAndEvent, "created_at">;
+  activityAndEvent: ActivityAndEvent;
 };
 
 type IconForTypeProps = {
@@ -36,9 +37,13 @@ const IconForType: FC<IconForTypeProps> = ({ type }) => {
 };
 
 const ActivityAndEventCard: FC<ActvityAndEventCardProps> = ({
-  activityAndEvent: { title, description, location, id },
+  activityAndEvent: { title, description, location, id, createdAt },
 }) => {
   const activityAndEventType = location ? "event" : "activity";
+  const [mois, jour, annee] = shortDateParts(createdAt, {
+    locale: "fr-FR",
+    timeZone: "Africa/Douala",
+  });
   return (
     <Card className="p-4 flex gap-3 max-sm:p-2">
       <div className="flex flex-col justify-start pt-3 items-center">
@@ -46,11 +51,14 @@ const ActivityAndEventCard: FC<ActvityAndEventCardProps> = ({
           <IconForType type={activityAndEventType} />
         </figure>
         <div className="w-12 flex-shrink-0 flex flex-col text-center leading-none mt-5  ">
-          <span className="text-gray-500 pb-2 mb-2 border-b-2 border-gray-200">
-            Jul
+          <span className="text-gray-500 text-xs pb-2 mb-2 border-b-2 border-gray-200">
+            {mois}
           </span>
-          <span className="font-medium text-lg text-gray-800 title-font leading-none">
-            18
+          <span className="font-medium text-sm pb-2 text-gray-800 title-font leading-none">
+            {jour}
+          </span>
+          <span className="text-gray-500 text-xs pt-2 mb-2 border-t-2 border-gray-200">
+            {annee}
           </span>
         </div>
       </div>

@@ -18,11 +18,11 @@ const Dashboard: React.FC = async () => {
   const forums = user?.forumPosts || [];
   const viewPosts = await fetchPageViews(
     posts.map((p) => p.slug),
-    "blogs"
+    "blog"
   );
   const viewForums = await fetchPageViews(
     forums!.map((f) => f.id),
-    "forums"
+    "forum"
   );
 
   const statItems: Stat[] = [

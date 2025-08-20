@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatRelativeTime } from "@/lib/utils";
 import { Redis } from "@upstash/redis";
 import { getForumPosts } from "@/actions/forum.actions";
+import { fetchPageViews } from "@/actions/utils.actions";
 
 const redis = Redis.fromEnv();
 export type Forum = Awaited<ReturnType<typeof getForumPosts>>;
@@ -14,17 +15,21 @@ export default async function QuestionCard({ filter }: { filter: string }) {
   let questions = await getForumPosts();
   let views: Record<string, number> = {};
   try {
-    views = (
-      await redis.mget<number[]>(
-        ...questions!.map((q) => ["pageviews", "forums", q?.id!].join(":"))
-      )
-    ).reduce(
-      (acc, v, i) => {
-        acc[questions![i]?.id!] = v ?? 0;
-        return acc;
-      },
-      {} as Record<string, number>
+    views = await fetchPageViews(
+      questions?.map((b) => b.id),
+      "forum"
     );
+    // (
+    //   await redis.mget<number[]>(
+    //     ...questions!.map((q) => ["pageviews", "forums", q?.id!].join(":"))
+    //   )
+    // ).reduce(
+    //   (acc, v, i) => {
+    //     acc[questions![i]?.id!] = v ?? 0;
+    //     return acc;
+    //   },
+    //   {} as Record<string, number>
+    // );
   } catch (e) {
     console.log(e);
   }

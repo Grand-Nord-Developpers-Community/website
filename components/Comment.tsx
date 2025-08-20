@@ -131,9 +131,12 @@ export function Comment({
             >
               <div className="flex flex-col">
                 <div className="flex gap-2 items-center">
-                  <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">
-                    {comment.author.name}
-                  </span>
+                  <Link href={`/user/${comment.author.username}`}>
+                    <span className="font-medium max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">
+                      {comment.author.name}
+                    </span>
+                  </Link>
+
                   {isAuthor && (
                     <span className="bg-primary text-[10px] text-white px-2 py-0.5 rounded">
                       vous
@@ -299,6 +302,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import RenderContent from "./renderContent";
 import UpVoteComponent from "./upVoteComponent";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface CommentSkeletonProps {
   depth?: number;

@@ -6,6 +6,7 @@ import { Redis } from "@upstash/redis";
 import BlogContent from "../(common)/blogContent";
 import HeadSectionBlog from "../(common)/headSectionBlog";
 import { auth } from "@/lib/auth";
+import { fetchPageViews } from "@/actions/utils.actions";
 
 const redis = Redis.fromEnv();
 
@@ -56,10 +57,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const post = await getBlogPost(slug as string);
   const { user } = await auth();
-  let views = 0;
+  let views: Record<string, number> = {};
   try {
-    views =
-      (await redis.get<number>(["pageviews", "blogs", slug].join(":"))) ?? 0;
+    // views = (await redis.get<number>(["pageviews", "blogs", slug].join(":"))) ?? 0;
+    views = await fetchPageViews(post?.slug!, "blog");
   } catch (error) {
     console.error("Failed to fetch views from Redis:", error);
   }
@@ -71,7 +72,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <div className="min-h-screen bg-white">
       <ReportView id={slug} type="blog" />
-      <HeadSectionBlog post={post} views={views} likes={likes} user={user} />
+      <HeadSectionBlog
+        post={post}
+        views={views[post.slug]}
+        likes={likes}
+        user={user}
+      />
       <BlogContent post={post} user={user} likes={likes} />
     </div>
   );

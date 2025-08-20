@@ -9,7 +9,7 @@ const BlogList = async () => {
   const blogs = await getBlogPosts();
   const views = await fetchPageViews(
     blogs?.map((b) => b.slug),
-    "blogs"
+    "blog"
   );
 
   return (
