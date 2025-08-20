@@ -12,12 +12,12 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <ProfileWrapper>
         <ProfileHeader user={userprofile} />
         <ProfileSection user={userprofile} />
       </ProfileWrapper>
-    </>
+    </div>
   );
 };
 
