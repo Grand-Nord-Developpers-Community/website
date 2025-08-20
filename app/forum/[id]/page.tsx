@@ -23,6 +23,7 @@ import UpVoteWrapper from "@/components/upVoteWrapper";
 import AdBlock from "@/components/adblock";
 import ForumListBrief from "@/components/forumListBrief";
 import ForumQuestionCard from "@/components/forumQuestionCard";
+import { fetchPageViews } from "@/actions/utils.actions";
 export const revalidate = 60;
 
 const redis = Redis.fromEnv();
@@ -80,8 +81,8 @@ export default async function QuestionPage({ params }: { params: any }) {
   let views = 0;
 
   try {
-    views =
-      (await redis.get<number>(["pageviews", "forums", id].join(":"))) ?? 0;
+    const v = await fetchPageViews(forum.id, "forum");
+    views = v[forum.id];
   } catch (error) {
     console.error("Failed to fetch views from Redis:", error);
     // fallback to 0, or handle gracefully

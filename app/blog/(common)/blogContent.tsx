@@ -22,7 +22,7 @@ async function MoreBlogPosts({ id, limit }: { id: string; limit: number }) {
   const blogs = await getMoreBlogPosts(id, limit);
   const views = await fetchPageViews(
     blogs?.map((b) => b.slug),
-    "blogs"
+    "blog"
   );
   return (
     <div className="w-full">

@@ -2,7 +2,7 @@
 import { useTrackActivity } from "@/hooks/useTrackActivity";
 import { useEffect } from "react";
 
-export type pageTrackerType = "blog" | "forum" | "app";
+export type pageTrackerType = "blog" | "forum" | "app" | "event";
 
 export const ReportView: React.FC<{ id?: string; type: pageTrackerType }> = ({
   id,

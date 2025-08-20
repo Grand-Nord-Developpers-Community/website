@@ -28,7 +28,7 @@ export default function EventPageDetails({ activityOrEvent }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      <ReportView id={activityOrEvent.id} type="app" />
+      <ReportView id={activityOrEvent.id} type="event" />
       <HeadSectionEvent event={activityOrEvent} views={views} />
       <EventContent event={activityOrEvent} views={views} />
     </div>

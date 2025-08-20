@@ -41,22 +41,7 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = async ({
   const isEmpty = normalizedEvents.length === 0;
 
   return (
-    <section className="my-12 screen-wrapper">
-      {isHome ? (
-        <>
-          <h2 className="text-3xl font-bold mb-4 text-primary text-center max-sm:text-left">
-            Nos activités et événements
-          </h2>
-
-          <p className="text-center max-w-screen-md mx-auto max-sm:text-left">
-            Découvrez nos différentes activités, conférences, formations,
-            atéliers et d&apos;autres évènements que nous organisons.
-          </p>
-        </>
-      ) : (
-        <></>
-      )}
-
+    <>
       {isEmpty ? (
         <EmptyActivityAndEventPlaceholder />
       ) : (
@@ -80,7 +65,7 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = async ({
           )}
         </>
       )}
-    </section>
+    </>
   );
 };
 
@@ -89,7 +74,7 @@ export const EmptyActivityAndEventPlaceholder: FC = () => {
     <div className="flex flex-col h-[300px] justify-center items-center my-5">
       <VoidImage className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
       <h2 className="text-xl max-sm:text-base mx-auto text-center font-medium my-3 text-gray-400">
-        il y'a pas d'activité l&apos;instant !
+        il y&apos;a pas d&apos;activité l&apos;instant !
       </h2>
     </div>
   );

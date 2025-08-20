@@ -1,3 +1,4 @@
+import { pageTrackerType } from "@/components/ReportView";
 import { Redis } from "@upstash/redis";
 const redis = Redis.fromEnv();
 
@@ -9,7 +10,7 @@ const redis = Redis.fromEnv();
  */
 export async function fetchPageViews(
   ids: string | string[],
-  type: string
+  type: pageTrackerType
 ): Promise<Record<string, number>> {
   const idArray = Array.isArray(ids) ? ids : [ids];
   let views: Record<string, number> = {};
@@ -39,4 +40,30 @@ export async function fetchPageViews(
   }
 
   return views;
+}
+
+export async function fetchAppViews(): Promise<{
+  total: number;
+  byDevice: { mobile: number; desktop: number };
+}> {
+  try {
+    const keys = [
+      ["pageviews", "app", "global"].join(":"),
+      ["pageviews", "app", "device", "mobile"].join(":"),
+      ["pageviews", "app", "device", "desktop"].join(":"),
+    ];
+
+    const [total, mobile, desktop] = await redis.mget<number[]>(...keys);
+
+    return {
+      total: total ?? 0,
+      byDevice: {
+        mobile: mobile ?? 0,
+        desktop: desktop ?? 0,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching app views from Redis:", error);
+    return { total: 0, byDevice: { mobile: 0, desktop: 0 } };
+  }
 }

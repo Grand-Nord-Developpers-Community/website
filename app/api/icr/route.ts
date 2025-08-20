@@ -54,10 +54,19 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     switch (type) {
       case "blog":
-        await redis.incr(["pageviews", "blogs", id].join(":"));
+        await redis.incr(["pageviews", "blog", id].join(":"));
         break;
       case "forum":
-        await redis.incr(["pageviews", "forums", id].join(":"));
+        await redis.incr(["pageviews", "forum", id].join(":"));
+        break;
+      case "event":
+        await redis.incr(["pageviews", "event", id].join(":"));
+        break;
+      case "app":
+        await Promise.all([
+          redis.incr(["pageviews", "app", "global"].join(":")),
+          redis.incr(["pageviews", "app", "device", deviceType].join(":")),
+        ]);
         break;
       default:
         return new NextResponse("type not found", { status: 400 });

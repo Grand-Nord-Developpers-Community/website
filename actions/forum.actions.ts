@@ -174,8 +174,8 @@ export async function deleteForum(id: string) {
 
   // Perform the deletion
   await db.delete(forumPost).where(eq(forumPost.id, id));
-  
-  const pageKey = ["pageviews", "forums", id].join(":");
+
+  const pageKey = ["pageviews", "forum", id].join(":");
   try {
     await redis.del(pageKey);
   } catch (error) {
@@ -196,7 +196,7 @@ export async function deleteForum(id: string) {
 export async function getForumPost(id: string) {
   const post = await db.query.forumPost.findFirst({
     where: eq(forumPost.id, id),
-    columns:{
+    columns: {
       content: true,
       title: true,
       textContent: true,
@@ -226,11 +226,11 @@ export async function getForumPost(id: string) {
           commentId: true,
         },
       },
-      replies:{
-        columns:{
+      replies: {
+        columns: {
           id: true,
-        }
-      }
+        },
+      },
     },
   });
 
