@@ -18,6 +18,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useGetSiteInsightData } from "@/hooks/use-hook";
+import { ViewData } from "@/actions/utils.actions";
 
 const chartConfig = {
   desktop: {
@@ -45,11 +46,11 @@ const monthMapping = {
   "11": "Nov",
   "12": "Déc",
 };
-import {ViewData} from "../page"
-export function AreaGraph({data}:{data:ViewData}) {
+
+export function AreaGraph({ data }: { data: ViewData }) {
   const [chartData, setChartData] = React.useState([]);
   //const { data, isLoading, isError } = useGetSiteInsightData();
-  const [isLoading,_]=React.useState(false)
+  const [isLoading, _] = React.useState(false);
   React.useEffect(() => {
     if (data) {
       const formattedData = (data || [])

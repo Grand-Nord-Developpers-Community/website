@@ -23,7 +23,7 @@ import {
   MessageCircleQuestionIcon,
   Newspaper,
 } from "lucide-react";
-import { ViewData } from "../page";
+import { ViewData } from "@/actions/utils.actions";
 
 type Stats = {
   stat: {

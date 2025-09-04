@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/chart";
 import { Loader2 } from "lucide-react";
 import { useGetSiteInsightData } from "@/hooks/use-hook";
-import { ViewData } from "../page";
+import { ViewData } from "@/actions/utils.actions";
 
 export const description = "An interactive bar chart";
 

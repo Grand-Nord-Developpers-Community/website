@@ -25,7 +25,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const userAgent = req.headers.get("user-agent") || "";
   const isMobile = /Mobi|Android|iPhone/i.test(userAgent);
   const deviceType = isMobile ? "mobile" : "desktop";
-
+  const today = new Date().toISOString().split("T")[0];
   const ip = req.ip;
   if (ip) {
     // Hash the IP for privacy
@@ -66,6 +66,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         await Promise.all([
           redis.incr(["pageviews", "app", "global"].join(":")),
           redis.incr(["pageviews", "app", "device", deviceType].join(":")),
+          redis.incr(
+            ["pageviews", "app", "device", deviceType, today].join(":")
+          ),
         ]);
         break;
       default:

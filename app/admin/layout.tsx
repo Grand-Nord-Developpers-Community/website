@@ -1,6 +1,7 @@
 import AppSidebar from "@/components/layout/app-sidebar";
 import { withAuth } from "@/lib/withAuth";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 export const metadata: Metadata = {
   title: "GNDC | Admin panel Dashboard",
   description:
@@ -11,7 +12,10 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await withAuth({ ifNoSession: "notfound" });
+  const session = await withAuth({ ifNoSession: "notfound" });
+  if (session.user.role !== "admin") {
+    return notFound();
+  }
   return (
     <>
       <AppSidebar>{children}</AppSidebar>

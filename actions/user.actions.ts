@@ -415,13 +415,8 @@ export async function getNewUsersList() {
 }
 
 export async function getTotalUsers() {
-  try {
-    const users = await db.select({ count: count() }).from(userTable);
-    return users[0].count;
-  } catch (e) {
-    console.log("Error : " + e);
-    return 0;
-  }
+  const users = await db.select({ count: count() }).from(userTable);
+  return users[0].count ?? 0;
 }
 
 export async function getUserProfileImage(userId: string) {
@@ -458,6 +453,31 @@ export async function getUserProfileImage(userId: string) {
 //   return userStats[0];
 // }
 
+/**pagination fetch */
+
+export async function getPaginatedUsers(page: number, pageSize: number) {
+  const offset = Math.abs(page - 1) * pageSize;
+  const result = await db.query.userTable.findMany({
+    orderBy: [desc(user.createdAt)],
+    columns: {
+      username: true,
+      id: true,
+      name: true,
+      image: true,
+      isCompletedProfile: true,
+      createdAt: true,
+    },
+    limit: pageSize,
+    offset: offset,
+  });
+  // console.log(result);
+
+  return result;
+}
+
+// Example usage:
+// const firstPageUsers = await getPaginatedUsers(1, 10);
+// const secondPageUsers = await getPaginatedUsers(2, 10);
 export async function deleteUser(userId: string) {
   // Fetch user to check if exists and get role
   const userToDelete = await db.query.userTable.findFirst({

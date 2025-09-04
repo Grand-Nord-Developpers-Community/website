@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { NuqsAdapter } from "nuqs/adapters/next";
 import "@/styles/globals.scss";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
@@ -56,23 +55,20 @@ const montserra = localFont({
     },
   ],
 });
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ConfirmDialogProvider } from "@/providers/confirm-dialog-provider";
 export const metadata: Metadata = {
   metadataBase: new URL("https://gndc-website.onrender.com"),
   title: "GNDC | Accueil",
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
 };
-import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { auth } from "@/lib/auth";
 import HeaderWrapper from "@/components/header-wrapper";
 import AlertSignIn from "@/components/alertSignIn";
 import Scroll from "@/components/scroll";
 import { ReportView } from "@/components/ReportView";
-import { processActivity } from "@/actions/activity.actions";
 import ReportActivity from "@/components/ReportActivity";
+import Providers from "@/providers";
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -93,15 +89,9 @@ export default async function RootLayout({
         <ReportView type="app" />
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip relative">
-          <ThemeProvider attribute="class" defaultTheme="light">
-            <SessionProvider session={session}>
-              <ConfirmDialogProvider>
-                <TooltipProvider>
-                  <NuqsAdapter>{children}</NuqsAdapter>
-                </TooltipProvider>
-              </ConfirmDialogProvider>
-            </SessionProvider>
-          </ThemeProvider>
+          <SessionProvider session={session}>
+            <Providers>{children}</Providers>
+          </SessionProvider>
         </main>
         <Footer />
         <BackToTop />

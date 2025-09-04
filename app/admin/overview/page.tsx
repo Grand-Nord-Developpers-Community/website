@@ -7,19 +7,9 @@ export const metadata = {
   title: "Dashboard : Overview",
 };
 import { headers } from "next/headers";
+import { fetchAppViews, getViewData } from "@/actions/utils.actions";
 
-const getBaseUrl = () => {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-  return `${protocol}://${host}`;
-};
 export const dynamic = "force-dynamic";
-export type ViewData = {
-  date: string;
-  desktop: number;
-  mobile: number;
-}[];
 export default async function page() {
   console.log("overview page");
   const stats: {
@@ -33,30 +23,14 @@ export default async function page() {
     totalForums: 0,
     totalViews: 0,
   };
-  let totalViews = 0;
-  let datas: ViewData = [];
-  const baseUrl = getBaseUrl();
-  await fetch(`${baseUrl}/api/views?type=app`, { cache: "no-store" })
-    .then((res) => res.json())
-    .then((data) => {
-      datas = data;
-      const totalDesktop = data?.reduce(
-        (acc: number, curr: { desktop: number }) => acc + curr.desktop,
-        0
-      );
-      const totalMobile = data?.reduce(
-        (acc: number, curr: { mobile: number }) => acc + curr.mobile,
-        0
-      );
-      totalViews = totalDesktop + totalMobile;
-    })
-    .catch((e) => console.log(e));
+  let datas = await fetchAppViews();
+  let viewDatas = await getViewData("app");
   const totalUsers = await getTotalUsers();
   const totalBlogs = await getTotalBlogPosts();
   const totalForums = await getTotalForumPosts();
   stats["totalUsers"] = totalUsers;
   stats["totalBlogs"] = totalBlogs;
   stats["totalForums"] = totalForums;
-  stats["totalViews"] = totalViews;
-  return <OverViewPage stat={stats} totalViewData={datas} />;
+  stats["totalViews"] = datas.total;
+  return <OverViewPage stat={stats} totalViewData={viewDatas} />;
 }

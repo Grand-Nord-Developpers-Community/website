@@ -46,6 +46,7 @@
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.4",
     "@tailwindcss/typography": "^0.5.15",
+    "@tanstack/react-query": "^5.86.0",
     "@tanstack/react-table": "^8.20.6",
     "@tiptap/extension-character-count": "^2.11.5",
     "@tiptap/extension-code-block-lowlight": "^2.11.5",
