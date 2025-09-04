@@ -19,6 +19,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useGetSiteInsightData } from "@/hooks/use-hook";
+import { ViewData } from "@/actions/utils.actions";
 const chartData = [
   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
   { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
@@ -50,7 +51,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-import { ViewData } from "../page";
 export function PieGraph({ data }: { data: ViewData }) {
   const [chartData, setChartData] = React.useState<
     { device: string; visitors: number; fill: string }[]
