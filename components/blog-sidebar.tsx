@@ -1,5 +1,4 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
 import {
   Sidebar,
@@ -44,6 +43,7 @@ import type { SessionUser } from "@/lib/db/schema";
 import { logout } from "@/lib/api/auth/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Avatar from "./avatar";
 export function AppSidebar({ user }: { user: SessionUser }) {
   const {
     form,
@@ -152,34 +152,6 @@ export function AppSidebar({ user }: { user: SessionUser }) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      {/*      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  <User2 /> Username
-                  <ChevronUp className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-[--radix-popper-anchor-width]"
-              >
-                <DropdownMenuItem>
-                  <span>Account</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Billing</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>*/}
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -189,17 +161,8 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <Avatar className="bg-gray-50 h-8 w-8 rounded-lg">
-                    <AvatarImage
-                      src={
-                        user?.image || `/api/avatar?username=${user.username}`
-                      }
-                      alt={user?.name || ""}
-                    />
-                    <AvatarFallback className="rounded-lg">
-                      {user?.name?.slice(0, 2)?.toUpperCase() || "CN"}
-                    </AvatarFallback>
-                  </Avatar>
+                  <Avatar className="bg-gray-50 h-8 w-8 rounded-lg" {...user} />
+
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
                       {user?.name || ""}
@@ -219,18 +182,10 @@ export function AppSidebar({ user }: { user: SessionUser }) {
               >
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <Avatar className="h-8 bg-gray-50 w-8 rounded-lg">
-                      <AvatarImage
-                        src={
-                          user?.image ||
-                          `/api/avatar?username=${user?.username}`
-                        }
-                        alt={user?.name || ""}
-                      />
-                      <AvatarFallback className="rounded-lg">
-                        {user?.name?.slice(0, 2)?.toUpperCase() || "CN"}
-                      </AvatarFallback>
-                    </Avatar>
+                    <Avatar
+                      className="h-8 bg-gray-50 w-8 rounded-lg"
+                      {...user}
+                    />
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
                         {user?.name || ""}

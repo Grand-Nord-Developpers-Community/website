@@ -20,7 +20,6 @@ import {
   SheetFooter,
   SheetClose,
 } from "@/components/ui/sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,6 +33,7 @@ import { SessionUser } from "@/lib/db/schema";
 import { shouldHideHeaderAndFooter } from "@/lib/utils";
 import { useIs404Store } from "@/components/stores/useIs404";
 import clsx from "clsx";
+import Avatar from "@/components/avatar";
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
@@ -54,15 +54,7 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relczative h-8 w-8 rounded-full">
-          <Avatar className="bg-gray-50 h-11 w-11">
-            <AvatarImage
-              src={user?.image || `/api/avatar?username=${user?.username}`}
-              alt={user?.username || ""}
-            />
-            <AvatarFallback className="uppercase">
-              {user?.name?.slice(0, 2)}
-            </AvatarFallback>
-          </Avatar>
+          <Avatar className="bg-gray-50 h-11 w-11" {...user!} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

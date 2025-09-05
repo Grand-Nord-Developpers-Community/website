@@ -1,7 +1,7 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { formatRelativeTime } from "@/lib/utils";
 import { UserProfile } from "@/types";
+import Avatar from "../avatar";
 
 export default function ProfileHeader({ user }: { user: UserProfile }) {
   const isAdmin = user?.role === "admin" || user?.role === "manager";
@@ -12,16 +12,11 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
       <div className="w-full lg:w-[40%] px-4 flex justify-center">
         <div className="relative w-full -m-16 -ml-20 lg:-ml-16 max-sm:-mt-12 ">
           <div className="flex gap-5  align-middle absolute w-full">
-            <Avatar className="bg-gray-50 rounded-full w-[150px] grow-0 h-[150px] max-sm:size-[100px] object-cover  border-4 border-primary ">
-              <AvatarImage
-                src={user?.image || `/api/avatar?username=${user?.username}`}
-                className="object-cover"
-                alt={"lol"}
-              />
-              <AvatarFallback className="uppercase">
-                {user?.name?.slice(0, 2)}
-              </AvatarFallback>
-            </Avatar>
+            <Avatar
+              className="bg-gray-50 rounded-full w-[150px] grow-0 h-[150px] max-sm:size-[100px] object-cover  border-4 border-primary "
+              {...user!}
+            />
+
             <div className="mt-20 max-sm:mt-16">
               <h1 className="text-2xl font-bold text-primary truncate max-sm:max-w-[200px]">
                 {user?.name}

@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { logout } from "@/lib/api/auth/logout";
 import { useSession } from "../auth/SessionProvider";
+import Avatar from "../avatar";
 
 export function UserNav() {
   const session = useSession();
@@ -21,16 +22,7 @@ export function UserNav() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="bg-gray-50 h-8 w-8">
-              <AvatarImage
-                src={
-                  session.user?.image ??
-                  `/api/avatar?username=${session.user?.username}`
-                }
-                alt={session.user?.name ?? ""}
-              />
-              <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback>
-            </Avatar>
+            <Avatar {...session.user!} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>

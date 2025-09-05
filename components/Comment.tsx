@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import CommentInput from "./commentComponent";
 import { AlertModal } from "./modal/alert-modal";
@@ -91,18 +90,10 @@ export function Comment({
       )}
       <div className="flex items-start">
         <div>
-          <Avatar className="bg-gray-50 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2">
-            <AvatarImage
-              src={
-                comment.author?.image ||
-                `/api/avatar?username=${comment.author.username}`
-              }
-              alt={comment.author?.name || "Avatar"}
-            />
-            <AvatarFallback>
-              {comment.author?.name?.slice(0, 2)?.toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          <Avatar
+            className="bg-gray-50 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2"
+            {...comment.author}
+          />
           <UpVoteComponent
             id={comment.id}
             onVote={handleVote}
@@ -253,18 +244,7 @@ export function Comment({
       {isReplying && currentUser && (
         <div className="mt-4 space-y-4 border-t border-gray-200 pt-4">
           <div className="flex gap-2 items-center">
-            <Avatar className="bg-gray-50">
-              <AvatarImage
-                src={
-                  currentUser?.image ||
-                  `/api/avatar?username=${currentUser.username}`
-                }
-                alt={currentUser?.name || "Avatar"}
-              />
-              <AvatarFallback>
-                {currentUser?.name?.slice(0, 2)?.toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            <Avatar className="bg-gray-50" {...comment.author} />
             <span>Votre réponse</span>
           </div>
 
@@ -303,6 +283,7 @@ import RenderContent from "./renderContent";
 import UpVoteComponent from "./upVoteComponent";
 import clsx from "clsx";
 import Link from "next/link";
+import Avatar from "./avatar";
 
 interface CommentSkeletonProps {
   depth?: number;

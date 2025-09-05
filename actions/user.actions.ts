@@ -404,6 +404,7 @@ export async function getNewUsersList() {
         email: true,
         experiencePoints: true,
         createdAt: true,
+        username: true,
       },
       limit: 5,
     });
@@ -456,7 +457,7 @@ export async function getUserProfileImage(userId: string) {
 /**pagination fetch */
 
 export async function getPaginatedUsers(page: number, pageSize: number) {
-  const offset = Math.abs(page - 1) * pageSize;
+  const offset = page * pageSize;
   const result = await db.query.userTable.findMany({
     orderBy: [desc(user.createdAt)],
     columns: {

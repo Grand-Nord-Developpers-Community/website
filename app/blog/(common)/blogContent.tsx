@@ -7,7 +7,6 @@ import clsx from "clsx";
 import BlogLikeCard from "@/components/blogLikeCard";
 import type { SessionUser } from "@/lib/db/schema";
 import CommentSection from "@/components/comment-section";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Clock, Eye, ThumbsUp } from "lucide-react";
 import { calculateReadingTime } from "@/lib/utils";
 import Link from "next/link";
@@ -17,6 +16,7 @@ import { fetchPageViews } from "@/actions/utils.actions";
 import { CardBlog } from "@/components/cardBlog";
 import EmptyBlog from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
 import { Button } from "@/components/ui/button";
+import Avatar from "@/components/avatar";
 
 async function MoreBlogPosts({ id, limit }: { id: string; limit: number }) {
   const blogs = await getMoreBlogPosts(id, limit);
@@ -84,18 +84,7 @@ function BlogContent({
       >
         <div className="md:hidden mt-4 flex flex-col sm:space-x-6">
           <div className="flex items-center space-x-3">
-            <Avatar className="h-10 w-10 bg-gray-50">
-              <AvatarImage
-                src={
-                  post!.author.image ??
-                  `/api/avatar?username=${post!.author.username}`
-                }
-                alt={post!.author.name!}
-              />
-              <AvatarFallback>
-                {post!.author?.name!.slice(0, 2)?.toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            <Avatar className="h-10 w-10 bg-gray-50" {...post?.author!} />
             <div>
               <p className="text-sm font-medium text-primary">
                 <Link href={`/user/${post?.author.username}`}>

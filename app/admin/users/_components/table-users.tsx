@@ -128,7 +128,7 @@ export default function MyPostsTablePage({
       header: "Visuel",
       cell: (p) => (
         <div className="relative h-10 w-14 overflow-hidden rounded">
-          <Avatar {...p} />
+          <Avatar className="size-12" {...p} />
         </div>
       ),
       className: "w-[88px]",
@@ -262,7 +262,7 @@ export default function MyPostsTablePage({
           <div className="space-y-2">
             <div className="flex items-center gap-3">
               <div className="relative h-12 w-16 overflow-hidden rounded">
-                <Avatar {...p} />
+                <Avatar className="size-12" {...p} />
               </div>
               <div className="min-w-0">
                 <div className="truncate text-sm font-medium">{p.username}</div>

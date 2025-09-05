@@ -1,5 +1,4 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Collapsible,
   CollapsibleContent,
@@ -57,6 +56,7 @@ import { UserNav } from "./user-nav";
 import { useSession } from "../auth/SessionProvider";
 import { logout } from "@/lib/api/auth/logout";
 import { toast } from "sonner";
+import Avatar from "../avatar";
 
 export const company = {
   name: "GNDC",
@@ -173,19 +173,7 @@ export default function AppSidebar({
                     size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                   >
-                    <Avatar className="bg-gray-50 h-8 w-8 rounded-lg">
-                      <AvatarImage
-                        src={
-                          session?.user?.image ||
-                          `/api/avatar?username=${session?.user?.username}`
-                        }
-                        alt={session?.user?.name || ""}
-                      />
-                      <AvatarFallback className="rounded-lg">
-                        {session?.user?.name?.slice(0, 2)?.toUpperCase() ||
-                          "CN"}
-                      </AvatarFallback>
-                    </Avatar>
+                    <Avatar {...session.user!} />
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
                         {session?.user?.name || ""}
@@ -205,19 +193,7 @@ export default function AppSidebar({
                 >
                   <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                      <Avatar className="bg-gray-50 h-8 w-8 rounded-lg">
-                        <AvatarImage
-                          src={
-                            session?.user?.image ||
-                            `/api/avatar?username=${session?.user?.username}`
-                          }
-                          alt={session?.user?.name || ""}
-                        />
-                        <AvatarFallback className="rounded-lg">
-                          {session?.user?.name?.slice(0, 2)?.toUpperCase() ||
-                            "CN"}
-                        </AvatarFallback>
-                      </Avatar>
+                      <Avatar {...session.user!} />
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-semibold">
                           {session?.user?.name || ""}

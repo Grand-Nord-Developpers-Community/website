@@ -1,15 +1,6 @@
 import { FC } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import {
-  Image as ImageIcon,
-  CircleUser,
-  Eye,
-  ThumbsUp,
-  MessagesSquareIcon,
-  MessageSquare,
-  EyeIcon,
-} from "lucide-react";
+import { ThumbsUp, MessageSquare, EyeIcon } from "lucide-react";
 
 import {
   Card,
@@ -18,12 +9,13 @@ import {
   CardHeader,
   CardDescription,
 } from "../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+
 import { Button } from "../ui/button";
 
 import { BlogType } from "@/interfaces/publication";
 import clsx from "clsx";
 import ImageWrapper from "../imageWrapper";
+import Avatar from "../avatar";
 
 type PublicationCardProps = {
   publication: BlogType[number];
@@ -66,17 +58,10 @@ const LatestPublicationCard: FC<PublicationCardProps> = ({
             <div className="w-full flex items-center justify-between gap-4 p-0">
               <div className="flex items-center gap-2">
                 <Link href={`/user/${publication.author.username}`}>
-                  <Avatar className="bg-gray-50 size-12">
-                    <AvatarImage
-                      src={
-                        publication?.author?.image ||
-                        `/api/avatar?username=${publication?.author?.username}`
-                      }
-                    />
-                    <AvatarFallback className="p-0">
-                      {publication?.author?.name?.slice(0, 2)?.toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
+                  <Avatar
+                    className="bg-gray-50 size-12"
+                    {...publication.author}
+                  />
                 </Link>
 
                 <div className="flex flex-col gap-1">

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Button as ButtonX } from "@/components/ui/button-more";
 import { Comment, CommentSkeleton } from "./Comment";
@@ -22,6 +21,7 @@ import { LoaderIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Editor } from "@tiptap/react";
 import { upVotePost } from "@/actions/vote.actions";
+import Avatar from "./avatar";
 
 export default function CommentThread({
   postId = null,
@@ -383,15 +383,7 @@ export default function CommentThread({
           <div className="flex flex-col gap-3">
             <div className="flex items-start gap-4 max-sm:flex-col">
               <div className="flex items-center gap-4">
-                <Avatar className="bg-gray-50">
-                  <AvatarImage
-                    src={user?.image || `/api/avatar?username=${user.username}`}
-                    alt={user?.name || "Avatar"}
-                  />
-                  <AvatarFallback>
-                    {user?.name?.slice(0, 2)?.toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+                <Avatar className="bg-gray-50" {...user} />
                 <span className="sm:hidden">Votre Réponse</span>
               </div>
 
