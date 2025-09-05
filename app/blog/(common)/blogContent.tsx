@@ -63,7 +63,7 @@ function BlogContent({
   return (
     <div
       className={clsx(
-        "grid grid-cols-1 screen-wrapper lg:grid-cols-[minmax(auto,36px)_minmax(auto,1fr)_minmax(auto,320px)] gap-6 lg:gap-12 py-12",
+        "grid grid-cols-1 screen-wrapper lg:grid-cols-[minmax(auto,36px)_minmax(auto,1fr)_minmax(auto,320px)] gap-6 lg:gap-12 pb-12 md:pt-12",
         {
           "md:!pl-3 lg:!grid-cols-[minmax(auto,1fr)_minmax(auto,320px)]":
             post?.isDraft,
@@ -82,51 +82,6 @@ function BlogContent({
           "order-1": post?.isDraft,
         })}
       >
-        <div className="md:hidden mt-4 flex flex-col sm:space-x-6">
-          <div className="flex items-center space-x-3">
-            <Avatar className="h-10 w-10 bg-gray-50" {...post?.author!} />
-            <div>
-              <p className="text-sm font-medium text-primary">
-                <Link href={`/user/${post?.author.username}`}>
-                  {post!.author.name}
-                </Link>
-              </p>
-              <div className="flex items-center space-x-4 text-sm text-gray-400">
-                <span>
-                  Posté le{" "}
-                  {new Date(post!.createdAt).toLocaleDateString("FR-fr", {
-                    dateStyle: "long",
-                  })}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="sm:hidden mt-5 flex justify-center items-center space-x-4 text-sm text-gray-400">
-            <span className="flex items-center">
-              <Clock className="mr-1 h-4 w-4" />{" "}
-              {calculateReadingTime(post!.content)} min lire
-            </span>
-            {!post!.isDraft && (
-              <>
-                <span className="flex items-center">
-                  <Eye className="mr-1 h-4 w-4" />{" "}
-                  {Intl.NumberFormat("en-US", {
-                    notation: "compact",
-                  }).format(views)}{" "}
-                  vues
-                </span>
-                <span className="flex items-center">
-                  <ThumbsUp className="mr-1 h-4 w-4" />{" "}
-                  {Intl.NumberFormat("en-US", {
-                    notation: "compact",
-                  }).format(likes)}{" "}
-                </span>
-              </>
-            )}
-          </div>
-          <Separator className="mt-2 mb-4 bg-primary/30" />
-        </div>
         <article className="min-w-full prose prose-blue dark:prose-invert prose-headings:scroll-m-20 article-content">
           <TiptapRenderer>{post!.content}</TiptapRenderer>
         </article>
