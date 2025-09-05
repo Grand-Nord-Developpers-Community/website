@@ -1,12 +1,56 @@
 import type { Post } from "@/types";
 import ImageWrapper from "@/components/imageWrapper";
 import { calculateReadingTime } from "@/lib/utils";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
 import { Clock, Edit, Eye, ThumbsUp } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import type { SessionUser } from "@/lib/db/schema";
+import Avatar from "@/components/avatar";
+function renderStat({
+  post,
+  views,
+  likes,
+}: {
+  post: Post;
+  views: number;
+  likes: number;
+}) {
+  return (
+    <div className="flex items-center space-x-4 text-sm text-gray-400">
+      <span>
+        Posté le{" "}
+        {new Date(post!.createdAt).toLocaleDateString("FR-fr", {
+          dateStyle: "long",
+        })}
+      </span>
+      <div className="max-sm:hidden flex items-center space-x-4 text-sm">
+        <span className="flex items-center">
+          <Clock className="mr-1 h-4 w-4" />{" "}
+          {calculateReadingTime(post!.content)} min lire
+        </span>
+        {!post!.isDraft && (
+          <>
+            <span className="flex items-center">
+              <Eye className="mr-1 h-4 w-4" />{" "}
+              {Intl.NumberFormat("en-US", {
+                notation: "compact",
+              }).format(views)}{" "}
+              vues
+            </span>
+            <span className="flex items-center">
+              <ThumbsUp className="mr-1 h-4 w-4" />{" "}
+              {Intl.NumberFormat("en-US", {
+                notation: "compact",
+              }).format(likes)}{" "}
+            </span>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 function headSectionBlog({
   post,
   views = 0,
@@ -61,89 +105,39 @@ function headSectionBlog({
             </p>
             <div className="max-md:hidden flex max-sm:flex-col  sm:items-center sm:space-x-6">
               <div className="flex items-center space-x-3">
-                <Avatar className="h-10 w-10 bg-gray-50">
-                  <AvatarImage
-                    src={
-                      post!.author.image ??
-                      `/api/avatar?username=${post!.author.username}`
-                    }
-                    alt={post!.author.name!}
-                  />
-                  <AvatarFallback>
-                    {post!.author?.name!.slice(0, 2)?.toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+                <Avatar className="h-10 w-10 bg-gray-50" {...post?.author!} />
                 <div>
                   <p className="text-sm font-medium text-white">
                     <Link href={`/user/${post?.author.username}`}>
                       {post!.author.name}
                     </Link>
                   </p>
-                  <div className="flex items-center space-x-4 text-sm text-gray-400">
-                    <span>
-                      Posté le{" "}
-                      {new Date(post!.createdAt).toLocaleDateString("FR-fr", {
-                        dateStyle: "long",
-                      })}
-                    </span>
-                    <div className="max-sm:hidden flex items-center space-x-4 text-sm">
-                      <span className="flex items-center">
-                        <Clock className="mr-1 h-4 w-4" />{" "}
-                        {calculateReadingTime(post!.content)} min lire
-                      </span>
-                      {!post!.isDraft && (
-                        <>
-                          <span className="flex items-center">
-                            <Eye className="mr-1 h-4 w-4" />{" "}
-                            {Intl.NumberFormat("en-US", {
-                              notation: "compact",
-                            }).format(views)}{" "}
-                            vues
-                          </span>
-                          <span className="flex items-center">
-                            <ThumbsUp className="mr-1 h-4 w-4" />{" "}
-                            {Intl.NumberFormat("en-US", {
-                              notation: "compact",
-                            }).format(likes)}{" "}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                  {renderStat({ post, likes, views })}
                 </div>
               </div>
-              <div className="sm:hidden mt-5 flex justify-center items-center space-x-4 text-sm text-gray-400">
-                <span className="flex items-center">
-                  <Clock className="mr-1 h-4 w-4" />{" "}
-                  {calculateReadingTime(post!.content)} min lire
-                </span>
-                {!post!.isDraft && (
-                  <>
-                    <span className="flex items-center">
-                      <Eye className="mr-1 h-4 w-4" />{" "}
-                      {Intl.NumberFormat("en-US", {
-                        notation: "compact",
-                      }).format(views)}{" "}
-                      vues
-                    </span>
-                    <span className="flex items-center">
-                      <ThumbsUp className="mr-1 h-4 w-4" />{" "}
-                      {Intl.NumberFormat("en-US", {
-                        notation: "compact",
-                      }).format(likes)}{" "}
-                    </span>
-                  </>
-                )}
-              </div>
-              {/*<div className="flex space-x-2">
-                  <Button variant="outline" size="sm" onClick={handleLike}>
-                    <Heart className={`mr-2 h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
-                    {isLiked ? 'Liked' : 'Like'}
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Edit className="mr-2 h-4 w-4" /> Editer
-                  </Button>
-                </div>*/}
+            </div>
+            <div className="sm:hidden mt-5 flex justify-center items-center space-x-4 text-sm text-gray-400">
+              <span className="flex items-center">
+                <Clock className="mr-1 h-4 w-4" />{" "}
+                {calculateReadingTime(post!.content)} min lire
+              </span>
+              {!post!.isDraft && (
+                <>
+                  <span className="flex items-center">
+                    <Eye className="mr-1 h-4 w-4" />{" "}
+                    {Intl.NumberFormat("en-US", {
+                      notation: "compact",
+                    }).format(views)}{" "}
+                    vues
+                  </span>
+                  <span className="flex items-center">
+                    <ThumbsUp className="mr-1 h-4 w-4" />{" "}
+                    {Intl.NumberFormat("en-US", {
+                      notation: "compact",
+                    }).format(likes)}{" "}
+                  </span>
+                </>
+              )}
             </div>
           </div>
           <div className="relative bg-gray-300 aspect-[6/3] max-md:absolute max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2 max-md:translate-y-[20%]  max-md:w-[95%] max-md:h-[200px]  h-[400px] rounded-xl overflow-hidden flex items-center justify-center text-white">

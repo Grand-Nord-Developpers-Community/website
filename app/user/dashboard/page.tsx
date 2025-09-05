@@ -1,5 +1,4 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import HeadingPage from "@/sections/common/HeadingPage";
 import { BookOpen, MessageSquare, Activity, Award } from "lucide-react";
 import StatWidget, { Stat } from "@/components/stat-widget";
@@ -12,6 +11,7 @@ enum widgetType {
 }
 import DashboardPage from "./dashboard-detail";
 import { fetchPageViews } from "@/actions/utils.actions";
+import Avatar from "@/components/avatar";
 const Dashboard: React.FC = async () => {
   const user = await getUserProfileUserAuth();
   const posts = user?.blogPosts || [];
@@ -61,17 +61,7 @@ const Dashboard: React.FC = async () => {
         subClassName={"max-sm:block"}
         descClassName={"mb-5"}
         description={"Voici une vue d'ensemble de vos dernières activités"}
-        icon={
-          <Avatar className="bg-gray-50 h-11 w-11">
-            <AvatarImage
-              src={user?.image || `/api/avatar?username=${user?.username}`}
-              alt={user?.name!}
-            />
-            <AvatarFallback className="uppercase">
-              {user?.name!.slice(0, 2)}
-            </AvatarFallback>
-          </Avatar>
-        }
+        icon={<Avatar className="bg-gray-50 h-11 w-11" {...user!} />}
       />
       {/* {JSON.stringify(userActivity)} */}
       <div className="screen-wrapper mt-5">

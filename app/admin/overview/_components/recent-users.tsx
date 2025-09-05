@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Trophy } from "lucide-react";
 import { getNewUsersList } from "@/actions/user.actions";
 import { formatRelativeTime } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Avatar from "@/components/avatar";
 export default async function NewUsers() {
   const users = await getNewUsersList();
   return (
@@ -11,12 +11,7 @@ export default async function NewUsers() {
         users.slice(0, 5).map((user, index) => (
           <div key={user.name} className="flex items-center gap-3">
             <Link href={`#`}>
-              <Avatar>
-                <AvatarImage src={user.image || ""} alt="Author avatar" />
-                <AvatarFallback>
-                  {user.name?.slice(0, 2)?.toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+              <Avatar {...user!} />
             </Link>
             <div className="flex-1 min-w-0">
               <Link

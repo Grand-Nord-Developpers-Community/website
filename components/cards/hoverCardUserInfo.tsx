@@ -1,6 +1,4 @@
 import { CalendarIcon } from "lucide-react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { type Post } from "@/types";
 
 type AuthorType = Exclude<Post, undefined>["author"];
@@ -8,6 +6,7 @@ type AuthorType = Exclude<Post, undefined>["author"];
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
+import Avatar from "../avatar";
 
 export default function HoverCardProfile({
   name,
@@ -23,15 +22,13 @@ export default function HoverCardProfile({
       <CardHeader className="relative p-4">
         <div className="flex items-start gap-5">
           <div className="relative">
-            <Avatar className="bg-gray-50 w-20 h-20 rounded-lg object-cover">
-              <AvatarImage
-                className="size-full rounded-lg object-cover"
-                src={image || `/api/avatar?username=${username}`}
-              />
-              <AvatarFallback className="size-full object-cover rounded-lg">
-                {name?.slice(0, 2)?.toUpperCase() || ""}
-              </AvatarFallback>
-            </Avatar>
+            <Avatar
+              className="bg-gray-50 w-20 h-20 rounded-lg object-cover"
+              username={username}
+              image={image}
+              name={name}
+            />
+
             <Badge
               variant="secondary"
               className="absolute -bottom-2 -right-2 font-mono"

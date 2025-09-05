@@ -3,11 +3,11 @@ import { Eye, MessageSquare } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import EmptyQuestionIcon from "@/assets/svgs/undraw_opinion_re_jix4.svg";
 import VoidQuestionIcon from "@/assets/svgs/undraw_void_-3-ggu.svg";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatRelativeTime } from "@/lib/utils";
 import { Redis } from "@upstash/redis";
 import { getForumPosts } from "@/actions/forum.actions";
 import { fetchPageViews } from "@/actions/utils.actions";
+import Avatar from "./avatar";
 
 const redis = Redis.fromEnv();
 export type Forum = Awaited<ReturnType<typeof getForumPosts>>;
@@ -56,18 +56,7 @@ export default async function QuestionCard({ filter }: { filter: string }) {
             <Card className="p-4 " key={i}>
               <div className="flex gap-4">
                 <Link href={`/user/${q.author.username}`}>
-                  <Avatar className="bg-gray-50">
-                    <AvatarImage
-                      src={
-                        q?.author?.image ||
-                        `/api/avatar?username=${q?.author.username}`
-                      }
-                      alt="Author avatar"
-                    />
-                    <AvatarFallback>
-                      {q.author?.name?.slice(0, 2)?.toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
+                  <Avatar className="bg-gray-50" {...q.author} />
                 </Link>
 
                 <div className="flex-1 space-y-4">

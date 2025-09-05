@@ -1,6 +1,6 @@
 import { SessionUser } from "@/lib/db/schema";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import React from "react";
+import Avatar from "./avatar";
 interface Props {
   user: SessionUser | null;
   reply: boolean;
@@ -34,15 +34,7 @@ function CommentInput({
 
       {user && (
         <>
-          <Avatar className="bg-gray-50">
-            <AvatarImage
-              src={user?.image || `/api/avatar?username=${user.username}`}
-              alt={user?.name || "Avatar"}
-            />
-            <AvatarFallback>
-              {user?.name?.slice(0, 2)?.toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          <Avatar className="bg-gray-50" {...user!} />
           <textarea
             value={value}
             className="border-solid border-2 border-grayishBlue/10 rounded-lg w-full h-full px-5 py-2 outline-none resize-none focus-visible:border-moderateBlue text-darkBlue"
@@ -82,15 +74,7 @@ function CommentInput({
 
           {/* Mobile footer */}
           <div className="bg-gray-50 flex md:hidden flex-row items-center w-full justify-between">
-            <Avatar>
-              <AvatarImage
-                src={user?.image || `/api/avatar?username=${user.username}`}
-                alt={user?.name || "Avatar"}
-              />
-              <AvatarFallback>
-                {user?.name?.slice(0, 2)?.toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            <Avatar {...user} />
 
             {/* Button containers */}
             <div className="flex flex-row-reverse gap-2 h-full justify-between">

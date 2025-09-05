@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 //import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import HeadingPage from "@/sections/common/HeadingPage";
 import { getForumPost, getForumPosts } from "@/actions/forum.actions";
 import RenderContent from "@/components/renderContent";
@@ -24,6 +23,7 @@ import AdBlock from "@/components/adblock";
 import ForumListBrief from "@/components/forumListBrief";
 import ForumQuestionCard from "@/components/forumQuestionCard";
 import { fetchPageViews } from "@/actions/utils.actions";
+import Avatar from "@/components/avatar";
 export const revalidate = 60;
 
 const redis = Redis.fromEnv();
@@ -101,17 +101,7 @@ export default async function QuestionPage({ params }: { params: any }) {
         descClassName={"mb-5"}
         description={
           <div className="flex gap-4 text-left sm:mx-auto w-fit">
-            <Avatar className="bg-gray-50 size-12">
-              <AvatarImage
-                src={
-                  forum.author.image ||
-                  `/api/avatar?username=${forum.author.username}`
-                }
-              />
-              <AvatarFallback className="p-0 font-medium">
-                {forum.author?.name?.slice(0, 2)?.toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            <Avatar className="bg-gray-50 size-12" {...forum.author} />
             <div className="flex flex-col gap-1">
               <span>
                 <Link href={`/user/${forum?.author.username}`}>
@@ -147,18 +137,10 @@ export default async function QuestionPage({ params }: { params: any }) {
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-start">
               <div>
-                <Avatar className="bg-gray-50 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2">
-                  <AvatarImage
-                    src={
-                      forum.author?.image ||
-                      `/api/avatar?username=${forum.author.username}`
-                    }
-                    alt={forum.author?.name || "Avatar"}
-                  />
-                  <AvatarFallback>
-                    {forum.author?.name?.slice(0, 2)?.toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+                <Avatar
+                  className="bg-gray-50 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2"
+                  {...forum.author}
+                />
                 <UpVoteWrapper
                   id={forum.id}
                   value={vote}

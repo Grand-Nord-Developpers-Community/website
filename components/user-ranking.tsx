@@ -3,8 +3,9 @@ import Link from "next/link";
 import { Trophy } from "lucide-react";
 import { getUsersListByRank } from "@/actions/user.actions";
 import { formatRelativeTime } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Card } from "@/components/ui/card";
+import Avatar from "./avatar";
 export async function UserRanking() {
   const users = await getUsersListByRank();
   return (
@@ -15,15 +16,7 @@ export async function UserRanking() {
           users.slice(0, 5).map((user, index) => (
             <div key={user.name} className="flex items-center gap-3">
               <Link href={`#`}>
-                <Avatar className="bg-gray-50">
-                  <AvatarImage
-                    src={user.image || `/api/avatar?username=${user.username}`}
-                    alt="Author avatar"
-                  />
-                  <AvatarFallback>
-                    {user.name?.slice(0, 2)?.toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+                <Avatar className="bg-gray-50" {...user} />
               </Link>
               <div className="flex-1 min-w-0">
                 <Link

@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ImageWrapper from "@/components/imageWrapper";
 import { BlogType } from "@/interfaces/publication";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { fetchPageViews } from "@/actions/utils.actions";
 import { Eye, MessageCircle, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+import Avatar from "./avatar";
 
 function PostStats({
   views,
@@ -105,17 +105,7 @@ export const CardBlog = ({
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-3">
               <Link href={`/user/${author.username}`}>
-                <Avatar className="bg-gray-50 h-10 w-10">
-                  <AvatarImage
-                    src={
-                      author?.image || `/api/avatar?username=${author.username}`
-                    }
-                    alt="Author"
-                  />
-                  <AvatarFallback>
-                    {author?.name?.slice(0, 2)?.toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+                <Avatar className="bg-gray-50 h-10 w-10" {...author!} />
               </Link>
 
               <div>
