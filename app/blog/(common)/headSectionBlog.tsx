@@ -13,20 +13,24 @@ function renderStat({
   post,
   views,
   likes,
+  withDate = true,
 }: {
   post: Post;
   views: number;
   likes: number;
+  withDate?: boolean;
 }) {
   return (
     <div className="flex items-center space-x-4 text-sm text-gray-400">
-      <span>
-        Posté le{" "}
-        {new Date(post!.createdAt).toLocaleDateString("FR-fr", {
-          dateStyle: "long",
-        })}
-      </span>
-      <div className="max-sm:hidden flex items-center space-x-4 text-sm">
+      {withDate && (
+        <span>
+          Posté le{" "}
+          {new Date(post!.createdAt).toLocaleDateString("FR-fr", {
+            dateStyle: "long",
+          })}
+        </span>
+      )}
+      <div className="flex items-center space-x-4 text-sm">
         <span className="flex items-center">
           <Clock className="mr-1 h-4 w-4" />{" "}
           {calculateReadingTime(post!.content)} min lire
@@ -154,7 +158,9 @@ function headSectionBlog({
             </div>
           </div>
 
-          <div className="sm:hidden">{renderStat({ post, views, likes })}</div>
+          <div className="sm:hidden mt-2">
+            {renderStat({ post, views, likes, withDate: false })}
+          </div>
           <Separator className="mt-2 mb-4 bg-primary/30" />
         </div>
       </div>
