@@ -158,7 +158,7 @@ function headSectionBlog({
             </div>
           </div>
 
-          <div className="sm:hidden mt-2">
+          <div className="sm:hidden mt-2 w-full justify-center flex">
             {renderStat({ post, views, likes, withDate: false })}
           </div>
           <Separator className="mt-2 mb-4 bg-primary/30" />
