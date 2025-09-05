@@ -123,7 +123,7 @@ export function Comment({
               <div className="flex flex-col">
                 <div className="flex gap-2 items-center">
                   <Link href={`/user/${comment.author.username}`}>
-                    <span className="font-medium  hover:text-secondary max-md:truncate max-md:max-w-[115px] max-sm:max-w-[110px]">
+                    <span className="font-medium  hover:text-secondary max-md:truncate max-md:max-w-[115px] max-sm:max-w-[40px]">
                       {comment.author.name}
                     </span>
                   </Link>
