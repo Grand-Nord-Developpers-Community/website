@@ -133,28 +133,28 @@ function headSectionBlog({
           </div>
         </div>
       </div>
-      <div className="md:hidden mt-4 flex flex-col sm:space-x-6">
-        <div className="flex items-center space-x-3">
-          <Avatar className="h-10 w-10 bg-gray-50" {...post?.author!} />
-          <div>
-            <p className="text-sm font-medium text-primary">
-              <Link href={`/user/${post?.author.username}`}>
-                {post!.author.name}
-              </Link>
-            </p>
-            <div className="flex items-center space-x-4 text-sm text-gray-400">
-              <span>
-                Posté le{" "}
-                {new Date(post!.createdAt).toLocaleDateString("FR-fr", {
-                  dateStyle: "long",
-                })}
-              </span>
+      <div className=" pt-12 screen-wrapper">
+        <div className="md:hidden mt-4 flex flex-col sm:space-x-6">
+          <div className="flex items-center space-x-3">
+            <Avatar className="h-10 w-10 bg-gray-50" {...post?.author!} />
+            <div>
+              <p className="text-sm font-medium text-primary">
+                <Link href={`/user/${post?.author.username}`}>
+                  {post!.author.name}
+                </Link>
+              </p>
+              <div className="flex items-center space-x-4 text-sm text-gray-400">
+                <span>
+                  Posté le{" "}
+                  {new Date(post!.createdAt).toLocaleDateString("FR-fr", {
+                    dateStyle: "long",
+                  })}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="sm:hidden pt-12 screen-wrapper">
-          {renderStat({ post, views, likes })}
+          <div className="sm:hidden">{renderStat({ post, views, likes })}</div>
           <Separator className="mt-2 mb-4 bg-primary/30" />
         </div>
       </div>
