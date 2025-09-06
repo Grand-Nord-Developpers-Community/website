@@ -3,4 +3,5 @@ export enum ScoringPoints {
   UPVOTED_COMMENT = 5,
   COMMENT_ON_BLOG_OR_FORUM = 3,
   ACTIVITY_DAY = 10,
+  LIKE_RECEIVED = 8,
 }
