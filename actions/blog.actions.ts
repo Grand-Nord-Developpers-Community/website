@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { blogPublishSchema } from "@/schemas/blog-schema";
 import { auth } from "@/lib/auth";
+import { addUserXP } from "./scoring.action";
 type blogValueProps = {
   id?: string;
   title: string;
@@ -33,6 +34,13 @@ export async function createBlogPost({
     content,
   });
   const slug = slugify(title);
+  if (!slug) {
+    return {
+      success: false,
+      message: "le titre de ce blog est invalide",
+      revalidate: "title",
+    };
+  }
   const slugTitle = await db.query.blogPost.findFirst({
     where: eq(blogPost.slug, slug),
     columns: {
@@ -363,6 +371,59 @@ export async function getMoreBlogPosts(id: string, limit: number) {
     },
   });
   return posts;
+}
+export async function updateBlogVisibility({
+  id,
+  isDraft,
+}: {
+  id: string;
+  isDraft: boolean;
+}) {
+  const post = await db.query.blogPost.findFirst({
+    where: eq(blogPost.id, id!),
+    columns: {
+      id: true,
+      isDraft: true,
+    },
+    with: {
+      author: {
+        columns: {
+          id: true,
+        },
+      },
+    },
+  });
+  if (!post) {
+    return {
+      success: false,
+      message: "Un problème est survenue",
+    };
+  }
+
+  const res = await db
+    .update(blogPost)
+    .set({
+      isDraft: isDraft,
+    })
+    .where(eq(blogPost.id, post.id))
+    .returning();
+  if (!res[0]) {
+    return {
+      success: false,
+      message: "Un problème est survenue",
+    };
+  } else {
+    revalidatePath("/blog");
+    revalidatePath("/user/dashboard");
+    revalidatePath("/admin");
+    if (!isDraft) {
+      addUserXP(post.author.id, "ADD_BLOG");
+    }
+    return {
+      success: true,
+      message: "votre blog a été modifié avec sucèss !!",
+    };
+  }
 }
 
 export async function deleteBlog(id: string) {

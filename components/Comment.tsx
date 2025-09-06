@@ -91,7 +91,7 @@ export function Comment({
       <div className="flex items-start">
         <div>
           <Avatar
-            className="bg-gray-50 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2"
+            className="bg-gray-50 size-10 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2"
             {...comment.author}
           />
           <UpVoteComponent
@@ -112,23 +112,27 @@ export function Comment({
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 w-full">
             <div
               className={clsx(
-                "flex items-center justify-between w-full max-md:w-[100%]",
-                {
-                  "clevel-0": isEditing && depth == 0,
-                  "clevel-1": isEditing && depth == 1,
-                  "clevel-2": isEditing && depth == 2,
-                }
+                "flex items-center justify-between w-full max-md:w-[100%]"
               )}
             >
-              <div className="flex flex-col">
+              <div className="flex flex-col justify-start items-start">
                 <div className="flex gap-2 items-center">
                   <Link href={`/user/${comment.author.username}`}>
-                    <span className="font-medium  hover:text-secondary max-md:truncate">
+                    <span
+                      className={clsx(
+                        "font-medium  hover:text-secondary truncate inline-block",
+                        {
+                          "max-md:max-w-32": depth === 0,
+                          " max-md:max-w-24": depth == 1,
+                          "max-md:max-w-16": depth == 2,
+                        }
+                      )}
+                    >
                       {comment.author.name}
                     </span>
                   </Link>
 
-                  {isAuthor && (
+                  {isAuthor && depth < 1 && (
                     <span className="bg-primary text-[10px] text-white px-2 py-0.5 rounded">
                       vous
                     </span>
@@ -137,13 +141,13 @@ export function Comment({
                     {comment.author.exp} Xp
                   </span>
                 </div>
-                <span className="text-gray-400 text-sm">
+                <span className="text-gray-400 text-sm -mt-2 inline-block">
                   @{comment.author.username}
                 </span>
               </div>
               <div
                 className={clsx("flex items-center gap-2", {
-                  "max-[375px]:flex-col": depth == 2,
+                  //"max-[375px]:flex-col": depth == 2,
                 })}
               >
                 {isAuthor ? (
@@ -244,7 +248,7 @@ export function Comment({
       {isReplying && currentUser && (
         <div className="mt-4 space-y-4 border-t border-gray-200 pt-4">
           <div className="flex gap-2 items-center">
-            <Avatar className="bg-gray-50" {...comment.author} />
+            <Avatar className="bg-gray-50 size-10" {...currentUser} />
             <span>Votre réponse</span>
           </div>
 
@@ -253,7 +257,7 @@ export function Comment({
             className={"h-[100px] min-h-56 w-full rounded-xl"}
             editorContentClassName="overflow-auto h-full"
             editorClassName="focus:outline-none px-2 py-4 h-full"
-            placeholder={`Reply to @${comment.author.username}...`}
+            placeholder={`Répondre à @${comment.author.username}...`}
             value={replyContent}
             editable={!isLoading}
             onChange={(v) => setReplyContent(v as string)}

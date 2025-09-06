@@ -2,14 +2,19 @@
 import { db } from "@/lib/db";
 import {
   blogPost,
+  forumPost,
   oauthAccountTable,
+  postComment,
   userTable as user,
+  userActivity,
+  userLike,
   userTable,
+  userVote,
 } from "@/lib/db/schema";
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq, sql, desc, count, or, ilike } from "drizzle-orm";
+import { eq, sql, desc, count, or, ilike, inArray, and } from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -26,6 +31,7 @@ import {
   UpdatePasswordInput,
   updatePasswordSchema,
 } from "@/schemas/password-schema";
+import { ScoringPoints } from "@/constants/scoring";
 
 export async function getUserFromDb(email: string, password: string) {
   try {
@@ -453,7 +459,154 @@ export async function getUserProfileImage(userId: string) {
 
 //   return userStats[0];
 // }
+export async function measure<T>(
+  label: string,
+  fn: () => Promise<T>
+): Promise<T> {
+  const start = performance.now();
+  const result = await fn();
+  const end = performance.now();
+  console.log(`${label} took ${(end - start).toFixed(2)} ms`);
+  return result;
+}
 
+export async function computeUserXP(userId: string): Promise<number> {
+  const blogs = await db.query.blogPost.findMany({
+    columns: {
+      id: true,
+    },
+    where: and(eq(blogPost.authorId, userId), eq(blogPost.isDraft, false)),
+    with: {
+      likes: {
+        where: eq(userLike.isLike, true),
+      },
+      replies: {
+        with: {
+          votes: {
+            where: eq(userVote.isUpvote, true),
+          },
+        },
+        where: eq(postComment.authorId, userId),
+      },
+    },
+  });
+  const forums = await db.query.forumPost.findMany({
+    columns: {
+      id: true,
+    },
+    where: and(eq(forumPost.authorId, userId)),
+    with: {
+      votes: {
+        where: eq(userVote.isUpvote, true),
+      },
+      replies: {
+        with: {
+          votes: {
+            where: eq(userVote.isUpvote, true),
+          },
+        },
+        where: eq(postComment.authorId, userId),
+      },
+    },
+  });
+
+  let blogXP = blogs.length * ScoringPoints.ADD_BLOG;
+  let forumXp = 0;
+  blogs.map((b) => {
+    blogXP += b.likes.length * ScoringPoints.UPVOTED_COMMENT;
+    b.replies.map((r) => {
+      blogXP += r.votes.length * ScoringPoints.UPVOTED_COMMENT;
+    });
+  });
+  forums.map((f) => {
+    forumXp += f.votes.length * ScoringPoints.UPVOTED_COMMENT;
+    f.replies.map((r) => {
+      forumXp += r.votes.length * ScoringPoints.UPVOTED_COMMENT;
+    });
+  });
+
+  // Count activity streak
+  const activity = await db
+    .select()
+    .from(userActivity)
+    .where(eq(userActivity.userId, userId));
+  const activityXP =
+    activity.length > 0
+      ? activity[0].totalDaysActive * ScoringPoints.ACTIVITY_DAY
+      : 0;
+
+  return blogXP + forumXp + activityXP;
+}
+
+// Compute and update XP for one user
+export async function computeAndUpdateUserXP(userId: string): Promise<number> {
+  // Blog posts authored (non-drafts)
+  const [{ count: blogCount }] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(blogPost)
+    .where(
+      sql`${blogPost.authorId} = ${userId} AND ${blogPost.isDraft} = false`
+    );
+  const blogXP = blogCount * ScoringPoints.ADD_BLOG;
+
+  // Likes received on blog posts
+  const [{ count: blogLikes }] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(userLike)
+    .innerJoin(blogPost, eq(blogPost.id, userLike.postId))
+    .where(sql`${blogPost.authorId} = ${userId} AND ${userLike.isLike} = true`);
+  const blogLikeXP = blogLikes * ScoringPoints.UPVOTED_COMMENT; // 1 XP each (you can replace with a constant)
+
+  // Upvotes received on comments (blog + forum)
+  const [{ count: commentVotes }] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(userVote)
+    .innerJoin(postComment, eq(postComment.id, userVote.commentId))
+    .where(
+      sql`${postComment.authorId} = ${userId} AND ${userVote.isUpvote} = true`
+    );
+  const commentVoteXP = commentVotes * ScoringPoints.UPVOTED_COMMENT;
+
+  // Upvotes received on forum posts
+  const [{ count: forumVotes }] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(userVote)
+    .innerJoin(forumPost, eq(forumPost.id, userVote.postId))
+    .where(
+      sql`${forumPost.authorId} = ${userId} AND ${userVote.isUpvote} = true`
+    );
+  const forumVoteXP = forumVotes * ScoringPoints.UPVOTED_COMMENT;
+
+  // Activity streak
+  const [activity] = await db
+    .select({ streak: userActivity.totalDaysActive })
+    .from(userActivity)
+    .where(eq(userActivity.userId, userId));
+  const activityXP = activity
+    ? activity.streak * ScoringPoints.ACTIVITY_DAY
+    : 0;
+
+  // Total XP
+  const totalXP =
+    blogXP + blogLikeXP + commentVoteXP + forumVoteXP + activityXP;
+
+  // Update user record with new XP
+  await db
+    .update(user)
+    .set({ experiencePoints: totalXP })
+    .where(eq(user.id, userId));
+
+  return totalXP;
+}
+
+export async function recomputeAllUsersXP() {
+  const users = await db.select({ id: user.id }).from(user);
+
+  for (const u of users) {
+    await computeAndUpdateUserXP(u.id);
+  }
+  console.log("done !!");
+}
 /**pagination fetch */
 
 export async function getPaginatedUsers(page: number, pageSize: number) {

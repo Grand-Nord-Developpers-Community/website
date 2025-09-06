@@ -1,5 +1,8 @@
+import { getRecentUsers, getTotalUser } from "@/actions/queries/user";
 import AppSidebar from "@/components/layout/app-sidebar";
+import { getQueryClient } from "@/lib/react-query";
 import { withAuth } from "@/lib/withAuth";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 export const metadata: Metadata = {
@@ -16,9 +19,15 @@ export default async function DashboardLayout({
   if (session.user.role !== "admin") {
     return notFound();
   }
+  const qc = getQueryClient();
+  await Promise.all([
+    qc.prefetchQuery(getTotalUser()),
+    qc.prefetchQuery(getRecentUsers()),
+  ]);
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(qc)}>
       <AppSidebar>{children}</AppSidebar>
-    </>
+    </HydrationBoundary>
   );
 }

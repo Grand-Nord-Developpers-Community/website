@@ -56,7 +56,7 @@ export default async function QuestionCard({ filter }: { filter: string }) {
             <Card className="p-4 " key={i}>
               <div className="flex gap-4">
                 <Link href={`/user/${q.author.username}`}>
-                  <Avatar className="bg-gray-50" {...q.author} />
+                  <Avatar className="bg-gray-50 size-10" {...q.author} />
                 </Link>
 
                 <div className="flex-1 space-y-4">

@@ -1,6 +1,6 @@
 export enum ScoringPoints {
-  ADD_BLOG = 10,
+  ADD_BLOG = 15,
   UPVOTED_COMMENT = 5,
-  DAILY_ONLINE = 2,
   COMMENT_ON_BLOG_OR_FORUM = 3,
+  ACTIVITY_DAY = 10,
 }

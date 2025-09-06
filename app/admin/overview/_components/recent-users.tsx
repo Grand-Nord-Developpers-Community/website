@@ -3,8 +3,12 @@ import { Trophy } from "lucide-react";
 import { getNewUsersList } from "@/actions/user.actions";
 import { formatRelativeTime } from "@/lib/utils";
 import Avatar from "@/components/avatar";
+import { getQueryClient } from "@/lib/react-query";
+import { getRecentUsers } from "@/actions/queries/user";
 export default async function NewUsers() {
-  const users = await getNewUsersList();
+  const qc = getQueryClient();
+  const users = await qc.fetchQuery(getRecentUsers());
+
   return (
     <div className="space-y-4">
       {users &&

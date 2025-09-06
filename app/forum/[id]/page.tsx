@@ -138,7 +138,7 @@ export default async function QuestionPage({ params }: { params: any }) {
             <div className="flex items-start">
               <div>
                 <Avatar
-                  className="bg-gray-50 space-x-2 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2"
+                  className="bg-gray-50 space-x-2 size-10 sm:space-x-0 sm:space-y-2 mr-3 sm:mr-4 mb-2"
                   {...forum.author}
                 />
                 <UpVoteWrapper
