@@ -63,7 +63,7 @@ function BlogContent({
   return (
     <div
       className={clsx(
-        "grid grid-cols-1 screen-wrapper lg:grid-cols-[minmax(auto,36px)_minmax(auto,1fr)_minmax(auto,320px)] gap-6 lg:gap-12 pb-12 md:pt-12",
+        "grid grid-cols-1 screen-wrapper lg:grid-cols-[minmax(auto,36px)_minmax(auto,1fr)_minmax(auto,320px)] gap-6 lg:gap-12 pb-12",
         {
           "md:!pl-3 lg:!grid-cols-[minmax(auto,1fr)_minmax(auto,320px)]":
             post?.isDraft,

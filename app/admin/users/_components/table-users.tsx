@@ -23,15 +23,16 @@ import { useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
 import {
   deleteUser,
-  getPaginatedUsers,
+  getPaginatedUsers as pg,
   getTotalUsers,
 } from "@/actions/user.actions";
 import { toast } from "sonner";
 import { formatRelativeTime } from "@/lib/utils";
 import Avatar from "@/components/avatar";
 import { Badge } from "@/components/ui/badge";
+import { getPaginatedUsers, getTotalUser } from "@/actions/queries/user";
 
-export type User = Awaited<ReturnType<typeof getPaginatedUsers>>;
+export type User = Awaited<ReturnType<typeof pg>>;
 export default function MyPostsTablePage({
   initialPage = 0,
   initialSize = 5,
@@ -44,15 +45,11 @@ export default function MyPostsTablePage({
   const [openModal, setOpenModal] = useState(false);
   const page = Number(sp.get("page") ?? initialPage);
   const size = Number(sp.get("size") ?? initialSize);
-  const key = ["users", { page, size }];
-  const { data, isPending, isError, error } = useQuery({
-    queryKey: key,
-    queryFn: async () => await getPaginatedUsers(page, size),
-  });
-  const { data: total } = useQuery({
-    queryKey: ["total-users"],
-    queryFn: async () => await getTotalUsers(),
-  });
+  const key = getPaginatedUsers(page, size).queryKey;
+  const { data, isPending, isError, error } = useQuery(
+    getPaginatedUsers(page, size)
+  );
+  const { data: total } = useQuery(getTotalUser());
   const rows = data ?? [];
   // const total = data?.length ?? 0;
 

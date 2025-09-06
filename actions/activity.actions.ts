@@ -6,6 +6,7 @@ import { Redis } from "@upstash/redis";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { addUserXP } from "./scoring.action";
 
 const redis = Redis.fromEnv();
 
@@ -140,6 +141,7 @@ export async function processActivity(userId: string) {
         totalDaysActive: activity.totalDaysActive + 1,
       })
       .where(eq(userActivity.userId, userId));
+    await addUserXP(userId, "ACTIVITY_DAY");
   }
 
   await redis.set(`user:${userId}:last_seen`, Date.now());
