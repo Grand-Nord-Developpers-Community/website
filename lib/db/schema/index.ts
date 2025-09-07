@@ -11,3 +11,4 @@ export * from "./comment";
 export * from "./like";
 export * from "./vote";
 export * from "./activity";
+export * from "./members";
