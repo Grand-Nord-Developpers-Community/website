@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "dev-secure":"next dev --experimental-https",
     "lint": "next lint",
     "generate": "drizzle-kit generate",
     "push": "drizzle-kit push",
@@ -137,6 +138,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.3",
+    "web-push": "^3.6.7",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
@@ -150,6 +152,7 @@
     "@types/prismjs": "^1.26.4",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/web-push": "^3.6.4",
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.21.2",
     "eslint": "^8",

@@ -12,3 +12,5 @@ export * from "./like";
 export * from "./vote";
 export * from "./activity";
 export * from "./members";
+export * from "./device";
+export * from "./role-permission";
