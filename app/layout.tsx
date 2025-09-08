@@ -78,7 +78,7 @@ export default async function RootLayout({
   // if (session.user) {
   //   processActivity(session.user.id);
   // }
-  //console.log(session);
+  console.log(session.user?.id);
   return (
     <html lang="fr">
       <body

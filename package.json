@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "dev-secure":"next dev --experimental-https",
     "lint": "next lint",
     "generate": "drizzle-kit generate",
     "push": "drizzle-kit push",
