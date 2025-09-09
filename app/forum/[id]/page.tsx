@@ -69,7 +69,7 @@ export default async function QuestionPage({ params }: { params: any }) {
   const { id } = params;
   const forum = await getForumPost(id as string);
   if (!forum) {
-    notFound();
+    return notFound();
   }
   const forums = await getForumPosts();
   const vote = forum.votes.reduce(

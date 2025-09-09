@@ -8,6 +8,8 @@ import { slugify } from "@/lib/utils";
 import { blogPublishSchema } from "@/schemas/blog-schema";
 import { auth } from "@/lib/auth";
 import { addUserXP } from "./scoring.action";
+import { addJob } from "./qeues.action";
+
 type blogValueProps = {
   id?: string;
   title: string;
@@ -54,15 +56,18 @@ export async function createBlogPost({
       revalidate: "title",
     };
   }
-  const req = await db.insert(blogPost).values({
-    title,
-    description,
-    preview,
-    previewHash,
-    content,
-    slug,
-    authorId,
-  });
+  const req = await db
+    .insert(blogPost)
+    .values({
+      title,
+      description,
+      preview,
+      previewHash,
+      content,
+      slug,
+      authorId,
+    })
+    .returning();
 
   if (!req) {
     return {
@@ -73,7 +78,7 @@ export async function createBlogPost({
 
   revalidatePath("/blog");
   revalidatePath("/user/dashboard");
-
+  await addJob("BLOG_CREATED", { slug });
   return {
     success: true,
     message: "votre blog a été publié avec sucèss !!",

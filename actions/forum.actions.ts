@@ -5,6 +5,7 @@ import { forumPost } from "@/lib/db/schema";
 import { eq, desc, count } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Redis } from "@upstash/redis";
+import { addJob } from "./qeues.action";
 //import { columns } from "@/app/admin/employee/_components/employee-tables/columns";
 
 const redis = Redis.fromEnv();
@@ -17,12 +18,20 @@ export async function createForumPost(
   const session = await auth();
   //@ts-ignore
   const id = session?.user.id ?? "";
-  await db.insert(forumPost).values({
-    title,
-    content,
-    authorId: id,
-    textContent,
-  });
+  const res = await db
+    .insert(forumPost)
+    .values({
+      title,
+      content,
+      authorId: id,
+      textContent,
+    })
+    .returning();
+  if (res) {
+    await addJob("FORUM_CREATED", {
+      forumId: res[0].id,
+    });
+  }
 
   revalidatePath("/forum");
   revalidatePath("/user/dashboard");

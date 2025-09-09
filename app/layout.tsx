@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@/styles/globals.scss";
+// import "@/styles/globals.scss";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
@@ -11,7 +11,7 @@ import { Toaster } from "@/components/ui/sonner";
 //OFFLINE FONT LOAD
 import localFont from "next/font/local";
 import BackToTop from "@/components/ui/BackToTop";
-const montserra = localFont({
+export const montserra = localFont({
   src: [
     {
       path: "./_fonts/Montserrat-Thin.ttf",
@@ -78,7 +78,7 @@ export default async function RootLayout({
   // if (session.user) {
   //   processActivity(session.user.id);
   // }
-  //console.log(session);
+  console.log(session.user?.id);
   return (
     <html lang="fr">
       <body

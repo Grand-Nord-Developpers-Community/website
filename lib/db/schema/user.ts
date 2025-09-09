@@ -6,6 +6,7 @@ import {
   integer,
   json,
 } from "drizzle-orm/pg-core";
+import { rolesTable } from "./role-permission";
 
 export const userTable = pgTable("user", {
   id: text("id").primaryKey(),
@@ -32,6 +33,10 @@ export const userTable = pgTable("user", {
   isCheckProfile: boolean("isCheckProfile").default(false),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
+  role_id: integer("role_id")
+    .references(() => rolesTable.id)
+    .notNull()
+    .default(1), //=> to fix when adding role or permision
 });
 
 export type User = typeof userTable.$inferSelect;

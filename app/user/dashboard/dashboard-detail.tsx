@@ -19,6 +19,7 @@ import { AlertModal } from "@/components/modal/alert-modal";
 import { useRouter } from "next/navigation";
 import EditForumPost from "@/components/editForumPost";
 import { Forum } from "@/components/question-card";
+import TestWorkerPage from "@/components/test-trigger";
 export type ForumUser = Awaited<ReturnType<typeof getUserForumPosts>>;
 export type BlogUser = Awaited<ReturnType<typeof getUserBlogPosts>>;
 
@@ -56,6 +57,8 @@ const Dashboard = ({
     id: "",
     action: "",
   });
+
+  const pending = localStorage.getItem("pendingPushSubscription");
   //const [blogs, setBlogs] = useState<Post[]>([])
   //const [forums, setForums] = useState<Post[]>([])
 
@@ -179,6 +182,7 @@ const Dashboard = ({
 
   return (
     <>
+      {/* LOCAL STORAGE : {JSON.stringify(pending)} */}
       <Tabs
         defaultValue="blogs"
         className="w-full "
@@ -215,6 +219,7 @@ const Dashboard = ({
           )}
         </div>
         <div className="mb-8">
+          {/* <TestWorkerPage /> */}
           <TabsContent value="blogs">
             {posts.length > 0 ? (
               <>

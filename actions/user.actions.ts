@@ -3,8 +3,10 @@ import { db } from "@/lib/db";
 import {
   blogPost,
   forumPost,
+  IRole,
   oauthAccountTable,
   postComment,
+  rolesTable,
   userTable as user,
   userActivity,
   userLike,
@@ -32,6 +34,8 @@ import {
   updatePasswordSchema,
 } from "@/schemas/password-schema";
 import { ScoringPoints } from "@/constants/scoring";
+import { processActivity } from "./activity.actions";
+import { addJob } from "./qeues.action";
 
 export async function getUserFromDb(email: string, password: string) {
   try {
@@ -77,42 +81,6 @@ export async function getUserFromDb(email: string, password: string) {
   }
 }
 
-/*export async function login({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) {
-  try {
-    LoginSchema.parse({
-      email,
-      password,
-    });
-
-    const formData = new FormData();
-
-    formData.append("email", email);
-    formData.append("password", password);
-
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    return {
-      success: true,
-      data: res,
-    };
-  } catch (error: any) {
-    return {
-      success: false,
-      message: "Email or password is incorrect.",
-    };
-  }
-}*/
-
 export async function loginWithGithub(props: {
   searchParams: { callbackUrl: string | undefined };
 }) {
@@ -124,82 +92,6 @@ export async function loginWithGithub(props: {
     return redirect(`/error-auth?error=${error}`);
   }
 }
-
-/*export async function register({
-  email,
-  password,
-  confirmPassword,
-}: {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}) {
-  try {
-    RegisterSchema.parse({
-      email,
-      password,
-      confirmPassword,
-    });
-    // get user from db
-    const existedUser = await getUserFromDb(email, password);
-    if (existedUser.success) {
-      return {
-        success: false,
-        message: "User already exists.",
-      };
-    }
-    const hash = await bcryptjs.hash(password, 10);
-
-    const [insertedUser] = await db
-      .insert(user)
-      .values({
-        email,
-        password: hash,
-      })
-      .returning({
-        id: user.id,
-        email: user.email,
-      });
-
-    return {
-      success: true,
-      data: insertedUser,
-    };
-  } catch (error: any) {
-    return {
-      success: false,
-      message: error.message,
-    };
-  }
-}
-*/
-/*export async function logout() {
-  try {
-    await LoginOut()
-    return {
-      success: true,
-    };
-  } catch (error: any) {
-    return {
-      success: false,
-      message: error.message,
-    };
-  }
-  
-  // try {
-  //   await signOut({
-  //     redirect: false,
-  //   });
-  //   return {
-  //     success: true,
-  //   };
-  // } catch (error: any) {
-  //   return {
-  //     success: false,
-  //     message: error.message,
-  //   };
-  // }
-}*/
 
 export async function updateUserRole(
   userId: string,
@@ -438,27 +330,60 @@ export async function getUserProfileImage(userId: string) {
     throw new Error("User image not found");
   }
 }
-// export async function getUserStats(userId: string) {
-//   const userStats = await db
-//     .select({
-//       blogPostCount: sql<number>`count(distinct ${blogPost.id})`,
-//       forumPostCount: sql<number>`count(distinct ${forumPost.id})`,
-//       experiencePoints: user.experiencePoints,
-//       streak: user.streak,
-//     })
-//     .from(user)
-//     .leftJoin(blogPost, eq(blogPost.authorId, user.id))
-//     .leftJoin(forumPost, eq(forumPost.authorId, user.id))
-//     .where(eq(user.id, userId))
-//     .groupBy(user.id)
-//     .limit(1);
 
-//   if (userStats.length === 0) {
-//     throw new Error("User not found");
-//   }
+export async function getUserWithRoleAndDevices(role: IRole["name"]) {
+  return await db.query.userTable.findMany({
+    columns: {
+      name: true,
+      email: true,
+      id: true,
+    },
+    where: eq(
+      user.role_id,
+      db
+        .select({ id: rolesTable.id })
+        .from(rolesTable)
+        .where(eq(rolesTable.name, role))
+    ),
+    with: {
+      devices: true,
+      role: {
+        columns: {
+          name: true,
+          id: true,
+        },
+      },
+    },
+  });
+}
+export async function getUserWithRolesAndDevices(role: Array<IRole["name"]>) {
+  const roles = await db
+    .select({ id: rolesTable.id })
+    .from(rolesTable)
+    .where(inArray(rolesTable.name, role));
 
-//   return userStats[0];
-// }
+  const roleIds = roles.map((r) => r.id);
+
+  if (roleIds.length === 0) return [];
+
+  return await db.query.userTable.findMany({
+    columns: {
+      name: true,
+      email: true,
+      id: true,
+    },
+    where: inArray(user.role_id, roleIds),
+    with: {
+      devices: true,
+      role: {
+        columns: {
+          name: true,
+          id: true,
+        },
+      },
+    },
+  });
+}
 export async function measure<T>(
   label: string,
   fn: () => Promise<T>
@@ -693,9 +618,12 @@ export async function updateUserProfileCompletion(
         isCompletedProfile: true,
         updatedAt: new Date(),
       })
-      .where(eq(user.id, userId));
+      .where(eq(user.id, userId))
+      .returning();
 
     await refreshSession();
+    await processActivity(res[0].id);
+    await addJob("USER_NEW", { userId: res[0].id });
     revalidatePath(`/profile/${userId}`);
     revalidatePath("/user");
     return {

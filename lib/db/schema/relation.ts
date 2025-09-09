@@ -7,6 +7,12 @@ import { postComment } from "./comment";
 import { forumPost } from "./forum";
 import { event } from "./event";
 import { userActivity } from "./activity";
+import { devicesTable } from "./device";
+import {
+  permissionsTable,
+  rolePermissionsTable,
+  rolesTable,
+} from "./role-permission";
 export const userRelations = relations(user, ({ many, one }) => ({
   blogPosts: many(blogPost),
   forumPosts: many(forumPost),
@@ -19,6 +25,11 @@ export const userRelations = relations(user, ({ many, one }) => ({
     references: [userActivity.userId],
   }),
   oauthAccounts: many(oauthAccountTable),
+  devices: many(devicesTable),
+  role: one(rolesTable, {
+    fields: [user.role_id],
+    references: [rolesTable.id],
+  }),
 }));
 
 export const blogPostRelations = relations(blogPost, ({ one, many }) => ({
@@ -92,6 +103,21 @@ export const userActivityRelations = relations(userActivity, ({ one }) => ({
     references: [user.id],
   }),
 }));
+export const roleRelations = relations(rolesTable, ({ many }) => ({
+  users: many(user),
+  permissions: many(permissionsTable),
+}));
+
+export const permissionRelations = relations(permissionsTable, ({ many }) => ({
+  roles: many(rolePermissionsTable),
+}));
+
+export const deviceRelations = relations(devicesTable, ({ one }) => ({
+  user: one(user, {
+    fields: [devicesTable.userId],
+    references: [user.id],
+  }),
+}));
 
 export const eventRelations = relations(event, ({ one }) => ({
   creator: one(user, {
@@ -99,9 +125,12 @@ export const eventRelations = relations(event, ({ one }) => ({
     references: [user.id],
   }),
 }));
-export const oauthAccountRelations = relations(oauthAccountTable, ({ one }) => ({
-  user: one(user, {
-    fields: [oauthAccountTable.user_id],
-    references: [user.id],
-  }),
-}));
+export const oauthAccountRelations = relations(
+  oauthAccountTable,
+  ({ one }) => ({
+    user: one(user, {
+      fields: [oauthAccountTable.user_id],
+      references: [user.id],
+    }),
+  })
+);
