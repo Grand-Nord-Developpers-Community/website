@@ -158,7 +158,9 @@ export default function NotificationManager() {
 
         if (result) {
           // small delay for natural UX
-          await handleNotificationPermission();
+          setTimeout(async () => {
+            await handleNotificationPermission();
+          }, 500);
           // const permission = await Notification.requestPermission();
 
           // if (permission === "granted") {
