@@ -13,7 +13,7 @@ export interface NoficationProps {
   device: Device;
 }
 export async function sendNotification({ data, device }: NoficationProps) {
-  const d = device as unknown as CustomPushSubscription;
+  const d = device.pushSubscription as unknown as CustomPushSubscription;
   const res = await webpush.sendNotification(
     d,
     JSON.stringify({

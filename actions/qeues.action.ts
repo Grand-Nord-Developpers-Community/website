@@ -13,5 +13,5 @@ export async function addJob<K extends keyof JobPayloads>(
   //const handler = handlers[name as keyof JobPayloads];
   //@ts-ignore
   //return handler(data);
-  return notificationQueue.add(name, data);
+  notificationQueue.add(name, data);
 }
