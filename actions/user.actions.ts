@@ -356,18 +356,21 @@ export async function getUserWithRoleAndDevices(role: IRole["name"]) {
   });
 }
 export async function getUserWithRolesAndDevices(role: Array<IRole["name"]>) {
+  const roles = await db
+    .select({ id: rolesTable.id })
+    .from(rolesTable)
+    .where(inArray(rolesTable.name, role));
+
+  const roleIds = roles.map((r) => r.id);
+
+  if (roleIds.length === 0) return [];
+
   return await db.query.userTable.findMany({
     columns: {
       name: true,
       email: true,
     },
-    where: eq(
-      user.role_id,
-      db
-        .select({ id: rolesTable.id })
-        .from(rolesTable)
-        .where(inArray(rolesTable.name, role))
-    ),
+    where: inArray(user.role_id, roleIds),
     with: {
       devices: true,
       role: {
