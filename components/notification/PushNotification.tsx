@@ -7,6 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangle, Bell, X } from "lucide-react";
 import { useConfirm } from "@omit/react-confirm-dialog";
 import { useSession } from "../auth/SessionProvider";
+import { toast } from "sonner";
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
 
@@ -42,7 +43,84 @@ export default function NotificationManager() {
     permission === "denied" ? true : false
   );
   const { asked, setAsked } = useNotificationStore();
+  const [isServiceWorkerReady, setIsServiceWorkerReady] = useState(false);
   const confirm = useConfirm();
+
+  const handleNotificationPermission = async () => {
+    if (typeof Notification !== "undefined") {
+      const currentPermission = Notification.permission;
+      setPermission(currentPermission);
+
+      if (currentPermission === "default") {
+        const newPermission = await Notification.requestPermission();
+        setPermission(newPermission);
+
+        if (newPermission === "granted") {
+          await registerServiceWorker();
+        } else {
+          console.error("Notification permission denied");
+        }
+      } else if (currentPermission === "granted") {
+        await registerServiceWorker();
+      }
+    }
+  };
+  useEffect(() => {
+    handleNotificationPermission();
+  }, []);
+
+  async function registerServiceWorker() {
+    try {
+      const registration = await navigator.serviceWorker.register("/sw.js", {
+        scope: "/",
+        updateViaCache: "none",
+      });
+
+      if (navigator.serviceWorker.controller) {
+        setIsServiceWorkerReady(true);
+      } else {
+        // Wait for service worker to be installed
+        registration.onupdatefound = () => {
+          const installingWorker = registration.installing;
+          if (installingWorker) {
+            installingWorker.onstatechange = () => {
+              if (
+                installingWorker.state === "installed" &&
+                navigator.serviceWorker.controller
+              ) {
+                setIsServiceWorkerReady(true);
+              }
+            };
+          }
+        };
+      }
+    } catch (error) {
+      console.error("Service Worker registration failed:", error);
+    }
+  }
+
+  useEffect(() => {
+    const subscribeToPush = async () => {
+      if (isServiceWorkerReady) {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+          const sub = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: VAPID_PUBLIC_KEY,
+          });
+          localStorage.setItem("pendingPushSubscription", JSON.stringify(sub));
+
+          const res = await subscribeUser(sub.toJSON());
+          console.log("Subscription successful:", res.success);
+        } catch (error) {
+          console.error("Push subscription failed:", error);
+        }
+      }
+    };
+
+    subscribeToPush();
+  }, [isServiceWorkerReady]);
+
   useEffect(() => {
     if (permission === "granted" || permission === "denied") {
       setAsked();
@@ -68,6 +146,7 @@ export default function NotificationManager() {
           cancelText: "Retour",
           cancelButton: {
             variant: "outline",
+            className: "max-sm:mt-2",
           },
           confirmText: "activer",
           confirmButton: {
@@ -79,64 +158,71 @@ export default function NotificationManager() {
 
         if (result) {
           // small delay for natural UX
-          setTimeout(async () => {
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-              console.log("✅ Notifications activées");
-              await registerAndSubscribe();
-            } else if (permission === "denied") {
-              console.warn("❌ Notifications refusées");
-              setShowBanner(true); // show instructions
-            }
-          }, 500);
+          await handleNotificationPermission();
+          // const permission = await Notification.requestPermission();
+
+          // if (permission === "granted") {
+          //   console.log("✅ Notifications activées");
+          //   await registerAndSubscribe();
+          // } else if (permission === "denied") {
+          //   console.warn("❌ Notifications refusées");
+          //   setShowBanner(true); // show instructions
+          // }
+          // setTimeout(async () => {
+          // }, 10);
         }
       })();
     }
   }, [asked, setAsked]);
-  useEffect(() => {
-    if (!user) return;
+  // useEffect(() => {
+  //   if (!user) return;
 
-    const pending = localStorage.getItem("pendingPushSubscription");
-    if (pending) {
-      const subscription = JSON.parse(pending);
-      subscribeUser(subscription)
-        .then(() => {
-          console.log("✅ Subscription associated with user");
-          localStorage.removeItem("pendingPushSubscription");
-        })
-        .catch(console.error);
-    }
-  }, [user]);
-  async function registerAndSubscribe() {
-    try {
-      const registration = await navigator.serviceWorker.register("/sw.js", {
-        scope: "/",
-        updateViaCache: "none",
-      });
-      await navigator.serviceWorker.ready;
+  //   const pending = localStorage.getItem("pendingPushSubscription");
+  //   if (pending) {
+  //     const subscription = JSON.parse(pending);
+  //     subscribeUser(subscription)
+  //       .then(() => {
+  //         console.log("✅ Subscription associated with user");
+  //         //localStorage.removeItem("pendingPushSubscription");
+  //       })
+  //       .catch(console.error);
+  //   }
+  // }, [user]);
+  // async function registerAndSubscribe() {
+  //   try {
+  //     const registration = await navigator.serviceWorker.register("/sw.js", {
+  //       scope: "/",
+  //       updateViaCache: "none",
+  //     });
+  //     await navigator.serviceWorker.ready;
 
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: VAPID_PUBLIC_KEY,
-      });
-      localStorage.setItem(
-        "pendingPushSubscription",
-        JSON.stringify(subscription.toJSON())
-      );
-      const res = await subscribeUser(subscription.toJSON());
-      if (res.success) {
-        localStorage.removeItem("pendingPushSubscription");
-      }
-      console.log("Subscription saved:", res.success);
-    } catch (err) {
-      console.error("Erreur lors de l’inscription au push:", err);
-    }
-  }
+  //     const subscription = await registration.pushManager.subscribe({
+  //       userVisibleOnly: true,
+  //       applicationServerKey: VAPID_PUBLIC_KEY,
+  //     });
+  //     localStorage.setItem(
+  //       "pendingPushSubscription",
+  //       JSON.stringify(subscription.toJSON())
+  //     );
+  //     toast(JSON.stringify(subscription.toJSON()));
+  //     const res = await subscribeUser(subscription.toJSON());
+  //     toast.success(JSON.stringify(res));
+  //     toast.success(JSON.stringify(subscription));
+
+  //     if (res.success) {
+  //       //localStorage.removeItem("pendingPushSubscription");
+  //     }
+  //     console.log("Subscription saved:", res.success);
+  //   } catch (err) {
+
+  //     console.error("Erreur lors de l’inscription au push:", err);
+  //   }
+  // }
 
   return (
     <>
       {showBanner && (
-        <Alert className="fixed z-30 bottom-4 right-4 max-w-sm border-secondary/50 text-secondary  [&>svg]:text-yellow-500 border-b-4 pb-4 shadow-sm">
+        <Alert className="fixed z-30 bottom-4 right-2  sm:right-4 max-w-[95%] sm:max-w-sm border-secondary/50 text-secondary  [&>svg]:text-yellow-500 border-b-4 pb-4 shadow-sm">
           <AlertTriangle className="size-5" />
           <AlertTitle className="mt-2">Notifications désactivées</AlertTitle>
           <AlertDescription className="mt-2 text-gray-700">

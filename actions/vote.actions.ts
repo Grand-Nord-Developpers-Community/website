@@ -5,6 +5,7 @@ import { forumPost, postComment, userVote } from "@/lib/db/schema";
 import { and, eq, isNull, not } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { addUserXP, removeUserXP } from "./scoring.action";
+import { addJob } from "./qeues.action";
 
 export async function isuserVotedPost({
   postId,
@@ -124,10 +125,15 @@ export async function upVotePost({
         ? { commentId, userId, isUpvote }
         : { postId, userId, isUpvote };
 
-      await db.insert(userVote).values(insertData);
+      const res = await db.insert(userVote).values(insertData).returning();
 
       if (isUpvote) {
         await addUserXP(targetUserId, "UPVOTED_COMMENT");
+        await addJob("UPVOTED", {
+          commentId: res[0].commentId!,
+          targetUserId,
+          userId,
+        });
       }
     }
 

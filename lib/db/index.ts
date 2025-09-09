@@ -9,7 +9,11 @@ import {
 import { Pool as NeonPool } from "@neondatabase/serverless";
 import { Pool as PgPool } from "pg";
 import * as schema from "./schema";
+import * as dotenv from "dotenv";
 
+dotenv.config({
+  path: ".env",
+});
 const connectionString = process.env.DATABASE_URL!;
 const url = new URL(connectionString);
 const isSupabase = url.hostname.endsWith(".supabase.com");

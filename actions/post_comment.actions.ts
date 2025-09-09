@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { eq, desc, or, inArray, and, not, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { notEqual } from "assert";
+import { addJob } from "./qeues.action";
 
 export interface ReplyWithAuthor {
   id: string;
@@ -25,7 +26,7 @@ export interface ReplyWithAuthor {
   }[];
   replies: ReplyWithAuthor[];
 }
-interface replyProps {
+export interface replyProps {
   postId?: string | null;
   blogId?: string | null;
   parentId: string | null;
@@ -90,8 +91,18 @@ export async function addpostComment({
       throw new Error(`Comment with ID ${insertedReply[0].id} not found.`);
     }
     console.log(data);
+    const r = data[0];
     revalidatePath(`/forum/${postId}`);
-    return { success: true, result: data[0] };
+    await addJob("COMMENT_ADDED", {
+      commentAuthorId: r.authorId,
+      comment: {
+        content,
+        parentId,
+        blogId,
+        postId,
+      },
+    });
+    return { success: true, result: r };
   } catch (error) {
     console.error("Error adding forum reply:", error);
     return { error: "Failed to add reply" };

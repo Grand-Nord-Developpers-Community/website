@@ -1,0 +1,68 @@
+import { db } from "@/lib/db";
+import { JobPayloads } from "../jobs";
+import { eq } from "drizzle-orm";
+import { userTable } from "@/lib/db/schema";
+import { sendNotification } from "./(common)/notification";
+import { baseUrl } from "@/emails/base-layout";
+import { renderEmail } from "@/emails/mailer";
+import { transporter } from "@/lib/connection";
+
+export default async function whenNewUser(
+  data: JobPayloads["USER_NEW"],
+  via: boolean = true
+) {
+  const { userId } = data;
+  // Fetch admins
+  if (!via) {
+    console.log("via web ...");
+  }
+  if (via) {
+    console.log("Via jobs");
+  }
+  const user = await db.query.userTable.findFirst({
+    columns: {
+      name: true,
+      username: true,
+      image: true,
+      id: true,
+      email: true,
+    },
+    where: eq(userTable.id, userId),
+    with: {
+      devices: true,
+    },
+  });
+  if (!user) {
+    return;
+  }
+  if (user.devices.length > 0) {
+    user.devices.map(async (device) => {
+      await sendNotification({
+        data: {
+          title: `Bienvenue GNDC 🚀 `,
+          body: `🎉 Bienvenue à board ${user.name}, tu as rejoint avec succès la GNDC.`,
+          icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
+          url: `${baseUrl}/user/${user.username}`,
+          //badge: "/badge.png",
+          image: ``,
+        },
+        device,
+      });
+    });
+  }
+  if (user.email) {
+    const html = await renderEmail({
+      type: "joined",
+      props: {
+        name: user.name!,
+      },
+    });
+    transporter.sendMail({
+      from: '"GNDC TEAM" <noreply@gndc.tech>',
+      to: user.email,
+      subject: "Bienvenue GNDC 🚀",
+      html,
+    });
+  }
+  console.log(data);
+}
