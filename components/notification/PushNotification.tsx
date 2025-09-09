@@ -66,8 +66,19 @@ export default function NotificationManager() {
     }
   };
   useEffect(() => {
-    handleNotificationPermission();
-  }, []);
+    if (!user) return;
+
+    const pending = localStorage.getItem("pendingPushSubscription");
+    if (pending) {
+      const subscription = JSON.parse(pending);
+      subscribeUser(subscription)
+        .then(() => {
+          console.log("✅ Subscription associated with user");
+          localStorage.removeItem("pendingPushSubscription");
+        })
+        .catch(console.error);
+    }
+  }, [user]);
 
   async function registerServiceWorker() {
     try {
