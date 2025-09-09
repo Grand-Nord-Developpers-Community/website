@@ -21,7 +21,7 @@ export default function NewForum({
       <Section className="text-[#3c4149]">
         <Text>Salut {userName} ,</Text>
         <Text>{author} vient de poser une question :</Text>
-        <Heading className="text-lg py-2 font-normal">{title}</Heading>
+        <Heading className="py-2 font-bold">{title}</Heading>
         <Button
           className={cn(
             "px-4 py-3 text-small gap-2 rounded-medium",

@@ -336,6 +336,7 @@ export async function getUserWithRoleAndDevices(role: IRole["name"]) {
     columns: {
       name: true,
       email: true,
+      id: true,
     },
     where: eq(
       user.role_id,
@@ -369,6 +370,7 @@ export async function getUserWithRolesAndDevices(role: Array<IRole["name"]>) {
     columns: {
       name: true,
       email: true,
+      id: true,
     },
     where: inArray(user.role_id, roleIds),
     with: {

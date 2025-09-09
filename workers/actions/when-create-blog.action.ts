@@ -45,6 +45,7 @@ export default async function whenBlogCreated(
   const admins = await getUserWithRoleAndDevices("admin");
   // console.log(admins);
   for (const admin of admins) {
+    if (admin.id === blog.author.id) continue;
     if (admin.devices.length > 0) {
       admin.devices.map(async (device) => {
         if (via) {
@@ -52,10 +53,10 @@ export default async function whenBlogCreated(
             data: {
               title: "Blog publier en attente !!",
               body: `${admin.name}, ${blog?.author.name} vient de soumettre un blog`,
-              icon: `${blog?.author.image ?? `/api/avatar?username=${blog?.author.username}`}`,
+              icon: `${blog?.author.image ?? `${baseUrl}/api/avatar?username=${blog?.author.username}`}`,
               url: `${baseUrl}/blog/${slug}/preview`,
               //badge: "/badge.png",
-              image: "/opengraph-image.jpg",
+              image: `${baseUrl}/opengraph-image.jpg`,
             },
             device,
           });

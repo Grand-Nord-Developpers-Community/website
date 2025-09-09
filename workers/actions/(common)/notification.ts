@@ -14,10 +14,11 @@ export interface NoficationProps {
 }
 export async function sendNotification({ data, device }: NoficationProps) {
   const d = device as unknown as CustomPushSubscription;
-  await webpush.sendNotification(
+  const res = await webpush.sendNotification(
     d,
     JSON.stringify({
       ...data,
     })
   );
+  console.log("send notification with statut : " + res.statusCode);
 }

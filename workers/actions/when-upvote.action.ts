@@ -63,7 +63,7 @@ export default async function whenVoted(
           icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
           url: `${baseUrl}/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
           //badge: "/badge.png",
-          image: `/api/og/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
+          image: `${baseUrl}/api/og/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
         },
         device,
       });

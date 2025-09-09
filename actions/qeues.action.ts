@@ -10,8 +10,8 @@ export async function addJob<K extends keyof JobPayloads>(
   console.log("==== fired notifQue ====");
   console.log(name, data);
   //without bullMq first
-  const handler = handlers[name as keyof JobPayloads];
+  //const handler = handlers[name as keyof JobPayloads];
   //@ts-ignore
-  return handler(data);
-  //return notificationQueue.add(name, data);
+  //return handler(data);
+  return notificationQueue.add(name, data);
 }

@@ -41,7 +41,7 @@ export default async function whenNewUser(
         data: {
           title: `Bienvenue GNDC 🚀 `,
           body: `🎉 Bienvenue à board ${user.name}, tu as rejoint avec succès la GNDC.`,
-          icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
+          icon: `${user.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
           url: `${baseUrl}/user/${user.username}`,
           //badge: "/badge.png",
           image: ``,

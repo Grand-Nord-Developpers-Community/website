@@ -45,21 +45,20 @@ export default async function whenForumCreated(
   const users = await getUserWithRolesAndDevices(["admin", "user", "manager"]);
   // console.log(admins);
   for (const user of users) {
+    if (user.id === forum.author.id) continue;
     if (user.devices.length > 0) {
       user.devices.map(async (device) => {
-        if (via) {
-          await sendNotification({
-            data: {
-              title: "Une question à été posé !!!",
-              body: `par ${forum?.author.name} : ${forum.content.slice(0, 15)} ....`,
-              icon: `${forum?.author.image ?? `/api/avatar?username=${forum?.author.username}`}`,
-              url: `${baseUrl}/forum/${forum.id}`,
-              //badge: "/badge.png",
-              image: "/opengraph-image.jpg",
-            },
-            device,
-          });
-        }
+        await sendNotification({
+          data: {
+            title: "Une question à été posé !!!",
+            body: `par ${forum?.author.name} : ${forum.content.slice(0, 15)} ....`,
+            icon: `${forum?.author.image ?? `${baseUrl}/api/avatar?username=${forum?.author.username}`}`,
+            url: `${baseUrl}/forum/${forum.id}`,
+            //badge: "/badge.png",
+            image: `${baseUrl}/opengraph-image.jpg`,
+          },
+          device,
+        });
       });
     }
     if (!user.email) continue;

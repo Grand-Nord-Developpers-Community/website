@@ -31,7 +31,7 @@ export default async function whenBlogLiked(
       title: true,
       slug: true,
     },
-    where: and(eq(blogPost.id, blogId)),
+    where: eq(blogPost.id, blogId),
     with: {
       author: {
         columns: {
@@ -53,19 +53,17 @@ export default async function whenBlogLiked(
 
   if (author.devices.length > 0) {
     author.devices.map(async (device) => {
-      if (via) {
-        await sendNotification({
-          data: {
-            title: `Votre Blog : ${blog.title.slice(0, 6)}... à été liker `,
-            body: `par ${user.name}`,
-            icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
-            url: `${baseUrl}/blog/${blog.slug}`,
-            //badge: "/badge.png",
-            image: `/api/og/blog/${blog.slug}`,
-          },
-          device,
-        });
-      }
+      await sendNotification({
+        data: {
+          title: `Votre Blog : ${blog.title.slice(0, 6)}... à été liker `,
+          body: `par ${user.name}`,
+          icon: `${user.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
+          url: `${baseUrl}/blog/${blog.slug}`,
+          //badge: "/badge.png",
+          image: `${baseUrl}/api/og/blog/${blog.slug}`,
+        },
+        device,
+      });
     });
   }
 

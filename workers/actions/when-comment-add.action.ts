@@ -63,10 +63,10 @@ export default async function whenCommentAdded(
           data: {
             title: `Votre Blog : ${blog.title.slice(0, 6)}... à été commenter `,
             body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
-            icon: `${user?.image ?? `/api/avatar?username=${user?.username}`}`,
+            icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
             url: `${baseUrl}/blog/${blog.slug}`,
             //badge: "/badge.png",
-            image: `/api/og/blog/${blog.slug}`,
+            image: `${baseUrl}/api/og/blog/${blog.slug}`,
           },
           device,
         });
@@ -104,10 +104,10 @@ export default async function whenCommentAdded(
           data: {
             title: `Votre Forum : ${forum.title.slice(0, 6)}... à été répondu `,
             body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
-            icon: `${user?.image ?? `/api/avatar?username=${user?.username}`}`,
+            icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
             url: `${baseUrl}/forum/${forum.id}`,
             //badge: "/badge.png",
-            image: `/api/og/forum/${forum.id}`,
+            image: `${baseUrl}/api/og/forum/${forum.id}`,
           },
           device,
         });
@@ -149,7 +149,7 @@ export default async function whenCommentAdded(
               icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
               url: `${baseUrl}/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
               //badge: "/badge.png",
-              image: `/api/og/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
+              image: `${baseUrl}/api/og/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
             },
             device,
           });

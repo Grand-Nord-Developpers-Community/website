@@ -38,7 +38,7 @@ export const LayoutEmail = ({
         fontStyle="normal"
       />
       <Preview>{title}</Preview>
-      <Body className={`bg-background font-m antialiased`}>
+      <Body className={`bg-background antialiased`}>
         <Container className="mx-auto pt-5 pb-12 max-w-[560px]">
           <Img height={40} src={`${baseUrl}/ogdata/logo.png`} alt={appName} />
           {children}
