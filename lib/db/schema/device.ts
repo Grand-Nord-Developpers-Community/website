@@ -10,3 +10,4 @@ export const devicesTable = pgTable("devices", {
     .references(() => userTable.id)
     .notNull(),
 });
+export type Device = typeof devicesTable.$inferSelect;

@@ -2,7 +2,10 @@ import { integer, pgTable, serial, text } from "drizzle-orm/pg-core";
 
 export const rolesTable = pgTable("roles", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+  name: text("name")
+    .notNull()
+    .default("user")
+    .$type<"user" | "admin" | "manager">(),
 });
 
 export const permissionsTable = pgTable("permissions", {
