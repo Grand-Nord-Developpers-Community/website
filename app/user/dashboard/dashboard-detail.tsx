@@ -182,7 +182,7 @@ const Dashboard = ({
 
   return (
     <>
-      LOCAL STORAGE : {JSON.stringify(pending)}
+      {/* LOCAL STORAGE : {JSON.stringify(pending)} */}
       <Tabs
         defaultValue="blogs"
         className="w-full "
@@ -219,7 +219,7 @@ const Dashboard = ({
           )}
         </div>
         <div className="mb-8">
-          <TestWorkerPage />
+          {/* <TestWorkerPage /> */}
           <TabsContent value="blogs">
             {posts.length > 0 ? (
               <>
