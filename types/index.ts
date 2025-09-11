@@ -1,4 +1,9 @@
-import { getBlogPost, getBlogPostPreview } from "@/actions/blog.actions";
+import {
+  getBlogPost,
+  getBlogPostPreview,
+  getBlogPostsPaginated,
+} from "@/actions/blog.actions";
+import { getPaginatedBlogs } from "@/actions/queries/blogs";
 import { getUserProfile } from "@/actions/user.actions";
 import { Icons } from "@/components/icons";
 
@@ -39,3 +44,4 @@ export type Post =
   | Awaited<ReturnType<typeof getBlogPostPreview>>;
 
 export type UserProfile = Awaited<ReturnType<typeof getUserProfile>>;
+export type PaginatedBlog = Awaited<ReturnType<typeof getBlogPostsPaginated>>;

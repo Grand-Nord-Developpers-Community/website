@@ -173,11 +173,7 @@ function Header({
             <>
               <Button variant="secondary" className="ml-5 text-white" asChild>
                 <Link
-                  href={
-                    user?.role === "user"
-                      ? "/user/dashboard"
-                      : "/admin/overview"
-                  }
+                  href={role === "user" ? "/user/dashboard" : "/admin/overview"}
                 >
                   {role === "user" ? "Tableau de bord" : "Administration"}
                 </Link>

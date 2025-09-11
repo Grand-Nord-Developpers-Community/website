@@ -126,6 +126,49 @@ export async function getBlogPosts() {
   }
 }
 
+export async function getBlogPostsPaginated(page: number, pageSize: number) {
+  const offset = page * pageSize;
+  try {
+    const posts = await db.query.blogPost.findMany({
+      orderBy: [desc(blogPost.createdAt)],
+      limit: pageSize,
+      offset: offset,
+      with: {
+        author: {
+          columns: {
+            id: true,
+            email: true,
+            name: true,
+            image: true,
+            username: true,
+          },
+        },
+        // replies: {
+        //   columns: {
+        //     id: true,
+        //   },
+        //   with: {
+        //     votes: true,
+        //   },
+        // },
+        // likes: {
+        //   columns: {
+        //     isLike: true,
+        //   },
+        // },
+      },
+      columns: {
+        content: false,
+      },
+    });
+    return posts;
+  } catch (e) {
+    console.log(e);
+    return [];
+    //throw "Error " + e;
+  }
+}
+
 export async function getTotalBlogPosts() {
   try {
     const blogs = await db.select({ count: count() }).from(blogPost);
