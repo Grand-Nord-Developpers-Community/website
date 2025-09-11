@@ -93,12 +93,29 @@ export async function loginWithGithub(props: {
   }
 }
 
-export async function updateUserRole(
-  userId: string,
-  role: "user" | "admin" | "manager"
-) {
-  await db.update(user).set({ role }).where(eq(user.id, userId));
+export async function updateUserRole(userId: string, role: IRole["name"]) {
+  const role_value = await db.query.rolesTable.findFirst({
+    columns: {
+      id: true,
+    },
+    where: eq(rolesTable.name, role),
+  });
+  await db
+    .update(user)
+    .set({ role_id: role_value?.id })
+    .where(eq(user.id, userId));
   revalidatePath("/admin/users");
+}
+
+export async function getRoleById(id: number) {
+  const role_value = await db.query.rolesTable.findFirst({
+    columns: {
+      id: true,
+      name: true,
+    },
+    where: eq(rolesTable.id, id),
+  });
+  return role_value?.name ?? "user";
 }
 
 export async function getUserSession() {
@@ -253,7 +270,7 @@ export async function getUserProfile(userId: string) {
       experiencePoints: true,
       streak: false,
       email: true,
-      role: true,
+      role_id: true,
       location: true,
       phoneNumber: true,
       githubLink: true,
@@ -545,6 +562,7 @@ export async function getPaginatedUsers(page: number, pageSize: number) {
       image: true,
       isCompletedProfile: true,
       createdAt: true,
+      experiencePoints: true,
     },
     limit: pageSize,
     offset: offset,
@@ -568,9 +586,9 @@ export async function deleteUser(userId: string) {
   }
 
   // Check if the user is not a super admin
-  if (userToDelete.role === "manager") {
-    throw new Error("Cannot delete a super admin user");
-  }
+  // if (userToDelete.role === "manager") {
+  //   throw new Error("Cannot delete a super admin user");
+  // }
 
   // Perform the deletion
   await db.delete(user).where(eq(user.id, userId));

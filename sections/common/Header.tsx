@@ -73,7 +73,7 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild className="sm:hidden">
+          <DropdownMenuItem asChild>
             <Link href="/user/dashboard">Tableau de bord</Link>
             {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
           </DropdownMenuItem>
@@ -157,6 +157,7 @@ function Header({ user }: { user: SessionUser | null }) {
               );
             })}
           </nav>
+          {user?.role}|{user?.role_id}
           {user && user.isCompletedProfile && (
             <>
               <Button variant="secondary" className="ml-5 text-white" asChild>

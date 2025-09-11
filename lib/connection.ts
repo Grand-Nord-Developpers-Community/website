@@ -15,8 +15,9 @@ const {
 
 export const connection = new IORedis(REDIS_URL!, {
   maxRetriesPerRequest: null,
+  showFriendlyErrorStack: true,
 });
-console.log(REDIS_URL);
+
 export const transporter = nodemailer.createTransport({
   host: SMTP_SERVER_HOST,
   port: Number(SMTP_PORT),

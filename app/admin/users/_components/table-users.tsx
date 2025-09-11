@@ -31,6 +31,7 @@ import { formatRelativeTime } from "@/lib/utils";
 import Avatar from "@/components/avatar";
 import { Badge } from "@/components/ui/badge";
 import { getPaginatedUsers, getTotalUser } from "@/actions/queries/user";
+import { useSession } from "@/components/auth/SessionProvider";
 
 export type User = Awaited<ReturnType<typeof pg>>;
 export default function MyPostsTablePage({
@@ -46,7 +47,8 @@ export default function MyPostsTablePage({
   const page = Number(sp.get("page") ?? initialPage);
   const size = Number(sp.get("size") ?? initialSize);
   const key = getPaginatedUsers(page, size).queryKey;
-  const { data, isPending, isError, error } = useQuery(
+  const { user } = useSession();
+  const { data, isLoading, isError, error } = useQuery(
     getPaginatedUsers(page, size)
   );
   const { data: total } = useQuery(getTotalUser());
@@ -62,11 +64,12 @@ export default function MyPostsTablePage({
 
   const filtered = React.useMemo(() => {
     const nq = q.trim().toLowerCase();
-    return rows.filter((p) => {
+    return rows?.filter((p) => {
       const t = `${p.name} ${p.username}`.toLowerCase();
       const qmatch = nq ? t.includes(nq) : true;
       //const c = isCompleted ? p.isCompletedProfile : false;
-      return qmatch;
+      const isNotCurrentUser = p.id !== user?.id;
+      return qmatch && isNotCurrentUser;
     });
   }, [rows, q, isCompleted]);
 
@@ -86,11 +89,7 @@ export default function MyPostsTablePage({
 
       queryClient.setQueryData(key, (old: any) => {
         if (!old) return old;
-        return {
-          ...old,
-          content: old.content.filter((p: User[number]) => p?.id !== id),
-          totalElements: old.totalElements - 1,
-        };
+        return old?.content?.filter((p: User[number]) => p.id !== id!);
       });
 
       return { prevData };
@@ -99,7 +98,7 @@ export default function MyPostsTablePage({
       if (context?.prevData) {
         queryClient.setQueryData(key, context.prevData);
       }
-      toast.error("Échec de la suppression");
+      toast.error("Échec de la suppression : " + err + id);
     },
     onSuccess: () => {
       toast.success("Post supprimé");
@@ -123,17 +122,21 @@ export default function MyPostsTablePage({
     {
       id: "image",
       header: "Visuel",
-      cell: (p) => (
-        <div className="relative h-10 w-14 overflow-hidden rounded">
-          <Avatar className="size-12" {...p} />
-        </div>
-      ),
+      cell: (p) => <Avatar className="size-12" {...p} />,
       className: "w-[88px]",
     },
     {
       id: "title",
       header: "Titre",
       cell: (p) => <span className="line-clamp-1">{p?.name}</span>,
+      className: "max-w-[260px]",
+    },
+    {
+      id: "XP",
+      header: "xp",
+      cell: (p) => (
+        <span className="line-clamp-1">{p?.experiencePoints} XP</span>
+      ),
       className: "max-w-[260px]",
     },
     {
@@ -168,8 +171,8 @@ export default function MyPostsTablePage({
           >
             supprimer
           </Button>
-          {/* <EditPostDialog post={p} token={token} pageSize={size} /> */}
-          <Link href={`/user/${p.username}`}>
+          {/* <EditPostDialog utilisateurs={p} token={token} pageSize={size} /> */}
+          <Link target="_blank" href={`/user/${p.username}`}>
             <Button variant="ghost">Ouvrir</Button>
           </Link>
         </div>
@@ -250,11 +253,11 @@ export default function MyPostsTablePage({
         onPageSizeChange={goSize}
         columns={columns}
         getRowId={(p) => p.id}
-        isLoading={isPending}
+        isLoading={isLoading}
         isError={isError}
         errorMessage={(error as Error)?.message}
         toolbar={toolbar}
-        empty={<span>Aucun post pour l’instant.</span>}
+        empty={<span>Aucun utilisateurs pour l’instant.</span>}
         renderCard={(p) => (
           <div className="space-y-2">
             <div className="flex items-center gap-3">
@@ -286,8 +289,8 @@ export default function MyPostsTablePage({
                 >
                   <Trash2 className="size-4" />
                 </Button>
-                {/* <EditPostDialog post={p} token={token} pageSize={size} /> */}
-                <Link href={`/user/${p.username}`}>
+                {/* <EditPostDialog utilisateurs={p} token={token} pageSize={size} /> */}
+                <Link target="_blank" href={`/user/${p.username}`}>
                   <Button variant="outline" size="icon" className="px-2 w-fit">
                     Ouvrir
                   </Button>

@@ -15,16 +15,16 @@ notificationQueue.add(
     },
   }
 );
-const worker = new Worker(
-  "notification-queue",
-  async (job) => {
-    const handler = handlers[job.name as keyof JobPayloads];
-    await handler(job.data);
-  },
-  { connection, concurrency: 10 }
-);
+// const worker = new Worker(
+//   "notification-queue",
+//   async (job) => {
+//     const handler = handlers[job.name as keyof JobPayloads];
+//     await handler(job.data);
+//   },
+//   { connection, concurrency: 10 }
+// );
 
-export default worker;
+// export default worker;
 
 // import { connection, transporter } from "@/lib/connection";
 // import { db } from "@/lib/db";
