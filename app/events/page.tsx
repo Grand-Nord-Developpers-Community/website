@@ -51,27 +51,33 @@ const page = async () => {
                 des formations et bien plus encore; pour les membres de la
                 communauté et la population locale."
       >
-        <Card className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white max-lg:w-[90%] lg:max-w-screen-lg">
-          <CardContent className="flex gap-5 items-center justify-between py-4 max-sm:flex-col max-sm:gap-0 ">
-            <p className="font-medium text-left text-lg max-sm:text-base">
-              Notre prochaine activité :{" "}
-              <span className="text-primary font-bold">
-                {upCommingeEvent.title}
-              </span>
-              , le {formatDateFrench(upCommingeEvent.datetime)} à{" "}
-              {upCommingeEvent.location}.
-            </p>
+        {upCommingeEvent && (
+          <Card className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white max-lg:w-[90%] lg:max-w-screen-lg">
+            <CardContent className="flex gap-5 items-center justify-between py-4 max-sm:flex-col max-sm:gap-0 ">
+              <p className="font-medium text-left text-lg max-sm:text-base">
+                Notre prochaine activité :{" "}
+                <span className="text-primary font-bold">
+                  {upCommingeEvent.title}
+                </span>
+                , le {formatDateFrench(upCommingeEvent.datetime)} à{" "}
+                {upCommingeEvent.location}.
+              </p>
 
-            <Link
-              className="mt-4 block transition sm:mt-0 max-sm:w-full"
-              href={`/events/${upCommingeEvent.id}`}
-            >
-              <Button variant={"outline"} className="max-sm:w-full" size={"lg"}>
-                En savoir plus
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+              <Link
+                className="mt-4 block transition sm:mt-0 max-sm:w-full"
+                href={`/events/${upCommingeEvent.id}`}
+              >
+                <Button
+                  variant={"outline"}
+                  className="max-sm:w-full"
+                  size={"lg"}
+                >
+                  En savoir plus
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        )}
       </HeadingPage>
       <div className="mt-24 mb-16 screen-wrapper max-sm:mt-24" id="explore">
         <ActivitiesAndEventsSection limit={6} isHome={false} />
