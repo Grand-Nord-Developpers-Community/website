@@ -50,7 +50,7 @@ export const members = pgTable(
     phone: varchar("phone", { length: 30 }).notNull(),
 
     region: regionEnum("region").notNull(),
-    domain: domainEnum("domain").notNull(),
+    domain: text("domain").notNull(),
 
     photoUrl: text("photo_url").notNull(),
 
