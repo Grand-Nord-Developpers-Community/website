@@ -124,6 +124,7 @@ export async function getViewData(
       .sort((a, b) => a.date.localeCompare(b.date));
   } catch (error) {
     console.error("Redis fetch failed:", error);
-    throw new Error("failed to fetch view data");
+    return [];
+    //throw new Error("failed to fetch view data");
   }
 }

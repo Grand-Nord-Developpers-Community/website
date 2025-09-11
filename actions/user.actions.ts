@@ -36,6 +36,7 @@ import {
 import { ScoringPoints } from "@/constants/scoring";
 import { processActivity } from "./activity.actions";
 import { addJob } from "./qeues.action";
+import { notificationQueue } from "@/workers";
 
 export async function getUserFromDb(email: string, password: string) {
   try {
@@ -225,6 +226,11 @@ export async function getUserProfile(userId: string) {
         columns: {
           currentStreak: true,
           totalDaysActive: true,
+        },
+      },
+      role: {
+        columns: {
+          name: true,
         },
       },
       blogPosts: {
@@ -641,7 +647,7 @@ export async function updateUserProfileCompletion(
 
     await refreshSession();
     await processActivity(res[0].id);
-    await addJob("USER_NEW", { userId: res[0].id });
+    notificationQueue.add("USER_NEW", { userId: res[0].id });
     revalidatePath(`/profile/${userId}`);
     revalidatePath("/user");
     return {

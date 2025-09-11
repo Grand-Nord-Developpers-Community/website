@@ -9,6 +9,7 @@ import { blogPublishSchema } from "@/schemas/blog-schema";
 import { auth } from "@/lib/auth";
 import { addUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
+import { notificationQueue } from "@/workers";
 
 type blogValueProps = {
   id?: string;
@@ -78,7 +79,7 @@ export async function createBlogPost({
 
   revalidatePath("/blog");
   revalidatePath("/user/dashboard");
-  await addJob("BLOG_CREATED", { slug });
+  notificationQueue.add("BLOG_CREATED", { slug });
   return {
     success: true,
     message: "votre blog a été publié avec sucèss !!",
@@ -177,10 +178,16 @@ export async function getBlogPostPreview(slug: string) {
             name: true,
             image: true,
             bio: true,
-            role: true,
             createdAt: true,
             experiencePoints: true,
             username: true,
+          },
+          with: {
+            role: {
+              columns: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -301,10 +308,16 @@ export async function getBlogPost(slug: string) {
             name: true,
             image: true,
             bio: true,
-            role: true,
             createdAt: true,
             experiencePoints: true,
             username: true,
+          },
+          with: {
+            role: {
+              columns: {
+                name: true,
+              },
+            },
           },
         },
         likes: {
@@ -342,10 +355,16 @@ export async function getBlogPostMeta(slug: string) {
           name: true,
           image: true,
           bio: true,
-          role: true,
           createdAt: true,
           experiencePoints: true,
           username: true,
+        },
+        with: {
+          role: {
+            columns: {
+              name: true,
+            },
+          },
         },
       },
       likes: {

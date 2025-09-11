@@ -16,14 +16,20 @@ const Dashboard: React.FC = async () => {
   const user = await getUserProfileUserAuth();
   const posts = user?.blogPosts || [];
   const forums = user?.forumPosts || [];
-  const viewPosts = await fetchPageViews(
-    posts.map((p) => p.slug),
-    "blog"
-  );
-  const viewForums = await fetchPageViews(
-    forums!.map((f) => f.id),
-    "forum"
-  );
+  let viewPosts = {};
+  let viewForums = {};
+  try {
+    viewPosts = await fetchPageViews(
+      posts.map((p) => p.slug),
+      "blog"
+    );
+    viewForums = await fetchPageViews(
+      forums!.map((f) => f.id),
+      "forum"
+    );
+  } catch (error) {
+    console.log(error);
+  }
 
   const statItems: Stat[] = [
     {

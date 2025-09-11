@@ -6,6 +6,7 @@ import { and, eq, isNull, not } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { addUserXP, removeUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
+import { notificationQueue } from "@/workers";
 
 export async function isuserVotedPost({
   postId,
@@ -129,7 +130,7 @@ export async function upVotePost({
 
       if (isUpvote) {
         await addUserXP(targetUserId, "UPVOTED_COMMENT");
-        await addJob("UPVOTED", {
+        notificationQueue.add("UPVOTED", {
           commentId: res[0].commentId!,
           targetUserId,
           userId,

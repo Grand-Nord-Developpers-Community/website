@@ -6,6 +6,7 @@ import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { addUserXP, removeUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
+import { notificationQueue } from "@/workers";
 
 export async function isUserLikedPost(postId: string, userId: string) {
   const result = await db
@@ -65,7 +66,7 @@ export async function likeDislikePost(
 
       if (isLiked) {
         await addUserXP(post.authorId, "LIKE_RECEIVED");
-        await addJob("BLOG_LIKED", { blogId: postId, userId });
+        notificationQueue.add("BLOG_LIKED", { blogId: postId, userId });
       }
     }
 

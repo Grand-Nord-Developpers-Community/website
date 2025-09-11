@@ -29,7 +29,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { SessionUser } from "@/lib/db/schema";
+import { IRole, SessionUser } from "@/lib/db/schema";
 import { shouldHideHeaderAndFooter } from "@/lib/utils";
 import { useIs404Store } from "@/components/stores/useIs404";
 import clsx from "clsx";
@@ -49,7 +49,13 @@ const onLogoutClick = async () => {
     toast.error(e as string);
   }
 };
-function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
+function AvatarMenuDropDown({
+  user,
+  role,
+}: {
+  user: SessionUser | null;
+  role: IRole["name"] | undefined;
+}) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -81,7 +87,7 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
             <Link href="/blog/new">Publier un Blog</Link>
             {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
           </DropdownMenuItem>
-          {user?.role !== "user" && (
+          {role !== "user" && (
             <DropdownMenuItem asChild>
               <Link href="/admin/overview">Administration</Link>
               {/*<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
@@ -106,7 +112,13 @@ function AvatarMenuDropDown({ user }: { user: SessionUser | null }) {
   );
 }
 //import { SessionUser } from "@/lib/db/schema/user";
-function Header({ user }: { user: SessionUser | null }) {
+function Header({
+  user,
+  role,
+}: {
+  user: SessionUser | null;
+  role: IRole["name"] | undefined;
+}) {
   //const { user } = useSession();
   const pathname = usePathname();
   const { is404 } = useIs404Store();
@@ -157,7 +169,6 @@ function Header({ user }: { user: SessionUser | null }) {
               );
             })}
           </nav>
-          {user?.role}|{user?.role_id}
           {user && user.isCompletedProfile && (
             <>
               <Button variant="secondary" className="ml-5 text-white" asChild>
@@ -168,10 +179,10 @@ function Header({ user }: { user: SessionUser | null }) {
                       : "/admin/overview"
                   }
                 >
-                  {user?.role === "user" ? "Tableau de bord" : "Administration"}
+                  {role === "user" ? "Tableau de bord" : "Administration"}
                 </Link>
               </Button>
-              <AvatarMenuDropDown user={user} />
+              <AvatarMenuDropDown user={user} role={role} />
             </>
           )}
           {user && !user.isCompletedProfile && (
@@ -200,7 +211,7 @@ function Header({ user }: { user: SessionUser | null }) {
               </Button>
             </SheetTrigger>
             {user && user.isCompletedProfile && (
-              <AvatarMenuDropDown user={user} />
+              <AvatarMenuDropDown user={user} role={role} />
             )}
           </div>
           <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
