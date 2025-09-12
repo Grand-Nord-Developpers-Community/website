@@ -12,7 +12,11 @@
     "generate": "drizzle-kit generate",
     "push": "drizzle-kit push",
     "introspect": "drizzle-kit introspect",
-    "studio": "drizzle-kit studio"
+    "studio": "drizzle-kit studio",
+    "test-emails": "tsx emails/test-email-script.ts",
+    "test-email-welcome": "tsx emails/test-email-script.ts welcome",
+    "test-email-login": "tsx emails/test-email-script.ts login",
+    "test-email-all": "tsx emails/test-email-script.ts all"
   },
   "dependencies": {
     "@ark-ui/react": "^4.7.0",

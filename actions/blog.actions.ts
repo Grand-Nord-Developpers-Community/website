@@ -79,6 +79,7 @@ export async function createBlogPost({
 
   revalidatePath("/blog");
   revalidatePath("/user/dashboard");
+  revalidatePath("/admin");
   notificationQueue.add("BLOG_CREATED", { slug });
   return {
     success: true,

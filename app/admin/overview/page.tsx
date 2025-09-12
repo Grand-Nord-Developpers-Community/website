@@ -53,8 +53,7 @@ export default async function page() {
   return (
     <PageContainer scrollable>
       <HydrationBoundary state={dehydrate(qc)}>
-        view data : {JSON.stringify(viewDatas)}
-        <OverViewPage stat={stats} totalViewData={[]} />;
+        <OverViewPage stat={stats} totalViewData={viewDatas} />;
       </HydrationBoundary>
     </PageContainer>
   );
