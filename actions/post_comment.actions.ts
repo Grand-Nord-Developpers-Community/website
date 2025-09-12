@@ -6,7 +6,6 @@ import { eq, desc, or, inArray, and, not, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { notEqual } from "assert";
 import { addJob } from "./qeues.action";
-import { notificationQueue } from "@/workers";
 
 export interface ReplyWithAuthor {
   id: string;
@@ -94,7 +93,7 @@ export async function addpostComment({
     console.log(data);
     const r = data[0];
     revalidatePath(`/forum/${postId}`);
-    notificationQueue.add("COMMENT_ADDED", {
+    await addJob("COMMENT_ADDED", {
       commentAuthorId: r.authorId,
       comment: {
         content,

@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "dev-secure": "next dev --experimental-https",
-    "worker:new": "tsx workers/index.ts",
     "lint": "next lint",
     "generate": "drizzle-kit generate",
     "push": "drizzle-kit push",
