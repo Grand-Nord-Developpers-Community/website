@@ -68,7 +68,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <div className="relative w-full max-w-lg bg-white rounded-t-lg sm:rounded-lg p-6 m-4">
             <h3 className="text-lg font-medium mb-2">Modifier la visibilité</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Voulez-vous changer la visibilité du blog "{data?.title}" ?
+              Voulez-vous changer la visibilité du blog {data?.title} ?
             </p>
 
             <div className="flex gap-2 mb-4">
