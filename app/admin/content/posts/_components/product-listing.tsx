@@ -1,28 +1,27 @@
 import { Product } from "@/constants/data";
 import { fakeProducts } from "@/constants/mock-api";
 import { searchParamsCache } from "@/lib/searchparams";
-import { DataTable as ProductTable } from "@/components/ui/table/data-table";
+import { DataTable } from "@/components/ui/table/data-table";
 import { columns } from "./product-tables/columns";
 import { getQueryClient } from "@/lib/react-query";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getPaginatedBlogs } from "@/actions/queries/blogs";
-import { getTotalBlogPosts } from "@/actions/blog.actions";
 import { getTotalBlogs } from "@/actions/queries/stats";
 
-type ProductListingPage = {};
-
-export default async function ProductListingPage({}: ProductListingPage) {
+export default async function ProductListingPage() {
   // Showcasing the use of search params cache in nested RSCs
   const page = searchParamsCache.get("page");
   const search = searchParamsCache.get("q");
   const pageLimit = searchParamsCache.get("limit");
   const authorId = searchParamsCache.get("authorId");
+  const isDraft = searchParamsCache.get("isDraft");
 
   const filters = {
     page,
     limit: pageLimit,
     ...(search && { search }),
-    ...(authorId && { categories: authorId }),
+    ...(authorId && { authorId }),
+    ...(isDraft && { isDraft }),
   };
 
   const qc = getQueryClient();
@@ -34,7 +33,7 @@ export default async function ProductListingPage({}: ProductListingPage) {
 
   return (
     <HydrationBoundary state={dehydrate(qc)}>
-      <ProductTable columns={columns} data={data} totalItems={totalProducts} />
+      <DataTable columns={columns} data={data} totalItems={totalProducts} />
     </HydrationBoundary>
   );
 }

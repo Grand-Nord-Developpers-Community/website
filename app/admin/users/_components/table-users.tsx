@@ -2,36 +2,23 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import DataTable, { type Column } from "@/components/datable/Datable";
-//import EditPostDialog from "./EditPostDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import { useQuery as useRQ } from "@tanstack/react-query";
-import { AlertModal } from "@/components/modal/alert-modal";
-import { useState } from "react";
-import { Edit, Trash2 } from "lucide-react";
-import {
-  deleteUser,
-  getPaginatedUsers as pg,
-  getTotalUsers,
-} from "@/actions/user.actions";
+import { Trash2 } from "lucide-react";
+import { deleteUser, getPaginatedUsers as pg } from "@/actions/user.actions";
 import { toast } from "sonner";
 import { formatRelativeTime } from "@/lib/utils";
 import Avatar from "@/components/avatar";
 import { Badge } from "@/components/ui/badge";
 import { getPaginatedUsers, getTotalUser } from "@/actions/queries/user";
 import { useSession } from "@/components/auth/SessionProvider";
+import { useDebounce } from "@/hooks/use-debounce";
+import { Heading } from "@/components/ui/heading";
+import { useConfirm } from "@omit/react-confirm-dialog";
 
 export type User = Awaited<ReturnType<typeof pg>>;
 export default function MyPostsTablePage({
@@ -43,36 +30,17 @@ export default function MyPostsTablePage({
 }) {
   const router = useRouter();
   const sp = useSearchParams();
-  const [openModal, setOpenModal] = useState(false);
   const page = Number(sp.get("page") ?? initialPage);
   const size = Number(sp.get("size") ?? initialSize);
   const key = getPaginatedUsers(page, size).queryKey;
+  const [q, setQ] = React.useState("");
+  const s = useDebounce<string>(q, 1000);
   const { user } = useSession();
   const { data, isLoading, isError, error } = useQuery(
-    getPaginatedUsers(page, size)
+    getPaginatedUsers(page, size, s)
   );
   const { data: total } = useQuery(getTotalUser());
   const rows = data ?? [];
-  // const total = data?.length ?? 0;
-
-  // client-side search/filter (applied to current page only; if you want server search, expose it on the backend)
-  const [q, setQ] = React.useState("");
-  const [isCompleted, setIsCompleted] = React.useState<boolean | undefined>(
-    undefined
-  );
-  const [subId, setSubId] = React.useState<string | undefined>();
-
-  const filtered = React.useMemo(() => {
-    const nq = q.trim().toLowerCase();
-    return rows?.filter((p) => {
-      const t = `${p.name} ${p.username}`.toLowerCase();
-      const qmatch = nq ? t.includes(nq) : true;
-      //const c = isCompleted ? p.isCompletedProfile : false;
-      const isNotCurrentUser = p.id !== user?.id;
-      return qmatch && isNotCurrentUser;
-    });
-  }, [rows, q, isCompleted]);
-
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
 
   const queryClient = useQueryClient();
@@ -109,26 +77,49 @@ export default function MyPostsTablePage({
       });
     },
   });
+  const confirm = useConfirm();
 
+  const handeClick = async () => {
+    const result = await confirm({
+      title: "Êtes vous sûre de vouloir continuer?",
+      description: "Cette action ne pas être refait.",
+      cancelText: "Retour",
+      cancelButton: {
+        variant: "outline",
+        className: "max-sm:mt-2",
+      },
+      confirmText: "Continuer",
+      confirmButton: {
+        variant: "destructive",
+      },
+    });
+    if (result) {
+      //toast.success("OK !!");
+      handleConfirmDelete();
+    }
+  };
   const handleConfirmDelete = () => {
     if (selectedId) {
       deleteMutation.mutate(selectedId);
     }
-    setOpenModal(false);
     setSelectedId(null);
   };
 
   const columns: Column<User[number]>[] = [
     {
-      id: "image",
-      header: "Visuel",
+      id: "Avatar",
+      header: "Avatar",
       cell: (p) => <Avatar className="size-12" {...p} />,
       className: "w-[88px]",
     },
     {
-      id: "title",
-      header: "Titre",
-      cell: (p) => <span className="line-clamp-1">{p?.name}</span>,
+      id: "Nom",
+      header: "Nom",
+      cell: (p) => (
+        <span className="line-clamp-1">
+          {p?.name} {user!.id === p.id && <b>(vous)</b>}
+        </span>
+      ),
       className: "max-w-[260px]",
     },
     {
@@ -145,11 +136,11 @@ export default function MyPostsTablePage({
       cell: (p) => formatRelativeTime(p?.createdAt),
     },
     {
-      id: "Profil",
-      header: "profil complet",
+      id: "Role",
+      header: "role",
       cell: (p) => (
-        <Badge variant={p.isCompletedProfile ? "secondary" : "destructive"}>
-          {p.isCompletedProfile ? "Complete" : "Incomplete"}
+        <Badge variant={p.role.name === "admin" ? "secondary" : "default"}>
+          {p.role.name}
         </Badge>
       ),
     },
@@ -158,20 +149,17 @@ export default function MyPostsTablePage({
       header: <span className="sr-only">Actions</span>,
       cell: (p) => (
         <div className="flex justify-end gap-2">
-          {/* <Link href={`/announce/${p.id}/edit`}>
-            <Button variant="ghost">Editer</Button>
-          </Link> */}
           <Button
             size={"sm"}
             variant={"destructive"}
-            onClick={() => {
+            disabled={p.id === user?.id}
+            onClick={async () => {
               setSelectedId(p.id);
-              setOpenModal(true);
+              await handeClick();
             }}
           >
             supprimer
           </Button>
-          {/* <EditPostDialog utilisateurs={p} token={token} pageSize={size} /> */}
           <Link target="_blank" href={`/user/${p.username}`}>
             <Button variant="ghost">Ouvrir</Button>
           </Link>
@@ -189,42 +177,6 @@ export default function MyPostsTablePage({
         value={q}
         onChange={(e) => setQ(e.target.value)}
       />
-      {/* <Select
-        value={catId ?? ""}
-        onValueChange={(v) => setCatId(v || undefined)}
-      >
-        <SelectTrigger className="grow">
-          <SelectValue placeholder="Catégorie" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Toutes</SelectItem>
-          {cats?.map((c) => (
-            <SelectItem key={c.id} value={c.id}>
-              {c.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select> */}
-      {/* <Select
-        value={subId ?? ""}
-        onValueChange={(v) => setSubId(v || undefined)}
-        disabled={!catId || subsLoading}
-      >
-        <SelectTrigger className="grow">
-          <SelectValue placeholder="Sous-catégorie" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Toutes</SelectItem>
-          {subsByCat?.map((s) => (
-            <SelectItem key={s.id} value={s.id}>
-              {s.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select> */}
-      {/* <div className="ml-auto text-sm text-neutral-600">
-        {filtered.length} / {rows.length} (page) • {total} total
-      </div> */}
     </>
   );
 
@@ -244,10 +196,15 @@ export default function MyPostsTablePage({
 
   return (
     <>
+      <Heading
+        title="Utilisateurs"
+        description="liste totales des utilisateurs"
+      />
       <DataTable<User[number]>
-        rows={filtered}
+        rows={data}
         total={total}
         page={page}
+        className="mt-5"
         pageSize={size}
         onPageChange={go}
         onPageSizeChange={goSize}
@@ -266,30 +223,22 @@ export default function MyPostsTablePage({
               </div>
               <div className="min-w-0">
                 <div className="truncate text-sm font-medium">{p.username}</div>
-                {/* <div className="text-xs text-neutral-500">
-                  {new Date(p.createdAt).toLocaleDateString()}
-                </div> */}
               </div>
             </div>
             <div className="flex items-center justify-between">
               <div className="text-sm">{formatRelativeTime(p.createdAt)}</div>
               <div className="flex gap-2">
-                {/* <Link href={`/announce/${p.id}/edit`}>
-                  <Button variant="outline" size={"icon"}>
-                    <Edit className="size-4" />
-                  </Button>
-                </Link> */}
                 <Button
                   size={"icon"}
                   variant={"outline"}
-                  onClick={() => {
+                  disabled={p.id === user?.id}
+                  onClick={async () => {
                     setSelectedId(p.id);
-                    setOpenModal(true);
+                    await handeClick();
                   }}
                 >
                   <Trash2 className="size-4" />
                 </Button>
-                {/* <EditPostDialog utilisateurs={p} token={token} pageSize={size} /> */}
                 <Link target="_blank" href={`/user/${p.username}`}>
                   <Button variant="outline" size="icon" className="px-2 w-fit">
                     Ouvrir
@@ -299,15 +248,6 @@ export default function MyPostsTablePage({
             </div>
           </div>
         )}
-      />
-      <AlertModal
-        onConfirm={handleConfirmDelete}
-        onClose={() => {
-          setOpenModal(false);
-          setSelectedId(null);
-        }}
-        isOpen={openModal}
-        loading={deleteMutation.isPending}
       />
     </>
   );

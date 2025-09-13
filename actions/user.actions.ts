@@ -16,7 +16,17 @@ import {
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq, sql, desc, count, or, ilike, inArray, and } from "drizzle-orm";
+import {
+  eq,
+  sql,
+  desc,
+  count,
+  or,
+  ilike,
+  inArray,
+  and,
+  like,
+} from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -556,7 +566,11 @@ export async function recomputeAllUsersXP() {
 }
 /**pagination fetch */
 
-export async function getPaginatedUsers(page: number, pageSize: number) {
+export async function getPaginatedUsers(
+  page: number,
+  pageSize: number,
+  query?: string
+) {
   const offset = page * pageSize;
   const result = await db.query.userTable.findMany({
     orderBy: [desc(user.createdAt)],
@@ -569,6 +583,19 @@ export async function getPaginatedUsers(page: number, pageSize: number) {
       createdAt: true,
       experiencePoints: true,
     },
+    with: {
+      role: {
+        columns: {
+          name: true,
+        },
+      },
+    },
+    where: query
+      ? or(
+          like(userTable.name, `%${query}%`),
+          like(userTable.username, `%${query}%`)
+        )
+      : undefined,
     limit: pageSize,
     offset: offset,
   });

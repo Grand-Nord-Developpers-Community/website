@@ -12,9 +12,9 @@ export function useProductTableFilters() {
       .withDefault("")
   );
 
-  const [categoriesFilter, setCategoriesFilter] = useQueryState(
-    "authorId",
-    searchParams.authorId.withOptions({ shallow: false }).withDefault("")
+  const [isDraft, setIsDraft] = useQueryState(
+    "isDraft",
+    searchParams.isDraft.withOptions({ shallow: false })
   );
 
   const [page, setPage] = useQueryState(
@@ -24,14 +24,14 @@ export function useProductTableFilters() {
 
   const resetFilters = useCallback(() => {
     setSearchQuery(null);
-    setCategoriesFilter(null);
+    setIsDraft(null);
 
     setPage(1);
-  }, [setSearchQuery, setCategoriesFilter, setPage]);
+  }, [setSearchQuery, setIsDraft, setPage]);
 
   const isAnyFilterActive = useMemo(() => {
-    return !!searchQuery || !!categoriesFilter;
-  }, [searchQuery, categoriesFilter]);
+    return !!searchQuery || !!isDraft;
+  }, [searchQuery, isDraft]);
 
   return {
     searchQuery,
@@ -40,7 +40,7 @@ export function useProductTableFilters() {
     setPage,
     resetFilters,
     isAnyFilterActive,
-    categoriesFilter,
-    setCategoriesFilter,
+    isDraft,
+    setIsDraft,
   };
 }

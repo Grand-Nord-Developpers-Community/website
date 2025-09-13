@@ -1,8 +1,8 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { blogPost } from "@/lib/db/schema";
-import { eq, desc, and, count, not } from "drizzle-orm";
+import { blogPost, userTable } from "@/lib/db/schema";
+import { eq, desc, and, count, not, or, like } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { blogPublishSchema } from "@/schemas/blog-schema";
@@ -126,13 +126,34 @@ export async function getBlogPosts() {
   }
 }
 
-export async function getBlogPostsPaginated(page: number, pageSize: number) {
+export async function getBlogPostsPaginated(
+  page: number,
+  pageSize: number,
+  q?: string,
+  isDraft?: boolean
+) {
   const offset = page * pageSize;
   try {
+    let conditions = [];
+
+    // Search filter
+    if (q) {
+      conditions.push(
+        or(like(blogPost.title, `%${q}%`), like(blogPost.description, `%${q}%`))
+      );
+    }
+
+    // Draft filter (default to false if not provided)
+    if (typeof isDraft === "boolean") {
+      conditions.push(eq(blogPost.isDraft, isDraft));
+    } else {
+      //conditions.push(eq(blogPost.isDraft, false));
+    }
     const posts = await db.query.blogPost.findMany({
       orderBy: [desc(blogPost.createdAt)],
       limit: pageSize,
       offset: offset,
+      where: and(...conditions),
       with: {
         author: {
           columns: {
