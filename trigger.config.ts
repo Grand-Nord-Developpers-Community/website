@@ -24,7 +24,7 @@ export default defineConfig({
     },
   },
   build: {
-    external: ["pg"],
+    external: ["pg","@node-rs/argon2"],
   },
   dirs: ["trigger"],
 });
