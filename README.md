@@ -1,5 +1,6 @@
 # GNDC Website
 
+[![Deploy to Trigger.dev (prod)](https://github.com/Grand-Nord-Developpers-Community/website/actions/workflows/trigger-prod.yml/badge.svg?branch=main)](https://github.com/Grand-Nord-Developpers-Community/website/actions/workflows/trigger-prod.yml)
 This is the official repository for the Grand Nord Developpers Community (GNDC) website.
 
 ## Table of Contents
@@ -20,6 +21,7 @@ This is the official repository for the Grand Nord Developpers Community (GNDC) 
 To set up a local copy of the GNDC website for development:
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/Grand-Nord-Developpers-Community/website.git
    cd website
@@ -27,6 +29,7 @@ To set up a local copy of the GNDC website for development:
 
 2. **Install dependencies:**
    You can use npm, yarn, pnpm, or bun.
+
    ```bash
    npm install
    # or
@@ -38,6 +41,7 @@ To set up a local copy of the GNDC website for development:
    ```
 
 3. **Start the development server:**
+
    ```bash
    npm run dev
    # or
