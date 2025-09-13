@@ -43,7 +43,7 @@ export default function HoverCardProfile({
               </h2>
             </div>
             <Badge variant="outline">
-              {role === "user" ? "membre" : "Moderator"}
+              {role.name === "user" ? "membre" : "Moderator"}
             </Badge>
             <div className="flex items-center pt-2">
               <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}

@@ -4,19 +4,14 @@ import { blogPost, userTable } from "@/lib/db/schema";
 import { and, eq } from "drizzle-orm";
 import { baseUrl } from "@/emails/base-layout";
 import { sendNotification } from "./(common)/notification";
+import { logger } from "@trigger.dev/sdk";
 
 export default async function whenBlogLiked(
   data: JobPayloads["BLOG_LIKED"],
   via: boolean = true
 ) {
   const { blogId, userId } = data;
-  // Fetch admins
-  if (!via) {
-    console.log("via web ...");
-  }
-  if (via) {
-    console.log("Via jobs");
-  }
+  logger.log("data", { data });
   const user = await db.query.userTable.findFirst({
     columns: {
       name: true,
@@ -46,26 +41,29 @@ export default async function whenBlogLiked(
       },
     },
   });
+  logger.log("blog", { blog });
+  logger.log("user", { user });
   if (!blog || !user) {
     return;
   }
   const author = blog.author;
 
   if (author.devices.length > 0) {
-    author.devices.map(async (device) => {
-      await sendNotification({
-        data: {
-          title: `Votre Blog : ${blog.title.slice(0, 6)}... à été liker `,
-          body: `par ${user.name}`,
-          icon: `${user.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
-          url: `${baseUrl}/blog/${blog.slug}`,
-          //badge: "/badge.png",
-          image: `${baseUrl}/api/og/blog/${blog.slug}`,
-        },
-        device,
-      });
-    });
+    logger.log("user", { user });
+    await Promise.all(
+      author.devices.map(async (device) => {
+        sendNotification({
+          data: {
+            title: `Votre Blog : ${blog.title.slice(0, 6)}... à été liker `,
+            body: `par ${user.name}`,
+            icon: `${user.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
+            url: `${baseUrl}/blog/${blog.slug}`,
+            //badge: "/badge.png",
+            image: `${baseUrl}/api/og/blog/${blog.slug}`,
+          },
+          device,
+        });
+      })
+    );
   }
-
-  console.log(data);
 }

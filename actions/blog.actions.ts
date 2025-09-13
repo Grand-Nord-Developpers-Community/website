@@ -9,6 +9,7 @@ import { blogPublishSchema } from "@/schemas/blog-schema";
 import { auth } from "@/lib/auth";
 import { addUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
+import { triggerBlogCreated } from "./trigger-jobs";
 
 type blogValueProps = {
   id?: string;
@@ -79,7 +80,8 @@ export async function createBlogPost({
   revalidatePath("/blog");
   revalidatePath("/user/dashboard");
   revalidatePath("/admin");
-  await addJob("BLOG_CREATED", { slug });
+  //await addJob("BLOG_CREATED", { slug });
+  await triggerBlogCreated({ slug });
   return {
     success: true,
     message: "votre blog a été publié avec sucèss !!",
