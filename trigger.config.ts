@@ -6,7 +6,7 @@ dotenv.config({
 });
 
 export default defineConfig({
-  project: process.env.TRIGGER_PROJECT_ID!,
+  project: process.env.TRIGGER_PROJECT_ID ?? "proj_xrgamnomlfpuamfsowzr",
   runtime: "node",
   logLevel: "log",
   // The max compute seconds a task is allowed to run. If the task run exceeds this duration, it will be stopped.
