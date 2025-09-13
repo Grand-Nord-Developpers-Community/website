@@ -6,7 +6,7 @@ import { and, eq, isNull, not } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { addUserXP, removeUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
-import { triggerUpvoted } from "./trigger-jobs";
+import { triggerUpvoted } from "@/app/api/actions";
 
 export async function isuserVotedPost({
   postId,

@@ -6,7 +6,7 @@ import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { addUserXP, removeUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
-import { triggerBlogLiked } from "./trigger-jobs";
+import { triggerBlogLiked } from "@/app/api/actions";
 
 export async function isUserLikedPost(postId: string, userId: string) {
   const result = await db

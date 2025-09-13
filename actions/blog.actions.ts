@@ -9,7 +9,8 @@ import { blogPublishSchema } from "@/schemas/blog-schema";
 import { auth } from "@/lib/auth";
 import { addUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
-import { triggerBlogCreated } from "./trigger-jobs";
+import { triggerBlogCreated } from "@/app/api/actions";
+//import { triggerBlogCreated } from "@/app/api/action";
 
 type blogValueProps = {
   id?: string;

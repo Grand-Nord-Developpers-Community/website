@@ -46,7 +46,7 @@ import {
 import { ScoringPoints } from "@/constants/scoring";
 import { processActivity } from "./activity.actions";
 import { addJob } from "./qeues.action";
-import { triggerNewUser } from "./trigger-jobs";
+import { triggerNewUser } from "@/app/api/actions";
 
 export async function getUserFromDb(email: string, password: string) {
   try {

@@ -6,7 +6,7 @@ import { eq, desc, count } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Redis } from "@upstash/redis";
 import { addJob } from "./qeues.action";
-import { triggerForumCreated } from "./trigger-jobs";
+import { triggerForumCreated } from "@/app/api/actions";
 //import { columns } from "@/app/admin/employee/_components/employee-tables/columns";
 
 const redis = Redis.fromEnv();

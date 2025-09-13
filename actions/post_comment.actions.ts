@@ -6,7 +6,7 @@ import { eq, desc, or, inArray, and, not, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { notEqual } from "assert";
 import { addJob } from "./qeues.action";
-import { triggerCommentAdded } from "./trigger-jobs";
+import { triggerCommentAdded } from "@/app/api/actions";
 
 export interface ReplyWithAuthor {
   id: string;
