@@ -24,7 +24,8 @@ export default defineConfig({
     },
   },
   build: {
-    external: ["pg","@node-rs/argon2"],
+    external: ["pg", "@node-rs/argon2", "@node-rs/bcrypt"],
+    autoDetectExternal: false,
   },
   dirs: ["trigger"],
 });
