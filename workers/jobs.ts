@@ -8,12 +8,6 @@ export type JobPayloads = {
   FORUM_CREATED: { forumId: string };
   UPVOTED: { commentId: string; userId: string; targetUserId: string };
   USER_NEW: { userId: string };
-  WEEKLY_LEADERBOARD: {
-    name: string;
-    xp: number;
-    username: string;
-    rank: number;
-    tops: { name: string; xp: number }[];
-  };
+  WEEKLY_LEADERBOARD: {};
   CUSTOM_EVENT: { payload: Record<string, unknown> };
 };

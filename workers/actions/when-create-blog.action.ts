@@ -7,19 +7,14 @@ import { renderEmail } from "@/emails/mailer";
 import { baseUrl } from "@/emails/base-layout";
 import { sendNotification } from "./(common)/notification";
 import { getUserWithRoleAndDevices } from "@/actions/user.actions";
+import { logger } from "@trigger.dev/sdk";
 
 export default async function whenBlogCreated(
   data: JobPayloads["BLOG_CREATED"],
   via: boolean = true
 ) {
   const { slug } = data;
-  // Fetch admins
-  if (!via) {
-    console.log("via web ...");
-  }
-  if (via) {
-    console.log("Via jobs");
-  }
+  logger.log("data", { data });
 
   const blog = await db.query.blogPost.findFirst({
     columns: {
@@ -38,30 +33,34 @@ export default async function whenBlogCreated(
       },
     },
   });
+  logger.log("blog", { blog });
+
   if (!blog) {
     return;
   }
   //console.log(data);
   const admins = await getUserWithRoleAndDevices("admin");
+  logger.log("admins", { admins });
+
   // console.log(admins);
   for (const admin of admins) {
     if (admin.id === blog.author.id) continue;
     if (admin.devices.length > 0) {
-      admin.devices.map(async (device) => {
-        if (via) {
-          await sendNotification({
+      await Promise.all(
+        admin.devices.map(async (device) => {
+          sendNotification({
             data: {
               title: "Blog publier en attente !!",
               body: `${admin.name}, ${blog?.author.name} vient de soumettre un blog`,
               icon: `${blog?.author.image ?? `${baseUrl}/api/avatar?username=${blog?.author.username}`}`,
               url: `${baseUrl}/blog/${slug}/preview`,
               //badge: "/badge.png",
-              image: `${baseUrl}/opengraph-image.jpg`,
+              image: `${baseUrl}/api/og/blog/${slug}`,
             },
             device,
           });
-        }
-      });
+        })
+      );
     }
     if (!admin.email) continue;
     const html = await renderEmail({
@@ -74,7 +73,7 @@ export default async function whenBlogCreated(
       },
     });
     transporter.sendMail({
-      from: '"Blog GNDC | Pending" <noreply@gndc.tech>',
+      from: '"Blog GNDC | En attente de validation" <noreply@gndc.tech>',
       to: admin.email,
       subject: "Nouveau blog",
       html,

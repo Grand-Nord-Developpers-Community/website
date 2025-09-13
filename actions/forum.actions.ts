@@ -6,6 +6,7 @@ import { eq, desc, count } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Redis } from "@upstash/redis";
 import { addJob } from "./qeues.action";
+import { triggerForumCreated } from "./trigger-jobs";
 //import { columns } from "@/app/admin/employee/_components/employee-tables/columns";
 
 const redis = Redis.fromEnv();
@@ -28,7 +29,10 @@ export async function createForumPost(
     })
     .returning();
   if (res) {
-    await addJob("FORUM_CREATED", {
+    // await addJob("FORUM_CREATED", {
+    //   forumId: res[0].id,
+    // });
+    await triggerForumCreated({
       forumId: res[0].id,
     });
   }
