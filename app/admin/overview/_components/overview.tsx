@@ -38,7 +38,7 @@ export default function OverViewPage({ stat, totalViewData }: Stats) {
   const { totalBlogs, totalForums, totalUsers, totalViews } = stat;
   const session = useSession();
   return (
-    <PageContainer scrollable>
+    <>
       <div className="space-y-2">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-2xl font-bold tracking-tight">
@@ -170,6 +170,6 @@ export default function OverViewPage({ stat, totalViewData }: Stats) {
           </TabsContent>
         </Tabs>
       </div>
-    </PageContainer>
+    </>
   );
 }

@@ -5,19 +5,15 @@ import { postComment, userTable } from "@/lib/db/schema";
 import { sendNotification } from "./(common)/notification";
 import { ScoringPoints } from "@/constants/scoring";
 import { baseUrl } from "@/emails/base-layout";
+import { logger } from "@trigger.dev/sdk";
 
 export default async function whenVoted(
   data: JobPayloads["UPVOTED"],
   via: boolean = true
 ) {
   const { commentId, userId, targetUserId } = data;
-  // Fetch admins
-  if (!via) {
-    console.log("via web ...");
-  }
-  if (via) {
-    console.log("Via jobs");
-  }
+  logger.log("data", { data });
+
   const users = await db.query.userTable.findMany({
     columns: {
       name: true,
@@ -30,6 +26,7 @@ export default async function whenVoted(
       devices: true,
     },
   });
+  logger.log("users", { users });
   if (!users || users.length < 2) {
     return;
   }
@@ -50,24 +47,28 @@ export default async function whenVoted(
       blog: true,
     },
   });
+  logger.log("commentaire", { comment });
+
   if (!comment) {
     return;
   }
 
   if (author.devices.length > 0) {
-    author.devices.map(async (device) => {
-      await sendNotification({
-        data: {
-          title: `Votre commentaire : ${comment.content.slice(0, 6)}... à été upvoter `,
-          body: `par ${user?.name} : vous avez réçu +${ScoringPoints["UPVOTED_COMMENT"]} XP`,
-          icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
-          url: `${baseUrl}/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
-          //badge: "/badge.png",
-          image: `${baseUrl}/api/og/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
-        },
-        device,
-      });
-    });
+    await Promise.all(
+      author.devices.map(async (device) => {
+        sendNotification({
+          data: {
+            title: `Votre commentaire : ${comment.content.slice(0, 6)}... à été upvoter `,
+            body: `par ${user?.name} : vous avez réçu +${ScoringPoints["UPVOTED_COMMENT"]} XP`,
+            icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
+            url: `${baseUrl}/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
+            //badge: "/badge.png",
+            image: `${baseUrl}/api/og/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
+          },
+          device,
+        });
+      })
+    );
   }
 
   console.log(data);

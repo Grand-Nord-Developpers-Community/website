@@ -1,4 +1,4 @@
-import IORedis from "ioredis";
+// import IORedis from "ioredis";
 import nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
 dotenv.config({
@@ -13,10 +13,11 @@ const {
   REDIS_URL,
 } = process.env;
 
-export const connection = new IORedis(REDIS_URL!, {
-  maxRetriesPerRequest: null,
-});
-console.log(REDIS_URL);
+// export const connection = new IORedis(REDIS_URL!, {
+//   maxRetriesPerRequest: null,
+//   showFriendlyErrorStack: true,
+// });
+
 export const transporter = nodemailer.createTransport({
   host: SMTP_SERVER_HOST,
   port: Number(SMTP_PORT),

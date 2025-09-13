@@ -16,7 +16,9 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await withAuth({ ifNoSession: "notfound" });
-  if (session.user.role !== "admin") {
+  const role = await session.user.role;
+  console.log(role);
+  if (role !== "admin" && role !== "manager") {
     return notFound();
   }
   const qc = getQueryClient();

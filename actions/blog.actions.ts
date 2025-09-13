@@ -1,14 +1,15 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { blogPost } from "@/lib/db/schema";
-import { eq, desc, and, count, not } from "drizzle-orm";
+import { blogPost, userTable } from "@/lib/db/schema";
+import { eq, desc, and, count, not, or, like } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { blogPublishSchema } from "@/schemas/blog-schema";
 import { auth } from "@/lib/auth";
 import { addUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
+import { triggerBlogCreated } from "./trigger-jobs";
 
 type blogValueProps = {
   id?: string;
@@ -78,7 +79,9 @@ export async function createBlogPost({
 
   revalidatePath("/blog");
   revalidatePath("/user/dashboard");
-  await addJob("BLOG_CREATED", { slug });
+  revalidatePath("/admin");
+  //await addJob("BLOG_CREATED", { slug });
+  await triggerBlogCreated({ slug });
   return {
     success: true,
     message: "votre blog a été publié avec sucèss !!",
@@ -122,6 +125,70 @@ export async function getBlogPosts() {
   } catch (e) {
     console.log(e);
     throw "Error " + e;
+  }
+}
+
+export async function getBlogPostsPaginated(
+  page: number,
+  pageSize: number,
+  q?: string,
+  isDraft?: boolean
+) {
+  const offset = page * pageSize;
+  try {
+    let conditions = [];
+
+    // Search filter
+    if (q) {
+      conditions.push(
+        or(like(blogPost.title, `%${q}%`), like(blogPost.description, `%${q}%`))
+      );
+    }
+
+    // Draft filter (default to false if not provided)
+    if (typeof isDraft === "boolean") {
+      conditions.push(eq(blogPost.isDraft, isDraft));
+    } else {
+      //conditions.push(eq(blogPost.isDraft, false));
+    }
+    const posts = await db.query.blogPost.findMany({
+      orderBy: [desc(blogPost.createdAt)],
+      limit: pageSize,
+      offset: offset,
+      where: and(...conditions),
+      with: {
+        author: {
+          columns: {
+            id: true,
+            email: true,
+            name: true,
+            image: true,
+            username: true,
+          },
+        },
+        // replies: {
+        //   columns: {
+        //     id: true,
+        //   },
+        //   with: {
+        //     votes: true,
+        //   },
+        // },
+        // likes: {
+        //   columns: {
+        //     isLike: true,
+        //   },
+        // },
+      },
+      columns: {
+        content: false,
+      },
+    });
+    return posts;
+  } catch (e) {
+    console.log(e);
+    return [];
+    //throw "Error " + e;
   }
 }
 
@@ -177,10 +244,16 @@ export async function getBlogPostPreview(slug: string) {
             name: true,
             image: true,
             bio: true,
-            role: true,
             createdAt: true,
             experiencePoints: true,
             username: true,
+          },
+          with: {
+            role: {
+              columns: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -301,10 +374,16 @@ export async function getBlogPost(slug: string) {
             name: true,
             image: true,
             bio: true,
-            role: true,
             createdAt: true,
             experiencePoints: true,
             username: true,
+          },
+          with: {
+            role: {
+              columns: {
+                name: true,
+              },
+            },
           },
         },
         likes: {
@@ -342,10 +421,16 @@ export async function getBlogPostMeta(slug: string) {
           name: true,
           image: true,
           bio: true,
-          role: true,
           createdAt: true,
           experiencePoints: true,
           username: true,
+        },
+        with: {
+          role: {
+            columns: {
+              name: true,
+            },
+          },
         },
       },
       likes: {

@@ -10,7 +10,11 @@ export default function ReportActivity({
   useEffect(() => {
     if (userId) {
       startTransition(async () => {
-        await processActivity(userId);
+        try {
+          await processActivity(userId);
+        } catch (e) {
+          console.log(e);
+        }
       });
     }
   }, []);

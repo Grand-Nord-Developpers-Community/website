@@ -6,15 +6,16 @@ import {
 } from "../user.actions";
 
 export const userKeys = {
-  users: (page: number, size: number) => ["users", { page, size }] as const,
+  users: (page: number, size: number, query: string) =>
+    ["users", { page, size, query }] as const,
   new: ["new"] as const,
   all: ["all-users-amount"] as const,
 };
 
-export const getPaginatedUsers = (page: number, size: number) =>
+export const getPaginatedUsers = (page: number, size: number, query?: string) =>
   queryOptions({
-    queryKey: userKeys.users(page, size),
-    queryFn: async () => await getUsers(page, size),
+    queryKey: userKeys.users(page, size, query ?? ""),
+    queryFn: async () => await getUsers(page, size, query),
     placeholderData: keepPreviousData,
     staleTime: 60_000,
   });

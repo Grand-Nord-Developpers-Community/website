@@ -27,8 +27,8 @@ export const loginWithMagicLink = action(
     if (!existingUser) {
       throw new Error("Invalid email");
     }
-    // send magic link 
-   await sendEmailVerificationCode({
+    // send magic link
+    await sendEmailVerificationCode({
       email,
       userId: existingUser.id,
     });
@@ -148,7 +148,7 @@ export const loginWithPassword = action(
     const session = await lucia.createSession(existingUser.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
     cookies().set(sessionCookie);
-    console.log(session)
+    console.log(session);
     if (withoutRedirect) return;
     return {
       redirectUrl: existingUser.isCompletedProfile ? `/user` : "/account",

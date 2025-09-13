@@ -7,10 +7,21 @@ export const metadata = {
   title: "Dashboard : Overview",
 };
 import { headers } from "next/headers";
-import { fetchAppViews, getViewData } from "@/actions/utils.actions";
+import { fetchAppViews, getViewData, ViewData } from "@/actions/utils.actions";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getQueryClient } from "@/lib/react-query";
+import { getTotalUser } from "@/actions/queries/user";
+import {
+  getTotalBlogs,
+  getTotalForums,
+  getViewDataStat,
+  getViewGlobal,
+} from "@/actions/queries/stats";
+import PageContainer from "@/components/layout/page-container";
 
 export const dynamic = "force-dynamic";
 export default async function page() {
+  const qc = getQueryClient();
   console.log("overview page");
   const stats: {
     totalUsers: number;
@@ -18,19 +29,32 @@ export default async function page() {
     totalForums: number;
     totalViews: number;
   } = {
-    totalUsers: 0,
-    totalBlogs: 0,
-    totalForums: 0,
-    totalViews: 0,
+    totalUsers: (await qc.fetchQuery(getTotalUser())) ?? 0,
+    totalBlogs: (await qc.fetchQuery(getTotalBlogs())) ?? 0,
+    totalForums: (await qc.fetchQuery(getTotalForums())) ?? 0,
+    totalViews: (await qc.fetchQuery(getViewGlobal())).total ?? 0,
   };
-  let datas = await fetchAppViews();
-  let viewDatas = await getViewData("app");
-  const totalUsers = await getTotalUsers();
-  const totalBlogs = await getTotalBlogPosts();
-  const totalForums = await getTotalForumPosts();
-  stats["totalUsers"] = totalUsers;
-  stats["totalBlogs"] = totalBlogs;
-  stats["totalForums"] = totalForums;
-  stats["totalViews"] = datas.total;
-  return <OverViewPage stat={stats} totalViewData={viewDatas} />;
+  // let datas = await fetchAppViews();
+  let viewDatas: ViewData = [];
+  try {
+    viewDatas = await qc.fetchQuery(getViewDataStat());
+  } catch (e) {
+    viewDatas = [];
+    console.log(e);
+  }
+
+  // const totalUsers = await getTotalUsers();
+  // const totalBlogs = await getTotalBlogPosts();
+  // const totalForums = await getTotalForumPosts();
+  // stats["totalUsers"] = totalUsers;
+  // stats["totalBlogs"] = totalBlogs;
+  // stats["totalForums"] = totalForums;
+  // stats["totalViews"] = datas.total;
+  return (
+    <PageContainer scrollable>
+      <HydrationBoundary state={dehydrate(qc)}>
+        <OverViewPage stat={stats} totalViewData={viewDatas} />;
+      </HydrationBoundary>
+    </PageContainer>
+  );
 }

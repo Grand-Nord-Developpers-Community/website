@@ -7,16 +7,10 @@ import clsx from "clsx";
 import BlogLikeCard from "@/components/blogLikeCard";
 import type { SessionUser } from "@/lib/db/schema";
 import CommentSection from "@/components/comment-section";
-import { Clock, Eye, ThumbsUp } from "lucide-react";
-import { calculateReadingTime } from "@/lib/utils";
-import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 import { getMoreBlogPosts } from "@/actions/blog.actions";
 import { fetchPageViews } from "@/actions/utils.actions";
 import { CardBlog } from "@/components/cardBlog";
 import EmptyBlog from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
-import { Button } from "@/components/ui/button";
-import Avatar from "@/components/avatar";
 
 async function MoreBlogPosts({ id, limit }: { id: string; limit: number }) {
   const blogs = await getMoreBlogPosts(id, limit);

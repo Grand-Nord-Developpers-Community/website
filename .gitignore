@@ -37,3 +37,4 @@ yarn.lock
 *.tsbuildinfo
 next-env.d.ts
 certificates
+.trigger

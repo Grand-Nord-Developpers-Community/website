@@ -4,7 +4,7 @@ import { UserProfile } from "@/types";
 import Avatar from "../avatar";
 
 export default function ProfileHeader({ user }: { user: UserProfile }) {
-  const isAdmin = user?.role === "admin" || user?.role === "manager";
+  const isAdmin = user?.role.name === "admin" || user?.role.name === "manager";
   const blogs = user?.blogPosts.length;
   const forums = user?.forumPosts.length;
   return (

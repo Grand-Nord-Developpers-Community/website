@@ -7,6 +7,8 @@ import ResetPasswordEmail, { ResetPasswordEmailProps } from "./password-reset";
 import NewUser, { NewUserProps } from "./new-user";
 import LeaderBoard, { LeaderBoardProps } from "./leader-board";
 import NewForum, { NewForumProps } from "./new-forum";
+import BlogPublished, { BlogPublishedProps } from "./blog-published";
+import { NotificationProps } from "./notification";
 
 export type Templates =
   | { type: "joined"; props: NewUserProps }
@@ -15,7 +17,8 @@ export type Templates =
   | { type: "newBlog"; props: NewBlogProps }
   | { type: "leaderboard"; props: LeaderBoardProps }
   | { type: "forum"; props: NewForumProps }
-  | { type: "notification"; props: { title: string; message: string } };
+  | { type: "blogPublished"; props: BlogPublishedProps }
+  | { type: "notification"; props: NotificationProps };
 
 export async function renderEmail(template: Templates): Promise<string> {
   switch (template.type) {
@@ -31,7 +34,8 @@ export async function renderEmail(template: Templates): Promise<string> {
       return render(<NewUser {...template.props} />);
     case "forum":
       return render(<NewForum {...template.props} />);
-
+    case "blogPublished":
+      return render(<BlogPublished {...template.props} />);
     case "leaderboard":
       return render(<LeaderBoard {...template.props} />);
     default:

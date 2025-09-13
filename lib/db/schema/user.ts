@@ -6,7 +6,7 @@ import {
   integer,
   json,
 } from "drizzle-orm/pg-core";
-import { rolesTable } from "./role-permission";
+import { IRole, rolesTable } from "./role-permission";
 
 export const userTable = pgTable("user", {
   id: text("id").primaryKey(),
@@ -18,7 +18,6 @@ export const userTable = pgTable("user", {
   two_factor_secret: text("two_factor_secret"),
   image: text("image"),
   bio: text("bio"),
-  role: text("role").default("user").$type<"user" | "admin" | "manager">(),
   experiencePoints: integer("experiencePoints").default(0),
   location: text("location"),
   phoneNumber: text("phoneNumber"),
@@ -40,14 +39,17 @@ export const userTable = pgTable("user", {
 });
 
 export type User = typeof userTable.$inferSelect;
-export type SessionUser = Pick<
+type SessionUserSimple = Pick<
   User,
   | "id"
   | "email"
   | "name"
-  | "role"
+  | "role_id"
   | "image"
   | "isCompletedProfile"
   | "bio"
   | "username"
 >;
+export type SessionUser = SessionUserSimple & {
+  role: IRole["name"];
+};

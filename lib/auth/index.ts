@@ -8,6 +8,9 @@ import { sessionTable } from "../db/schema/session";
 
 import { SessionUser, User as UserType } from "@/lib/db/schema/user";
 import { userTable } from "../db/schema/user";
+import { IRole, rolesTable } from "../db/schema";
+import { eq } from "drizzle-orm";
+import { getRoleById } from "@/actions/user.actions";
 
 export const adapter = new DrizzlePostgreSQLAdapter(
   db,
@@ -31,6 +34,8 @@ export const lucia = new Lucia(adapter, {
   getUserAttributes: (attributes) => {
     return {
       // attributes has the type of DatabaseUserAttributes
+      role_id: attributes?.role_id,
+      role: (async () => await getRoleById(attributes.role_id))(),
       username: attributes.username,
       name: attributes.name,
       email: attributes.email,
@@ -38,7 +43,6 @@ export const lucia = new Lucia(adapter, {
       setupTwoFactor: attributes.two_factor_secret !== null,
       image: attributes.image,
       id: attributes.id,
-      role: attributes.role,
       isCompletedProfile: attributes.isCompletedProfile,
       bio: attributes.bio,
     };
@@ -87,4 +91,6 @@ declare module "lucia" {
   }
 }
 
-interface DatabaseUserAttributes extends UserType {}
+interface DatabaseUserAttributes extends UserType {
+  role: IRole["name"];
+}

@@ -6,19 +6,14 @@ import { sendNotification } from "./(common)/notification";
 import { renderEmail } from "@/emails/mailer";
 import { transporter } from "@/lib/connection";
 import { baseUrl } from "@/emails/base-layout";
+import { logger } from "@trigger.dev/sdk";
 
 export default async function whenWeeklyLeaderBoard(
   data: JobPayloads["WEEKLY_LEADERBOARD"],
   via: boolean = true
 ) {
-  //const { blogId, title, authorId } = data;
-  // Fetch users
-  if (!via) {
-    console.log("via web ...");
-  }
-  if (via) {
-    console.log("Via jobs");
-  }
+  logger.log("data", { data });
+
   const users = await db.query.userTable.findMany({
     columns: {
       name: true,
@@ -35,22 +30,26 @@ export default async function whenWeeklyLeaderBoard(
       devices: true,
     },
   });
+  logger.log("users", { users });
+
   let rank = 1;
   for (const user of users) {
     if (user.devices.length > 0) {
-      user.devices.map(async (device) => {
-        await sendNotification({
-          data: {
-            title: "Leaderboard Hebdomadaire🏆",
-            body: `${user.name}, vous avez gagnez en tout ${user.experiencePoints} XP`,
-            icon: `${user.image ?? `/api/avatar?username=${user.username}`}`,
-            url: `${baseUrl}/leaderboard`,
-            //badge: "/badge.png",
-            image: "/badge.png",
-          },
-          device,
-        });
-      });
+      await Promise.all(
+        user.devices.map(async (device) => {
+          sendNotification({
+            data: {
+              title: "Leaderboard Hebdomadaire🏆",
+              body: `${user.name}, vous avez gagnez en tout ${user.experiencePoints} XP`,
+              icon: `${user.image ?? `/api/avatar?username=${user.username}`}`,
+              url: `${baseUrl}/leaderboard`,
+              //badge: "/badge.png",
+              image: "/badge.png",
+            },
+            device,
+          });
+        })
+      );
     }
     if (!user.email) continue;
     const html = await renderEmail({

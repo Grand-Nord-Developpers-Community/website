@@ -7,7 +7,7 @@ export const devicesTable = pgTable("devices", {
     .$defaultFn(() => crypto.randomUUID()),
   pushSubscription: json("push_subscription").notNull(),
   userId: text("user_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(),
 });
 export type Device = typeof devicesTable.$inferSelect;

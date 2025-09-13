@@ -6,19 +6,15 @@ import { sendNotification } from "./(common)/notification";
 import { baseUrl } from "@/emails/base-layout";
 import { renderEmail } from "@/emails/mailer";
 import { transporter } from "@/lib/connection";
+import { logger } from "@trigger.dev/sdk";
 
 export default async function whenNewUser(
   data: JobPayloads["USER_NEW"],
   via: boolean = true
 ) {
   const { userId } = data;
-  // Fetch admins
-  if (!via) {
-    console.log("via web ...");
-  }
-  if (via) {
-    console.log("Via jobs");
-  }
+  logger.log("data", { data });
+
   const user = await db.query.userTable.findFirst({
     columns: {
       name: true,
@@ -32,23 +28,27 @@ export default async function whenNewUser(
       devices: true,
     },
   });
+  logger.log("user", { user });
+
   if (!user) {
     return;
   }
   if (user.devices.length > 0) {
-    user.devices.map(async (device) => {
-      await sendNotification({
-        data: {
-          title: `Bienvenue GNDC 🚀 `,
-          body: `🎉 Bienvenue à board ${user.name}, tu as rejoint avec succès la GNDC.`,
-          icon: `${user.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
-          url: `${baseUrl}/user/${user.username}`,
-          //badge: "/badge.png",
-          image: ``,
-        },
-        device,
-      });
-    });
+    await Promise.all(
+      user.devices.map(async (device) => {
+        sendNotification({
+          data: {
+            title: `Bienvenue GNDC 🚀 `,
+            body: `🎉 Bienvenue à board ${user.name}, tu as rejoint avec succès la GNDC.`,
+            icon: `${user.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
+            url: `${baseUrl}/user/${user.username}`,
+            //badge: "/badge.png",
+            image: ``,
+          },
+          device,
+        });
+      })
+    );
   }
   if (user.email) {
     const html = await renderEmail({

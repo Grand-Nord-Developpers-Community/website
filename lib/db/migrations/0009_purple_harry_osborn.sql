@@ -1,0 +1,1 @@
+ALTER TABLE "members" ALTER COLUMN "domain" SET DATA TYPE text;

@@ -4,20 +4,14 @@ import { blogPost, forumPost, postComment, userTable } from "@/lib/db/schema";
 import { and, eq } from "drizzle-orm";
 import { sendNotification } from "./(common)/notification";
 import { baseUrl } from "@/emails/base-layout";
+import { logger } from "@trigger.dev/sdk";
 
 export default async function whenCommentAdded(
   data: JobPayloads["COMMENT_ADDED"],
   via: boolean = true
 ) {
   const { commentAuthorId, comment } = data;
-
-  if (!via) {
-    console.log("via web ...");
-  }
-  if (via) {
-    console.log("Via jobs");
-  }
-
+  logger.log("data", { data });
   const user = await db.query.userTable.findFirst({
     columns: {
       name: true,
@@ -26,12 +20,13 @@ export default async function whenCommentAdded(
     },
     where: eq(userTable.id, commentAuthorId),
   });
-
+  logger.log("user", { user });
   if (!user) {
     return;
   }
   //notify the post creator
   const post = comment.blogId;
+
   let slug = "";
   if (post) {
     const blog = await db.query.blogPost.findFirst({
@@ -55,22 +50,25 @@ export default async function whenCommentAdded(
         },
       },
     });
+    logger.log("blog", { blog });
 
     if (blog) {
       slug = blog.slug;
-      blog.author.devices.map(async (device) => {
-        await sendNotification({
-          data: {
-            title: `Votre Blog : ${blog.title.slice(0, 6)}... à été commenter `,
-            body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
-            icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
-            url: `${baseUrl}/blog/${blog.slug}`,
-            //badge: "/badge.png",
-            image: `${baseUrl}/api/og/blog/${blog.slug}`,
-          },
-          device,
-        });
-      });
+      await Promise.all(
+        blog.author.devices.map(async (device) => {
+          sendNotification({
+            data: {
+              title: `Votre Blog : ${blog.title.slice(0, 6)}... à été commenter `,
+              body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
+              icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
+              url: `${baseUrl}/blog/${blog.slug}`,
+              //badge: "/badge.png",
+              image: `${baseUrl}/api/og/blog/${blog.slug}`,
+            },
+            device,
+          });
+        })
+      );
     }
   }
 
@@ -97,21 +95,24 @@ export default async function whenCommentAdded(
         },
       },
     });
+    logger.log("forum", { forum });
 
     if (forum) {
-      forum.author.devices.map(async (device) => {
-        await sendNotification({
-          data: {
-            title: `Votre Forum : ${forum.title.slice(0, 6)}... à été répondu `,
-            body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
-            icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
-            url: `${baseUrl}/forum/${forum.id}`,
-            //badge: "/badge.png",
-            image: `${baseUrl}/api/og/forum/${forum.id}`,
-          },
-          device,
-        });
-      });
+      await Promise.all(
+        forum.author.devices.map(async (device) => {
+          sendNotification({
+            data: {
+              title: `Votre Forum : ${forum.title.slice(0, 6)}... à été répondu `,
+              body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
+              icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
+              url: `${baseUrl}/forum/${forum.id}`,
+              //badge: "/badge.png",
+              image: `${baseUrl}/api/og/forum/${forum.id}`,
+            },
+            device,
+          });
+        })
+      );
     }
   }
 
@@ -138,22 +139,26 @@ export default async function whenCommentAdded(
         },
       },
     });
+    logger.log("comment", { commentR });
     if (commentR) {
       const author = commentR.author;
+
       if (author.devices.length > 0) {
-        author.devices.map(async (device) => {
-          await sendNotification({
-            data: {
-              title: `Votre commentaire : ${comment.content.slice(0, 6)}... à été répondu `,
-              body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
-              icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
-              url: `${baseUrl}/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
-              //badge: "/badge.png",
-              image: `${baseUrl}/api/og/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
-            },
-            device,
-          });
-        });
+        await Promise.all(
+          author.devices.map(async (device) => {
+            sendNotification({
+              data: {
+                title: `Votre commentaire : ${comment.content.slice(0, 6)}... à été répondu `,
+                body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
+                icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
+                url: `${baseUrl}/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
+                //badge: "/badge.png",
+                image: `${baseUrl}/api/og/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
+              },
+              device,
+            });
+          })
+        );
       }
     }
   }

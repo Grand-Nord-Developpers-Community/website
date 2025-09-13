@@ -86,5 +86,5 @@ export default async function EventPage({
     },
   };
 
-  return <EventPageDetails activityOrEvent={activityOrEvent} />;
+  return <>{/* <EventPageDetails activityOrEvent={activityOrEvent} /> */}</>;
 }

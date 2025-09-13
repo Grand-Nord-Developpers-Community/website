@@ -7,12 +7,15 @@
     "build": "next build",
     "start": "next start",
     "dev-secure": "next dev --experimental-https",
-    "worker:new": "tsx workers/index.ts",
     "lint": "next lint",
     "generate": "drizzle-kit generate",
     "push": "drizzle-kit push",
     "introspect": "drizzle-kit introspect",
-    "studio": "drizzle-kit studio"
+    "studio": "drizzle-kit studio",
+    "test-emails": "tsx emails/test-email-script.ts",
+    "test-email-welcome": "tsx emails/test-email-script.ts welcome",
+    "test-email-login": "tsx emails/test-email-script.ts login",
+    "test-email-all": "tsx emails/test-email-script.ts all"
   },
   "dependencies": {
     "@ark-ui/react": "^4.7.0",
@@ -73,6 +76,7 @@
     "@tiptap/pm": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
+    "@trigger.dev/sdk": "^4.0.2",
     "@types/canvas-confetti": "^1.6.4",
     "@upstash/ratelimit": "^1.1.2",
     "@upstash/redis": "^1.30.0",
@@ -150,6 +154,7 @@
     "@faker-js/faker": "^9.3.0",
     "@react-email/components": "^0.0.32",
     "@svgr/webpack": "^8.1.0",
+    "@trigger.dev/build": "^4.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/lodash": "^4.17.13",
     "@types/node": "^20",

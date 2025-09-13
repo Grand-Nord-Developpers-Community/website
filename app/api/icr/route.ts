@@ -47,9 +47,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }
     );
 
-    if (!isNew) {
-      return new NextResponse(null, { status: 202 });
-    }
+    // if (!isNew) {
+    //   return new NextResponse(null, { status: 202 });
+    // }
   }
   try {
     switch (type) {

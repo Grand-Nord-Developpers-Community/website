@@ -1,6 +1,6 @@
 "use server";
 import type { JobPayloads } from "@/workers/jobs";
-import { notificationQueue } from "@/workers";
+//import { notificationQueue } from "@/workers";
 import { handlers } from "@/workers/handler";
 
 export async function addJob<K extends keyof JobPayloads>(
@@ -13,5 +13,5 @@ export async function addJob<K extends keyof JobPayloads>(
   //const handler = handlers[name as keyof JobPayloads];
   //@ts-ignore
   //return handler(data);
-  notificationQueue.add(name, data);
+  //notificationQueue.add(name, data);
 }

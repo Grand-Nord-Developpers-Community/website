@@ -16,7 +16,17 @@ import {
 //import { LoginSchema } from "@/schemas/login-schema";
 //import { RegisterSchema } from "@/schemas/register-schema";
 import { completeProfileSchema } from "@/schemas/profile-schema";
-import { eq, sql, desc, count, or, ilike, inArray, and } from "drizzle-orm";
+import {
+  eq,
+  sql,
+  desc,
+  count,
+  or,
+  ilike,
+  inArray,
+  and,
+  like,
+} from "drizzle-orm";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { revalidatePath } from "next/cache";
@@ -36,6 +46,7 @@ import {
 import { ScoringPoints } from "@/constants/scoring";
 import { processActivity } from "./activity.actions";
 import { addJob } from "./qeues.action";
+import { triggerNewUser } from "./trigger-jobs";
 
 export async function getUserFromDb(email: string, password: string) {
   try {
@@ -93,12 +104,29 @@ export async function loginWithGithub(props: {
   }
 }
 
-export async function updateUserRole(
-  userId: string,
-  role: "user" | "admin" | "manager"
-) {
-  await db.update(user).set({ role }).where(eq(user.id, userId));
+export async function updateUserRole(userId: string, role: IRole["name"]) {
+  const role_value = await db.query.rolesTable.findFirst({
+    columns: {
+      id: true,
+    },
+    where: eq(rolesTable.name, role),
+  });
+  await db
+    .update(user)
+    .set({ role_id: role_value?.id })
+    .where(eq(user.id, userId));
   revalidatePath("/admin/users");
+}
+
+export async function getRoleById(id: number) {
+  const role_value = await db.query.rolesTable.findFirst({
+    columns: {
+      id: true,
+      name: true,
+    },
+    where: eq(rolesTable.id, id),
+  });
+  return role_value?.name ?? "user";
 }
 
 export async function getUserSession() {
@@ -210,6 +238,11 @@ export async function getUserProfile(userId: string) {
           totalDaysActive: true,
         },
       },
+      role: {
+        columns: {
+          name: true,
+        },
+      },
       blogPosts: {
         where: eq(blogPost.isDraft, false),
         columns: {
@@ -253,7 +286,7 @@ export async function getUserProfile(userId: string) {
       experiencePoints: true,
       streak: false,
       email: true,
-      role: true,
+      role_id: true,
       location: true,
       phoneNumber: true,
       githubLink: true,
@@ -534,7 +567,11 @@ export async function recomputeAllUsersXP() {
 }
 /**pagination fetch */
 
-export async function getPaginatedUsers(page: number, pageSize: number) {
+export async function getPaginatedUsers(
+  page: number,
+  pageSize: number,
+  query?: string
+) {
   const offset = page * pageSize;
   const result = await db.query.userTable.findMany({
     orderBy: [desc(user.createdAt)],
@@ -545,7 +582,21 @@ export async function getPaginatedUsers(page: number, pageSize: number) {
       image: true,
       isCompletedProfile: true,
       createdAt: true,
+      experiencePoints: true,
     },
+    with: {
+      role: {
+        columns: {
+          name: true,
+        },
+      },
+    },
+    where: query
+      ? or(
+          like(userTable.name, `%${query}%`),
+          like(userTable.username, `%${query}%`)
+        )
+      : undefined,
     limit: pageSize,
     offset: offset,
   });
@@ -568,9 +619,9 @@ export async function deleteUser(userId: string) {
   }
 
   // Check if the user is not a super admin
-  if (userToDelete.role === "manager") {
-    throw new Error("Cannot delete a super admin user");
-  }
+  // if (userToDelete.role === "manager") {
+  //   throw new Error("Cannot delete a super admin user");
+  // }
 
   // Perform the deletion
   await db.delete(user).where(eq(user.id, userId));
@@ -623,7 +674,8 @@ export async function updateUserProfileCompletion(
 
     await refreshSession();
     await processActivity(res[0].id);
-    await addJob("USER_NEW", { userId: res[0].id });
+    //await addJob("USER_NEW", { userId: res[0].id });
+    await triggerNewUser({ userId: res[0].id });
     revalidatePath(`/profile/${userId}`);
     revalidatePath("/user");
     return {
