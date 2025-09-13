@@ -1,6 +1,7 @@
 # GNDC Website
 
 [![Deploy to Trigger.dev (prod)](https://github.com/Grand-Nord-Developpers-Community/website/actions/workflows/trigger-prod.yml/badge.svg?branch=main)](https://github.com/Grand-Nord-Developpers-Community/website/actions/workflows/trigger-prod.yml)
+
 This is the official repository for the Grand Nord Developpers Community (GNDC) website.
 
 ## Table of Contents
