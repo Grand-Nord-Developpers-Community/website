@@ -6,6 +6,9 @@
 .pnp.js
 .yarn/install-state.gz
 
+#disable package-lock on the repo due to triggger error
+package-lock.json
+
 # testing
 /coverage
 
