@@ -56,13 +56,31 @@ export const newUserJob = task({
   },
 });
 
+export const validatedBlogsJob = task({
+  id: "validate-blog",
+  run: async (payload: JobPayloads["VALIDATED_BLOG"]) => {
+    await handlers.VALIDATED_BLOG(payload);
+    return { success: true };
+  },
+});
+
 // Weekly Leaderboard Job
 export const weeklyLeaderboardJob = schedules.task({
   id: "weekly-leaderboard",
-  cron: "0 0 * * 1", // Every Monday at midnight
+  cron: "0 10 * * 1", // Every Monday at midnight
   //@ts-ignore
   run: async (payload) => {
     await handlers.WEEKLY_LEADERBOARD({});
+    return { success: true };
+  },
+});
+
+export const weeklyBlogPost = schedules.task({
+  id: "weekly-blog-send",
+  cron: "0 10 * * 1", // Every Monday at midnight
+  //@ts-ignore
+  run: async (payload) => {
+    await handlers.WEEKLY_DIGEST_BLOG({ date: payload.timestamp });
     return { success: true };
   },
 });

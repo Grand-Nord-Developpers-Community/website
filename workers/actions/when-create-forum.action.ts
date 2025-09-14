@@ -78,6 +78,7 @@ export default async function whenForumCreated(
           author: forum.author.name!,
           id: forum.id,
           title: forum.title,
+          textContent: forum.textContent,
         },
       });
       const res = await transporter.sendMail({

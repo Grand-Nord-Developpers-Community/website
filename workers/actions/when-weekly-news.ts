@@ -1,19 +1,25 @@
 import { db } from "@/lib/db";
 import { JobPayloads } from "../jobs";
-import { userTable } from "@/lib/db/schema";
+import { blogPost, userTable } from "@/lib/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { sendNotification } from "./(common)/notification";
 import { renderEmail } from "@/emails/mailer";
 import { transporter } from "@/lib/connection";
 import { baseUrl } from "@/emails/base-layout";
 import { logger } from "@trigger.dev/sdk";
+import { findNewestBlogPost } from "@/actions/user.actions";
 
-export default async function whenWeeklyLeaderBoard(
-  data: JobPayloads["WEEKLY_LEADERBOARD"],
+export default async function whenWeeklyNews(
+  data: JobPayloads["WEEKLY_DIGEST_BLOG"],
   via: boolean = true
 ) {
   logger.log("data", { data });
-
+  const { date } = data;
+  const blogs = await findNewestBlogPost();
+  logger.log("blogs", { blogs });
+  if (!blogs || blogs.length < 2) {
+    return;
+  }
   const users = await db.query.userTable.findMany({
     columns: {
       name: true,
@@ -24,6 +30,7 @@ export default async function whenWeeklyLeaderBoard(
       email: true,
       createdAt: true,
     },
+    limit: 5,
     orderBy: [desc(userTable.experiencePoints)],
     where: eq(userTable.isCompletedProfile, true),
     with: {
@@ -39,10 +46,12 @@ export default async function whenWeeklyLeaderBoard(
         user.devices.map(async (device) => {
           sendNotification({
             data: {
-              title: "Leaderboard Hebdomadaire🏆",
-              body: `${user.name}, vous avez gagnez en tout ${user.experiencePoints} XP`,
+              title: `Newsletter - Semaine ${date.toLocaleDateString("fr-FR", {
+                dateStyle: "medium",
+              })} `,
+              body: `Quelque nouvelles actualités dans les news`,
               icon: `${user.image ?? `/api/avatar?username=${user.username}`}`,
-              url: `${baseUrl}/leaderboard`,
+              url: `${baseUrl}/blog`,
               //badge: "/badge.png",
               image: "/badge.png",
             },
@@ -51,32 +60,23 @@ export default async function whenWeeklyLeaderBoard(
         })
       );
     }
-    logger.log("email", { email: user.email });
     if (!user.email) continue;
     const html = await renderEmail({
-      type: "leaderboard",
+      type: "digest-blog",
       props: {
-        name: user.name!,
-        rank,
-        tops: users.slice(0, 5).map((u, i) => {
-          return { name: u.name!, xp: u.experiencePoints! };
-        }),
-        username: user.username!,
-        xp: user.experiencePoints!,
+        articles: blogs.slice(1),
+        highlightedPost: blogs[0],
+        weekNumber: date,
       },
     });
-    logger.log("mail", { content: html });
-    try {
-      const result = await transporter.sendMail({
-        from: '"Leaderboard GNDC " <noreply@gndc.tech>',
-        to: user.email,
-        subject: "Nouveau classement",
-        html,
-      });
-      logger.log("result", { result });
-    } catch (error) {
-      logger.log("erreur", { error });
-    }
+    await transporter.sendMail({
+      from: '"GNDC News Digest" <noreply@gndc.tech>',
+      to: user.email,
+      subject: `Newsletter - Semaine ${date.toLocaleDateString("fr-FR", {
+        dateStyle: "medium",
+      })} `,
+      html,
+    });
     rank += 1;
   }
   console.log(data);

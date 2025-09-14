@@ -20,6 +20,32 @@ export const baseUrl = process.env.BASE_URL
   : "http://localhost:3000";
 export const appName = "GNDC";
 
+const baseStyles = {
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  backgroundColor: "#ffffff",
+  color: "#1f2937",
+};
+
+const containerStyles = {
+  maxWidth: "600px",
+  margin: "0 auto",
+  padding: "20px",
+};
+
+export const headerStyles = {
+  borderBottom: "1px solid #e5e7eb",
+  paddingBottom: "20px",
+  marginBottom: "30px",
+};
+
+const footerStyles = {
+  borderTop: "1px solid #e5e7eb",
+  paddingTop: "20px",
+  marginTop: "40px",
+  fontSize: "12px",
+  color: "#6b7280",
+};
 export const LayoutEmail = ({
   children,
   title,
@@ -44,39 +70,24 @@ export const LayoutEmail = ({
     </Head>
     <Preview>{preview || title}</Preview>
     <Tailwind>
-      <Body className="bg-gray-50 font-inter">
-        <Container className="mx-auto py-12 px-4 max-w-[600px]">
-          {/* Header */}
-          <Section className="bg-white rounded-t-2xl border border-gray-200 border-b-0 px-8 py-6">
-            <div className="flex items-center justify-center">
-              <Img
-                height={48}
-                src={`${baseUrl}/ogdata/logo.png`}
-                alt={appName}
-                className="mx-auto"
-              />
-            </div>
+      <Body style={baseStyles}>
+        <Container style={containerStyles}>
+          <Section style={headerStyles}>
+            <Img
+              src={`https://gndc.tech/ogdata/logo.png`}
+              width="117"
+              height="47"
+              alt="Logo"
+            />
           </Section>
-
-          {/* Content */}
-          <Section className="bg-white border-l border-r border-gray-200 px-8 py-8">
-            {children}
-          </Section>
-
-          {/* Footer */}
-          <Section className="bg-gray-100 rounded-b-2xl border border-gray-200 border-t-0 px-8 py-6 text-center">
-            <Text className="text-sm text-gray-600 mb-4">
-              Sent with ❤️ from the {appName} team
-            </Text>
-            <Link
-              href={`${baseUrl}`}
-              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
-            >
-              Visit {appName}
-            </Link>
-            <Hr className="my-4 border-gray-300" />
-            <Text className="text-xs text-gray-500">
+          {children}
+          <Section style={footerStyles}>
+            <Text>
               © {new Date().getFullYear()} {appName}. All rights reserved.
+              <Link href="#" style={{ color: "#dc2626" }}>
+                {" "}
+                Se désabonner
+              </Link>
             </Text>
           </Section>
         </Container>

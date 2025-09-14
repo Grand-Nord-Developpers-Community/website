@@ -1,5 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Button, Hr, Link, Section, Text } from "@react-email/components";
+import {
+  Button,
+  Heading,
+  Hr,
+  Link,
+  Section,
+  Text,
+} from "@react-email/components";
 import * as React from "react";
 import LayoutEmail, { appName, baseUrl } from "./base-layout";
 
@@ -14,37 +21,69 @@ export const ResetPasswordEmail = ({
 }: ResetPasswordEmailProps) => {
   return (
     <LayoutEmail title={`${appName} reset password`}>
-      <Section className="text-[#3c4149]">
-        <Text>Hi {userFirstname},</Text>
-        <Text>
-          Someone recently requested a password change for your {appName}
-          account. If this was you, you can set a new password here:
-        </Text>
-        <Button
-          className={cn(
-            "px-4 py-3 text-small gap-2 rounded-medium",
-            "inline-flex items-center justify-center",
-            "rounded-md bg-blue-500 text-white"
-          )}
-          href={resetPasswordLink}
+      <Section>
+        <Section className="text-center mb-4">
+          <Text className="text-6xl mb-4">🔑</Text>
+        </Section>
+        <Heading
+          style={{
+            fontSize: "24px",
+            textAlign: "center",
+            marginBottom: "20px",
+          }}
         >
-          Reset password
-        </Button>
-        <Text>
-          If you don&apos;t want to change your password or didn&apos;t request
-          this, just ignore and delete this message.
+          Réinitialisation du mot de passe
+        </Heading>
+
+        <Text
+          style={{ fontSize: "16px", lineHeight: "1.5", marginBottom: "25px" }}
+        >
+          Bonjour {userFirstname},
         </Text>
-        <Text>
-          To keep your account secure, please don&apos;t forward this email to
-          anyone. See our Help Center for{" "}
-          <Link className="text-blue-600" href={`${baseUrl}`}>
-            more security tips.
-          </Link>
+
+        <Text
+          style={{ fontSize: "16px", lineHeight: "1.5", marginBottom: "30px" }}
+        >
+          Vous avez demandé la réinitialisation de votre mot de passe. Cliquez
+          sur le bouton ci-dessous pour créer un nouveau mot de passe sécurisé.
         </Text>
-        <Hr className="mt-10 mb-6 border-[#dfe1e4]" />
-        <Link href={`${baseUrl}`} className="text-sm text-[#b4becc]">
-          {appName}
-        </Link>
+
+        <Section style={{ textAlign: "center", marginBottom: "30px" }}>
+          <Button
+            href={resetPasswordLink}
+            style={{
+              backgroundColor: "#ef4444",
+              color: "#ffffff",
+              padding: "16px 32px",
+              borderRadius: "8px",
+              textDecoration: "none",
+              fontSize: "16px",
+              fontWeight: "600",
+            }}
+          >
+            Réinitialiser le mot de passe
+          </Button>
+        </Section>
+
+        <Section
+          style={{
+            backgroundColor: "#fee2e2",
+            padding: "20px",
+            borderRadius: "8px",
+            borderLeft: "4px solid #ef4444",
+            marginBottom: "25px",
+          }}
+        >
+          <Text style={{ fontSize: "14px", color: "#991b1b", margin: "0" }}>
+            <strong>Important :</strong> Ce lien expire dans 5 min heures. Si
+            vous n'avez pas fait cette demande, ignorez cet email.
+          </Text>
+        </Section>
+
+        <Text style={{ fontSize: "14px", color: "#6b7280" }}>
+          Pour votre sécurité, assurez-vous que votre nouveau mot de passe
+          contient au moins 8 caractères avec des lettres, chiffres et symboles.
+        </Text>
       </Section>
     </LayoutEmail>
   );

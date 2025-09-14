@@ -72,7 +72,7 @@ export default async function whenBlogCreated(
         title: blog.title,
       },
     });
-    transporter.sendMail({
+    await transporter.sendMail({
       from: '"Blog GNDC | En attente de validation" <noreply@gndc.tech>',
       to: admin.email,
       subject: "Nouveau blog",

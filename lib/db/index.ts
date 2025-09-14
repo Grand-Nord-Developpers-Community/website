@@ -13,9 +13,6 @@ import * as dotenv from "dotenv";
 
 // Configure WebSocket for Neon
 import ws from "ws";
-if (typeof globalThis.WebSocket === "undefined") {
-  globalThis.WebSocket = ws as any;
-}
 
 dotenv.config({
   path: ".env",
@@ -25,6 +22,9 @@ const connectionString = process.env.DATABASE_URL!;
 const url = new URL(connectionString);
 const isSupabase = url.hostname.endsWith(".supabase.com");
 
+if (typeof globalThis.WebSocket === "undefined") {
+  globalThis.WebSocket = ws as any;
+}
 let db: NeonDatabase<typeof schema> | NodePgDatabase<typeof schema>;
 
 if (isSupabase) {
@@ -33,8 +33,8 @@ if (isSupabase) {
   db = drizzlePg(pool, { schema });
 } else {
   // Use Neon serverless driver for Neon
-  const pool = new NeonPool({ connectionString });
-  db = drizzleNeon(pool, { schema });
+  const pool = new PgPool({ connectionString });
+  db = drizzlePg(pool, { schema });
 }
 
 export { db };

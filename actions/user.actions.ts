@@ -129,6 +129,30 @@ export async function getRoleById(id: number) {
   return role_value?.name ?? "user";
 }
 
+export async function findNewestBlogPost() {
+  const blogs = await db.query.blogPost.findMany({
+    columns: {
+      preview: true,
+      title: true,
+      description: true,
+      slug: true,
+      content: true,
+    },
+    orderBy: [desc(blogPost.createdAt)],
+    where: eq(blogPost.isDraft, false),
+    with: {
+      author: {
+        columns: {
+          name: true,
+          username: true,
+          image: true,
+        },
+      },
+    },
+  });
+  return blogs;
+}
+
 export async function getUserSession() {
   const session = await auth();
   return session?.user?.name ? session : undefined;

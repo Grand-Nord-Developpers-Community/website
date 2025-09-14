@@ -142,6 +142,7 @@ export class EmailTester {
           author: sampleData.forum.author.name,
           id: sampleData.forum.id,
           title: sampleData.forum.title,
+          textContent: "✅ New Forum Question email sent successfully",
         },
       });
 
@@ -193,11 +194,10 @@ export class EmailTester {
         props: {
           title: sampleData.blog.title,
           author: sampleData.blog.author,
-          slug: sampleData.blog.slug,
+          url: sampleData.blog.slug,
           userName: sampleData.testUser.name,
-          excerpt: sampleData.blog.excerpt,
-          category: sampleData.blog.category,
-          estimatedReadTime: sampleData.blog.estimatedReadTime,
+          description: sampleData.blog.excerpt,
+          preview: "",
         },
       });
 

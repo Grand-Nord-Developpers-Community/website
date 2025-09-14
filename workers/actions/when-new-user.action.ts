@@ -57,7 +57,7 @@ export default async function whenNewUser(
         name: user.name!,
       },
     });
-    transporter.sendMail({
+    await transporter.sendMail({
       from: '"GNDC TEAM" <noreply@gndc.tech>',
       to: user.email,
       subject: "Bienvenue GNDC 🚀",

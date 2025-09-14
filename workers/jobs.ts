@@ -9,5 +9,7 @@ export type JobPayloads = {
   UPVOTED: { commentId: string; userId: string; targetUserId: string };
   USER_NEW: { userId: string };
   WEEKLY_LEADERBOARD: {};
+  WEEKLY_DIGEST_BLOG: { date: Date };
+  VALIDATED_BLOG: { blogId: string };
   CUSTOM_EVENT: { payload: Record<string, unknown> };
 };

@@ -1,35 +1,71 @@
-import { cn } from "@/lib/utils";
-import { Button, Heading, Section, Text } from "@react-email/components";
-import LayoutEmail, { appName, baseUrl } from "./base-layout";
+import React from "react";
+import LayoutEmail from "./base-layout";
+import { Heading, Img, Section, Text } from "@react-email/components";
 
 export interface LoginCodeEmailProps {
   validationCode?: string;
 }
 
 export const LoginCodeEmail = ({ validationCode }: LoginCodeEmailProps) => (
-  <LayoutEmail title={` Your login code for ${appName}`}>
-    <Heading className="text-2xl pt-4 font-normal leading-5">
-      Your login code for {appName}
-    </Heading>
-    <Section className="py-7">
-      <Button
-        className={cn(
-          "px-4 py-3 text-small gap-2 rounded-medium",
-          "inline-flex items-center justify-center",
-          "rounded-md bg-blue-500 text-white"
-        )}
-        href={`${baseUrl}/api/verify-email?token=${validationCode}`}
+  <LayoutEmail title={` Votre code de connexion`}>
+    <Section>
+      <Section className="text-center mb-4">
+        <Text className="text-6xl mb-4">🔐</Text>
+      </Section>
+      <Heading
+        style={{ fontSize: "24px", textAlign: "center", marginBottom: "20px" }}
       >
-        Login to {appName}
-      </Button>
+        Code de connexion
+      </Heading>
+
+      <Text
+        style={{ fontSize: "16px", textAlign: "center", marginBottom: "30px" }}
+      >
+        Bonjour , voici votre code de connexion sécurisé :
+      </Text>
+
+      <Section
+        style={{
+          backgroundColor: "#1f2937",
+          padding: "30px",
+          borderRadius: "12px",
+          textAlign: "center",
+          marginBottom: "25px",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: "32px",
+            fontWeight: "700",
+            color: "#ffffff",
+            letterSpacing: "8px",
+            margin: "0",
+            fontFamily: "monospace",
+          }}
+        >
+          {validationCode}
+        </Text>
+      </Section>
+
+      <Section
+        style={{
+          backgroundColor: "#fef3c7",
+          padding: "15px",
+          borderRadius: "8px",
+          borderLeft: "4px solid #f59e0b",
+          marginBottom: "20px",
+        }}
+      >
+        <Text style={{ fontSize: "14px", color: "#92400e", margin: "0" }}>
+          ⚠️ Ce code expire dans 5 minutes. Ne le partagez avec personne.
+        </Text>
+      </Section>
+
+      <Text style={{ fontSize: "14px", color: "#6b7280", textAlign: "center" }}>
+        Si vous n'avez pas demandé ce code, ignorez cet email ou contactez notre
+        support.
+      </Text>
     </Section>
-    <Text className="mb-4 text-[#3c4149] ">
-      This link and code will only be valid for the next 5 minutes. If the link
-      does not work, you can use the login verification code directly:
-    </Text>
-    <code className="font-mono font-bold px-1 bg-[#dfe1e4] text-xl rounded text-[#3c4149] ">
-      {validationCode}
-    </code>
   </LayoutEmail>
 );
 

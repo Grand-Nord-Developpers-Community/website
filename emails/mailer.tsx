@@ -8,7 +8,12 @@ import NewUser, { NewUserProps } from "./new-user";
 import LeaderBoard, { LeaderBoardProps } from "./leader-board";
 import NewForum, { NewForumProps } from "./new-forum";
 import BlogPublished, { BlogPublishedProps } from "./blog-published";
-import { NotificationProps } from "./notification";
+import Notification, { NotificationProps } from "./notification";
+import ValidatedBlog, { ValidatedBlogProps } from "./validated-blog";
+import {
+  NewsletterDigestLayout,
+  NewsletterDigestLayoutProps,
+} from "./weekly-digest";
 
 export type Templates =
   | { type: "joined"; props: NewUserProps }
@@ -18,12 +23,14 @@ export type Templates =
   | { type: "leaderboard"; props: LeaderBoardProps }
   | { type: "forum"; props: NewForumProps }
   | { type: "blogPublished"; props: BlogPublishedProps }
-  | { type: "notification"; props: NotificationProps };
+  | { type: "notification"; props: NotificationProps }
+  | { type: "validated"; props: ValidatedBlogProps }
+  | { type: "digest-blog"; props: NewsletterDigestLayoutProps };
 
 export async function renderEmail(template: Templates): Promise<string> {
   switch (template.type) {
     case "notification":
-      return render(<LayoutEmail {...template.props}>hi</LayoutEmail>);
+      return render(<Notification {...template.props} />);
     case "otp":
       return render(<LoginCodeEmail {...template.props} />);
     case "reset":
@@ -34,6 +41,10 @@ export async function renderEmail(template: Templates): Promise<string> {
       return render(<NewUser {...template.props} />);
     case "forum":
       return render(<NewForum {...template.props} />);
+    case "validated":
+      return render(<ValidatedBlog {...template.props} />);
+    case "digest-blog":
+      return await render(<NewsletterDigestLayout {...template.props} />);
     case "blogPublished":
       return render(<BlogPublished {...template.props} />);
     case "leaderboard":

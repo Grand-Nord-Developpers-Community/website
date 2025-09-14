@@ -7,8 +7,8 @@ import {
   forumCreatedJob,
   upvotedJob,
   newUserJob,
-  weeklyLeaderboardJob,
   customEventJob,
+  validatedBlogsJob,
 } from "@/trigger/jobs";
 import { JobPayloads } from "@/workers/jobs";
 import { tasks } from "@trigger.dev/sdk/v3";
@@ -22,6 +22,21 @@ export async function triggerBlogCreated(data: JobPayloads["BLOG_CREATED"]) {
     return { handle };
   } catch (error) {
     console.error("Failed to trigger blog created job:", error);
+    return { success: false, error: String(error) };
+  }
+}
+
+export async function triggerBlogValidated(
+  data: JobPayloads["VALIDATED_BLOG"]
+) {
+  try {
+    const handle = await tasks.trigger<typeof validatedBlogsJob>(
+      "validate-blog",
+      data
+    );
+    return { handle };
+  } catch (error) {
+    console.error("Failed to trigger blog validated job:", error);
     return { success: false, error: String(error) };
   }
 }

@@ -9,7 +9,7 @@ import { blogPublishSchema } from "@/schemas/blog-schema";
 import { auth } from "@/lib/auth";
 import { addUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
-import { triggerBlogCreated } from "@/app/api/actions";
+import { triggerBlogCreated, triggerBlogValidated } from "@/app/api/actions";
 //import { triggerBlogCreated } from "@/app/api/action";
 
 type blogValueProps = {
@@ -508,7 +508,10 @@ export async function updateBlogVisibility({
     revalidatePath("/user/dashboard");
     revalidatePath("/admin");
     if (!isDraft) {
-      addUserXP(post.author.id, "ADD_BLOG");
+      await addUserXP(post.author.id, "ADD_BLOG");
+      await triggerBlogValidated({
+        blogId: res[0].id,
+      });
     }
     return {
       success: true,
