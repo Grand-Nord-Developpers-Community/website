@@ -1,10 +1,9 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { members, type NewMember } from "@/lib/db/schema";
+import { members } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function createMemberAction(formData: FormData) {
   try {
@@ -71,10 +70,17 @@ export async function createMemberAction(formData: FormData) {
 }
 
 export async function getMembers() {
-  return db.query.members.findMany({
+  const rawMembers = await db.query.members.findMany({
     orderBy: [desc(members.createdAt)],
     where: eq(members.isApproved, true),
   });
+
+  return rawMembers.map((member) => ({
+    ...member,
+    isLeader: member.isLeader === true || String(member.isLeader) === "true",
+    isApproved:
+      member.isApproved === true || String(member.isApproved) === "true",
+  }));
 }
 
 export async function getAllMembers() {

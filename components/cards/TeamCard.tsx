@@ -2,10 +2,10 @@ import { FacebookIcon, GithubIcon, LinkedinIcon, Mail } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 
 interface Social {
-  gmail: string;
-  facebook: string;
-  linkedln: string;
-  github: string;
+  gmail?: string;
+  facebook?: string;
+  linkedln?: string;
+  github?: string;
 }
 
 interface Leader {
