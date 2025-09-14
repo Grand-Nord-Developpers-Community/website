@@ -8,6 +8,7 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
+import { ro } from "@faker-js/faker";
 
 /**
  * Enums
@@ -57,6 +58,7 @@ export const members = pgTable(
     isLeader: text("is_leader").$type<boolean>().notNull().default(false),
 
     bio: text("bio").notNull(),
+    role: text("role").default("Membre"),
 
     linkedin: text("linkedin").notNull(),
     github: text("github").notNull(),

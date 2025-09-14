@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { members } from "@/lib/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function createMemberAction(formData: FormData) {
@@ -39,7 +39,6 @@ export async function createMemberAction(formData: FormData) {
       throw new Error("Tous les champs obligatoires doivent être remplis");
     }
 
-    // Vérifier si l'email existe déjà
     const existingMember = await db.query.members.findFirst({
       where: eq(members.email, memberData.email),
     });
@@ -80,6 +79,20 @@ export async function getMembers() {
     isLeader: member.isLeader === true || String(member.isLeader) === "true",
     isApproved:
       member.isApproved === true || String(member.isApproved) === "true",
+  }));
+}
+
+export async function getLeaders() {
+  const rawLeaders = await db.query.members.findMany({
+    orderBy: [asc(members.fullName)],
+    where: eq(members.isLeader, true),
+  });
+
+  return rawLeaders.map((leader) => ({
+    ...leader,
+    isLeader: leader.isLeader === true || String(leader.isLeader) === "true",
+    isApproved:
+      leader.isApproved === true || String(leader.isApproved) === "true",
   }));
 }
 
