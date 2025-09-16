@@ -1,63 +1,74 @@
+"use client";
 import { FacebookIcon, GithubIcon, LinkedinIcon, Mail } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 interface Social {
-  gmail: string;
-  facebook: string;
-  linkedln: string;
-  github: string;
+  gmail?: string;
+  facebook?: string;
+  linkedln?: string;
+  github?: string;
 }
 
 interface Leader {
   name: string;
-  url: StaticImageData;
+  url: string;
   role: string;
   socials: Social;
 }
+
 const TeamCard = ({ name, url, role, socials }: Leader) => {
   return (
     <>
-      <div className="w-[90%] px-4 md:w-[45%] lg:w-[30%]  xl:w-1/4">
+      <div className="w-[90%] px-4 md:w-[45%] lg:w-[30%] xl:w-1/4">
         <div className="mx-auto mb-10 w-full max-w-[370px]">
           <div className="group relative overflow-hidden rounded-lg">
             <Image
               loading="lazy"
               src={url}
               alt={name}
-              className="h-[350px] object-cover object-top bg-primary"
+              width={370}
+              height={350}
+              className="h-[350px] w-full object-cover object-top bg-primary"
+              onError={(e) => {
+                e.currentTarget.src = "/default-avatar.png";
+              }}
             />
             <div className="flex justify-center items-center gap-2 flex-col absolute top-3 left-3">
-              {socials.facebook !== "" && (
+              {socials.facebook && socials.facebook !== "" && (
                 <a
                   href={socials.facebook}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="p-2 bg-primary text-white hover:bg-secondary rounded-full md:scale-0 md:group-hover:scale-100 transition-all"
                 >
                   <FacebookIcon className="size-5" />
                 </a>
               )}
-              {socials.github !== "" && (
+              {socials.github && socials.github !== "" && (
                 <a
                   href={socials.github}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="p-2 bg-primary text-white hover:bg-secondary rounded-full md:scale-0 md:group-hover:scale-100 transition-all"
                 >
                   <GithubIcon className="size-5" />
                 </a>
               )}
-              {socials.gmail !== "" && (
+              {socials.gmail && socials.gmail !== "" && (
                 <a
                   target="_blank"
+                  rel="noopener noreferrer"
                   href={"mailto:" + socials.gmail}
                   className="p-2 bg-primary text-white hover:bg-secondary rounded-full md:scale-0 md:group-hover:scale-100 transition-all"
                 >
                   <Mail className="size-5" />
                 </a>
               )}
-              {socials.linkedln !== "" && (
+              {socials.linkedln && socials.linkedln !== "" && (
                 <a
                   href={socials.linkedln}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="p-2 bg-primary text-white hover:bg-secondary rounded-full md:scale-0 md:group-hover:scale-100 transition-all"
                 >
                   <LinkedinIcon className="size-5" />
@@ -67,7 +78,7 @@ const TeamCard = ({ name, url, role, socials }: Leader) => {
 
             <div className="absolute bottom-5 left-0 w-full text-center">
               <div className="relative mx-5 overflow-hidden rounded-lg bg-white px-3 py-3 dark:bg-dark-2">
-                <h3 className="text-base font-semibold text-dark dark:text-white">
+                <h3 className="text-base font-semibold text-dark dark:text-white capitalize">
                   {name}
                 </h3>
                 <p className="text-xs text-body-color dark:text-dark-6">
