@@ -58,7 +58,6 @@ const Dashboard = ({
     action: "",
   });
 
-  const pending = localStorage.getItem("pendingPushSubscription");
   //const [blogs, setBlogs] = useState<Post[]>([])
   //const [forums, setForums] = useState<Post[]>([])
 
