@@ -1,14 +1,12 @@
 "use client";
-import Image from "next/image";
 import { CellAction } from "./cell-action";
-import { PaginatedBlog, PaginatedForum } from "@/types";
+import { PaginatedForum } from "@/types";
 
-import { Badge } from "@/components/ui/badge";
 import Avatar from "@/components/avatar";
 import Link from "next/link";
 import { formatRelativeTime } from "@/lib/utils";
 import { Column } from "@/components/datable/Datable";
-
+//@ts-ignore
 export const columns: Column<PaginatedForum[number]>[] = [
   {
     id: "title",
