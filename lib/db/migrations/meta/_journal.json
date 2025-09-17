@@ -71,6 +71,13 @@
       "when": 1757627252465,
       "tag": "0009_purple_harry_osborn",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1757861575553,
+      "tag": "0010_chemical_chamber",
+      "breakpoints": true
     }
   ]
 }
