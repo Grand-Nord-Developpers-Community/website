@@ -12,7 +12,7 @@ function Content({ data: p }: { data: User[number] }) {
         <div className="flex items-center gap-3">
           <Avatar className="size-16" {...p} />
           <div className="min-w-0 space-y-2">
-            <div className="truncate  font-medium ">{p.name}</div>
+            <div className="truncate  font-medium max-w-sm">{p.name}</div>
             <Badge
               variant={p.role.name === "manager" ? "default" : "secondary"}
             >

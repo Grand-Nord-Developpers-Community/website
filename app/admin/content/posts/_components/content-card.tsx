@@ -19,7 +19,7 @@ function Content({ data: p }: { data: PaginatedBlog[number] }) {
             />
           </div>
           <div className="min-w-0 space-y-2">
-            <div className="truncate text-sm font-medium ">{p.title}</div>
+            <div className="truncate text-sm font-medium max-w-sm">{p.title}</div>
             <Badge variant={p.isDraft ? "default" : "secondary"}>
               {p.isDraft ? "En cours" : "publier"}
             </Badge>
