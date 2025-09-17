@@ -107,7 +107,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       )}
       <div className="flex items-center gap-3">
         <Button asChild variant={"outline"} size={"sm"}>
-          <Link href={`/blog/${data.slug}/preview`}>Ouvrir</Link>
+          <Link href={data?.isDraft?`/blog/${data.slug}/preview`:`/blog/${data.slug}`}>Ouvrir</Link>
         </Button>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>

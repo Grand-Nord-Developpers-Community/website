@@ -50,7 +50,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <Trash2 className="size-4 text-white" />
         </Button>
         <Link target="_blank" href={`/forum/${data.id}`}>
-          <Button variant="ghost">Ouvrir</Button>
+          <Button variant="outline">Ouvrir</Button>
         </Link>
       </div>
     </>
