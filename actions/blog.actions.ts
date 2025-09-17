@@ -145,7 +145,7 @@ export async function getBlogPostsPaginated(
         or(like(blogPost.title, `%${q}%`), like(blogPost.description, `%${q}%`))
       );
     }
-
+    console.log("isDraft : " + isDraft);
     // Draft filter (default to false if not provided)
     if (typeof isDraft === "boolean") {
       conditions.push(eq(blogPost.isDraft, isDraft));

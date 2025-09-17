@@ -594,11 +594,30 @@ export async function recomputeAllUsersXP() {
 export async function getPaginatedUsers(
   page: number,
   pageSize: number,
-  query?: string
+  query?: string,
+  role: Array<IRole["name"]> = ["user", "manager"]
 ) {
+  console.log("roles : " + role);
+  const roles = await db
+    .select({ id: rolesTable.id })
+    .from(rolesTable)
+    .where(inArray(rolesTable.name, role));
+
+  const roleIds = roles.map((r) => r.id);
+
+  const q = query
+    ? or(
+        like(userTable.name, `%${query}%`),
+        like(userTable.username, `%${query}%`)
+      )
+    : undefined;
+
+  if (roleIds.length === 0) return [];
+
   const offset = page * pageSize;
+
   const result = await db.query.userTable.findMany({
-    orderBy: [desc(user.createdAt)],
+    orderBy: [desc(userTable.createdAt)],
     columns: {
       username: true,
       id: true,
@@ -615,16 +634,12 @@ export async function getPaginatedUsers(
         },
       },
     },
-    where: query
-      ? or(
-          like(userTable.name, `%${query}%`),
-          like(userTable.username, `%${query}%`)
-        )
-      : undefined,
+    where: q
+      ? and(q, inArray(userTable.role_id, roleIds))
+      : inArray(userTable.role_id, roleIds),
     limit: pageSize,
     offset: offset,
   });
-  // console.log(result);
 
   return result;
 }

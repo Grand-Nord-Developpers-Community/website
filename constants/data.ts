@@ -128,6 +128,7 @@ export const navItems: NavItem[] = [
     icon: "dashboard",
     isActive: false,
     items: [], // Empty array as there are no child items for Dashboard
+    role: ["admin", "manager"],
   },
   {
     title: "Manager",
@@ -135,12 +136,14 @@ export const navItems: NavItem[] = [
     icon: "user",
     isActive: false,
     items: [], // No child items
+    role: ["admin"],
   },
   {
     title: "Contenus",
     url: "/admin/content",
     icon: "blog",
     isActive: true,
+    role: ["admin", "manager"],
     items: [
       {
         title: "Blogs",
@@ -177,6 +180,7 @@ export const navItems: NavItem[] = [
     url: "/admin/users", // Placeholder as there is no direct link for the parent
     icon: "user",
     items: [],
+    role: ["admin", "manager"],
   },
   // {
   //   title: 'Kanban',

@@ -10,7 +10,6 @@ export const searchParams = {
   page: parseAsInteger.withDefault(0),
   limit: parseAsInteger.withDefault(5),
   q: parseAsString,
-  authorId: parseAsString,
   isDraft: parseAsBoolean,
 };
 

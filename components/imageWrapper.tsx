@@ -1,18 +1,18 @@
-"use client"
-import React,{useState,useEffect} from "react"
-import {cn} from "@/lib/utils"
-import Image, { ImageProps } from 'next/image';
+"use client";
+import React, { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import Image, { ImageProps } from "next/image";
 import { Blurhash } from "react-blurhash";
-import clsx from "clsx"
+import clsx from "clsx";
 interface CustomImageProps extends ImageProps {
   // Add any custom props you'd like here
-  src:string;
+  src: string;
   loaderClassName?: string;
-  hash?:string;
+  hash?: string;
 }
 
 const CustomImage: React.FC<CustomImageProps> = ({
-  loaderClassName="",
+  loaderClassName = "",
   className,
   src,
   hash,
@@ -20,11 +20,13 @@ const CustomImage: React.FC<CustomImageProps> = ({
 }) => {
   const [loaded, setLoaded] = useState(false);
   // useEffect(()=>{
-    
+
   // },[loaded])
   return (
     <>
-      {loaded ? <></>: (
+      {loaded ? (
+        <></>
+      ) : (
         <Blurhash
           className="!w-full !h-full object-fill"
           hash={hash ?? "L4EpKK00000000%O_NayH;9d--4n"}
@@ -37,10 +39,9 @@ const CustomImage: React.FC<CustomImageProps> = ({
         {...restProps}
         src={src}
         style={{
-          display:!loaded?"hidden":undefined
+          display: !loaded ? "hidden" : undefined,
         }}
         onLoad={() => setLoaded(true)}
-  
       />
     </>
   );

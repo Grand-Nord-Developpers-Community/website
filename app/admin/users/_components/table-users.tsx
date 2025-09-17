@@ -19,8 +19,8 @@ import { useSession } from "@/components/auth/SessionProvider";
 import { useDebounce } from "@/hooks/use-debounce";
 import { Heading } from "@/components/ui/heading";
 import { useConfirm } from "@omit/react-confirm-dialog";
+import { User } from "@/types";
 
-export type User = Awaited<ReturnType<typeof pg>>;
 export default function MyPostsTablePage({
   initialPage = 0,
   initialSize = 5,

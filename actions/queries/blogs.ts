@@ -6,10 +6,15 @@ export const blogKeys = {
     ["blogs", { page, size, q, isDraft }] as const,
 };
 
-export const getPaginatedBlogs = (page: number, size: number) =>
+export const getPaginatedBlogs = (
+  page: number,
+  size: number,
+  q: string = "",
+  isDraft: boolean | undefined = undefined
+) =>
   queryOptions({
-    queryKey: blogKeys.blogs(page, size),
-    queryFn: async () => await getBlogPostsPaginated(page, size),
+    queryKey: blogKeys.blogs(page, size, q, isDraft),
+    queryFn: async () => await getBlogPostsPaginated(page, size, q, isDraft),
     placeholderData: keepPreviousData,
-    staleTime: 60_000,
+    staleTime: 30_000,
   });

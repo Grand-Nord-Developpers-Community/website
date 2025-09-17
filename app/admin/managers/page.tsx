@@ -1,5 +1,5 @@
 import PageContainer from "@/components/layout/page-container";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { searchParamsCache, serialize } from "@/lib/searchparams";
@@ -9,6 +9,8 @@ import Link from "next/link";
 import { SearchParams } from "nuqs";
 import ListingPage from "./_components/listing";
 import { BlogFiltersCompact } from "./_components/tables/toolbar";
+import UserDialog from "./_components/userDialog";
+import AddMemberButton from "./_components/add-member";
 
 export const metadata = {
   title: "Dashboard: Publications",
@@ -30,21 +32,14 @@ export default async function Page({ searchParams }: pageProps) {
       <div className="space-y-4">
         <div className="flex items-start justify-between">
           <Heading
-            title="Publications"
-            description="gérer les publications des utilisateurs"
+            title="Managers"
+            description="gérer les managers/administrateurs"
           />
-          <Link
-            href="/blog/new"
-            className={cn(buttonVariants(), "text-xs md:text-sm")}
-          >
-            <Plus className="sm:mr-2 h-4 w-4" />{" "}
-            <span className="hidden sm:block">Publier un blog</span>
-          </Link>
+          <AddMemberButton />
         </div>
 
         <Separator />
         <BlogFiltersCompact />
-
         <ListingPage />
       </div>
     </PageContainer>

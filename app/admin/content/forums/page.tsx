@@ -1,17 +1,14 @@
 import PageContainer from "@/components/layout/page-container";
-import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { searchParamsCache, serialize } from "@/lib/searchparams";
-import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 import { SearchParams } from "nuqs";
 import ListingPage from "./_components/listing";
 import { BlogFiltersCompact } from "./_components/tables/toolbar";
+import ForumDialogButton from "@/components/forum-dialog";
 
 export const metadata = {
-  title: "Dashboard: Publications",
+  title: "Dashboard: Forums",
 };
 
 type pageProps = {
@@ -29,17 +26,10 @@ export default async function Page({ searchParams }: pageProps) {
     <PageContainer>
       <div className="space-y-4">
         <div className="flex items-start justify-between">
-          <Heading
-            title="Publications"
-            description="gérer les publications des utilisateurs"
-          />
-          <Link
-            href="/blog/new"
-            className={cn(buttonVariants(), "text-xs md:text-sm")}
-          >
-            <Plus className="sm:mr-2 h-4 w-4" />{" "}
-            <span className="hidden sm:block">Publier un blog</span>
-          </Link>
+          <Heading title="Questions" description="liste de question posés" />
+          <div className="hidden sm:block">
+            <ForumDialogButton />
+          </div>
         </div>
 
         <Separator />

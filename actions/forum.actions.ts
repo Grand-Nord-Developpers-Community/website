@@ -2,7 +2,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { forumPost } from "@/lib/db/schema";
-import { eq, desc, count } from "drizzle-orm";
+import { eq, desc, count, like, or } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Redis } from "@upstash/redis";
 import { addJob } from "./qeues.action";
@@ -39,6 +39,7 @@ export async function createForumPost(
 
   revalidatePath("/forum");
   revalidatePath("/user/dashboard");
+  revalidatePath("/admin");
   return {
     sucess: true,
   };
@@ -137,6 +138,46 @@ export async function updateForumPost(
   };
 }
 
+export async function getPaginatedForums(
+  page: number,
+  pageSize: number,
+  query?: string
+) {
+  const offset = page * pageSize;
+  const result = await db.query.forumPost.findMany({
+    orderBy: [desc(forumPost.createdAt)],
+    columns: {
+      id: true,
+      textContent: true,
+      title: true,
+      createdAt: true,
+    },
+    with: {
+      author: {
+        columns: {
+          id: true,
+          email: true,
+          name: true,
+          image: true,
+          username: true,
+        },
+      },
+      replies: true,
+    },
+    where: query
+      ? or(
+          like(forumPost.title, `%${query}%`),
+          like(forumPost.textContent, `%${query}%`)
+        )
+      : undefined,
+    limit: pageSize,
+    offset: offset,
+  });
+  // console.log(result);
+
+  return result;
+}
+
 export async function getForumPosts() {
   const res = await db.query.forumPost.findMany({
     orderBy: [desc(forumPost.createdAt)],
@@ -198,7 +239,7 @@ export async function deleteForum(id: string) {
   // Revalidate relevant paths
   revalidatePath("/user/dashboard");
   revalidatePath("/forum");
-  revalidatePath("/");
+  revalidatePath("/admin");
 
   return {
     sucess: true,

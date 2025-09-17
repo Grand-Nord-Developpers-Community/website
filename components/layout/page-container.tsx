@@ -11,11 +11,15 @@ export default function PageContainer({
   return (
     <>
       {scrollable ? (
-        <ScrollArea className="h-[calc(100dvh-64px)]">
-          <div className="h-full screen-wrapper p-4 md:px-8 ">{children}</div>
+        <ScrollArea className="w-full h-[calc(100dvh-64px)]">
+          <div className="w-full h-full screen-wrapper p-4 md:px-8 ">
+            {children}
+          </div>
         </ScrollArea>
       ) : (
-        <div className="h-full screen-wrapper  p-4 md:px-8 ">{children}</div>
+        <div className="w-full h-full screen-wrapper  p-4 md:px-8 ">
+          {children}
+        </div>
       )}
     </>
   );

@@ -1,6 +1,4 @@
 "use client";
-import { Product } from "@/constants/data";
-import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { CellAction } from "./cell-action";
 import { PaginatedBlog } from "@/types";
@@ -9,17 +7,18 @@ import { Badge } from "@/components/ui/badge";
 import Avatar from "@/components/avatar";
 import Link from "next/link";
 import { formatRelativeTime } from "@/lib/utils";
+import { Column } from "@/components/datable/Datable";
 
-export const columns: ColumnDef<PaginatedBlog[number]>[] = [
+export const columns: Column<PaginatedBlog[number]>[] = [
   {
-    accessorKey: "preview",
+    id: "preview",
     header: "IMAGE",
-    cell: ({ row }) => {
+    cell: (row) => {
       return (
-        <div className="relative aspect-video ">
+        <div className="relative aspect-video bg-gray-50 ">
           <Image
-            src={row.getValue("preview")}
-            alt={row.getValue("name")}
+            src={row.preview}
+            alt={row.title}
             fill
             className="rounded-lg object-contain"
           />
@@ -28,22 +27,25 @@ export const columns: ColumnDef<PaginatedBlog[number]>[] = [
     },
   },
   {
-    accessorKey: "title",
+    id: "title",
     header: "Titre",
+    cell: (row) => {
+      return <>{row.title}</>;
+    },
   },
   {
-    accessorKey: "createdAt",
+    id: "createdAt",
     header: "Date",
-    cell: ({ row }) => {
-      const r = row.original.createdAt;
+    cell: (row) => {
+      const r = row.createdAt;
       return <>{formatRelativeTime(r)}</>;
     },
   },
   {
-    accessorKey: "author",
+    id: "author",
     header: "Auteur",
-    cell: ({ row }) => {
-      const r = row.original.author;
+    cell: (row) => {
+      const r = row.author;
       return (
         <Link href={`/user/${r.username}`} className="flex items-center gap-5">
           <Avatar className="size-10 " {...r} />
@@ -53,10 +55,10 @@ export const columns: ColumnDef<PaginatedBlog[number]>[] = [
     },
   },
   {
-    accessorKey: "isDraft",
+    id: "isDraft",
     header: "etat",
-    cell: ({ row }) => {
-      const isDraft = row.getValue("isDraft");
+    cell: (row) => {
+      const isDraft = row.isDraft;
       return (
         <Badge variant={isDraft ? "default" : "secondary"}>
           {isDraft ? "En cours" : "publier"}
@@ -66,6 +68,7 @@ export const columns: ColumnDef<PaginatedBlog[number]>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />,
+    header: "actions",
+    cell: (row) => <CellAction data={row} />,
   },
 ];
