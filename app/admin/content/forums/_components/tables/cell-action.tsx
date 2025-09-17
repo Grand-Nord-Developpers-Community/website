@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PaginatedForum } from "@/types";
 import { useConfirm } from "@omit/react-confirm-dialog";
 import Link from "next/link";
-
+import { Trash2 } from "lucide-react";
 interface CellActionProps {
   data: PaginatedForum[number];
 }
@@ -40,14 +40,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     <>
       <div className="flex justify-end gap-2">
         <Button
-          size={"sm"}
+          size={"icon"}
           variant={"destructive"}
           disabled={isPending}
           onClick={async () => {
             await handeClick();
           }}
         >
-          supprimer
+          <Trash2 className="size-4 text-white" />
         </Button>
         <Link target="_blank" href={`/forum/${data.id}`}>
           <Button variant="ghost">Ouvrir</Button>
