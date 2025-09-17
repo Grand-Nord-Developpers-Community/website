@@ -13,11 +13,11 @@ export default async function Page({ params }: { params: any }) {
   if (!post) {
     notFound();
   }
-
+  const role=await user.role
   const isUserAuthorized =
     user.id === post.authorId ||
-    user.role === "admin" ||
-    user.role === "manager";
+    role === "admin" ||
+    role === "manager";
 
   if (!isUserAuthorized) {
     notFound();
