@@ -2,6 +2,7 @@ import TeamCard from "@/components/cards/TeamCard";
 import { getLeaders } from "@/actions/members.action";
 import { Suspense } from "react";
 import { toTitleCase } from "@/utils/members";
+import { normalizeRole, roleOrder } from "@/constants/role";
 
 const TeamCardSkeleton = () => {
   return (
@@ -205,17 +206,26 @@ const LeadersContent = async () => {
   const communityLeaders = await getLeaders();
   console.log("Leaders:", communityLeaders);
 
-  const transformedLeaders = communityLeaders.map((leader) => ({
-    name: toTitleCase(leader.fullName),
-    url: leader.photoUrl,
-    role: leader.role || "",
-    socials: {
-      gmail: leader.email,
-      facebook: leader.facebook || "",
-      linkedln: leader.linkedin || "",
-      github: leader.github || "",
-    },
-  }));
+  const transformedLeaders = communityLeaders
+    .map((leader) => {
+      const normalizedRole = normalizeRole(leader.role || "");
+      return {
+        name: toTitleCase(leader.fullName),
+        url: leader.photoUrl,
+        role: normalizedRole,
+        socials: {
+          gmail: leader.email,
+          facebook: leader.facebook || "",
+          linkedln: leader.linkedin || "",
+          github: leader.github || "",
+        },
+      };
+    })
+    .sort((a, b) => {
+      const orderA = roleOrder[a.role] ?? 999;
+      const orderB = roleOrder[b.role] ?? 999;
+      return orderA - orderB;
+    });
 
   return (
     <>

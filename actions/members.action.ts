@@ -84,7 +84,6 @@ export async function getMembers() {
 
 export async function getLeaders() {
   const rawLeaders = await db.query.members.findMany({
-    orderBy: [asc(members.fullName)],
     where: eq(members.isLeader, true),
   });
 

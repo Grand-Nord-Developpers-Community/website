@@ -13,19 +13,19 @@ export const getSocialIcon = (platform: string) => {
 
   switch (platform) {
     case "linkedin":
-      return <Linkedin className={baseClasses} />;
+      return <Linkedin className={`${baseClasses} text-[#0077B5] `} />;
     case "github":
-      return <Github className={baseClasses} />;
+      return <Github className={`${baseClasses} text-gray-800`} />;
     case "twitter":
-      return <Twitter className={baseClasses} />;
+      return <Twitter className={`${baseClasses} text-sky-500`} />;
     case "instagram":
-      return <Instagram className={baseClasses} />;
+      return <Instagram className={`${baseClasses} text-pink-500`} />;
     case "website":
-      return <Globe className={baseClasses} />;
+      return <Globe className={`${baseClasses} text-emerald-600`} />;
     case "facebook":
-      return <Facebook className={baseClasses} />;
+      return <Facebook className={`${baseClasses} text-blue-600`} />;
     default:
-      return <Globe className={baseClasses} />;
+      return <Globe className={`${baseClasses} text-gray-600`} />;
   }
 };
 
@@ -35,19 +35,19 @@ export const getSocialButtonStyle = (platform: string) => {
 
   switch (platform) {
     case "linkedin":
-      return `${baseClasses} bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-blue-200`;
+      return `${baseClasses} bg-blue-50 hover:bg-blue-100`;
     case "github":
-      return `${baseClasses} bg-gradient-to-br from-gray-800 to-gray-900 hover:from-gray-900 hover:to-black text-white shadow-gray-200`;
+      return `${baseClasses} bg-gray-100 hover:bg-gray-200`;
     case "twitter":
-      return `${baseClasses} bg-gradient-to-br from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white shadow-sky-200`;
+      return `${baseClasses} bg-sky-50 hover:bg-sky-100`;
     case "instagram":
-      return `${baseClasses} bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white shadow-pink-200`;
+      return `${baseClasses} bg-pink-50 hover:bg-pink-100`;
     case "website":
-      return `${baseClasses} bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-emerald-200`;
+      return `${baseClasses} bg-emerald-50 hover:bg-emerald-100`;
     case "facebook":
-      return `${baseClasses} bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-blue-200`;
+      return `${baseClasses} bg-blue-50 hover:bg-blue-100`;
     default:
-      return `${baseClasses} bg-gradient-to-br from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white shadow-gray-200`;
+      return `${baseClasses} bg-gray-50 hover:bg-gray-100`;
   }
 };
 
