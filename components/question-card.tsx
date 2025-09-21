@@ -9,7 +9,10 @@ import { getForumPosts } from "@/actions/forum.actions";
 import { fetchPageViews } from "@/actions/utils.actions";
 import Avatar from "./avatar";
 
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 export type Forum = Awaited<ReturnType<typeof getForumPosts>>;
 export default async function QuestionCard({ filter }: { filter: string }) {
   let questions = await getForumPosts();

@@ -26,7 +26,10 @@ import { fetchPageViews } from "@/actions/utils.actions";
 import Avatar from "@/components/avatar";
 export const revalidate = 60;
 
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const post = await getForumPost(params.id);
   if (!post) return {};

@@ -6,6 +6,6 @@ export const ratelimiter =
   process.env.IS_RATE_LIMIT_ENABLED === "false"
     ? undefined
     : new Ratelimit({
-        redis: Redis.fromEnv(),
+        redis: new Redis({   url: process.env.UPSTASH_REDIS_REST_URL,   token: process.env.UPSTASH_REDIS_REST_TOKEN, });,
         limiter: Ratelimit.slidingWindow(5, "30 s"),
       });

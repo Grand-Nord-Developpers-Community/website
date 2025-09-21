@@ -7,7 +7,10 @@ import ActivityAndEvent from "@/interfaces/activityAndEvent";
 import HeadSectionEvent from "@/app/events/[eventId]/(common)/headSectionEvent";
 import EventContent from "@/app/events/[eventId]/(common)/EventContent";
 
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 type Props = {
   activityOrEvent: ActivityAndEvent | null;

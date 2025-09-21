@@ -8,7 +8,10 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { addUserXP } from "./scoring.action";
 
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 export async function getActivity(userId: string) {
   const activity = await db.query.userActivity.findFirst({
