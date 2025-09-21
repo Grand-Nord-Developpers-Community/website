@@ -1,6 +1,10 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import * as dotenv from "dotenv";
 
+dotenv.config({
+  path: ".env",
+});
 // Create a new ratelimiter, that allows 5 requests per 30 seconds
 export const ratelimiter =
   process.env.IS_RATE_LIMIT_ENABLED === "false"
