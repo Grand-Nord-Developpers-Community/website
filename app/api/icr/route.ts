@@ -1,11 +1,7 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import type { pageTrackerType } from "@/components/ReportView";
-import * as dotenv from "dotenv";
 
-dotenv.config({
-  path: ".env",
-});
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL,
   token: process.env.UPSTASH_REDIS_REST_TOKEN,
