@@ -1,7 +1,7 @@
 import { Button, Heading, Section, Text } from "@react-email/components";
 import * as React from "react";
 import LayoutEmail from "./base-layout";
-
+import { baseUrl } from "./base-layout";
 export interface LeaderBoardProps {
   name: string;
   xp: number;
@@ -119,7 +119,7 @@ export default function LeaderBoard({
         </Section>
 
         <Button
-          href="#"
+          href={`${baseUrl}/leaderboard`}
           style={{
             backgroundColor: "#f59e0b",
             color: "#ffffff",

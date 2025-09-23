@@ -30,7 +30,6 @@ export default async function whenWeeklyNews(
       email: true,
       createdAt: true,
     },
-    limit: 5,
     orderBy: [desc(userTable.experiencePoints)],
     where: eq(userTable.isCompletedProfile, true),
     with: {
@@ -39,7 +38,6 @@ export default async function whenWeeklyNews(
   });
   logger.log("users", { users });
 
-  let rank = 1;
   for (const user of users) {
     if (user.devices.length > 0) {
       await Promise.all(
@@ -77,7 +75,6 @@ export default async function whenWeeklyNews(
       })} `,
       html,
     });
-    rank += 1;
   }
   console.log(data);
 }

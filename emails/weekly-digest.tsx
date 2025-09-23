@@ -87,7 +87,7 @@ export const NewsletterDigestLayout = ({
           </Text>
 
           <Button
-            href={highlightedPost.slug}
+            href={`${baseUrl}/blog/${highlightedPost.slug}`}
             style={{
               backgroundColor: "#8b5cf6",
               color: "#ffffff",
@@ -128,7 +128,7 @@ export const NewsletterDigestLayout = ({
               <Column style={{ width: "70%" }}>
                 <Heading style={{ fontSize: "16px", marginBottom: "8px" }}>
                   <Link
-                    href={article.slug}
+                    href={`${baseUrl}/blog/${article.slug}`}
                     style={{ color: "#1f2937", textDecoration: "none" }}
                   >
                     {article.title}
@@ -187,7 +187,7 @@ export const NewsletterDigestLayout = ({
         </Text>
 
         <Button
-          href="#"
+          href={`${baseUrl}/blog`}
           style={{
             backgroundColor: "#6b7280",
             color: "#ffffff",

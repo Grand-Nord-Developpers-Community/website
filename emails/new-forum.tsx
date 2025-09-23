@@ -63,7 +63,7 @@ export default function NewForum({
         </Section>
 
         <Button
-          //href={postUrl}
+          href={`${baseUrl}/forum/${id}`}
           style={{
             backgroundColor: "#7c3aed",
             color: "#ffffff",
