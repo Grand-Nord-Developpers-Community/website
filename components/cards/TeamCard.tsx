@@ -81,7 +81,7 @@ const TeamCard = ({ name, url, role, socials }: Leader) => {
                 <h3 className="text-base font-semibold text-dark dark:text-white capitalize">
                   {name}
                 </h3>
-                <p className="text-xs text-body-color dark:text-dark-6">
+                <p className="text-xs text-body-color dark:text-dark-6 capitalize">
                   {role}
                 </p>
 
