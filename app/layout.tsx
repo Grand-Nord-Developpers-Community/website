@@ -81,6 +81,9 @@ export default async function RootLayout({
   console.log(session.user?.id);
   return (
     <html lang="fr">
+      <head>
+        <meta name="apple-mobile-web-app-title" content="GNDC" />
+      </head>
       <body
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
