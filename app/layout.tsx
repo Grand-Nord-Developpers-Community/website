@@ -56,7 +56,7 @@ export const montserra = localFont({
   ],
 });
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gndc-website.onrender.com"),
+  metadataBase: new URL("https://gndc.tech"),
   title: "GNDC | Accueil",
   description:
     "Communauté technologique pour la promotion de l'innovation et de la technologie dans le Grand Nord Cameroun",
