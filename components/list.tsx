@@ -36,7 +36,7 @@ function ListBrief({ blogs, forums }: Props) {
 
         {blogs &&
           blogs.map((f, i) => (
-            <div className="flex gap-2 items-center">
+            <div key={i} className="flex gap-2 items-center">
               <div className="w-12 h-full border border-border rounded-lg bg-gray-200">
                 <ImageWrapper
                   className={"w-full object-cover h-full object-center "}
@@ -47,7 +47,7 @@ function ListBrief({ blogs, forums }: Props) {
                   alt={f.title}
                 />
               </div>
-              <div key={i} className="space-y-1">
+              <div className="space-y-1">
                 <Link
                   href={"/forum/" + f.id}
                   className="block text-sm hover:text-secondary"
