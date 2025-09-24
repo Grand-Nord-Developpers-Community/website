@@ -1,5 +1,8 @@
+import React from "react";
+import "@/styles/dashboard-loading-style.css";
 import LoadingComponent from "@/components/loader";
-
-export default function Loading() {
+function LoadingPage() {
   return <LoadingComponent />;
 }
+
+export default LoadingPage;

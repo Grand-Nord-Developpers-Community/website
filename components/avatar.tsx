@@ -6,6 +6,7 @@ import {
   AvatarImage,
 } from "./ui/avatar";
 import clsx from "clsx";
+import Link from "next/link";
 type Props = {
   username: string | null;
   image: string | null;
@@ -14,15 +15,20 @@ type Props = {
 };
 function Avatar({ username, name, image, className }: Props) {
   return (
-    <AvatarWrapper className={clsx("h-8 bg-gray-50 w-8 rounded-lg", className)}>
-      <AvatarImage
-        className="object-cover size-full object-top"
-        src={image || `/api/avatar?username=${username}`}
-        alt={name || ""}
-      />
-      <AvatarFallback className="rounded-lg">
-        {name?.slice(0, 2)?.toUpperCase() || "CN"}
-      </AvatarFallback>
+    <AvatarWrapper
+      asChild
+      className={clsx("h-8 bg-gray-50 w-8 rounded-lg", className)}
+    >
+      <Link href={`/user/${username}`}>
+        <AvatarImage
+          className="object-cover size-full object-top"
+          src={image || `/api/avatar?username=${username}`}
+          alt={name || ""}
+        />
+        <AvatarFallback className="rounded-lg">
+          {name?.slice(0, 2)?.toUpperCase() || "CN"}
+        </AvatarFallback>
+      </Link>
     </AvatarWrapper>
   );
 }

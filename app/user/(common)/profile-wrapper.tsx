@@ -3,8 +3,8 @@ import "./styles.css";
 export default function ProfileWrapper({ children }: PropsWithChildren) {
   return (
     <>
-      <div className="bg-gray-50 h-full">
-        <section className="relative block max-sm:h-[300px] h-[400px] w-full">
+      <div className="bg-gray-50 w-full h-full">
+        <section className="relative hidden lg:block max-sm:h-[200px] h-[300px] w-full">
           <div id="hex-grid">
             {/* <div className="light"></div> */}
             <div className="grid"></div>
@@ -16,13 +16,16 @@ export default function ProfileWrapper({ children }: PropsWithChildren) {
             ></span>
           </div> */}
         </section>
-        <section className="relative py-16">
+        <section className="relative hidden lg:block py-16">
           <div className="container mx-auto px-4 max-sm:px-2">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 border border-border  rounded-lg -mt-64">
               <div className="px-6 max-sm:px-4">{children}</div>
             </div>
           </div>
         </section>
+        <div className="block lg:hidden border-border border-b bg-white size-full ">
+          {children}
+        </div>
       </div>
     </>
   );
