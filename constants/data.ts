@@ -120,11 +120,7 @@ export type Product = {
   category: string;
   updated_at: string;
 };
-export const rankStyle = [
-  { bg: "bg-yellow-400", border: "border-yellow-400" },
-  { bg: "bg-cyan-400", border: "border-cyan-400" },
-  { bg: "bg-green-400", border: "border-green-400" },
-];
+
 export const navItems: NavItem[] = [
   {
     title: "Dashboard",

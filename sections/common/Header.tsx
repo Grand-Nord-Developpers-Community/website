@@ -60,7 +60,7 @@ function AvatarMenuDropDown({
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relczative h-8 w-8 rounded-full">
-          <Avatar className="bg-gray-50 h-11 w-11" {...user!} />
+          <Avatar asLink={false} className="bg-gray-50 h-11 w-11" {...user!} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

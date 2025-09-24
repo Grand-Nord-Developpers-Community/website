@@ -1,4 +1,10 @@
+"use client";
+import { useEffect } from "react";
+
 export default function LoadingComponent() {
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
   return (
     <div className="w-full h-[80vh] flex justify-center items-center relative">
       <div className="banter-loader">
