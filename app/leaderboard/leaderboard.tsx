@@ -25,11 +25,6 @@ interface LeaderboardResponse {
   nextCursor?: number;
 }
 
-export const rankStyle = [
-  { bg: "bg-yellow-400", border: "border-yellow-400" },
-  { bg: "bg-cyan-400", border: "border-cyan-400" },
-  { bg: "bg-green-400", border: "border-green-400" },
-];
 function LeaderboardSkeletonRow() {
   return (
     <div className="flex items-center justify-between py-4 px-4 rounded-xl border border-border shadow-sm">
@@ -161,14 +156,26 @@ export default function InfiniteLeaderboard({
               <div className={`relative ${position === 1 ? "mb-4" : "mb-3"}`}>
                 <Avatar
                   className={clsx(
-                    `${position === 1 ? "w-20 h-20" : "w-16 h-16"} border-4 !${rankStyle[i].border}`
+                    `${position === 1 ? "w-20 h-20" : "w-16 h-16"} border-4 `,
+                    {
+                      "border-cyan-400": position === 2,
+                      "border-yellow-400": position === 1,
+                      "border-green-400": position === 3,
+                    }
                   )}
                   {...user}
                 />
 
                 {/* Position indicator circle */}
                 <div
-                  className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full !${rankStyle[i].bg} !${rankStyle[i].border} border-2 flex items-center justify-center`}
+                  className={clsx(
+                    `absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full   border-2 flex items-center justify-center`,
+                    {
+                      "border-cyan-400 bg-cyan-400": position === 2,
+                      "border-yellow-400 bg-yellow-400": position === 1,
+                      "border-green-400 bg-green-400": position === 3,
+                    }
+                  )}
                 >
                   <span className="text-white text-xs font-bold">
                     {position}
