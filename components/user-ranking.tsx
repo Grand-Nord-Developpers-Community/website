@@ -6,10 +6,20 @@ import { formatRelativeTime } from "@/lib/utils";
 
 import { Card } from "@/components/ui/card";
 import Avatar from "./avatar";
+import { Button } from "./ui/button";
 export async function UserRanking() {
   const users = await getUsersListByRank();
   return (
-    <Card className="space-y-4 my-4 p-4">
+    <Card className="space-y-4 my-4 p-4 relative">
+      <div className="absolute z-[10] bottom-0 inset-x-0 h-40 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+      <Button
+        variant={"secondary"}
+        asChild
+        className="absolute z-[15] bottom-5 rounded-full left-1/2 text-sm  -translate-x-1/2 shadow-sm"
+        size={"sm"}
+      >
+        <Link href="/leaderboard">Voir tout le classement</Link>
+      </Button>
       <h2 className="font-bold text-lg">Top Utilisateur</h2>
       <div className="space-y-4">
         {users &&

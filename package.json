@@ -132,6 +132,7 @@
     "react-hook-form": "^7.53.2",
     "react-icon-cloud": "^4.1.4",
     "react-icons": "^5.5.0",
+    "react-intersection-observer": "^9.16.0",
     "react-medium-image-zoom": "^5.2.11",
     "react-responsive": "^10.0.0",
     "react-toastify": "^10.0.6",

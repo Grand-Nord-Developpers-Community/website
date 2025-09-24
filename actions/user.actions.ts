@@ -329,10 +329,13 @@ export async function getUserProfile(userId: string) {
   return profile;
 }
 
-export async function getUsersListByRank() {
+export async function getUsersListByRank(page = 0, pageSize = 5) {
+  const offset = page * pageSize;
   try {
     const users = await db.query.userTable.findMany({
       orderBy: [desc(user.experiencePoints)],
+      limit: pageSize,
+      offset: offset,
       columns: {
         image: true,
         name: true,
@@ -341,6 +344,7 @@ export async function getUsersListByRank() {
         createdAt: true,
         username: true,
       },
+      where: eq(user.isCompletedProfile, true),
     });
     return users;
   } catch (e) {

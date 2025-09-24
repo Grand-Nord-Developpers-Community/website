@@ -56,7 +56,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
     user?.instagramLink ||
     user?.twitterLink;
   return (
-    <div className="w-full lg:mt-10 ">
+    <div className="w-full px-4 lg:px-0 lg:mt-10 ">
       <div className="border-b border-gray-200">
         <nav className="flex w-full max-sm:justify-center space-x-8 px-6 overflow-x-auto scrollbar-hide">
           <div className="flex space-x-8 min-w-max">
@@ -80,7 +80,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
         {activeTab === "about" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">
                 À propos
               </h2>
               <div className="space-y-4">
@@ -90,7 +90,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
               </div>
             </div>
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+              {/* <h2 className="text-lg font-semibold text-gray-900 mb-6">
                 Détails contact
               </h2>
               <div className="mb-6">
@@ -100,11 +100,11 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                 <a
                   href={`mailto:${user?.email}`}
                   target=""
-                  className="text-blue-600 hover:text-blue-800 font-medium"
+                  className="text-secondary  font-medium"
                 >
                   {user?.email}
                 </a>
-              </div>
+              </div> */}
               <div className="mb-8">
                 <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">
                   LIENS SOCIALS
