@@ -116,9 +116,7 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
           <div className="space-y-3">
             <div>
               <div className="flex items-center gap-1">
-                <h1 className="text-xl font-bold text-black truncate max-sm:max-w-36">
-                  {user?.name}
-                </h1>
+                <h1 className="text-xl font-bold text-black ">{user?.name}</h1>
                 {isAdmin && (
                   <Tooltip delayDuration={1000}>
                     <TooltipTrigger asChild>

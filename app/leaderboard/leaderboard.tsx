@@ -137,7 +137,7 @@ export default function InfiniteLeaderboard({
             <div
               key={user.username}
               className={clsx(
-                `flex flex-col items-center ${position === 1 ? "mx-4 sm:mx-16 -mt-6" : "mx-2"}`,
+                `flex flex-col items-center ${position === 1 ? "mx-2 sm:mx-16 -mt-6" : "mx-2"}`,
                 {
                   "order-1": position === 2,
                   "order-2": position === 1,
@@ -185,7 +185,7 @@ export default function InfiniteLeaderboard({
 
               {/* Name */}
               <h3
-                className={`font-semibold truncate max-sm:max-w-28 mb-1 text-center ${position === 1 ? "text-lg" : "text-base"}`}
+                className={`font-semibold truncate max-sm:max-w-20 mb-1 text-center ${position === 1 ? "text-lg" : "text-base"}`}
               >
                 {user.name}
               </h3>
@@ -219,7 +219,7 @@ export default function InfiniteLeaderboard({
               </span>
               <Avatar className="w-12 h-12" {...user} />
               <Link href={`/user/${user.username}`}>
-                <p className="font-semibold text-primary truncate max-sm:max-w-48">
+                <p className="font-semibold text-primary truncate max-sm:max-w-36">
                   {user.name}
                 </p>
                 <p className="text-muted-foreground text-sm">
