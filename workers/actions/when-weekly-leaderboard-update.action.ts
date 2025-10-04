@@ -7,6 +7,7 @@ import { renderEmail } from "@/emails/mailer";
 import { transporter } from "@/lib/connection";
 import { baseUrl } from "@/emails/base-layout";
 import { logger } from "@trigger.dev/sdk";
+import { sendBotMsg } from "./(common)/send-bot-message";
 
 export default async function whenWeeklyLeaderBoard(
   data: JobPayloads["WEEKLY_LEADERBOARD"],
@@ -79,5 +80,28 @@ export default async function whenWeeklyLeaderBoard(
     }
     rank += 1;
   }
+
+  let message = "*Leaderboard Hebdomadaire🏆:*\n\n";
+  let count = 1;
+
+  for (const [_, user] of Object.entries(users.slice(0, 5))) {
+    message += `${count}. *${user.name}*\n`;
+    message += `   - xp: ${user.experiencePoints}\n`;
+    message += `   - profil: ${baseUrl}/user/${user.username}\n\n`;
+    count++;
+  }
+  message += `\Voir plus: ${baseUrl}/leaderboard`;
+  await sendBotMsg({
+    msg: message,
+    tagAll: true,
+  });
+  await sendBotMsg({
+    msg: "Le king de la GNDC !!",
+    tagAll: true,
+    option: {
+      leaderboard: true,
+      profil: `${baseUrl}/user/${users[0].image}`,
+    },
+  });
   console.log(data);
 }

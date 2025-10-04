@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Forum } from "./question-card";
 interface Props {
-  post: Omit<Forum[number], "author" | "score" | "replies">;
+  post: { id: string; title: string; content: string };
   isOpen: boolean;
   onSuccess: () => void;
   onClose: () => void;

@@ -42,8 +42,11 @@ const Dashboard = ({
   const confirm = useConfirm();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [post, setPost] =
-    useState<Omit<Forum[number], "author" | "score" | "replies">>();
+  const [post, setPost] = useState<{
+    id: string;
+    title: string;
+    content: string;
+  }>();
   const [openEditForum, setOpenEditForum] = useState(false);
   useEffect(() => {
     confirm.updateConfig((prev) => ({

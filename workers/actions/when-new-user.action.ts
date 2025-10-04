@@ -7,6 +7,7 @@ import { baseUrl } from "@/emails/base-layout";
 import { renderEmail } from "@/emails/mailer";
 import { transporter } from "@/lib/connection";
 import { logger } from "@trigger.dev/sdk";
+import { sendBotMsg } from "./(common)/send-bot-message";
 
 export default async function whenNewUser(
   data: JobPayloads["USER_NEW"],
@@ -64,5 +65,8 @@ export default async function whenNewUser(
       html,
     });
   }
+  await sendBotMsg({
+    msg: `New GNDC User 🚀\n Bienvenue : *${user.name}*\n\nprofil : ${baseUrl}/user/${user.username}`,
+  });
   console.log(data);
 }

@@ -11,6 +11,7 @@ import {
   getUserWithRolesAndDevices,
 } from "@/actions/user.actions";
 import { auth, logger } from "@trigger.dev/sdk";
+import { sendBotMsg } from "./(common)/send-bot-message";
 
 export default async function whenBlogValidated(
   data: JobPayloads["VALIDATED_BLOG"],
@@ -119,4 +120,9 @@ export default async function whenBlogValidated(
       html,
     });
   }
+
+  await sendBotMsg({
+    msg: `📖 Nouveau blog: *${blog.title}* \n _${blog.author.name}_, vient de soumettre un blog \n\nconsulter : ${baseUrl}/blog/${blog.slug}`,
+    tagAll: true,
+  });
 }

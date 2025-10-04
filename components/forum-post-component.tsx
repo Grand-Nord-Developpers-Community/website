@@ -47,7 +47,11 @@ import MinimalTiptapEditor from "./minimal-tiptap/minimal-tiptap";
 //   }
 // );
 interface Props {
-  forum?: Omit<Forum[number], "author" | "score" | "replies">;
+  forum?: {
+    id: string;
+    title: string;
+    content: string;
+  };
   onSucessCallBack?: () => void;
 }
 

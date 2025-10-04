@@ -8,6 +8,7 @@ import { transporter } from "@/lib/connection";
 import { baseUrl } from "@/emails/base-layout";
 import { logger } from "@trigger.dev/sdk";
 import { findNewestBlogPost } from "@/actions/user.actions";
+import { sendBotMsg } from "./(common)/send-bot-message";
 
 export default async function whenWeeklyNews(
   data: JobPayloads["WEEKLY_DIGEST_BLOG"],
@@ -76,5 +77,22 @@ export default async function whenWeeklyNews(
       html,
     });
   }
+  let message = `*Newsletter - Semaine ${date.toLocaleDateString("fr-FR", {
+    dateStyle: "medium",
+  })}:*\n\n`;
+  let count = 1;
+
+  for (const [_, blog] of Object.entries(blogs.slice(0, 5))) {
+    message += `${count}. *${blog.title}*\n`;
+    message += `   - par: ${blog.author.name}\n`;
+    message += `   - lien: ${baseUrl}/blog/${blog.slug}\n\n`;
+    count++;
+  }
+  message += `\Voir plus: ${baseUrl}/blog`;
+  await sendBotMsg({
+    msg: message,
+    tagAll: true,
+  });
+
   console.log(data);
 }

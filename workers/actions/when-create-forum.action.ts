@@ -9,6 +9,7 @@ import { renderEmail } from "@/emails/mailer";
 import { transporter } from "@/lib/connection";
 import { console } from "inspector";
 import { logger } from "@trigger.dev/sdk";
+import { sendBotMsg } from "./(common)/send-bot-message";
 
 export default async function whenForumCreated(
   data: JobPayloads["FORUM_CREATED"],
@@ -89,6 +90,10 @@ export default async function whenForumCreated(
       });
       logger.log("email", { res });
     }
+    await sendBotMsg({
+      msg: `Une question a été posé par ${forum?.author.name} : ${forum.textContent.slice(0, 15)} ... ,\n\nconsulter : ${baseUrl}/forum/${forum.id}`,
+      tagAll: true,
+    });
   } catch (error) {
     logger.log("erreur : ", { error });
   }

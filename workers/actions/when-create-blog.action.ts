@@ -8,6 +8,7 @@ import { baseUrl } from "@/emails/base-layout";
 import { sendNotification } from "./(common)/notification";
 import { getUserWithRoleAndDevices } from "@/actions/user.actions";
 import { logger } from "@trigger.dev/sdk";
+import { sendBotMsg } from "./(common)/send-bot-message";
 
 export default async function whenBlogCreated(
   data: JobPayloads["BLOG_CREATED"],
@@ -79,4 +80,8 @@ export default async function whenBlogCreated(
       html,
     });
   }
+  await sendBotMsg({
+    msg: `Blog publier en attente !!\n ${blog?.author.name} vient de soumettre un blog \n\nconsulter : ${baseUrl}/blog/${slug}/preview`,
+    targetAdmin: true,
+  });
 }
