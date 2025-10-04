@@ -7,14 +7,18 @@ export interface Props {
     profil: string;
   };
 }
+
 export async function sendBotMsg({
   msg,
   tagAll = false,
   targetAdmin = false,
   option,
 }: Props) {
-  await fetch(`${process.env.NEXT_PUBLIC_BOT_URL}`, {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_BOT_URL}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       message: msg,
       tagAll,
@@ -22,4 +26,5 @@ export async function sendBotMsg({
       option,
     }),
   });
+  return result;
 }
