@@ -1,13 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ChevronDown, ChevronUp, Edit2, Eye } from "lucide-react";
 import { notFound } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 //import { Textarea } from "@/components/ui/textarea";
 import HeadingPage from "@/sections/common/HeadingPage";
 import { getForumPost, getForumPosts } from "@/actions/forum.actions";
@@ -26,10 +19,6 @@ import { fetchPageViews } from "@/actions/utils.actions";
 import Avatar from "@/components/avatar";
 export const revalidate = 60;
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const post = await getForumPost(params.id);
   if (!post) return {};

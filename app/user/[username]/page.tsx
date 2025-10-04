@@ -1,13 +1,6 @@
 import React from "react";
 import ProfileHeader from "@/components/profile/profile-header";
-import {
-  computeAndUpdateUserXP,
-  computeUserXP,
-  getUserProfile,
-  getUsers,
-  measure,
-  recomputeAllUsersXP,
-} from "@/actions/user.actions";
+import { getUserProfile, getUsers } from "@/actions/user.actions";
 import { notFound } from "next/navigation";
 import ProfileWrapper from "../(common)/profile-wrapper";
 import ProfileSection from "@/components/profile/profil-section";
