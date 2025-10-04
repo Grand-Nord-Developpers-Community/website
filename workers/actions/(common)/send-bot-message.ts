@@ -14,6 +14,7 @@ export async function sendBotMsg({
   option,
 }: Props) {
   await fetch(`${process.env.NEXT_PUBLIC_BOT_URL}`, {
+    method: "POST",
     body: JSON.stringify({
       message: msg,
       tagAll,
