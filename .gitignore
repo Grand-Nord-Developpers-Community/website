@@ -9,6 +9,7 @@
 #disable package-lock on the repo due to triggger error
 package-lock.json
 
+/.wwebjs_auth/
 # testing
 /coverage
 

@@ -593,7 +593,28 @@ export async function recomputeAllUsersXP() {
   }
   console.log("done !!");
 }
-/**pagination fetch */
+
+export async function getUsers() {
+  const result = await db.query.userTable.findMany({
+    orderBy: [desc(userTable.createdAt)],
+    columns: {
+      createdAt: true,
+      updatedAt: true,
+      id: true,
+      username: true,
+    },
+    with: {
+      role: {
+        columns: {
+          name: true,
+        },
+      },
+    },
+    where: eq(userTable.isCompletedProfile, true),
+  });
+
+  return result;
+}
 
 export async function getPaginatedUsers(
   page: number,

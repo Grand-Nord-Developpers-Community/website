@@ -1,6 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUsersListByRank } from "@/actions/user.actions";
 
+export interface LeaderboardType {
+  users: User[];
+  hasMore: boolean;
+}
+
+export interface User {
+  image: null;
+  name: string;
+  email: string;
+  experiencePoints: number;
+  createdAt: Date;
+  username: string;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;

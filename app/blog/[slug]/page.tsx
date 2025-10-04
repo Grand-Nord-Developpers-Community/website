@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import React from "react";
-import { getBlogPost, getBlogPostMeta } from "@/actions/blog.actions";
+import {
+  getBlogPost,
+  getBlogPostMeta,
+  getBlogPosts,
+} from "@/actions/blog.actions";
 import { ReportView } from "@/components/ReportView";
 import { Redis } from "@upstash/redis";
 import BlogContent from "../(common)/blogContent";
@@ -55,7 +59,10 @@ export async function generateMetadata({
     },
   };
 }
-
+export async function generateStaticParams() {
+  const posts = await getBlogPosts();
+  return posts.map((p) => p.slug);
+}
 export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const post = await getBlogPost(slug as string);

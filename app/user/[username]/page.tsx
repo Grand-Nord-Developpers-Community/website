@@ -4,13 +4,17 @@ import {
   computeAndUpdateUserXP,
   computeUserXP,
   getUserProfile,
+  getUsers,
   measure,
   recomputeAllUsersXP,
 } from "@/actions/user.actions";
 import { notFound } from "next/navigation";
 import ProfileWrapper from "../(common)/profile-wrapper";
 import ProfileSection from "@/components/profile/profil-section";
-
+export async function generateStaticParams() {
+  const users = await getUsers();
+  return users.map((p) => p.username);
+}
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
   const userprofile = await getUserProfile(params.username);
   if (!userprofile) {

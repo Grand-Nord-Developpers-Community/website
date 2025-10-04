@@ -148,10 +148,11 @@ export async function updateForumPost(
 export async function getPaginatedForums(
   page: number,
   pageSize: number,
-  query?: string
+  query?: string,
+  withAnswer?: boolean
 ) {
   const offset = page * pageSize;
-  const result = await db.query.forumPost.findMany({
+  let result = await db.query.forumPost.findMany({
     orderBy: [desc(forumPost.createdAt)],
     columns: {
       id: true,
@@ -180,6 +181,12 @@ export async function getPaginatedForums(
     limit: pageSize,
     offset: offset,
   });
+
+  if (typeof withAnswer === "boolean") {
+    result = result.filter((r) =>
+      withAnswer ? r.replies.length > 0 : r.replies.length === 0
+    );
+  }
   // console.log(result);
 
   return result;
@@ -194,6 +201,7 @@ export async function getForumPosts() {
       title: true,
       content: true,
       createdAt: true,
+      updatedAt: true,
       id: true,
     },
     with: {
