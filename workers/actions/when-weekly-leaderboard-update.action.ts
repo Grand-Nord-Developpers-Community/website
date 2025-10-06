@@ -102,9 +102,9 @@ export default async function whenWeeklyLeaderBoard(
     users[0].image ||
     `${baseUrl}/api/avatar?username=${users[0].username}&size=559`;
   await sendBotMsg({
-    msg: `Le king de la GNDC : *${users[0].name?.trimEnd()}* avec :\n\n
-      - xp : *${users[0].experiencePoints}*\n
-      - activité : *${users[0].activity.totalDaysActive}* jours\n
+    msg: `Le king de la GNDC : *${users[0].name?.trimEnd()}* avec :\n
+      - xp : *${users[0].experiencePoints}*
+      - activité : *${users[0].activity.totalDaysActive}* jours
       - blog publier : *${users[0].blogPosts.length}*`,
     tagAll: false,
     option: {
