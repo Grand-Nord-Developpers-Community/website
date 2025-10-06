@@ -104,7 +104,7 @@ export async function processActivity(userId: string) {
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
   //console.table({ lastProcessed, today });
   if (lastProcessed === today) {
-    return;
+    return { success: true };
   }
   const [activity] = await db
     .select()
@@ -133,7 +133,7 @@ export async function processActivity(userId: string) {
         : 1;
 
     if (last.toDateString() === today) {
-      return;
+      return { sucess: true };
     }
     await db
       .update(userActivity)
@@ -158,4 +158,5 @@ export async function processActivity(userId: string) {
   });
   revalidatePath("/");
   revalidatePath("/user/dashboard");
+  return { success: true };
 }
