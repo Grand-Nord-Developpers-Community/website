@@ -32,17 +32,20 @@ const BackToTop: React.FC = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    // Create a single handler function
+    const handleScroll = () => {
       toggleVisibility();
       trackScrollProgress();
-    });
-    return () => {
-      window.removeEventListener("scroll", () => {
-        toggleVisibility();
-        trackScrollProgress();
-      });
     };
-  }, []);
+
+    // Add the listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Remove the SAME listener in cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []); // Empty dependency array is fine here
 
   return (
     <>

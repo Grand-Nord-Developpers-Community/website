@@ -135,9 +135,13 @@ function Header({
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", trackScrollProgress);
+    const handleScroll = () => {
+      trackScrollProgress();
+    };
+
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", trackScrollProgress);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 

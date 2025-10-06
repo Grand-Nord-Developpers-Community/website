@@ -17,6 +17,6 @@ export default function ReportActivity({
         }
       });
     }
-  }, []);
+  }, [userId]);
   return null;
 }
