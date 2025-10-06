@@ -116,15 +116,15 @@ function Header({
   user,
   role,
 }: {
-  user: SessionUser | null;
+  user: string | null;
   role: IRole["name"] | undefined;
 }) {
+  const userObj = user ? JSON.parse(user) : null;
   //const { user } = useSession();
   const pathname = usePathname();
   const { is404 } = useIs404Store();
 
   const [scrollProgress, setScrollProgress] = useState(0);
-  const router = useRouter();
   const trackScrollProgress = () => {
     const winScroll = document.documentElement.scrollTop;
     const height =
@@ -173,7 +173,7 @@ function Header({
               );
             })}
           </nav>
-          {user && user.isCompletedProfile && (
+          {userObj && userObj.isCompletedProfile && (
             <>
               <Button variant="secondary" className="ml-5 text-white" asChild>
                 <Link
@@ -182,17 +182,17 @@ function Header({
                   {role === "user" ? "Tableau de bord" : "Administration"}
                 </Link>
               </Button>
-              <AvatarMenuDropDown user={user} role={role} />
+              <AvatarMenuDropDown user={userObj} role={role} />
             </>
           )}
-          {user && !user.isCompletedProfile && (
+          {userObj && !userObj.isCompletedProfile && (
             <>
               <ButtonX className="" variant="ringHover" asChild>
                 <Link href="/account/complete">Completer</Link>
               </ButtonX>
             </>
           )}
-          {!user && (
+          {!userObj && (
             <>
               <Button className="text-white ml-5" asChild variant="secondary">
                 <Link href="/login">Se connecter</Link>
@@ -210,8 +210,8 @@ function Header({
                 <MenuIcon />
               </Button>
             </SheetTrigger>
-            {user && user.isCompletedProfile && (
-              <AvatarMenuDropDown user={user} role={role} />
+            {userObj && userObj.isCompletedProfile && (
+              <AvatarMenuDropDown user={userObj} role={role} />
             )}
           </div>
           <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
@@ -237,7 +237,7 @@ function Header({
             </nav>
             <Separator className="my-4 bg-gray-400" />
             <SheetFooter className="gap-3 max-sm:flex-col">
-              {user && user.name && (
+              {userObj && userObj.name && (
                 <>
                   <SheetClose asChild>
                     <Button className="grow" variant="secondary" asChild>
@@ -255,7 +255,7 @@ function Header({
                   </SheetClose>
                 </>
               )}
-              {user && !user.isCompletedProfile && (
+              {userObj && !userObj.isCompletedProfile && (
                 <>
                   <SheetClose asChild>
                     <ButtonX className="" variant="ringHover" asChild>
