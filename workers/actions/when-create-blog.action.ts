@@ -80,8 +80,8 @@ export default async function whenBlogCreated(
       html,
     });
   }
-  await sendBotMsg({
-    msg: `Blog publier en attente !!\n ${blog?.author.name} vient de soumettre un blog \n\nconsulter : ${baseUrl}/blog/${slug}/preview`,
-    targetAdmin: true,
-  });
+  // await sendBotMsg({
+  //   msg: `Blog publier en attente !!\n ${blog?.author.name} vient de soumettre un blog \n\nconsulter : ${baseUrl}/blog/${slug}/preview`,
+  //   targetAdmin: true,
+  // });
 }

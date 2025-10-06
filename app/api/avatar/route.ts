@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const username = req.nextUrl.searchParams.get("username");
-
+  const s = req.nextUrl.searchParams.get("size");
+  const size = parseInt(s || "150");
   if (!username) {
     return new NextResponse("Missing username", { status: 400 });
   }
 
-  const dummyJsonUrl = `https://dummyjson.com/icon/${username}/150`;
+  const dummyJsonUrl = `https://dummyjson.com/icon/${username}/${size}`;
 
   try {
     const externalRes = await fetch(dummyJsonUrl);

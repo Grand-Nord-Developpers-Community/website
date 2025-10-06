@@ -91,7 +91,7 @@ export default async function whenForumCreated(
       logger.log("email", { res });
     }
     const res = await sendBotMsg({
-      msg: `Une question a été posé par *${forum?.author.name}* :\n ${forum.textContent.slice(0, 15)} ... ,\n\nconsulter : ${baseUrl}/forum/${forum.id}`,
+      msg: `Une question a été posé par *${forum?.author.name?.trimEnd()}* :\n ${forum.textContent.slice(0, 15)} ... ,\n\nconsulter : ${baseUrl}/forum/${forum.id}`,
       tagAll: true,
     });
     logger.log("send to whatsapp", { res });

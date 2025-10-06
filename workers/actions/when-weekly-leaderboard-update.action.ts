@@ -29,11 +29,14 @@ export default async function whenWeeklyLeaderBoard(
     where: eq(userTable.isCompletedProfile, true),
     with: {
       devices: true,
+      activity: true,
+      blogPosts: { columns: { id: true } },
     },
   });
   logger.log("users", { users });
 
   let rank = 1;
+
   for (const user of users) {
     if (user.devices.length > 0) {
       await Promise.all(
@@ -81,11 +84,11 @@ export default async function whenWeeklyLeaderBoard(
     rank += 1;
   }
 
-  let message = "*Leaderboard Hebdomadaire🏆:*\n\n";
+  let message = "*Leaderboard Hebdomadaire 🏆:*\n\n";
   let count = 1;
 
   for (const [_, user] of Object.entries(users.slice(0, 5))) {
-    message += `${count}. *${user.name}*\n`;
+    message += `${count}. *${user.name?.trimEnd()}*\n`;
     message += `   - xp: ${user.experiencePoints}\n`;
     message += `   - profil: ${baseUrl}/user/${user.username}\n\n`;
     count++;
@@ -95,12 +98,18 @@ export default async function whenWeeklyLeaderBoard(
     msg: message,
     tagAll: true,
   });
+  const profil =
+    users[0].image ||
+    `${baseUrl}/api/avatar?username=${users[0].username}&size=559`;
   await sendBotMsg({
-    msg: "Le king de la GNDC !!",
+    msg: `Le king de la GNDC : *${users[0].name?.trimEnd()}* avec :\n\n
+      - xp : *${users[0].experiencePoints}*\n
+      - activité : *${users[0].activity.totalDaysActive}* jours\n
+      - blog publier : *${users[0].blogPosts.length}*`,
     tagAll: true,
     option: {
       leaderboard: true,
-      profil: `${baseUrl}/user/${users[0].image}`,
+      profil,
     },
   });
   console.log(data);

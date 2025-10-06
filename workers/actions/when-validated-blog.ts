@@ -28,7 +28,7 @@ export default async function whenBlogValidated(
       preview: true,
       description: true,
     },
-    where: and(eq(blogPost.id, blogId), eq(blogPost.isDraft, true)),
+    where: and(eq(blogPost.id, blogId), eq(blogPost.isDraft, false)),
     with: {
       author: {
         columns: {
@@ -67,6 +67,7 @@ export default async function whenBlogValidated(
       });
     })
   );
+
   if (author.email) {
     const html = await renderEmail({
       type: "validated",
@@ -75,6 +76,12 @@ export default async function whenBlogValidated(
         title: blog.title,
         url: `${baseUrl}/blog/${blog.slug}`,
       },
+    });
+    await transporter.sendMail({
+      from: '"GNDC Blog" <noreply@gndc.tech>',
+      to: author.email,
+      subject: `📖 Votre blog à été publier `,
+      html,
     });
   }
   //console.log(data);
@@ -120,9 +127,8 @@ export default async function whenBlogValidated(
       html,
     });
   }
-
   await sendBotMsg({
-    msg: `📖 Nouveau blog: *${blog.title}* \n _${blog.author.name}_, vient de soumettre un blog \n\nconsulter : ${baseUrl}/blog/${blog.slug}`,
+    msg: `📖 Nouveau blog: *${blog.title.trimEnd()}* \n _${blog.author.name}_, vient de publier un blog \n\nconsulter : ${baseUrl}/blog/${blog.slug}`,
     tagAll: true,
   });
 }
