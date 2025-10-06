@@ -83,8 +83,8 @@ export default async function RootLayout({
       >
         <Scroll />
         {/* Utiliser une condition pour ne rendre ReportActivity que si userId existe */}
-        {userId && <ReportActivity userId={userId} />}
-        {/* <ReportView type="app" /> */}
+        {/* {userId && <ReportActivity userId={userId} />} */}
+        <ReportView type="app" />
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip relative">
           <SessionProvider session={session}>
