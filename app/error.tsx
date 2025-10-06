@@ -6,18 +6,21 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { useIs404Store } from "@/components/stores/useIs404";
 const Custom500 = ({ error, reset }: { error: Error; reset: () => void }) => {
-  const [Error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    // Log the error to an error reporting service
-    setError(JSON.stringify(error));
+    if (error) {
+      setErrorMessage(JSON.stringify(error));
+    }
   }, [error]);
+
   const { setIs404 } = useIs404Store();
+
   useEffect(() => {
     document.title = "GNDC | Error";
     setIs404(true);
     return () => setIs404(false);
-  }, []);
+  }, [setIs404]);
   return (
     <div className="screen-wrapper">
       <div className="w-full min-h-[80vh] flex justify-center items-center">
@@ -36,7 +39,7 @@ const Custom500 = ({ error, reset }: { error: Error; reset: () => void }) => {
                 <br />
                 Code erreur :
                 <code className="rounded-sm bg-slate-100 p-1 text-xs">
-                  {Error}
+                  {errorMessage}
                 </code>
               </p>
             </div>
