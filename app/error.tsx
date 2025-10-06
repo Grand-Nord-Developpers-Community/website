@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import Link from "next/link";
 import { Suspense } from "react";
 import { useIs404Store } from "@/components/stores/useIs404";
+
 const Custom500 = ({ error, reset }: { error: Error; reset: () => void }) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const { setIs404 } = useIs404Store();
 
   useEffect(() => {
     if (error) {
@@ -14,13 +15,18 @@ const Custom500 = ({ error, reset }: { error: Error; reset: () => void }) => {
     }
   }, [error]);
 
-  const { setIs404 } = useIs404Store();
-
   useEffect(() => {
     document.title = "GNDC | Error";
     setIs404(true);
-    return () => setIs404(false);
+    
+    return () => {
+      // Use a small timeout to prevent the race condition
+      setTimeout(() => {
+        setIs404(false);
+      }, 0);
+    };
   }, [setIs404]);
+  
   return (
     <div className="screen-wrapper">
       <div className="w-full min-h-[80vh] flex justify-center items-center">

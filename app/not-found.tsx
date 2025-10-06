@@ -7,11 +7,23 @@ import { useIs404Store } from "@/components/stores/useIs404";
 function NotFoundPage() {
   const { setIs404 } = useIs404Store();
 
+  // Move this effect to the top level of your component
   useEffect(() => {
+    // Set document title
     document.title = "GNDC | Notfound";
+    
+    // Set is404 state immediately
     setIs404(true);
-    return () => setIs404(false);
+    
+    // Clean up function
+    return () => {
+      // Use a small timeout to prevent the race condition
+      setTimeout(() => {
+        setIs404(false);
+      }, 0);
+    };
   }, [setIs404]);
+  
   return (
     <section className="w-full">
       <div className="screen-wrapper">
