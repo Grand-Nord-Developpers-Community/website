@@ -38,7 +38,7 @@ const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
   { name: "Forum", link: "/forum" },
-  // { name: "Formation", link: "/formation" },
+  { name: "Leaderboard", link: "/leaderboard" },
   { name: "Contact", link: "/contact" },
 ];
 
