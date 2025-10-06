@@ -91,7 +91,7 @@ export default async function whenWeeklyNews(
   message += `\Voir plus: ${baseUrl}/blog`;
   await sendBotMsg({
     msg: message,
-    tagAll: true,
+    tagAll: false,
   });
 
   console.log(data);

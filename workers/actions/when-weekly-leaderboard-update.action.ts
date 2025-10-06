@@ -96,7 +96,7 @@ export default async function whenWeeklyLeaderBoard(
   message += `\Voir plus: ${baseUrl}/leaderboard`;
   await sendBotMsg({
     msg: message,
-    tagAll: true,
+    tagAll: false,
   });
   const profil =
     users[0].image ||
@@ -106,7 +106,7 @@ export default async function whenWeeklyLeaderBoard(
       - xp : *${users[0].experiencePoints}*\n
       - activité : *${users[0].activity.totalDaysActive}* jours\n
       - blog publier : *${users[0].blogPosts.length}*`,
-    tagAll: true,
+    tagAll: false,
     option: {
       leaderboard: true,
       profil,

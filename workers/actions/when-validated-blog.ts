@@ -129,6 +129,6 @@ export default async function whenBlogValidated(
   }
   await sendBotMsg({
     msg: `📖 Nouveau blog: *${blog.title.trimEnd()}* \n _${blog.author.name}_, vient de publier un blog \n\nconsulter : ${baseUrl}/blog/${blog.slug}`,
-    tagAll: true,
+    tagAll: false,
   });
 }
