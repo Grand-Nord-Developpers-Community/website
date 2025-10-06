@@ -8,10 +8,10 @@ import {
 import { notFound } from "next/navigation";
 import ProfileWrapper from "../(common)/profile-wrapper";
 import ProfileSection from "@/components/profile/profil-section";
-export async function generateStaticParams() {
-  const users = await getUsers();
-  return users.map((p) => p.username);
-}
+// export async function generateStaticParams() {
+//   const users = await getUsers();
+//   return users.map((p) => p.username);
+// }
 export async function generateMetadata({
   params,
 }: {
