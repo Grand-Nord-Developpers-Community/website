@@ -252,6 +252,51 @@ export async function getUserProfileInformation() {
   const profile = getUserProfile(user?.id as string);
   return profile;
 }
+export async function getUserProfileMeta(userId: string) {
+  const profile = await db.query.userTable.findFirst({
+    where: or(or(ilike(user.username, userId), eq(user.id, userId))),
+    with: {
+      activity: {
+        columns: {
+          totalDaysActive: true,
+        },
+      },
+      role: {
+        columns: {
+          name: true,
+        },
+      },
+      blogPosts: {
+        where: eq(blogPost.isDraft, false),
+        columns: {
+          id: true,
+        },
+      },
+      forumPosts: {
+        columns: {
+          id: true,
+        },
+      },
+    },
+    columns: {
+      id: true,
+      username: true,
+      name: true,
+      image: true,
+      bio: true,
+      skills: true,
+      experiencePoints: true,
+      isCompletedProfile: true,
+      createdAt: true,
+    },
+  });
+
+  if (!profile) {
+    return undefined;
+  }
+
+  return profile;
+}
 export async function getUserProfile(userId: string) {
   const profile = await db.query.userTable.findFirst({
     where: or(or(ilike(user.username, userId), eq(user.id, userId))),

@@ -1,6 +1,7 @@
 import { ImageResponse } from "@vercel/og";
 
 import { CSSProperties } from "react";
+import { ActiveDayIcon, BlogIcon, ForumIcon, XPIcon } from "./icons";
 
 const styles: Record<string, CSSProperties> = {
   container: {
@@ -111,11 +112,18 @@ export async function generateOgImageResponse({
   date,
   type = "article",
   replies = [],
+  stats,
 }: {
   title: string;
-  author: { name: string; image?: string; username: string };
+  author: { name: string; image?: string; username: string; bio?: string };
+  stats?: {
+    blogs: number;
+    forums: number;
+    xp: number;
+    active_day: number;
+  };
   date: string;
-  type?: "article" | "forum";
+  type?: "article" | "forum" | "user";
   replies?: { id: string }[];
 }) {
   const fontData = await fetch(
@@ -136,6 +144,249 @@ export async function generateOgImageResponse({
   ).then((res) => res.arrayBuffer());
   const imageData =
     "data:image/png;base64," + Buffer.from(imageBuffer).toString("base64");
+
+  if (type === "user") {
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            ...styles.container,
+            justifyContent: "space-between",
+            paddingTop: 80,
+          }}
+        >
+          {/* Header Section */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "24px",
+            }}
+          >
+            {/* Title and Logo */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "32px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                  flex: 1,
+                }}
+              >
+                <h1
+                  style={{
+                    fontSize: "60px",
+                    fontWeight: "800",
+                    margin: 0,
+                    color: "#1f2328",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {author.name}
+                </h1>
+                <p
+                  style={{
+                    fontSize: "32px",
+                    margin: 0,
+                    color: "#656d76",
+                    fontWeight: "400",
+                  }}
+                >
+                  @{author.username}
+                </p>
+              </div>
+
+              {/* Logo */}
+
+              <div
+                style={{
+                  display: "flex",
+                  width: "180px",
+                  height: "180px",
+                }}
+              >
+                <img
+                  src={
+                    author.image ||
+                    `${process.env.BASE_URL}/api/avatar?username=${author.username}`
+                  }
+                  alt="Logo"
+                  width="200"
+                  height="200"
+                  style={{
+                    objectFit: "contain",
+                    borderRadius: 10,
+                  }}
+                />
+              </div>
+            </div>
+            <p
+              style={{
+                fontSize: "42px",
+                margin: 0,
+                color: "#656d76",
+                fontWeight: "400",
+              }}
+            >
+              {(() => {
+                const charsPerLine = 50;
+                const maxChars = charsPerLine * 2;
+                if (author.bio && author.bio.length > maxChars) {
+                  return author.bio.slice(0, maxChars - 1) + "…";
+                }
+                return author.bio || "Pas de bio!";
+              })()}
+            </p>
+          </div>
+
+          {/* Stats Section */}
+          <div
+            style={{
+              display: "flex",
+              gap: "48px",
+              width: "100%",
+            }}
+          >
+            {/* xp */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <XPIcon size={32} className="text-yellow-700" />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontWeight: "600",
+                  color: "#1f2328",
+                }}
+              >
+                {stats?.xp}
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  color: "#656d76",
+                }}
+              >
+                xp
+              </span>
+            </div>
+
+            {/* activity */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <ActiveDayIcon size={32} />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontWeight: "600",
+                  color: "#1f2328",
+                }}
+              >
+                {stats?.active_day}
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  color: "#656d76",
+                }}
+              >
+                jours
+              </span>
+            </div>
+
+            {/* forums */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <ForumIcon size={32} />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontWeight: "600",
+                  color: "#1f2328",
+                }}
+              >
+                {stats?.forums}
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  color: "#656d76",
+                }}
+              >
+                Discussions
+              </span>
+            </div>
+
+            {/* Blogs */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <BlogIcon size={32} />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontWeight: "600",
+                  color: "#1f2328",
+                }}
+              >
+                {stats?.blogs}
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  color: "#656d76",
+                }}
+              >
+                Blogs
+              </span>
+            </div>
+          </div>
+          <div style={styles.borderBottom} />
+        </div>
+      ),
+      {
+        width: 1200,
+        height: 630,
+        fonts: [
+          {
+            name: "montserrat",
+            data: fontData,
+            style: "normal",
+          },
+          {
+            name: "montserrat-extrabold",
+            data: extrafontData,
+            style: "normal",
+            weight: 800,
+          },
+        ],
+      }
+    );
+  }
   return new ImageResponse(
     (
       <div style={styles.container}>
