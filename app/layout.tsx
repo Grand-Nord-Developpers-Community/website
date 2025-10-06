@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-// import "@/styles/globals.scss";
 import "./globals.css";
 import Footer from "@/sections/common/Footer";
 import clsx from "clsx";
-//import "prismjs/themes/prism.css";
 import { Toaster } from "@/components/ui/sonner";
-//import { Montserrat } from "next/font/google";
-//const montserrat = Montserrat({ subsets: ["latin"] });
-
-//OFFLINE FONT LOAD
 import localFont from "next/font/local";
 import BackToTop from "@/components/ui/BackToTop";
 export const montserra = localFont({
@@ -69,16 +63,16 @@ import Scroll from "@/components/scroll";
 import { ReportView } from "@/components/ReportView";
 import ReportActivity from "@/components/ReportActivity";
 import Providers from "@/providers";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  // if (session.user) {
-  //   processActivity(session.user.id);
-  // }
-  console.log(session.user?.id);
+  // Stabiliser l'ID utilisateur pour éviter les problèmes de hooks
+  const userId = session?.user?.id || null;
+  
   return (
     <html lang="fr">
       <head>
@@ -88,7 +82,8 @@ export default async function RootLayout({
         className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
       >
         <Scroll />
-        <ReportActivity userId={session.user?.id} />
+        {/* Utiliser une condition pour ne rendre ReportActivity que si userId existe */}
+        {userId && <ReportActivity userId={userId} />}
         <ReportView type="app" />
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip relative">
