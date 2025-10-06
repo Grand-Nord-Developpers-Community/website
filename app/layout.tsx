@@ -72,7 +72,7 @@ export default async function RootLayout({
   const session = await auth();
   // Stabiliser l'ID utilisateur pour éviter les problèmes de hooks
   const userId = session?.user?.id || null;
-  
+
   return (
     <html lang="fr">
       <head>
@@ -84,7 +84,7 @@ export default async function RootLayout({
         <Scroll />
         {/* Utiliser une condition pour ne rendre ReportActivity que si userId existe */}
         {userId && <ReportActivity userId={userId} />}
-        <ReportView type="app" />
+        {/* <ReportView type="app" /> */}
         <HeaderWrapper />
         <main className="w-full min-h-screen overflow-x-clip relative">
           <SessionProvider session={session}>
