@@ -49,7 +49,7 @@ function ListBrief({ blogs, forums }: Props) {
               </div>
               <div className="space-y-1">
                 <Link
-                  href={"/forum/" + f.id}
+                  href={"/blog/" + f.slug}
                   className="block text-sm hover:text-secondary"
                 >
                   {f.title}
