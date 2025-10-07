@@ -1,5 +1,5 @@
 /* From Uiverse.io by Li-Deheng */
-.like-dislike-container {
+:root {
   --dark-grey: #353535;
   --middle-grey: #767676;
   --lightest-grey: linear-gradient(#fafafa, #ebebeb);
@@ -7,6 +7,19 @@
   --shadow-active: 0 5px 5px 0 #00000026;
   --border-radius-main: 10px;
   --border-radius-icon: 50px;
+  --fill-svg: #000000;
+}
+.dark {
+  --dark-grey: #cfcfcf;
+  --middle-grey: #767676;
+  --lightest-grey: linear-gradient(#fafafa, #ebebeb);
+  --shadow: 0 5px 15px 0 gray;
+  --shadow-active: 0 5px 5px 0 grey;
+  --border-radius-main: 10px;
+  --border-radius-icon: 50px;
+  --fill-svg: #fff;
+}
+.like-dislike-container {
   position: relative;
   display: flex;
   text-align: center;
@@ -135,7 +148,7 @@
 
 .like-dislike-container .icons .svgs {
   width: 1.3rem;
-  fill: #000000;
+  fill: var(--fill-svg);
   box-sizing: content-box;
   padding: 10px 10px;
   transition: 0.2s ease all;

@@ -58,6 +58,7 @@ import { logout } from "@/lib/api/auth/logout";
 import { toast } from "sonner";
 import Avatar from "../avatar";
 import { IRole } from "@/lib/db/schema";
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 export const company = {
   name: "GNDC",
@@ -113,8 +114,8 @@ export default function AppSidebar({
     <SidebarProvider>
       <Sidebar collapsible="icon">
         <SidebarHeader>
-          <div className="flex gap-2 py-2 text-sidebar-accent-foreground ">
-            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+          <div className="flex gap-2 py-2 ">
+            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-secondary text-sidebar-primary-foreground">
               <company.logo className="size-4" />
             </div>
             <div className="grid flex-1 text-left text-sm leading-tight">
@@ -256,7 +257,7 @@ export default function AppSidebar({
         <SidebarRail />
       </Sidebar>
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 mr-5">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
@@ -269,6 +270,7 @@ export default function AppSidebar({
             <UserNav />
             <ThemeToggle /> 
           </div> */}
+          <AnimatedThemeToggler />
         </header>
         {/* page main content */}
         {children}

@@ -33,6 +33,7 @@ import ImageUpload from "@/components/image-upload";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Logo from "@/assets/images/brand/logo.png";
+import LogoDark from "@/assets/images/brand/logo-dark.png";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
@@ -72,7 +73,20 @@ export function AppSidebar({ user }: { user: SessionUser }) {
           <SidebarMenuItem>
             <div className="flex flex-col gap-3">
               <Link href="/">
-                <Image loading="lazy" src={Logo} alt="logo GNDC" width={120} />
+                <Image
+                  className="block dark:hidden"
+                  loading="lazy"
+                  src={Logo}
+                  alt="logo GNDC"
+                  width={120}
+                />
+                <Image
+                  className="hidden dark:block"
+                  loading="lazy"
+                  src={LogoDark}
+                  alt="logo GNDC"
+                  width={120}
+                />
               </Link>
             </div>
           </SidebarMenuItem>

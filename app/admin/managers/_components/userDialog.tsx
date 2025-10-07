@@ -38,7 +38,7 @@ export default function UserDialog({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[90vh]">
+        <DrawerContent className="max-h-[90vh] bg-card">
           <DrawerHeader>
             <DrawerTitle>Liste des utilisateur</DrawerTitle>
             <DrawerDescription className="sr-only">
@@ -61,7 +61,7 @@ export default function UserDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl sm:max-w-2xl">
+      <DialogContent className="max-w-xl sm:max-w-2xl bg-card">
         <DialogHeader>
           <DialogTitle>Liste des utilisateur</DialogTitle>
           <DialogDescription className="sr-only">

@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Logo from "@/assets/images/brand/logo.png";
+import LogoDark from "@/assets/images/brand/logo-dark.png";
 import { fetcher } from "@/lib/utils";
 import { preload } from "swr";
 import { toast } from "sonner";
@@ -78,18 +79,20 @@ export default function ProfileCompletion({ user }: { user: SessionUser }) {
         quality={50}
         className="z-0"
       />
+
       <div className="relative z-20 w-full max-w-md">
         <Image
           loading="lazy"
+          className="mx-auto my-3 "
           src={Logo}
           alt="logo GNDC"
-          className="mx-auto my-3"
           width={130}
         />
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="backdrop-blur-md bg-white bg-opacity-90 rounded-lg p-4 shadow-lg border border-white border-opacity-30 space-y-2"
+            className="backdrop-blur-md bg-card bg-opacity-90 rounded-lg p-4 shadow-lg border border-border border-opacity-30 space-y-2"
           >
             <h2 className="text-2xl max-sm:text-md font-bold text-center text-primary mb-6">
               Completer votre profile
@@ -138,7 +141,7 @@ export default function ProfileCompletion({ user }: { user: SessionUser }) {
                     <Textarea
                       {...field}
                       placeholder="Écrivez quelques phrases sur vous même"
-                      className="bg-white"
+                      //className="bg-white"
                       disabled={isLoading}
                     />
                   </FormControl>

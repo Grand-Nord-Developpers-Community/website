@@ -9,7 +9,7 @@ interface Props {
   descClassName?: string;
   children?: React.ReactNode;
   icon?: React.ReactNode;
-  withPattern?:boolean;
+  withPattern?: boolean;
 }
 function HeadingPage({
   title,
@@ -20,7 +20,7 @@ function HeadingPage({
   descClassName,
   children,
   icon,
-  withPattern=true
+  withPattern = true,
 }: Props) {
   return (
     <div className="bg-primary w-full relative">
@@ -52,39 +52,41 @@ function HeadingPage({
               <h1
                 className={cn(
                   "max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight text-white sm:text-4xl md:mx-auto",
-                  titleClassName,
+                  titleClassName
                 )}
               >
                 <span className="relative inline-block">
-                  {withPattern&&<svg
-                    viewBox="0 0 52 24"
-                    fill="currentColor"
-                    className="absolute top-0 left-0 z-0 hidden w-32 -mt-8 -ml-20 text-deep-purple-accent-100 lg:w-32 lg:-ml-28 lg:-mt-10 sm:block"
-                  >
-                    <defs>
-                      <pattern
-                        id="700c93bf-0068-4e32-aafe-ef5b6a647708"
-                        x="0"
-                        y="0"
-                        width=".135"
-                        height=".30"
-                      >
-                        <circle cx="1" cy="1" r=".7" />
-                      </pattern>
-                    </defs>
-                    <rect
-                      fill="url(#700c93bf-0068-4e32-aafe-ef5b6a647708)"
-                      width="52"
-                      height="24"
-                    />
-                  </svg>}
+                  {withPattern && (
+                    <svg
+                      viewBox="0 0 52 24"
+                      fill="currentColor"
+                      className="absolute top-0 left-0 z-0 hidden w-32 -mt-8 -ml-20 text-deep-purple-accent-100 lg:w-32 lg:-ml-28 lg:-mt-10 sm:block"
+                    >
+                      <defs>
+                        <pattern
+                          id="700c93bf-0068-4e32-aafe-ef5b6a647708"
+                          x="0"
+                          y="0"
+                          width=".135"
+                          height=".30"
+                        >
+                          <circle cx="1" cy="1" r=".7" />
+                        </pattern>
+                      </defs>
+                      <rect
+                        fill="url(#700c93bf-0068-4e32-aafe-ef5b6a647708)"
+                        width="52"
+                        height="24"
+                      />
+                    </svg>
+                  )}
                   {title}
                 </span>
                 {subtitle && (
                   <strong
                     className={cn(
                       "font-extrabold text-secondary sm:block",
-                      subClassName,
+                      subClassName
                     )}
                   >
                     {subtitle}
@@ -95,7 +97,7 @@ function HeadingPage({
                 <p
                   className={cn(
                     "text-base text-indigo-100 md:text-lg mb-10 lg:max-w-5xl",
-                    descClassName,
+                    descClassName
                   )}
                 >
                   {description}

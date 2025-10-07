@@ -16,12 +16,14 @@ import TelegramButton from "@/components/social-button/telegramButton";
 import DiscordButton from "@/components/social-button/discordButton";
 import { usePathname } from "next/navigation";
 import { shouldHideHeaderAndFooter } from "@/lib/utils";
+import LogoDark from "@/assets/images/brand/logo-dark.png";
+
 import { useIs404Store } from "@/components/stores/useIs404";
 function Footer() {
   const pathname = usePathname();
   const { is404 } = useIs404Store();
   return !shouldHideHeaderAndFooter(pathname) || is404 ? (
-    <footer className="bg-white pt-10 pb-4 border-t border-gray-200">
+    <footer className="bg-background pt-10 pb-4 border-t border-border">
       <div className="screen-wrapper">
         <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-8">
           {/* Logo and Description */}
@@ -30,6 +32,15 @@ function Footer() {
               loading="lazy"
               src={Logo}
               alt="GNDC Logo"
+              width={130}
+              height={70}
+              className="block dark:hidden"
+            />
+            <Image
+              className="hidden dark:block"
+              loading="lazy"
+              src={LogoDark}
+              alt="logo GNDC"
               width={130}
               height={70}
             />
@@ -157,26 +168,26 @@ function Footer() {
         </div>
 
         {/* Copyright and Social Icons */}
-        <div className="mt-8 pt-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
+        <div className="mt-8 pt-4 border-t border-border flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-600">
             © Grand Nord Developers Community - {new Date().getFullYear()}.
             Tous droits réservés
           </p>
           <div className="flex items-center gap-4 md:mt-0 max-sm:gap-2 max-sm:mt-4">
             <Link href="#" className="text-gray-600">
-              <YoutubeIcon className="size-8 p-2 bg-gray-200" />
+              <YoutubeIcon className="size-8 p-2 bg-card" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <Xicon className="size-8 p-2 bg-gray-200" />
+              <Xicon className="size-8 p-2 bg-card" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <FacebookIcon className="size-8 p-2 bg-gray-200" />
+              <FacebookIcon className="size-8 p-2 bg-card" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <LinkedinIcon className="size-8 p-2 bg-gray-200" />
+              <LinkedinIcon className="size-8 p-2 bg-card" />
             </Link>
             <Link href="#" className="text-gray-600">
-              <GithubIcon className="size-8 p-2 bg-gray-200" />
+              <GithubIcon className="size-8 p-2 bg-card" />
             </Link>
           </div>
         </div>

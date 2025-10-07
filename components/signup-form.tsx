@@ -153,7 +153,7 @@ export default function SignUpForm({ className, props }: UserAuthFormProps) {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-2 text-muted-foreground">
+          <span className="bg-card px-2 text-muted-foreground">
             Ou continuez avec
           </span>
         </div>

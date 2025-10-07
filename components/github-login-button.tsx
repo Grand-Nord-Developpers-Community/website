@@ -36,7 +36,7 @@ export default function GithubLoginButton({
   return (
     <Button
       variant="outline"
-      className="border border-black text-black hover:bg-black hover:text-white"
+      className="border border-border text-black dark:text-white hover:bg-black hover:text-white"
       type="button"
       disabled={isLoading || isDesactivate}
       onClick={onClick}

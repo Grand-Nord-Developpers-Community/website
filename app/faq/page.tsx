@@ -1,6 +1,5 @@
 "use client";
 
-
 interface FAQItemProps {
   question: string;
   answer: string;
@@ -14,14 +13,12 @@ const FAQItem: React.FC<FAQItemProps> = ({
   isOpen,
   onClick,
 }) => (
-  <div className="border-b border-gray-200 last:border-b-0">
+  <div className="border-b border-border last:border-b-0">
     <button
       onClick={onClick}
       className="flex justify-between items-center w-full text-left font-semibold py-4"
     >
-      <span className={isOpen ? "text-primary" : "text-gray-900"}>
-        {question}
-      </span>
+      <span className={isOpen ? "text-primary" : ""}>{question}</span>
       {isOpen ? (
         <Minus className="text-primary" />
       ) : (
@@ -33,7 +30,7 @@ const FAQItem: React.FC<FAQItemProps> = ({
         isOpen ? "max-h-96" : "max-h-0"
       }`}
     >
-      <p className="text-gray-600 pb-4">{answer}</p>
+      <p className="text-muted-foreground pb-4">{answer}</p>
     </div>
   </div>
 );
@@ -199,7 +196,7 @@ export default function FAQ() {
               </button>
             ))}
           </nav>
-          <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+          <div className="bg-card p-6 rounded-lg border border-border">
             <div className="flex items-start mb-4">
               <MessageCircle className="mr-2 text-primary" />
               <h2 className="text-xl font-semibold">

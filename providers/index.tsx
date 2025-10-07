@@ -12,7 +12,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="light">
+      <ThemeProvider attribute="class" defaultTheme="system">
         <ConfirmDialogProvider>
           <TooltipProvider>
             <NuqsAdapter>{children}</NuqsAdapter>

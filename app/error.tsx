@@ -18,7 +18,7 @@ const Custom500 = ({ error, reset }: { error: Error; reset: () => void }) => {
   useEffect(() => {
     document.title = "GNDC | Error";
     setIs404(true);
-    
+
     return () => {
       // Use a small timeout to prevent the race condition
       setTimeout(() => {
@@ -26,7 +26,7 @@ const Custom500 = ({ error, reset }: { error: Error; reset: () => void }) => {
       }, 0);
     };
   }, [setIs404]);
-  
+
   return (
     <div className="screen-wrapper">
       <div className="w-full min-h-[80vh] flex justify-center items-center">
@@ -36,7 +36,7 @@ const Custom500 = ({ error, reset }: { error: Error; reset: () => void }) => {
           </p>
           <div className="sm:ml-6">
             <div className="sm:border-l sm:border-gray-200 sm:pl-6">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+              <h1 className="text-4xl font-bold tracking-tight  sm:text-5xl">
                 Erreur interne du serveur
               </h1>
               <p className="mt-1 text-base text-gray-500">

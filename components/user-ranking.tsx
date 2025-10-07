@@ -11,7 +11,7 @@ export async function UserRanking() {
   const users = await getUsersListByRank();
   return (
     <Card className="space-y-4 my-4 p-4 relative">
-      <div className="absolute z-[10] bottom-0 inset-x-0 h-40 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+      <div className="absolute z-[10] bottom-0 inset-x-0 h-40 bg-gradient-to-t from-muted  to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
       <Button
         variant={"secondary"}
         asChild

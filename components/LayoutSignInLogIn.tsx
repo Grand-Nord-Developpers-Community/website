@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Logo from "@/assets/images/brand/logo.png";
+import LogoDark from "@/assets/images/brand/logo-dark.png";
 import CoverLogin from "@/assets/images/brand/bg-login.jpg";
 function LayoutSignInLogIn({
   children,
@@ -10,7 +11,7 @@ function LayoutSignInLogIn({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="bg-white">
+    <section className="bg-card">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12 relative h-screen">
         <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
           <Image
@@ -25,7 +26,20 @@ function LayoutSignInLogIn({
             <div className="absolute top-5 left-17 z-20 flex items-center text-lg font-medium  max-lg:relative max-lg:top-[7.5rem] max-sm:left-0 ">
               <span className="sr-only">GNDC</span>
               <a href={"/"}>
-                <Image loading="lazy" src={Logo} alt="logo GNDC" width={150} />
+                <Image
+                  loading="lazy"
+                  className="block dark:hidden"
+                  src={Logo}
+                  alt="logo GNDC"
+                  width={150}
+                />
+                <Image
+                  loading="lazy"
+                  className="hidden dark:block"
+                  src={LogoDark}
+                  alt="logo GNDC"
+                  width={150}
+                />
               </a>
             </div>
             <div className="mt-14 mb-10 max-lg:mt-[8rem] w-full">

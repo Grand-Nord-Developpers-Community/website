@@ -11,7 +11,7 @@ const page: React.FC = () => {
   return (
     <>
       <HeadingPage title="Politique de Confidentialité de la GNDC" />
-      <div className="prose mx-auto px-4 py-6">
+      <div className="prose dark:prose-invert mx-auto px-4 py-6">
         <h2 className="flex items-center text-xl font-bold mb-2">
           <Shield className="mr-2 text-primary" />
           Collecte d&apos;informations

@@ -42,7 +42,7 @@ const SponsorshipTier: React.FC<SponsorshipTierProps> = ({
       <p className="text-3xl font-extrabold mb-6 text-secondary">{price}</p>
       <ul className="space-y-2 mb-6 flex-grow">
         {features.map((feature, index) => (
-          <li key={index} className="flex items-center text-gray-600">
+          <li key={index} className="flex items-center">
             <ArrowRight className="text-primary mr-2" size={16} />
             {feature}
           </li>
@@ -101,9 +101,9 @@ const DevenirSponsorPage = () => {
           </div>
 
           <div className="grid gap-6 row-gap-5 mb-8 md:row-gap-6 lg:grid-cols-3 sm:grid-cols-2">
-            <div className="duration-300 transform bg-white text-primary border-l-4 border-primary hover:-translate-y-2">
+            <div className="duration-300 transform bg-card  border-l-4 border-primary hover:-translate-y-2">
               <div className="h-full p-5 border border-l-0 rounded-r shadow-sm">
-                <h6 className="mb-2 font-semibold leading-5">
+                <h6 className="mb-2 text-primary font-semibold leading-5">
                   Visibilité Accrue
                 </h6>
                 <p className="text-sm">
@@ -112,18 +112,22 @@ const DevenirSponsorPage = () => {
                 </p>
               </div>
             </div>
-            <div className="duration-300 transform bg-white text-primary border-l-4 border-primary hover:-translate-y-2">
+            <div className="duration-300 transform bg-card  border-l-4 border-primary hover:-translate-y-2">
               <div className="h-full p-5 border border-l-0 rounded-r shadow-sm">
-                <h6 className="mb-2 font-semibold leading-5">Réseau Étendu</h6>
+                <h6 className="mb-2 font-semibold leading-5 text-primary">
+                  Réseau Étendu
+                </h6>
                 <p className="text-sm">
                   Connectez-vous avec des talents locaux et des leaders de
                   l&apos;industrie tech.
                 </p>
               </div>
             </div>
-            <div className="duration-300 transform bg-white text-primary border-l-4 border-primary hover:-translate-y-2">
+            <div className="duration-300 transform bg-card border-l-4 border-primary hover:-translate-y-2">
               <div className="h-full p-5 border border-l-0 rounded-r shadow-sm">
-                <h6 className="mb-2 font-semibold leading-5">Impact Social</h6>
+                <h6 className="mb-2 font-semibold leading-5 text-primary">
+                  Impact Social
+                </h6>
                 <p className="text-sm">
                   Contribuez directement au développement technologique de la
                   région.
@@ -134,12 +138,12 @@ const DevenirSponsorPage = () => {
         </div>
       </div>
 
-      <div className="bg-white px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-16">
+      <div className=" px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-16">
         <div className="max-w-xl mb-8 md:mx-auto sm:text-center lg:max-w-2xl md:mb-10">
           <h2 className="max-w-lg mb-6 text-3xl font-bold leading-none tracking-tight text-primary sm:text-4xl md:mx-auto">
             Choisissez votre niveau de partenariat
           </h2>
-          <p className="text-base md:text-lg text-gray-600">
+          <p className="text-base md:text-lg ">
             Nous offrons différentes options pour répondre à vos objectifs et
             votre budget.
           </p>
@@ -178,7 +182,7 @@ const DevenirSponsorPage = () => {
         </div>
       </div>
 
-      <div className="bg-gray-50 px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-16">
+      <div className="bg-card px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-16">
         <div className="flex flex-col items-center justify-between w-full mb-8 lg:flex-row lg:mb-0">
           <div className="mb-12 lg:mb-0 lg:max-w-lg lg:pr-5">
             <div className="max-w-xl mb-6">
@@ -190,7 +194,7 @@ const DevenirSponsorPage = () => {
                   du Grand Nord ?
                 </span>
               </h2>
-              <p className="text-base md:text-lg text-gray-700">
+              <p className="text-base md:text-lg ">
                 Contactez-nous dès aujourd&apos;hui pour discuter des
                 opportunités de partenariat et commencer à façonner ensemble
                 l&apos;avenir de la tech au Cameroun.
@@ -239,7 +243,7 @@ const DevenirSponsorPage = () => {
         </div>
       </div>
 
-      <Card className="max-w-4xl mx-auto my-12 bg-white text-primary shadow-xl max-sm:mx-3">
+      <Card className="max-w-4xl mx-auto my-12 bg-card shadow-xl max-sm:mx-3">
         <CardContent className="p-8">
           <h3 className="text-2xl font-bold mb-4 text-center text-primary">
             Notre engagement envers nos sponsors
@@ -247,21 +251,21 @@ const DevenirSponsorPage = () => {
           <ul className="space-y-4">
             <li className="flex items-start">
               <Gift className="flex-shrink-0 w-6 h-6 text-secondary mr-4" />
-              <span className="text-gray-700">
+              <span className="">
                 Reconnaissance publique et visibilité accrue dans la communauté
                 tech
               </span>
             </li>
             <li className="flex items-start">
               <Rocket className="flex-shrink-0 w-6 h-6 text-secondary mr-4" />
-              <span className="text-gray-700">
+              <span className="">
                 Opportunités exclusives de networking et de développement
                 commercial
               </span>
             </li>
             <li className="flex items-start">
               <Users className="flex-shrink-0 w-6 h-6 text-secondary mr-4" />
-              <span className="text-gray-700">
+              <span className="">
                 Accès privilégié à un vivier de talents tech locaux pour vos
                 recrutements
               </span>

@@ -59,7 +59,7 @@ export const CardBlog = ({
     <div
       className={clsx("w-full md:w-[49%] lg:w-[32.5%] xl:w-[24.2%]", className)}
     >
-      <div className="w-full mx-auto rounded-xl dark:bg-zinc-950 bg-zinc-50 overflow-hidden p-2 border pb-3  ">
+      <div className="w-full mx-auto rounded-xl bg-card overflow-hidden p-2 border pb-3  ">
         <div
           className={clsx(
             "w-full h-[200px] rounded-xl overflow-hidden shadow-[0px_0px_5px_#A1A1AA] dark:shadow-[0px_0px_12px_rgb(39,39,42,0.7)]",

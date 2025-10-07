@@ -248,7 +248,7 @@ const LoadingTeam = () => {
 
 const Team = () => {
   return (
-    <section className="pb-10 pt-20 dark:bg-dark lg:pb-20 w-full bg-gray-50">
+    <section className="pb-10 pt-20 dark:bg-dark lg:pb-20 w-full bg-card">
       <div className="screen-wrapper">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">

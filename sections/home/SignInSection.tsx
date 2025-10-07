@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const SignInSection = () => {
   return (
-    <section className="bg-gray-50 w-full">
+    <section className="bg-card w-full">
       {/* <div className="screen-wrapper">
         <div className='flex items-center justify-center  bg-[url("/circles.svg")] bg-cover bg-center px-8 py-20 text-center md:p-20'>
           <div className="mx-auto max-w-screen-md">

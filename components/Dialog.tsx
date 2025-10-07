@@ -27,13 +27,10 @@ const Dialog: React.FC<DialogProps> = ({ open, onClose, children }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full relative max-sm:rounded-none max-sm:p-4"
+        className="bg-card p-6 rounded-lg shadow-xl max-w-2xl w-full relative max-sm:rounded-none max-sm:p-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
-          onClick={onClose}
-        >
+        <button className="absolute top-4 right-4 " onClick={onClose}>
           ✕
         </button>
         {children}

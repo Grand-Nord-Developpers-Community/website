@@ -79,7 +79,10 @@ export default async function RootLayout({
         <meta name="apple-mobile-web-app-title" content="GNDC" />
       </head>
       <body
-        className={clsx("w-full bg-white overflow-x-clip", montserra.className)}
+        className={clsx(
+          "w-full bg-background overflow-x-clip",
+          montserra.className
+        )}
       >
         <Scroll />
         {/* Utiliser une condition pour ne rendre ReportActivity que si userId existe */}

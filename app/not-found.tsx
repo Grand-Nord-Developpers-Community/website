@@ -98,7 +98,7 @@ function NotFoundPage() {
                 <circle cx="147.131" cy="31.0854" r="1.36752" fill="#c69154" />
               </svg>
               <div className="block text-center mt-5">
-                <h5 className="md:text-xl text-lg leading-8 text-gray-900 font-medium mb-1.5">
+                <h5 className="md:text-xl text-lg leading-8 font-medium mb-1.5">
                   <span className="text-primary font-semibold ">Oups ! </span>{" "}
                   Il semble que vous ayez pris un mauvais virage.
                 </h5>

@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Logo from "@/assets/images/brand/logo.png";
+import LogoDark from "@/assets/images/brand/logo-dark.png";
 import { LogIn, UserPlus } from "lucide-react";
 import React from "react";
 import { useRouter } from "next/navigation";
@@ -31,10 +32,23 @@ function AlertSignIn() {
   };
   return (
     <Dialog open={isOpen} onOpenChange={handleChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-card">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Image loading="lazy" src={Logo} alt="logo GNDC" width={120} />
+            <Image
+              loading="lazy"
+              className="block dark:hidden"
+              src={Logo}
+              alt="logo GNDC"
+              width={120}
+            />
+            <Image
+              loading="lazy"
+              className="hidden dark:block"
+              src={LogoDark}
+              alt="logo GNDC"
+              width={120}
+            />
           </DialogTitle>
           <DialogDescription>
             Pour continuer cette action, vous devriez vous connectez. S&apos;il

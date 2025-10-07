@@ -66,8 +66,8 @@ export default function ForumPage({
               <QuestionLists filter={searchParams.tab ?? "all"} />
             </Suspense>
           </div>
-          <div className="relative lg:col-span-1 sm:max-h-[calc(100vh-4rem)] lg:sticky lg:top-10 max-sm:max-h-none  ">
-            <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+          <div className="relative lg:col-span-1 sm:max-h-[calc(100vh-4rem)] lg:sticky lg:top-20 max-sm:max-h-none  ">
+            <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-muted to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
             {/* <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" /> */}
             <div className="w-full  space-y-5 scrollbar-hide h-full overflow-y-auto">
               <ForumQuestionCard className="max-sm:hidden" />

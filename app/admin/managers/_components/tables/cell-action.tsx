@@ -81,7 +81,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             className="absolute inset-0 bg-black/50"
             onClick={() => !loading && setEditOpen(false)}
           />
-          <div className="relative w-full max-w-lg bg-white rounded-t-lg sm:rounded-lg p-6 m-4">
+          <div className="relative w-full max-w-lg bg-card rounded-t-lg sm:rounded-lg p-6 m-4">
             <h3 className="text-lg font-medium mb-2">Modifier le role</h3>
             <p className="text-sm text-muted-foreground mb-4">
               Voulez-vous changer la modifier le role de{" "}

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 const AboutUs = () => {
   return (
-    <section className="w-full bg-gradient-to-b from-gray-50 to-white">
+    <section className="">
       <HeadingPage
         title="Qui sommes-nous"
         description="A propos de la Grand Nord Developers Community"
@@ -50,7 +50,7 @@ const AboutUs = () => {
           <div className="mt-8 text-center">
             <Link
               href="/bemember"
-              className="bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
+              className="bg-primary hover:bg-primary-dark font-semibold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
             >
               Participer à la révolution
             </Link>
@@ -98,7 +98,7 @@ const AboutUs = () => {
             ].map((item, index) => (
               <Card
                 key={index}
-                className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+                className=" shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
               >
                 <CardHeader className="flex flex-col items-center">
                   {item.icon}
@@ -145,7 +145,7 @@ const AboutUs = () => {
             ].map((item, index) => (
               <Card
                 key={index}
-                className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out"
+                className="shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out"
               >
                 <CardHeader className="flex items-center space-x-4">
                   {item.icon}

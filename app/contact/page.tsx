@@ -65,29 +65,29 @@ const ContactUs: React.FC = () => {
   return (
     <div className="flex flex-col">
       <ToastContainer />
-      <div className="bg-primary text-white">
+      <div className="bg-primary ">
         <div className="container mx-auto px-4 py-12 relative">
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="w-full lg:w-1/2">
               <h1 className="text-4xl font-bold mb-4 text-secondary">
                 Nous contacter
               </h1>
-              <p className="text-lg">
+              <p className="text-lg text-white">
                 Sentez vous libre de nous contacter! Soumettez vos questions
                 ici, et nous vous répondrons dès que possible.
               </p>
             </div>
             <div className="w-full lg:w-1/2 relative">
-              <Card className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
+              <Card className="w-full  shadow-lg rounded-lg overflow-hidden">
                 <CardContent className="p-4">
-                  <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+                  <h2 className="text-2xl font-semibold  mb-6">
                     Envoyer un message
                   </h2>
                 </CardContent>
               </Card>
 
               <form
-                className="absolute w-full p-8 bg-white shadow-lg rounded-lg top-12 left-0 space-y-6"
+                className="absolute w-full p-8 bg-card shadow-lg rounded-lg top-12 left-0 space-y-6"
                 onSubmit={sendEmail}
               >
                 <Input
@@ -95,7 +95,7 @@ const ContactUs: React.FC = () => {
                   placeholder="Name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full text-gray-800"
+                  className="w-full "
                   required
                 />
                 <Input
@@ -104,7 +104,7 @@ const ContactUs: React.FC = () => {
                   placeholder="Email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full text-gray-800"
+                  className="w-full "
                   required
                 />
                 <Input
@@ -113,7 +113,7 @@ const ContactUs: React.FC = () => {
                   placeholder="Phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full text-gray-800"
+                  className="w-full "
                   required
                 />
                 <Textarea
@@ -121,7 +121,7 @@ const ContactUs: React.FC = () => {
                   placeholder="Message"
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full text-gray-800"
+                  className="w-full "
                   rows={4}
                   required
                 />

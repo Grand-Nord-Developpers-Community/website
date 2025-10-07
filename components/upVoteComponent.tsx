@@ -19,7 +19,7 @@ function UpVoteComponent({
 }: UpVoteProps) {
   return (
     <div
-      className="flex flex-col items-center rounded-full bg-white border border-border space-x-0 space-y-2 mr-3 sm:mr-4"
+      className="flex flex-col items-center rounded-full bg-card border border-border space-x-0 space-y-2 mr-3 sm:mr-4"
       style={{ padding: "6px" }}
     >
       <button
@@ -38,7 +38,7 @@ function UpVoteComponent({
         <LoaderIcon className="my-1 text-sm text-gray-500 h-4 w-4 animate-spin" />
       )} */}
       {/* {!loading && ( */}
-      <span className="my-1 text-sm font-medium text-gray-700">{value}</span>
+      <span className="my-1 text-sm font-medium ">{value}</span>
       {/* )} */}
 
       <button

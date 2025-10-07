@@ -59,7 +59,7 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
     return notFound();
   }
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <ProfileWrapper>
         <ProfileHeader user={userprofile} />
         <ProfileSection user={userprofile} />

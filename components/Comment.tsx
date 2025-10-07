@@ -81,7 +81,7 @@ export function Comment({
 
   return (
     <div
-      className={`bg-white relative rounded-lg p-2 sm:p-4 shadow-sm border border-gray-200 ${depth === 2 ? "border-l-4 border-l-primary" : ""}`}
+      className={`bg-card relative rounded-lg p-2 sm:p-4 shadow-sm border border-border ${depth === 2 ? "border-l-4 border-l-primary" : ""}`}
     >
       {!isReplying && !isEditing && (
         <span className="absolute bottom-2 right-4 text-sm text-gray-500 ">
@@ -296,11 +296,11 @@ interface CommentSkeletonProps {
 export function CommentSkeleton({ depth = 0 }: CommentSkeletonProps) {
   return (
     <div
-      className={`space-y-4 ${depth > 0 ? "ml-4 sm:ml-8 pl-4 sm:pl-8 border-l-2 border-gray-200" : ""}`}
+      className={`space-y-4 ${depth > 0 ? "ml-4 sm:ml-8 pl-4 sm:pl-8 border-l-2 border-border" : ""}`}
     >
-      <div className="bg-white rounded-lg p-2 sm:p-4 shadow-sm border border-gray-200">
+      <div className="bg-card rounded-lg p-2 sm:p-4 shadow-sm border border-border">
         <div className="flex items-start">
-          <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 space-x-0 space-y-2 mr-3 sm:mr-4">
+          <div className="flex flex-col items-center bg-card rounded-lg p-2 space-x-0 space-y-2 mr-3 sm:mr-4">
             <Skeleton className="h-4 w-4" />
             <Skeleton className="h-4 w-8" />
             <Skeleton className="h-4 w-4" />

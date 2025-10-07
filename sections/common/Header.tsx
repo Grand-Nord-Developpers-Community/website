@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Button as ButtonX } from "@/components/ui/button-more";
 import Image from "next/image";
 import Link from "next/link";
+import LogoDark from "@/assets/images/brand/logo-dark.png";
 import Logo from "@/assets/images/brand/logo.png";
 import { usePathname } from "next/navigation";
 import { logout } from "@/lib/api/auth/logout";
@@ -34,6 +35,7 @@ import { shouldHideHeaderAndFooter } from "@/lib/utils";
 import { useIs404Store } from "@/components/stores/useIs404";
 import clsx from "clsx";
 import Avatar from "@/components/avatar";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 const Links = [
   { name: "Nos activités", link: "/events" },
   { name: "Blog", link: "/blog" },
@@ -60,7 +62,11 @@ function AvatarMenuDropDown({
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relczative h-8 w-8 rounded-full">
-          <Avatar asLink={false} className="bg-gray-50 h-11 w-11" {...user!} />
+          <Avatar
+            asLink={false}
+            className="bg-none border-border h-11 w-11"
+            {...user!}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -148,25 +154,38 @@ function Header({
   return !shouldHideHeaderAndFooter(pathname) || is404 ? (
     <header
       className={clsx(
-        "sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/80"
+        "sticky z-40 top-0 w-full py-3 bg-white/90 backdrop-blur dark:border-gray-700/30 dark:bg-gray-900/90"
       )}
     >
       <div className="flex items-center justify-between screen-wrapper">
         <div>
           <span className="sr-only">GNDC</span>
           <Link href="/">
-            <Image loading="lazy" src={Logo} alt="logo GNDC" width={120} />
+            <Image
+              className="block dark:hidden"
+              loading="lazy"
+              src={Logo}
+              alt="logo GNDC"
+              width={120}
+            />
+            <Image
+              className="hidden dark:block"
+              loading="lazy"
+              src={LogoDark}
+              alt="logo GNDC"
+              width={120}
+            />
           </Link>
         </div>
         <div className="flex items-center gap-5 max-lg:hidden">
-          <nav className="flex items-center gap-8 text-black">
+          <nav className="flex items-center gap-8 text-black dark:text-white">
             {Links.map((l, i) => {
               const isActive = pathname === l.link;
               return (
                 <Link
                   href={l.link}
                   key={i}
-                  className={`${!isActive ? "text-black" : "text-secondary"}`}
+                  className={`${isActive ? "text-secondary" : ""}`}
                 >
                   {l.name}
                 </Link>
@@ -202,9 +221,11 @@ function Header({
               </ButtonX>
             </>
           )}
+          <AnimatedThemeToggler />
         </div>
         <Sheet>
           <div className="flex items-center gap-3 lg:hidden">
+            <AnimatedThemeToggler />
             <SheetTrigger asChild>
               <Button className=" border" variant="outline">
                 <MenuIcon />
@@ -214,10 +235,23 @@ function Header({
               <AvatarMenuDropDown user={userObj} role={role} />
             )}
           </div>
-          <SheetContent className="bg-white pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
+          <SheetContent className="bg-card pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
             <SheetHeader>
               <SheetTitle>
-                <Image loading="lazy" src={Logo} alt="logo GNDC" width={120} />
+                <Image
+                  className="block dark:hidden"
+                  loading="lazy"
+                  src={Logo}
+                  alt="logo GNDC"
+                  width={120}
+                />
+                <Image
+                  className="hidden dark:block"
+                  loading="lazy"
+                  src={LogoDark}
+                  alt="logo GNDC"
+                  width={120}
+                />
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col gap-4 text-primary my-4">
@@ -227,7 +261,7 @@ function Header({
                   <SheetClose key={i} asChild>
                     <Link
                       href={l.link}
-                      className={`${!isActive ? "text-black" : "text-secondary"}`}
+                      className={`${isActive ? "text-secondary" : "text-black dark:text-white "}`}
                     >
                       {l.name}
                     </Link>
@@ -235,7 +269,7 @@ function Header({
                 );
               })}
             </nav>
-            <Separator className="my-4 bg-gray-400" />
+            <Separator className="my-4 bg-border" />
             <SheetFooter className="gap-3 max-sm:flex-col">
               {userObj && userObj.name && (
                 <>
@@ -247,7 +281,7 @@ function Header({
                   <SheetClose asChild>
                     <Button
                       variant="outline"
-                      className="w-full border-primary text-primary hover:bg-primary hover:text-white"
+                      //className="w-full border-primary text-primary hover:bg-primary hover:text-white"
                       onClick={onLogoutClick}
                     >
                       Se déconnecter
@@ -282,7 +316,7 @@ function Header({
           </SheetContent>
         </Sheet>
       </div>
-      <div className="absolute bottom-0 z-[41] left-0 w-full h-1 max-sm:h-[1px] bg-gray-200">
+      <div className="absolute bottom-0 z-[41] left-0 w-full h-1 max-sm:h-[1px] bg-gray-200 dark:bg-black">
         <div
           className="h-1 max-sm:h-[1px] bg-secondary transition-all duration-300"
           style={{ width: `${scrollProgress}%` }}

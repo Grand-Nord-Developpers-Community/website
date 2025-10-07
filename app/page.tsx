@@ -22,7 +22,7 @@ const HomePage = () => {
       <OurSponsorsSection />
       <Introduction />
       <BentoSection />
-      <section className="my-12 w-full bg-gray-50 py-8">
+      <section className="my-12 w-full bg-card/50 py-8">
         <div className="screen-wrapper">
           <h2 className="text-3xl font-bold mb-4 text-primary text-center max-sm:text-left ">
             Publications populaires

@@ -58,20 +58,20 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
         <div className="w-full lg:w-4/12 px-4 max-lg:mt-[100px]">
           <div className="flex justify-center py-4 lg:pt-4 pt-8">
             <div className="mr-4 p-3 text-center">
-              <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+              <span className="text-xl font-bold block uppercase tracking-wide text-primary">
                 {user?.activity?.totalDaysActive || 0}
                 <span className="text-xs"> j</span>
               </span>
               <span className="text-sm text-blueGray-400">Activitées</span>
             </div>
             <div className="mr-4 p-3 text-center">
-              <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+              <span className="text-xl font-bold block uppercase tracking-wide text-primary">
                 {forums}
               </span>
               <span className="text-sm text-blueGray-400">Forums</span>
             </div>
             <div className="lg:mr-4 p-3 text-center">
-              <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+              <span className="text-xl font-bold block uppercase tracking-wide text-primary">
                 {blogs}
               </span>
               <span className="text-sm text-blueGray-400">Blogs</span>
@@ -116,7 +116,7 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
           <div className="space-y-3">
             <div>
               <div className="flex items-center gap-1">
-                <h1 className="text-xl font-bold text-black ">{user?.name}</h1>
+                <h1 className="text-xl font-bold  ">{user?.name}</h1>
                 {isAdmin && (
                   <Tooltip delayDuration={1000}>
                     <TooltipTrigger asChild>
@@ -134,26 +134,24 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
               Inscrit {formatRelativeTime(user?.createdAt!)}
             </p>
             <div className="flex items-center">
-              <span className="font-bold text-black">
+              <span className="font-bold">
                 {user?.activity.totalDaysActive}
               </span>
               <span className="text-gray-500 ml-1">j activitées</span>
             </div>
             <div className="flex flex-wrap gap-4 sm:gap-6 text-sm">
               <div className="flex items-center">
-                <span className="font-bold text-black">{forums}</span>
+                <span className="font-bold ">{forums}</span>
                 <span className="text-gray-500 ml-1">forums</span>
               </div>
               <div className="flex items-center">
-                <span className="font-bold text-black">{blogs}</span>
+                <span className="font-bold ">{blogs}</span>
                 <span className="text-gray-500 ml-1">Blogs</span>
               </div>
 
               <div className="flex items-center gap-1">
                 <Trophy className="w-4 h-4 text-yellow-500" />
-                <span className="font-bold text-black">
-                  {user?.experiencePoints}
-                </span>
+                <span className="font-bold ">{user?.experiencePoints}</span>
                 <span className="text-gray-500 ml-1">xp</span>
               </div>
             </div>

@@ -75,7 +75,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
   const likes = post.likes.filter((l) => l.isLike === true).length;
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <ReportView id={slug} type="blog" />
       <HeadSectionBlog
         post={post}

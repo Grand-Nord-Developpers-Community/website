@@ -66,8 +66,8 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`pb-2 pt-4 px-1 border-b-2 font-medium text-sm transition-colors whitespace-nowrap ${
                   activeTab === tab.id
-                    ? "border-secondary text-gray-900"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    ? "border-secondary text-secondary"
+                    : "border-transparent hover:border-gray-300"
                 }`}
               >
                 {tab.label}
@@ -80,9 +80,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
         {activeTab === "about" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-6">
-                À propos
-              </h2>
+              <h2 className="text-lg font-semibold mb-6">À propos</h2>
               <div className="space-y-4">
                 <p className="text-gray-600 leading-relaxed">
                   {user?.bio || "Pas de bio pour le moment"}
@@ -181,7 +179,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                             alt={item.title}
                           />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-1 group-hover:text-secondary">
+                        <h3 className="text-lg font-semibold  mb-2 line-clamp-1 group-hover:text-secondary">
                           {item.title}
                         </h3>
                         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -229,7 +227,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                         <div className="flex items-start space-x-4">
                           <div className="flex-1">
                             <div className="flex items-center space-x-2 mb-2">
-                              <h3 className="font-semibold text-gray-900 group-hover:text-secondary line-clamp-1">
+                              <h3 className="font-semibold group-hover:text-secondary line-clamp-1">
                                 {item.title}
                               </h3>
                             </div>

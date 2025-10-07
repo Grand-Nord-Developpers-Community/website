@@ -18,7 +18,7 @@ function Avatar({ username, name, image, className, asLink = true }: Props) {
   return (
     <AvatarWrapper
       asChild
-      className={clsx("h-8 bg-gray-50 w-8 rounded-lg", className)}
+      className={clsx("h-8 bg-card w-8 rounded-lg", className)}
     >
       <Link href={asLink ? `/user/${username}` : "#"}>
         <AvatarImage

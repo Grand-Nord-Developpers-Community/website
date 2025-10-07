@@ -96,7 +96,7 @@ export default async function QuestionPage({ params }: { params: any }) {
         descClassName={"mb-5"}
         description={
           <div className="flex gap-4 text-left sm:mx-auto w-fit">
-            <Avatar className="bg-gray-50 size-12" {...forum.author} />
+            <Avatar className="bg-card size-12" {...forum.author} />
             <div className="flex flex-col gap-1">
               <span>
                 <Link href={`/user/${forum?.author.username}`}>
@@ -183,10 +183,10 @@ export default async function QuestionPage({ params }: { params: any }) {
             </div>
             <CommentSection postId={id} user={user} />
           </div>
-          <div className="relative lg:col-span-1 max-h-[calc(100vh-4rem)] lg:sticky lg:top-15 max-sm:max-h-none  ">
-            <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
-            <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-white dark:from-white/50 to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
-            <div className="pt-5 w-full space-y-8 scrollbar-hide h-full overflow-y-auto">
+          <div className="relative lg:col-span-1 max-h-[calc(100vh-4rem)] lg:sticky lg:top-20 max-sm:max-h-none  ">
+            <div className="absolute z-[10] bottom-0 inset-x-0 h-36 bg-gradient-to-t from-muted to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" />
+            {/* <div className="absolute z-[10] top-0 inset-x-0 h-10 bg-gradient-to-b from-muted to-transparent pointer-events-none data-[expanded=true]:opacity-0 transition-opacity duration-300 ease-in-out" /> */}
+            <div className="w-full space-y-8 scrollbar-hide h-full overflow-y-auto">
               <ForumQuestionCard />
               <ForumListBrief forumId={forum.id} forums={forums} />
               {/* Ad Block */}

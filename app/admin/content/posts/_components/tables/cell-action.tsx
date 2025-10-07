@@ -57,12 +57,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             className="absolute inset-0 bg-black/50"
             onClick={() => !loading && setEditOpen(false)}
           />
-          <div className="relative w-full max-w-lg bg-white rounded-t-lg sm:rounded-lg p-6 m-4">
+          <div className="relative w-full max-w-lg bg-card rounded-t-lg sm:rounded-lg p-6 m-4">
             <h3 className="text-lg font-medium mb-2">Modifier la visibilité</h3>
             <p className="text-sm text-muted-foreground mb-4">
               Voulez-vous changer la visibilité du blog{" "}
-              {JSON.stringify(isDraft)}
-              <code className="bg-gray-50 p-1"> {data?.title}</code> ?
+              <code className="bg-gray-50 dark:text-gray-700 dark:bg-none p-1">
+                {" "}
+                {data?.title}
+              </code>{" "}
+              ?
             </p>
 
             <div className="flex gap-2 mb-4">
@@ -107,7 +110,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       )}
       <div className="flex items-center gap-3">
         <Button asChild variant={"outline"} size={"sm"}>
-          <Link href={data?.isDraft?`/blog/${data.slug}/preview`:`/blog/${data.slug}`}>Ouvrir</Link>
+          <Link
+            href={
+              data?.isDraft
+                ? `/blog/${data.slug}/preview`
+                : `/blog/${data.slug}`
+            }
+          >
+            Ouvrir
+          </Link>
         </Button>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
