@@ -8,6 +8,8 @@ import { AlertTriangle, Bell, X } from "lucide-react";
 import { useConfirm } from "@omit/react-confirm-dialog";
 import { useSession } from "../auth/SessionProvider";
 import { toast } from "sonner";
+import { useNotificationPermission } from "@/hooks/useNotification";
+import { NotificationBanner } from "../bannerNotification";
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!;
 
@@ -36,35 +38,15 @@ const useNotificationStore = create<NotificationState>((set) => ({
 
 export default function NotificationManager() {
   const { user } = useSession();
-  const [permission, setPermission] = useState<NotificationPermission>(
-    typeof Notification !== "undefined" ? Notification.permission : "default"
-  );
+  const { permission, isServiceWorkerReady, handlePermission } =
+    useNotificationPermission();
   const [showBanner, setShowBanner] = useState(
     permission === "denied" ? true : false
   );
   const { asked, setAsked } = useNotificationStore();
-  const [isServiceWorkerReady, setIsServiceWorkerReady] = useState(false);
+
   const confirm = useConfirm();
 
-  const handleNotificationPermission = async () => {
-    if (typeof Notification !== "undefined") {
-      const currentPermission = Notification.permission;
-      setPermission(currentPermission);
-
-      if (currentPermission === "default") {
-        const newPermission = await Notification.requestPermission();
-        setPermission(newPermission);
-
-        if (newPermission === "granted") {
-          await registerServiceWorker();
-        } else {
-          console.error("Notification permission denied");
-        }
-      } else if (currentPermission === "granted") {
-        await registerServiceWorker();
-      }
-    }
-  };
   useEffect(() => {
     if (!user) return;
 
@@ -79,36 +61,6 @@ export default function NotificationManager() {
         .catch(console.error);
     }
   }, [user]);
-
-  async function registerServiceWorker() {
-    try {
-      const registration = await navigator.serviceWorker.register("/sw.js", {
-        scope: "/",
-        updateViaCache: "none",
-      });
-
-      if (navigator.serviceWorker.controller) {
-        setIsServiceWorkerReady(true);
-      } else {
-        // Wait for service worker to be installed
-        registration.onupdatefound = () => {
-          const installingWorker = registration.installing;
-          if (installingWorker) {
-            installingWorker.onstatechange = () => {
-              if (
-                installingWorker.state === "installed" &&
-                navigator.serviceWorker.controller
-              ) {
-                setIsServiceWorkerReady(true);
-              }
-            };
-          }
-        };
-      }
-    } catch (error) {
-      console.error("Service Worker registration failed:", error);
-    }
-  }
 
   useEffect(() => {
     const subscribeToPush = async () => {
@@ -170,8 +122,8 @@ export default function NotificationManager() {
         if (result) {
           // small delay for natural UX
           setTimeout(async () => {
-            await handleNotificationPermission();
-          }, 500);
+            await handlePermission();
+          }, 1000);
           // const permission = await Notification.requestPermission();
 
           // if (permission === "granted") {
@@ -234,23 +186,7 @@ export default function NotificationManager() {
 
   return (
     <>
-      {showBanner && (
-        <Alert className="fixed z-30 bottom-4 right-2  sm:right-4 max-w-[95%] sm:max-w-sm border-secondary/50 text-secondary  [&>svg]:text-yellow-500 border-b-4 pb-4 shadow-sm">
-          <AlertTriangle className="size-5" />
-          <AlertTitle className="mt-2">Notifications désactivées</AlertTitle>
-          <AlertDescription className="mt-2 text-gray-700">
-            Vous avez refusé les notifications. Pour les activer, rendez-vous
-            dans les paramètres de votre navigateur et autorisez les
-            notifications pour ce site.
-          </AlertDescription>
-          <button
-            className="absolute top-3 right-3"
-            onClick={() => setShowBanner(false)}
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </Alert>
-      )}
+      <NotificationBanner show={showBanner} />
     </>
   );
 }

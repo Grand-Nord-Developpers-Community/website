@@ -13,17 +13,15 @@ export default async function Page({ params }: { params: any }) {
   if (!post) {
     notFound();
   }
-  const role=await user.role
+  const role = await user.role;
   const isUserAuthorized =
-    user.id === post.authorId ||
-    role === "admin" ||
-    role === "manager";
+    user.id === post.authorId || role === "admin" || role === "manager";
 
   if (!isUserAuthorized) {
     notFound();
   }
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <HeadSectionBlog post={post} user={user} />
       <BlogContent post={post} user={user} />
     </div>

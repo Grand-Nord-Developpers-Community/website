@@ -13,7 +13,9 @@ export default async function PageRootLayout({
   const profile = await getUserProfile(user.id);
   return (
     <div className="relative screen-wrapper">
-      <h1 className="text-3xl font-bold my-6">Paramètres</h1>
+      <h1 className="text-3xl font-bold py-6 mb-2 border-b border-border">
+        Paramètres
+      </h1>
       <div className="flex flex-col md:flex-row gap-6">
         <aside className="hidden md:block md:w-1/4">
           <div className="sticky top-20">

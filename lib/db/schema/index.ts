@@ -14,3 +14,4 @@ export * from "./activity";
 export * from "./members";
 export * from "./device";
 export * from "./role-permission";
+export * from "./notification";

@@ -8,6 +8,7 @@ import { forumPost } from "./forum";
 import { event } from "./event";
 import { userActivity } from "./activity";
 import { devicesTable } from "./device";
+import { notificationPreferencesTable } from "./notification";
 import {
   permissionsTable,
   rolePermissionsTable,
@@ -29,6 +30,10 @@ export const userRelations = relations(user, ({ many, one }) => ({
   role: one(rolesTable, {
     fields: [user.role_id],
     references: [rolesTable.id],
+  }),
+  notificationPreferences: one(notificationPreferencesTable, {
+    fields: [user.id],
+    references: [notificationPreferencesTable.userId],
   }),
 }));
 
@@ -70,6 +75,16 @@ export const postCommentRelations = relations(postComment, ({ one, many }) => ({
   replies: many(postComment, { relationName: "parentChild" }),
   votes: many(userVote),
 }));
+
+export const notificationPreferencesRelations = relations(
+  notificationPreferencesTable,
+  ({ one }) => ({
+    user: one(user, {
+      fields: [notificationPreferencesTable.userId],
+      references: [user.id],
+    }),
+  })
+);
 
 export const userVoteRelations = relations(userVote, ({ one }) => ({
   user: one(user, {

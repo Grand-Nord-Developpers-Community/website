@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { Toaster } from "@/components/ui/sonner";
 import localFont from "next/font/local";
 import BackToTop from "@/components/ui/BackToTop";
+import { Toaster as RToast } from "react-hot-toast";
 export const montserra = localFont({
   src: [
     {
@@ -97,6 +98,7 @@ export default async function RootLayout({
         <Footer />
         <BackToTop />
         <Toaster />
+        <RToast />
         <AlertSignIn />
       </body>
     </html>
