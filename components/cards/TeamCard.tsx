@@ -77,13 +77,9 @@ const TeamCard = ({ name, url, role, socials }: Leader) => {
             </div>
 
             <div className="absolute bottom-5 left-0 w-full text-center">
-              <div className="relative mx-5 overflow-hidden rounded-lg bg-white px-3 py-3 dark:bg-dark-2">
-                <h3 className="text-base font-semibold text-dark dark:text-white capitalize">
-                  {name}
-                </h3>
-                <p className="text-xs text-body-color dark:text-dark-6 capitalize">
-                  {role}
-                </p>
+              <div className="relative mx-5 overflow-hidden rounded-lg bg-card px-3 py-3 dark:bg-dark-2">
+                <h3 className="text-base font-semibold capitalize">{name}</h3>
+                <p className="text-xs text-body-color  capitalize">{role}</p>
 
                 <div>
                   <span className="absolute bottom-0 left-0">
