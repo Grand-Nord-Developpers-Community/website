@@ -254,10 +254,10 @@ export default function PreferencesPage({
           <div className="flex justify-between">
             <div>
               <h3 className="text-lg font-semibold">
-                Notifications de l'application
+                Notifications de l&apos;application
               </h3>
               <p className="text-sm text-muted-foreground">
-                Gérez vos notifications dans l'application
+                Gérez vos notifications dans l&apos;application
               </p>
             </div>
             <Switch
@@ -289,7 +289,7 @@ export default function PreferencesPage({
                         Mises à jour du blog
                       </FormLabel>
                       <FormDescription>
-                        Notifications dans l'application pour les nouveaux
+                        Notifications dans l&apos;application pour les nouveaux
                         articles
                       </FormDescription>
                     </div>
@@ -386,7 +386,7 @@ export default function PreferencesPage({
                         Votes positifs
                       </FormLabel>
                       <FormDescription>
-                        Recevoir une notification quand quelqu'un vote pour
+                        Recevoir une notification quand quelqu&apos;un vote pour
                         votre contenu
                       </FormDescription>
                     </div>
@@ -430,10 +430,10 @@ export default function PreferencesPage({
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
                       <FormLabel className="text-base">
-                        J'aime sur les blogs
+                        J&apos;aime sur les blogs
                       </FormLabel>
                       <FormDescription>
-                        Recevoir une notification quand quelqu'un aime votre
+                        Recevoir une notification quand quelqu&apos;un aime votre
                         article
                       </FormDescription>
                     </div>
@@ -450,7 +450,7 @@ export default function PreferencesPage({
             </div>
           ) : (
             <>
-              <p>activer vos notifications d'abord</p>
+              <p>activer vos notifications d&apos;abord</p>
             </>
           )}
         </div>
