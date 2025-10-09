@@ -46,6 +46,13 @@ const footerStyles = {
   fontSize: "12px",
   color: "#6b7280",
 };
+
+export const colors = {
+  primary: "#0a436b",
+  secondary: "#bf8440",
+  primaryShade: "#33709b",
+  secondaryShade: "#eed1b0",
+};
 export const LayoutEmail = ({
   children,
   title,
@@ -84,7 +91,10 @@ export const LayoutEmail = ({
           <Section style={footerStyles}>
             <Text>
               © {new Date().getFullYear()} {appName}. All rights reserved.
-              <Link href="#" style={{ color: "#dc2626" }}>
+              <Link
+                href={`${baseUrl}/user/settings/notification`}
+                style={{ color: "#dc2626" }}
+              >
                 {" "}
                 Se désabonner
               </Link>

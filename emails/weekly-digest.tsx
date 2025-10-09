@@ -10,7 +10,7 @@ import {
   Link,
 } from "@react-email/components";
 import * as React from "react";
-import LayoutEmail, { baseUrl, headerStyles } from "./base-layout";
+import LayoutEmail, { baseUrl, colors, headerStyles } from "./base-layout";
 import { findNewestBlogPost } from "@/actions/user.actions";
 import { calculateReadingTime } from "@/lib/utils";
 type Post = Awaited<ReturnType<typeof findNewestBlogPost>>;
@@ -44,11 +44,11 @@ export const NewsletterDigestLayout = ({
       {highlightedPost && (
         <Section
           style={{
-            backgroundColor: "#faf5ff",
+            backgroundColor: colors.secondary,
             padding: "25px",
             borderRadius: "12px",
             marginBottom: "30px",
-            border: "1px solid #e9d5ff",
+            border: `1px solid ${colors.secondaryShade}`,
           }}
         >
           <Text
@@ -89,7 +89,7 @@ export const NewsletterDigestLayout = ({
           <Button
             href={`${baseUrl}/blog/${highlightedPost.slug}`}
             style={{
-              backgroundColor: "#8b5cf6",
+              backgroundColor: colors.secondary,
               color: "#ffffff",
               padding: "10px 20px",
               borderRadius: "6px",
@@ -124,45 +124,47 @@ export const NewsletterDigestLayout = ({
               marginBottom: "20px",
             }}
           >
-            <Row>
-              <Column style={{ width: "70%" }}>
-                <Heading style={{ fontSize: "16px", marginBottom: "8px" }}>
-                  <Link
-                    href={`${baseUrl}/blog/${article.slug}`}
-                    style={{ color: "#1f2937", textDecoration: "none" }}
+            <Link href={`${baseUrl}/blog/${article.slug}`}>
+              <Row>
+                <Column style={{ width: "70%" }}>
+                  <Heading style={{ fontSize: "16px", marginBottom: "8px" }}>
+                    <Link
+                      href={`${baseUrl}/blog/${article.slug}`}
+                      style={{ color: "#1f2937", textDecoration: "none" }}
+                    >
+                      {article.title}
+                    </Link>
+                  </Heading>
+
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      color: "#6b7280",
+                      marginBottom: "8px",
+                    }}
                   >
-                    {article.title}
-                  </Link>
-                </Heading>
+                    {article.description}
+                  </Text>
 
-                <Text
-                  style={{
-                    fontSize: "14px",
-                    color: "#6b7280",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {article.description}
-                </Text>
+                  <Text style={{ fontSize: "12px", color: "#9ca3af" }}>
+                    {article.author.name} •{" "}
+                    {calculateReadingTime(article.content)} min
+                  </Text>
+                </Column>
 
-                <Text style={{ fontSize: "12px", color: "#9ca3af" }}>
-                  {article.author.name} •{" "}
-                  {calculateReadingTime(article.content)} min
-                </Text>
-              </Column>
-
-              <Column style={{ width: "30%", textAlign: "right" }}>
-                {article.preview && (
-                  <Img
-                    src={article.preview}
-                    width="80"
-                    height="60"
-                    alt="Miniature"
-                    style={{ borderRadius: "6px", objectFit: "cover" }}
-                  />
-                )}
-              </Column>
-            </Row>
+                <Column style={{ width: "30%", textAlign: "right" }}>
+                  {article.preview && (
+                    <Img
+                      src={article.preview}
+                      width="80"
+                      height="60"
+                      alt="Miniature"
+                      style={{ borderRadius: "6px", objectFit: "cover" }}
+                    />
+                  )}
+                </Column>
+              </Row>
+            </Link>
           </Section>
         ))}
       </Section>

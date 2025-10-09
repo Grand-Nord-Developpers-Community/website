@@ -46,6 +46,7 @@ export default async function whenCommentAdded(
           },
           with: {
             devices: true,
+            notificationPreferences: true,
           },
         },
       },
@@ -56,17 +57,22 @@ export default async function whenCommentAdded(
       slug = blog.slug;
       await Promise.all(
         blog.author.devices.map(async (device) => {
-          sendNotification({
-            data: {
-              title: `Votre Blog : ${blog.title.slice(0, 6)}... à été commenter `,
-              body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
-              icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
-              url: `${baseUrl}/blog/${blog.slug}`,
-              //badge: "/badge.png",
-              image: `${baseUrl}/api/og/blog/${blog.slug}`,
-            },
-            device,
-          });
+          if (
+            blog.author.notificationPreferences &&
+            blog.author.notificationPreferences.notifComment
+          ) {
+            sendNotification({
+              data: {
+                title: `Votre Blog : ${blog.title.slice(0, 6)}... à été commenter `,
+                body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
+                icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
+                url: `${baseUrl}/blog/${blog.slug}`,
+                //badge: "/badge.png",
+                image: `${baseUrl}/api/og/blog/${blog.slug}`,
+              },
+              device,
+            });
+          }
         })
       );
     }
@@ -91,6 +97,7 @@ export default async function whenCommentAdded(
           },
           with: {
             devices: true,
+            notificationPreferences: true,
           },
         },
       },
@@ -100,17 +107,22 @@ export default async function whenCommentAdded(
     if (forum) {
       await Promise.all(
         forum.author.devices.map(async (device) => {
-          sendNotification({
-            data: {
-              title: `Votre Forum : ${forum.title.slice(0, 6)}... à été répondu `,
-              body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
-              icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
-              url: `${baseUrl}/forum/${forum.id}`,
-              //badge: "/badge.png",
-              image: `${baseUrl}/api/og/forum/${forum.id}`,
-            },
-            device,
-          });
+          if (
+            forum.author.notificationPreferences &&
+            forum.author.notificationPreferences.notifComment
+          ) {
+            sendNotification({
+              data: {
+                title: `Votre Forum : ${forum.title.slice(0, 6)}... à été répondu `,
+                body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
+                icon: `${user?.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
+                url: `${baseUrl}/forum/${forum.id}`,
+                //badge: "/badge.png",
+                image: `${baseUrl}/api/og/forum/${forum.id}`,
+              },
+              device,
+            });
+          }
         })
       );
     }
@@ -135,6 +147,7 @@ export default async function whenCommentAdded(
           },
           with: {
             devices: true,
+            notificationPreferences: true,
           },
         },
       },
@@ -146,17 +159,22 @@ export default async function whenCommentAdded(
       if (author.devices.length > 0) {
         await Promise.all(
           author.devices.map(async (device) => {
-            sendNotification({
-              data: {
-                title: `Votre commentaire : ${comment.content.slice(0, 6)}... à été répondu `,
-                body: `par ${user?.name} : ${comment.content.slice(0, 6)}...`,
-                icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
-                url: `${baseUrl}/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
-                //badge: "/badge.png",
-                image: `${baseUrl}/api/og/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
-              },
-              device,
-            });
+            if (
+              author.notificationPreferences &&
+              author.notificationPreferences.notifComment
+            ) {
+              sendNotification({
+                data: {
+                  title: `Votre commentaire ... à été répondu `,
+                  body: `par ${user?.name} ...`,
+                  icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
+                  url: `${baseUrl}/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
+                  //badge: "/badge.png",
+                  image: `${baseUrl}/api/og/${slug ? `blog/${slug}` : `forum/${comment.postId}`}`,
+                },
+                device,
+              });
+            }
           })
         );
       }

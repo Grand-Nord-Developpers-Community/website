@@ -1,5 +1,5 @@
 import React from "react";
-import LayoutEmail from "./base-layout";
+import LayoutEmail, { colors } from "./base-layout";
 import { Heading, Img, Section, Text } from "@react-email/components";
 
 export interface LoginCodeEmailProps {
@@ -26,7 +26,7 @@ export const LoginCodeEmail = ({ validationCode }: LoginCodeEmailProps) => (
 
       <Section
         style={{
-          backgroundColor: "#1f2937",
+          backgroundColor: colors.primary,
           padding: "30px",
           borderRadius: "12px",
           textAlign: "center",
@@ -49,10 +49,10 @@ export const LoginCodeEmail = ({ validationCode }: LoginCodeEmailProps) => (
 
       <Section
         style={{
-          backgroundColor: "#fef3c7",
+          backgroundColor: colors.secondaryShade,
           padding: "15px",
           borderRadius: "8px",
-          borderLeft: "4px solid #f59e0b",
+          borderLeft: `4px solid ${colors.secondary}`,
           marginBottom: "20px",
         }}
       >

@@ -1,6 +1,6 @@
 import { Button, Heading, Section, Text } from "@react-email/components";
 import * as React from "react";
-import LayoutEmail from "./base-layout";
+import LayoutEmail, { colors } from "./base-layout";
 import { baseUrl } from "./base-layout";
 export interface LeaderBoardProps {
   name: string;
@@ -24,7 +24,7 @@ export default function LeaderBoard({
       <Section>
         <Section
           style={{
-            background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+            background: colors.secondary,
             padding: "25px",
             borderRadius: "12px",
             textAlign: "center",
@@ -47,7 +47,8 @@ export default function LeaderBoard({
             Position #{rank}
           </Text>
           <Text
-            style={{ color: "#fef3c7", fontSize: "16px", marginTop: "5px" }}
+            style={{ fontSize: "16px", marginTop: "5px" }}
+            className="text-amber-500"
           >
             {xp} xp
           </Text>
@@ -66,7 +67,7 @@ export default function LeaderBoard({
 
         <Section
           style={{
-            backgroundColor: "#fffbeb",
+            backgroundColor: "#f3f4f6",
             padding: "20px",
             borderRadius: "8px",
             marginBottom: "25px",
@@ -89,14 +90,15 @@ export default function LeaderBoard({
                 display: "flex",
                 alignItems: "center",
                 padding: "10px 0",
-                borderBottom: index < 2 ? "1px solid #fde68a" : "none",
+                borderBottom:
+                  index < 2 ? `1px solid ${colors.secondary}` : "none",
               }}
             >
               <Text
                 style={{
                   fontSize: "18px",
                   fontWeight: "700",
-                  color: index === 0 ? "#f59e0b" : "#6b7280",
+                  color: index === 0 ? colors.secondary : "#6b7280",
                   minWidth: "30px",
                 }}
               >
@@ -121,7 +123,7 @@ export default function LeaderBoard({
         <Button
           href={`${baseUrl}/leaderboard`}
           style={{
-            backgroundColor: "#f59e0b",
+            backgroundColor: colors.primary,
             color: "#ffffff",
             padding: "12px 24px",
             borderRadius: "6px",

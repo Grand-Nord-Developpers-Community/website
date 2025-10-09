@@ -7,7 +7,7 @@ import {
   Text,
 } from "@react-email/components";
 import * as React from "react";
-import LayoutEmail, { baseUrl, headerStyles } from "./base-layout";
+import LayoutEmail, { baseUrl, colors, headerStyles } from "./base-layout";
 import { cn } from "@/lib/utils";
 
 export interface NewForumProps {
@@ -51,7 +51,7 @@ export default function NewForum({
             backgroundColor: "#f9fafb",
             padding: "20px",
             borderRadius: "8px",
-            borderLeft: "3px solid #7c3aed",
+            borderLeft: `3px solid ${colors.primary}`,
             marginBottom: "25px",
           }}
         >
@@ -65,7 +65,7 @@ export default function NewForum({
         <Button
           href={`${baseUrl}/forum/${id}`}
           style={{
-            backgroundColor: "#7c3aed",
+            backgroundColor: colors.primary,
             color: "#ffffff",
             padding: "12px 24px",
             borderRadius: "6px",

@@ -40,6 +40,7 @@ export default async function whenBlogValidated(
         },
         with: {
           devices: true,
+          notificationPreferences: true,
         },
       },
     },
@@ -54,17 +55,22 @@ export default async function whenBlogValidated(
   //seding user information :
   await Promise.all(
     author.devices.map(async (device) => {
-      sendNotification({
-        data: {
-          title: `📖 Nouveau blog: ${blog.title}`,
-          body: `${blog.author.name}, votre blog a été validé et disponible en publique `,
-          icon: `${blog?.author.image ?? `${baseUrl}/api/avatar?username=${blog?.author.username}`}`,
-          url: `${baseUrl}/blog/${blog.slug}`,
-          //badge: "/badge.png",
-          image: `${baseUrl}/api/og/blog/${blog.slug}`,
-        },
-        device,
-      });
+      if (
+        author.notificationPreferences &&
+        author.notificationPreferences.notifBlogUpdates
+      ) {
+        sendNotification({
+          data: {
+            title: `📖 Nouveau blog: ${blog.title}`,
+            body: `${blog.author.name}, votre blog a été validé et disponible en publique `,
+            icon: `${blog?.author.image ?? `${baseUrl}/api/avatar?username=${blog?.author.username}`}`,
+            url: `${baseUrl}/blog/${blog.slug}`,
+            //badge: "/badge.png",
+            image: `${baseUrl}/api/og/blog/${blog.slug}`,
+          },
+          device,
+        });
+      }
     })
   );
 
@@ -94,38 +100,49 @@ export default async function whenBlogValidated(
     if (user.devices.length > 0) {
       await Promise.all(
         user.devices.map(async (device) => {
-          sendNotification({
-            data: {
-              title: `📖 Nouveau blog: ${blog.title}`,
-              body: `${blog.author.name}, vient de soumettre un blog `,
-              icon: `${blog?.author.image ?? `${baseUrl}/api/avatar?username=${blog?.author.username}`}`,
-              url: `${baseUrl}/blog/${blog.slug}`,
-              //badge: "/badge.png",
-              image: `${baseUrl}/api/og/blog/${blog.slug}`,
-            },
-            device,
-          });
+          if (
+            user.notificationPreferences &&
+            user.notificationPreferences.notifBlogUpdates
+          ) {
+            sendNotification({
+              data: {
+                title: `📖 Nouveau blog: ${blog.title}`,
+                body: `${blog.author.name}, vient de soumettre un blog `,
+                icon: `${blog?.author.image ?? `${baseUrl}/api/avatar?username=${blog?.author.username}`}`,
+                url: `${baseUrl}/blog/${blog.slug}`,
+                //badge: "/badge.png",
+                image: `${baseUrl}/api/og/blog/${blog.slug}`,
+              },
+              device,
+            });
+          }
         })
       );
     }
     if (!user.email) continue;
-    const html = await renderEmail({
-      type: "blogPublished",
-      props: {
-        author: author.name!,
-        preview: blog.preview,
-        url: `${baseUrl}/blog/${blog.slug}`,
-        title: blog.title,
-        description: blog.description,
-        userName: author.username!,
-      },
-    });
-    await transporter.sendMail({
-      from: '"GNDC Blog" <noreply@gndc.tech>',
-      to: user.email,
-      subject: `📖 Nouveau blog: ${blog.title}`,
-      html,
-    });
+
+    if (
+      user.notificationPreferences &&
+      user.notificationPreferences.emailBlogUpdates
+    ) {
+      const html = await renderEmail({
+        type: "blogPublished",
+        props: {
+          author: author.name!,
+          preview: blog.preview,
+          url: `${baseUrl}/blog/${blog.slug}`,
+          title: blog.title,
+          description: blog.description,
+          userName: author.username!,
+        },
+      });
+      await transporter.sendMail({
+        from: '"GNDC Blog" <noreply@gndc.tech>',
+        to: user.email,
+        subject: `📖 Nouveau blog: ${blog.title}`,
+        html,
+      });
+    }
   }
   await sendBotMsg({
     msg: `📖 Nouveau blog: *${blog.title.trimEnd()}* \n _${blog.author.name}_, vient de publier un blog \n\nconsulter : ${baseUrl}/blog/${blog.slug}`,

@@ -37,6 +37,7 @@ export default async function whenBlogLiked(
         },
         with: {
           devices: true,
+          notificationPreferences: true,
         },
       },
     },
@@ -52,17 +53,22 @@ export default async function whenBlogLiked(
     logger.log("user", { user });
     await Promise.all(
       author.devices.map(async (device) => {
-        sendNotification({
-          data: {
-            title: `Votre Blog : ${blog.title.slice(0, 6)}... à été liker `,
-            body: `par ${user.name}`,
-            icon: `${user.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
-            url: `${baseUrl}/blog/${blog.slug}`,
-            //badge: "/badge.png",
-            image: `${baseUrl}/api/og/blog/${blog.slug}`,
-          },
-          device,
-        });
+        if (
+          author.notificationPreferences &&
+          author.notificationPreferences.notifBlogLike
+        ) {
+          sendNotification({
+            data: {
+              title: `Votre Blog : ${blog.title.slice(0, 6)}... à été liker `,
+              body: `par ${user.name}`,
+              icon: `${user.image ?? `${baseUrl}/api/avatar?username=${user?.username}`}`,
+              url: `${baseUrl}/blog/${blog.slug}`,
+              //badge: "/badge.png",
+              image: `${baseUrl}/api/og/blog/${blog.slug}`,
+            },
+            device,
+          });
+        }
       })
     );
   }

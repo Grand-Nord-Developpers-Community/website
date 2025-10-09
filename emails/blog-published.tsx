@@ -7,7 +7,7 @@ import {
   Img,
 } from "@react-email/components";
 import * as React from "react";
-import LayoutEmail, { baseUrl, headerStyles } from "./base-layout";
+import LayoutEmail, { baseUrl, colors, headerStyles } from "./base-layout";
 
 export interface BlogPublishedProps {
   title: string;
@@ -77,7 +77,7 @@ export default function BlogPublished({
         <Button
           href={url}
           style={{
-            backgroundColor: "#dc2626",
+            backgroundColor: colors.secondary,
             color: "#ffffff",
             padding: "12px 24px",
             borderRadius: "6px",

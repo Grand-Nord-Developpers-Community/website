@@ -57,41 +57,52 @@ export default async function whenForumCreated(
       if (user.devices.length > 0) {
         await Promise.all(
           user.devices.map(async (device) => {
-            sendNotification({
-              data: {
-                title: "Une question à été posé !!!",
-                body: `par ${forum?.author.name} : ${forum.textContent.slice(0, 15)} ....`,
-                icon: `${forum?.author.image ?? `${baseUrl}/api/avatar?username=${forum?.author.username}`}`,
-                url: `${baseUrl}/forum/${forum.id}`,
-                //badge: "/badge.png",
-                image: `${baseUrl}/api/og/forum/${forum.id}`,
-              },
-              device,
-            });
+            if (
+              user.notificationPreferences &&
+              user.notificationPreferences.notifForumsQuestion
+            ) {
+              sendNotification({
+                data: {
+                  title: "Une question à été posé !!!",
+                  body: `par ${forum?.author.name} : ${forum.textContent.slice(0, 60)} ....`,
+                  icon: `${forum?.author.image ?? `${baseUrl}/api/avatar?username=${forum?.author.username}`}`,
+                  url: `${baseUrl}/forum/${forum.id}`,
+                  //badge: "/badge.png",
+                  image: `${baseUrl}/api/og/forum/${forum.id}`,
+                },
+                device,
+              });
+            }
           })
         );
       }
       if (!user.email) continue;
-      const html = await renderEmail({
-        type: "forum",
-        props: {
-          userName: user.name!,
-          author: forum.author.name!,
-          id: forum.id,
-          title: forum.title,
-          textContent: forum.textContent,
-        },
-      });
-      const res = await transporter.sendMail({
-        from: '"Forum GNDC" <noreply@gndc.tech>',
-        to: user.email,
-        subject: "Nouvelle question",
-        html,
-      });
-      logger.log("email", { res });
+
+      if (
+        user.notificationPreferences &&
+        user.notificationPreferences.emailForumsQuestion
+      ) {
+        const html = await renderEmail({
+          type: "forum",
+          props: {
+            userName: user.name!,
+            author: forum.author.name!,
+            id: forum.id,
+            title: forum.title,
+            textContent: forum.textContent,
+          },
+        });
+        const res = await transporter.sendMail({
+          from: '"Forum GNDC" <noreply@gndc.tech>',
+          to: user.email,
+          subject: "Nouvelle question",
+          html,
+        });
+        logger.log("email", { res });
+      }
     }
     const res = await sendBotMsg({
-      msg: `Une question a été posé par *${forum?.author.name?.trimEnd()}* :\n ${forum.textContent.slice(0, 15)} ... ,\n\nconsulter : ${baseUrl}/forum/${forum.id}`,
+      msg: `Une question a été posé par *${forum?.author.name?.trimEnd()}* :\n ${forum.textContent.slice(0, 60)} ... ,\n\nconsulter : ${baseUrl}/forum/${forum.id}`,
       tagAll: false,
     });
     logger.log("send to whatsapp", { res });

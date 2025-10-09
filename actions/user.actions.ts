@@ -459,6 +459,7 @@ export async function getUserWithRoleAndDevices(role: IRole["name"]) {
           id: true,
         },
       },
+      notificationPreferences: true,
     },
   });
 }
@@ -487,6 +488,7 @@ export async function getUserWithRolesAndDevices(role: Array<IRole["name"]>) {
           id: true,
         },
       },
+      notificationPreferences: true,
     },
   });
 }

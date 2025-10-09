@@ -1,6 +1,6 @@
 import { Button, Heading, Img, Section, Text } from "@react-email/components";
 import * as React from "react";
-import LayoutEmail from "./base-layout";
+import LayoutEmail, { baseUrl, colors } from "./base-layout";
 
 export interface NewUserProps {
   name: string;
@@ -46,9 +46,9 @@ export default function NewUser({ name }: NewUserProps) {
 
           <Section style={{ textAlign: "center", marginBottom: "40px" }}>
             <Button
-              // href={verificationUrl}
+              href={`${baseUrl}/user/settings/notification`}
               style={{
-                backgroundColor: "#059669",
+                backgroundColor: colors.secondary,
                 color: "#ffffff",
                 padding: "16px 32px",
                 borderRadius: "8px",
@@ -57,7 +57,7 @@ export default function NewUser({ name }: NewUserProps) {
                 fontWeight: "600",
               }}
             >
-              Confirmer mon email
+              Configurer vos notifications
             </Button>
           </Section>
 
@@ -66,13 +66,13 @@ export default function NewUser({ name }: NewUserProps) {
               backgroundColor: "#f8fafc",
               padding: "20px",
               borderRadius: "8px",
-              borderLeft: "4px solid #059669",
+              borderLeft: `4px solid ${colors.secondary}`,
             }}
           >
             <Text style={{ fontSize: "14px", margin: "0" }}>
               <strong>Prochaines étapes :</strong>
               <br />
-              • Complétez votre profil
+              • Configurez vos préference de notification
               <br />
               • Explorez nos fonctionnalités
               <br />• Rejoignez les discussions

@@ -24,6 +24,7 @@ export default async function whenVoted(
     where: inArray(userTable.id, [userId, targetUserId]),
     with: {
       devices: true,
+      notificationPreferences: true,
     },
   });
   logger.log("users", { users });
@@ -56,17 +57,22 @@ export default async function whenVoted(
   if (author.devices.length > 0) {
     await Promise.all(
       author.devices.map(async (device) => {
-        sendNotification({
-          data: {
-            title: `Votre commentaire : ${comment.content.slice(0, 6)}... à été upvoter `,
-            body: `par ${user?.name} : vous avez réçu +${ScoringPoints["UPVOTED_COMMENT"]} XP`,
-            icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
-            url: `${baseUrl}/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
-            //badge: "/badge.png",
-            image: `${baseUrl}/api/og/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
-          },
-          device,
-        });
+        if (
+          author.notificationPreferences &&
+          author.notificationPreferences.notifUpvote
+        ) {
+          sendNotification({
+            data: {
+              title: `Votre commentaire ... à été upvoter `,
+              body: `par ${user?.name} : vous avez réçu +${ScoringPoints["UPVOTED_COMMENT"]} XP`,
+              icon: `${user.image ?? `/api/avatar?username=${user?.username}`}`,
+              url: `${baseUrl}/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
+              //badge: "/badge.png",
+              image: `${baseUrl}/api/og/${comment.blog ? `blog/${comment.blog.slug}` : `forum/${comment.post?.id}`}`,
+            },
+            device,
+          });
+        }
       })
     );
   }

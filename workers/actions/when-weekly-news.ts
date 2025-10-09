@@ -18,7 +18,7 @@ export default async function whenWeeklyNews(
   const { date } = data;
   const blogs = await findNewestBlogPost();
   logger.log("blogs", { blogs });
-  if (!blogs || blogs.length < 2) {
+  if (!blogs || blogs.length < 1) {
     return;
   }
   const users = await db.query.userTable.findMany({
@@ -35,6 +35,7 @@ export default async function whenWeeklyNews(
     where: eq(userTable.isCompletedProfile, true),
     with: {
       devices: true,
+      notificationPreferences: true,
     },
   });
   logger.log("users", { users });
@@ -43,39 +44,52 @@ export default async function whenWeeklyNews(
     if (user.devices.length > 0) {
       await Promise.all(
         user.devices.map(async (device) => {
-          sendNotification({
-            data: {
-              title: `Newsletter - Semaine ${date.toLocaleDateString("fr-FR", {
-                dateStyle: "medium",
-              })} `,
-              body: `Quelque nouvelles actualités dans les news`,
-              icon: `${user.image ?? `/api/avatar?username=${user.username}`}`,
-              url: `${baseUrl}/blog`,
-              //badge: "/badge.png",
-              image: "/badge.png",
-            },
-            device,
-          });
+          if (
+            !user.notificationPreferences ||
+            user.notificationPreferences.notifNewsHebdomadaire
+          )
+            sendNotification({
+              data: {
+                title: `Newsletter - Semaine ${date.toLocaleDateString(
+                  "fr-FR",
+                  {
+                    dateStyle: "medium",
+                  }
+                )} `,
+                body: `Quelque nouvelles actualités dans les news`,
+                icon: `${user.image ?? `/api/avatar?username=${user.username}`}`,
+                url: `${baseUrl}/blog`,
+                //badge: "/badge.png",
+                image: "/badge.png",
+              },
+              device,
+            });
         })
       );
     }
     if (!user.email) continue;
-    const html = await renderEmail({
-      type: "digest-blog",
-      props: {
-        articles: blogs.slice(1),
-        highlightedPost: blogs[0],
-        weekNumber: date,
-      },
-    });
-    await transporter.sendMail({
-      from: '"GNDC News Digest" <noreply@gndc.tech>',
-      to: user.email,
-      subject: `Newsletter - Semaine ${date.toLocaleDateString("fr-FR", {
-        dateStyle: "medium",
-      })} `,
-      html,
-    });
+    if (
+      !user.notificationPreferences ||
+      user.notificationPreferences.emailNewsHebdomadaire
+    ) {
+      logger.log("user", { user });
+      const html = await renderEmail({
+        type: "digest-blog",
+        props: {
+          articles: blogs.slice(1),
+          highlightedPost: blogs[0],
+          weekNumber: date,
+        },
+      });
+      await transporter.sendMail({
+        from: '"GNDC News Digest" <noreply@gndc.tech>',
+        to: user.email,
+        subject: `Newsletter - Semaine ${date.toLocaleDateString("fr-FR", {
+          dateStyle: "medium",
+        })} `,
+        html,
+      });
+    }
   }
   let message = `*Newsletter - Semaine ${date.toLocaleDateString("fr-FR", {
     dateStyle: "medium",
@@ -89,10 +103,10 @@ export default async function whenWeeklyNews(
     count++;
   }
   message += `\Voir plus: ${baseUrl}/blog`;
-  await sendBotMsg({
-    msg: message,
-    tagAll: false,
-  });
+  // await sendBotMsg({
+  //   msg: message,
+  //   tagAll: false,
+  // });
 
   console.log(data);
 }

@@ -31,6 +31,7 @@ export default async function whenWeeklyLeaderBoard(
       devices: true,
       activity: true,
       blogPosts: { columns: { id: true } },
+      notificationPreferences: true,
     },
   });
   logger.log("users", { users });
@@ -41,45 +42,55 @@ export default async function whenWeeklyLeaderBoard(
     if (user.devices.length > 0) {
       await Promise.all(
         user.devices.map(async (device) => {
-          sendNotification({
-            data: {
-              title: "Leaderboard Hebdomadaire🏆",
-              body: `${user.name}, vous avez gagnez en tout ${user.experiencePoints} XP`,
-              icon: `${user.image ?? `/api/avatar?username=${user.username}`}`,
-              url: `${baseUrl}/leaderboard`,
-              //badge: "/badge.png",
-              image: "/badge.png",
-            },
-            device,
-          });
+          if (
+            !user.notificationPreferences ||
+            user.notificationPreferences.notifLeaderboardHebdomadaire
+          ) {
+            sendNotification({
+              data: {
+                title: "Leaderboard Hebdomadaire🏆",
+                body: `${user.name}, vous avez gagnez en tout ${user.experiencePoints} XP`,
+                icon: `${user.image ?? `/api/avatar?username=${user.username}`}`,
+                url: `${baseUrl}/leaderboard`,
+                //badge: "/badge.png",
+                image: "/badge.png",
+              },
+              device,
+            });
+          }
         })
       );
     }
     logger.log("email", { email: user.email });
     if (!user.email) continue;
-    const html = await renderEmail({
-      type: "leaderboard",
-      props: {
-        name: user.name!,
-        rank,
-        tops: users.slice(0, 5).map((u, i) => {
-          return { name: u.name!, xp: u.experiencePoints! };
-        }),
-        username: user.username!,
-        xp: user.experiencePoints!,
-      },
-    });
-    logger.log("mail", { content: html });
-    try {
-      const result = await transporter.sendMail({
-        from: '"Leaderboard GNDC " <noreply@gndc.tech>',
-        to: user.email,
-        subject: "Nouveau classement",
-        html,
+    if (
+      !user.notificationPreferences ||
+      user.notificationPreferences.emailLeaderboardHebdomadaire
+    ) {
+      const html = await renderEmail({
+        type: "leaderboard",
+        props: {
+          name: user.name!,
+          rank,
+          tops: users.slice(0, 5).map((u, i) => {
+            return { name: u.name!, xp: u.experiencePoints! };
+          }),
+          username: user.username!,
+          xp: user.experiencePoints!,
+        },
       });
-      logger.log("result", { result });
-    } catch (error) {
-      logger.log("erreur", { error });
+      logger.log("mail", { content: html });
+      try {
+        const result = await transporter.sendMail({
+          from: '"Leaderboard GNDC " <noreply@gndc.tech>',
+          to: user.email,
+          subject: "Nouveau classement",
+          html,
+        });
+        logger.log("result", { result });
+      } catch (error) {
+        logger.log("erreur", { error });
+      }
     }
     rank += 1;
   }
