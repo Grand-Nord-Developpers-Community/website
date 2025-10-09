@@ -143,112 +143,6 @@ export default function PreferencesPage({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pb-5">
-        {/* Section Email */}
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-lg font-semibold">Notifications par Email</h3>
-            <p className="text-sm text-muted-foreground">
-              Choisissez les notifications que vous souhaitez recevoir par email
-            </p>
-          </div>
-          <Separator />
-
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="emailBlogUpdates"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">
-                      Mises à jour du blog
-                    </FormLabel>
-                    <FormDescription>
-                      Recevoir les notifications des nouveaux articles de blog
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="emailForumsQuestion"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">
-                      Questions du forum
-                    </FormLabel>
-                    <FormDescription>
-                      Recevoir les notifications des nouvelles questions du
-                      forum
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="emailNewsHebdomadaire"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">
-                      Newsletter hebdomadaire
-                    </FormLabel>
-                    <FormDescription>
-                      Recevoir un résumé hebdomadaire des actualités
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="emailLeaderboardHebdomadaire"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">
-                      Classement hebdomadaire
-                    </FormLabel>
-                    <FormDescription>
-                      Recevoir le classement hebdomadaire des contributeurs
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-
         {/* Section Notifications In-App */}
         <div className="space-y-6">
           <div className="flex justify-between">
@@ -433,8 +327,8 @@ export default function PreferencesPage({
                         J&apos;aime sur les blogs
                       </FormLabel>
                       <FormDescription>
-                        Recevoir une notification quand quelqu&apos;un aime votre
-                        article
+                        Recevoir une notification quand quelqu&apos;un aime
+                        votre article
                       </FormDescription>
                     </div>
                     <FormControl>
@@ -453,6 +347,111 @@ export default function PreferencesPage({
               <p>activer vos notifications d&apos;abord</p>
             </>
           )}
+        </div>
+        {/* Section Email */}
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold">Notifications par Email</h3>
+            <p className="text-sm text-muted-foreground">
+              Choisissez les notifications que vous souhaitez recevoir par email
+            </p>
+          </div>
+          <Separator />
+
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="emailBlogUpdates"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">
+                      Mises à jour du blog
+                    </FormLabel>
+                    <FormDescription>
+                      Recevoir les notifications des nouveaux articles de blog
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="emailForumsQuestion"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">
+                      Questions du forum
+                    </FormLabel>
+                    <FormDescription>
+                      Recevoir les notifications des nouvelles questions du
+                      forum
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="emailNewsHebdomadaire"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">
+                      Newsletter hebdomadaire
+                    </FormLabel>
+                    <FormDescription>
+                      Recevoir un résumé hebdomadaire des actualités
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="emailLeaderboardHebdomadaire"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">
+                      Classement hebdomadaire
+                    </FormLabel>
+                    <FormDescription>
+                      Recevoir le classement hebdomadaire des contributeurs
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
 
         <Button type="submit" disabled={submit}>

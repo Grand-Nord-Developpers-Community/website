@@ -34,7 +34,7 @@ export default function ForumPage({
           </div>
         }
       >
-        <ForumQuestionCard className="sm:hidden absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[75%] bg-white max-lg:w-[95%] lg:max-w-screen-lg" />
+        <ForumQuestionCard className="sm:hidden absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[75%] bg-card max-lg:w-[95%] lg:max-w-screen-lg" />
       </HeadingPage>
       <main className="screen-wrapper pt-36 pb-6 sm:py-6">
         <div className="flex justify-between items-center mb-6 max-sm:hidden">
