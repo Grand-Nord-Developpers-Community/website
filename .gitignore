@@ -6,8 +6,10 @@
 .pnp.js
 .yarn/install-state.gz
 
-#disable package-lock on the repo due to triggger error
+#disable lock files
 package-lock.json
+pnpm-lock.yaml
+yarn.lock
 
 /.wwebjs_auth/
 # testing

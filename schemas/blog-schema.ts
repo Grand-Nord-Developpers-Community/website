@@ -14,4 +14,5 @@ export const blogPublishSchema = z.object({
   content: z
     .string()
     .min(300, "Le contenu du blog doit contenir au moins 300 caractères."),
+  tags: z.string().optional(),
 });

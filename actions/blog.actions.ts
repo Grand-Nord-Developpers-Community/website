@@ -19,6 +19,7 @@ type blogValueProps = {
   preview: string;
   previewHash: string;
   content: string;
+  tags?: string;
   authorId: string;
 };
 // Blog actions
@@ -28,6 +29,7 @@ export async function createBlogPost({
   preview,
   previewHash,
   content,
+  tags,
   authorId,
 }: blogValueProps) {
   blogPublishSchema.parse({
@@ -35,6 +37,7 @@ export async function createBlogPost({
     description,
     preview,
     previewHash,
+    tags,
     content,
   });
   const slug = slugify(title);
@@ -66,6 +69,7 @@ export async function createBlogPost({
       preview,
       previewHash,
       content,
+      tags,
       slug,
       authorId,
     })
@@ -212,6 +216,7 @@ export async function getUserBlogPosts(userId: string) {
       createdAt: true,
       isDraft: true,
       slug: true,
+      tags: true,
       id: true,
       content: true,
       like: true,

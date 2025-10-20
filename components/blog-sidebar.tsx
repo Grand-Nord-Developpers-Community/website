@@ -29,6 +29,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ChipsInput } from "@/components/ui/chips";
 import ImageUpload from "@/components/image-upload";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -155,6 +156,15 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                 </FormItem>
               )}
             />
+            <FormItem>
+              <FormLabel>Tags</FormLabel>
+                <ChipsInput
+                  onChange={(e: string) => form.setValue("tags", e)}
+                  value={form.getValues("tags")}
+                  className="outline-none"
+                  disabled={loading}
+                />
+            </FormItem>
             <Button
               className="w-full mt-3 text-white"
               variant="secondary"

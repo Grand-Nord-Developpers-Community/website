@@ -215,6 +215,7 @@ export async function getUserProfileUserAuth() {
             createdAt: true,
             isDraft: true,
             slug: true,
+            tags: true,
             id: true,
             content: true,
             like: true,

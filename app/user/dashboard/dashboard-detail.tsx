@@ -239,6 +239,7 @@ const Dashboard = ({
                       key={blog.id}
                       type={"blog"}
                       slug={blog.slug}
+                      tags={blog.tags}
                       date={blog.createdAt}
                       title={blog.title}
                       content={blog.description}
