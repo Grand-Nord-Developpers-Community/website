@@ -18,8 +18,6 @@ import BlogEmptyImage from "@/assets/svgs/undraw_add_notes_re_ln36.svg";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { useRouter } from "next/navigation";
 import EditForumPost from "@/components/editForumPost";
-import { Forum } from "@/components/question-card";
-import TestWorkerPage from "@/components/test-trigger";
 export type ForumUser = Awaited<ReturnType<typeof getUserForumPosts>>;
 export type BlogUser = Awaited<ReturnType<typeof getUserBlogPosts>>;
 

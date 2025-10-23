@@ -59,7 +59,7 @@ export const CardBlog = ({
 }: BlogT) => {
   return (
     <div
-      className={clsx("w-full md:w-[49%] lg:w-[32.5%] xl:w-[24.2%]", className)}
+      className={clsx("w-full h-fit", className)}
     >
       <div className="w-full mx-auto rounded-xl bg-card overflow-hidden p-2 border pb-3  ">
         <div

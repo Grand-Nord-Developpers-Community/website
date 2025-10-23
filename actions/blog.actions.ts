@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
 import { blogPublishSchema } from "@/schemas/blog-schema";
 import { auth } from "@/lib/auth";
-import { addUserXP } from "./scoring.action";
+import { addUserXP, removeUserXP } from "./scoring.action";
 import { addJob } from "./qeues.action";
 import { triggerBlogCreated, triggerBlogValidated } from "@/app/api/actions";
 //import { triggerBlogCreated } from "@/app/api/action";
@@ -133,11 +133,33 @@ export async function getBlogPosts() {
   }
 }
 
+export async function getAllBlogPostTags(){
+  try {
+    const tags = await db.query.blogPost.findMany({
+      where: eq(blogPost.isDraft, false),
+      columns: {
+        tags: true,
+      },
+    });
+    const tagSet = new Set<string>();
+    tags.forEach((tagObj) => {
+      if(tagObj.tags){
+        tagObj.tags.split(',').forEach((tag) => {
+          tagSet.add(tag.trim());
+        });
+      }
+    });
+    return Array.from(tagSet);
+  } catch (e) {
+    console.log(e);
+   return [];
+  }
+}
 export async function getBlogPostsPaginated(
   page: number,
   pageSize: number,
   q?: string,
-  isDraft?: boolean
+  isDraft?: boolean,
 ) {
   const offset = page * pageSize;
   try {
@@ -171,19 +193,20 @@ export async function getBlogPostsPaginated(
             username: true,
           },
         },
-        // replies: {
-        //   columns: {
-        //     id: true,
-        //   },
-        //   with: {
-        //     votes: true,
-        //   },
-        // },
-        // likes: {
-        //   columns: {
-        //     isLike: true,
-        //   },
-        // },
+
+        replies: {
+          columns: {
+            id: true,
+          },
+          with: {
+            votes: true,
+          },
+        },
+        likes: {
+          columns: {
+            isLike: true,
+          },
+        },
       },
       columns: {
         content: false,
@@ -279,6 +302,7 @@ export async function updateBlogPost({
   previewHash,
   content,
   authorId,
+  tags
 }: blogValueProps) {
   blogPublishSchema.parse({
     title,
@@ -286,12 +310,14 @@ export async function updateBlogPost({
     preview,
     previewHash,
     content,
+    tags
   });
   const slug = slugify(title);
   const post = await db.query.blogPost.findFirst({
     where: eq(blogPost.id, id!),
     columns: {
       slug: true,
+      isDraft:true,
     },
     with: {
       author: {
@@ -314,6 +340,9 @@ export async function updateBlogPost({
       revalidate: "title",
     };
   }
+  if(!post.isDraft){
+    //await removeUserXP(authorId, "ADD_BLOG");
+  }
   const res = await db
     .update(blogPost)
     .set({
@@ -323,7 +352,8 @@ export async function updateBlogPost({
       previewHash,
       content,
       slug,
-      isDraft: true,
+      tags
+      //isDraft: true,
     })
     .where(eq(blogPost.slug, post.slug))
     .returning();
@@ -372,6 +402,7 @@ export async function getBlogPost(slug: string) {
         isDraft: true,
         authorId: true,
         content: true,
+        tags:true
       },
       with: {
         author: {

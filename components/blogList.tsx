@@ -11,181 +11,172 @@ import React, { Suspense } from "react";
 import { ChipsTag } from "@/components/ui/chips";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-
-let tags = [
-  "angular", 
-  "flutter", 
-  "javascript",
-  "react",
-  "typescript",
-  "vue",
-  "node.js",
-  "python",
-  "php",
-  "html",
-  "css",
-  "firebase",
-  "mongodb",
-  "postgresql",
-  "mysql",
-  "c++",
-  "java",
-  "c#",
-  "ruby",
-  "swift",
-  "kotlin",
-  "go",
-  "rust",
-  "sql",
-  "git",
-  "docker",
-  "kubernetes",
-  "aws",
-  "azure",
-  "google cloud",
-]
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { getBlogTags, getInfiniteBlogs } from "@/actions/queries/blogs";
+import clsx from "clsx";
 
 const BlogList = () => {
   //const { data: blogs, isLoading, isError } = useGetListBlog();
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [blogs, setBlogs] = React.useState<any[]>();
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+    useInfiniteQuery(getInfiniteBlogs(10));
+  const { data: tags, isLoading: isTagLoading } = useQuery(getBlogTags());
+  const infiniteRef = React.useRef<HTMLDivElement>(null);
+  const blogs = data?.pages.flatMap((page) => page) || [];
+  React.useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasNextPage && !isFetching) {
+        fetchNextPage();
+      }
+    });
+    if (infiniteRef.current) {
+      observer.observe(infiniteRef.current);
+    }
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasNextPage, isFetching]);
+  //const [blogs, setBlogs] = React.useState<any[]>();
   const [views, setViews] = React.useState<Record<string, number>>();
-  const [filterTags, setFilterTags] = React.useState<string[]>([])
+  const [filterTags, setFilterTags] = React.useState<string[]>([]);
   const [filteredPosts, setFilteredPosts] = React.useState(blogs);
 
-  React.useEffect(() => {
-    const loadBlogs = async () => {
-      try {
-        const response = await getBlogPosts()
-        setBlogs(response)
-        const viewsResponse = await fetchPageViews(response?.map((b) => b.slug), "blog")
-        setViews(viewsResponse)
-      } catch (error) {
-        
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadBlogs();
-  }, [])
   
   React.useEffect(() => {
     if (filterTags.length > 0) {
-      setFilteredPosts(blogs?.filter(filterFn))
+      setFilteredPosts(blogs?.filter(filterFn));
     } else {
-      setFilteredPosts(blogs)
+      setFilteredPosts(
+       blogs
+      );
     }
-  }, [filterTags, blogs])
-
+  }, [filterTags, blogs]);
 
   function addFilter(tag: string) {
     if (filterTags.includes(tag)) {
-      setFilterTags(filterTags.filter(ft => ft != tag))
+      setFilterTags(filterTags.filter((ft) => ft != tag));
     } else {
-      setFilterTags([...filterTags, tag])
+      setFilterTags([...filterTags, tag]);
     }
   }
   function emptyFilters() {
-    setFilterTags([])
+    setFilterTags([]);
   }
 
   const tagsIncludeOneOfFilterTag = (tags: string, filters: string[]) => {
-    let result = false
-    let splitedTags = tags.toLocaleLowerCase().split(',')
-    filters.forEach(f => {
-      if (splitedTags.includes(f.toLocaleLowerCase())) result = true
-    })
+    let result = false;
+    let splitedTags = tags?.toLocaleLowerCase().split(",");
+    filters.forEach((f) => {
+      if (splitedTags?.includes(f.toLocaleLowerCase())) result = true;
+    });
     return result;
-  }
+  };
 
-  function filterFn(blog: any){
-    return tagsIncludeOneOfFilterTag(blog.tags as string, filterTags)
+  function filterFn(blog: any) {
+    return tagsIncludeOneOfFilterTag(blog.tags as string, filterTags);
   }
 
   return (
     <>
-      {
-        loading ? (
-          <div>
-            <div className="flex items-center w-max gap-2 my-10 ml-6">
-              <span className="flex items-center px-2" title="Filter">
-                <FilterIcon className="w-[30px] h-[30px] p-[2px]" />
-              </span>
-              {[...Array(10)].map((_, index) => {
-                let width = Math.max(Math.random() * 120, 50)
-                return (
-                  <Skeleton key={index} style={{width: width + "px"}} className="h-[40px] px-3" />
-                )
-              })}
-            </div>
-            <div className="my-10 px-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {[...Array(8)].map((_, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <Skeleton className="h-3 w-1/2" />
-                  <Skeleton className="h-20 w-full" />
-                </CardHeader>
-                <CardContent>
-                  <Skeleton className="h-4 w-3/4" />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          </div>
-        ) : (
-          <div className="screen-wrapper my-10">
-            <div className="flex no-wrap mb-10">
-              <span className="flex items-center px-2" title="Filter">
-                <FilterIcon className="w-[30px] h-[30px] p-[2px]" />
-              </span>
-              <ChipsTag tag={"All"} className="sm:self-center px-3 capitalize cursor-pointer" style={{
-                color: "rgb(0 0 0 / .8)",
-                height: "40px",
-                backgroundColor: filterTags.length > 0 ? "transparent" : "rgb(0 0 0 / .2)"
-              }} onClick={emptyFilters}/>
-              
-              {tags && (
-                <div className="flex items-center no-wrap w-max overflow-auto scrollbar scrollbar-hide gap-2 pl-2">
-                  {tags.map((tag, index) => {
-                    const onClick = () => {
-                      addFilter(tag)
-                    }
-                    return (
-                      <ChipsTag onClick={onClick} key={index} tag={tag} style={
-                        tagsIncludeOneOfFilterTag(tag, filterTags) ? {} : {
-                          color: "rgb(31 41 55 / .8)",
-                          height: "40px",
-                          backgroundColor: "transparent"
-                        }
-                      } className="h-[40px] px-3 capitalize border border-gray-200 cursor-pointer"/>
-                    )}
-                  )}
-                </div>
+      {isLoading||isTagLoading ? (
+        <div className="my-10 px-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[...Array(8)].map((_, index) => (
+            <Card key={index}>
+              <CardHeader>
+                <Skeleton className="h-3 w-1/2" />
+                <Skeleton className="h-20 w-full" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-4 w-3/4" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="screen-wrapper my-5">
+          <div className="flex no-wrap mb-5">
+            <span className="flex items-center px-2" title="Filter">
+              <FilterIcon className="size-5 p-[2px]" />
+            </span>
+            <ChipsTag
+              tag={"Tous"}
+              className={clsx(
+                "sm:self-center px-3 h-[40px] capitalize  cursor-pointer text-gray-800 dark:text-gray-500 ",
+                { "!bg-transparent": filterTags.length > 0 }
               )}
-            </div>
-            <div className="flex flex-wrap gap-3 justify-start">
-              {filteredPosts?.map((blog, i) => (
-                <CardBlog {...blog} view={views ? views[blog.slug] : null} key={i} />
-              ))}
-            </div>
+              onClick={emptyFilters}
+            />
 
-            {blogs?.length === 0 && (
-              <div className="flex flex-col h-[300px] justify-center items-center my-5">
-                <EmptyBlog className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
-                <h2 className="text-xl max-sm:text-base mx-auto text-center font-medium my-3 text-gray-400">
-                  il y&apos;a pas de blog pour l&apos;instant !
-                </h2>
-                <div className="flex w-full justify-center my-2">
-                  <Button className="px-4" asChild variant="secondary">
-                    <Link href="/blog/new">Publier en un</Link>
-                  </Button>
-                </div>
+            {tags && (
+              <div className="flex items-center no-wrap w-max overflow-auto scrollbar scrollbar-hide gap-2 pl-2">
+                {tags.map((tag, index) => {
+                  const onClick = () => {
+                    addFilter(tag);
+                  };
+                  return (
+                    <ChipsTag
+                      onClick={onClick}
+                      key={index}
+                      tag={tag}
+                      // style={
+                      //   tagsIncludeOneOfFilterTag(tag, filterTags)
+                      //     ? {}
+                      //     : {
+                      //         color: "rgb(31 41 55 / .8)",
+                      //         height: "40px",
+                      //         backgroundColor: "transparent",
+                      //       }
+                      // }
+                      className={clsx(
+                        "h-[40px] px-3 capitalize border border-border cursor-pointer dark:text-gray-300",
+                        {
+                          "!bg-transparent !text-gray-800 dark:!text-gray-300":
+                            !tagsIncludeOneOfFilterTag(tag, filterTags),
+                        }
+                      )}
+                    />
+                  );
+                })}
               </div>
             )}
           </div>
-        )
-      }
+          {/* w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-[minmax(100px,auto)] */}
+          <div className="w-full gap-4 space-y-4 columns-1 md:columns-2 lg:columns-3 xl:columns-4">
+            {filteredPosts?.map((blog, i) => (
+              <CardBlog {...blog} view={views ? views[blog.slug] : 0} key={i} />
+            ))}
+            {isFetching && (
+              <>
+                {[...Array(3)].map((_, index) => (
+                  <Card key={index} className="w-full">
+                    <CardHeader>
+                      <Skeleton className="h-3 w-1/2" />
+                      <Skeleton className="h-20 w-full" />
+                    </CardHeader>
+                    <CardContent>
+                      <Skeleton className="h-4 w-3/4" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </>
+            )}
+          </div>
+
+          {blogs?.length === 0 && (
+            <div className="flex flex-col h-[300px] justify-center items-center my-5">
+              <EmptyBlog className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
+              <h2 className="text-xl max-sm:text-base mx-auto text-center font-medium my-3 text-gray-400">
+                il y&apos;a pas de blog pour l&apos;instant !
+              </h2>
+              <div className="flex w-full justify-center my-2">
+                <Button className="px-4" asChild variant="secondary">
+                  <Link href="/blog/new">Publier en un</Link>
+                </Button>
+              </div>
+            </div>
+          )}
+          <div ref={infiniteRef}></div>
+        </div>
+      )}
     </>
   );
 };

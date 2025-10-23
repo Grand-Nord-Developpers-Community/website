@@ -96,7 +96,7 @@ const ChipsInput = React.forwardRef<HTMLTextAreaElement, ChipsInputProps>(
 
     return (
       <div className={cn("w-full max-w-md mx-auto", props.disabled ? " opacity-50" : "")}>
-        <div className="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-md bg-white">
+        <div className="flex flex-wrap gap-2 p-2 border border-border rounded-md bg-transparent">
           {tags.map((tag, index) => (
             <span key={index} className="inline-flex items-center h-[25px] px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-[6px]">
               {tag}
@@ -137,19 +137,25 @@ const ChipsTag = (({className, tag, ...props}: ChipsTagProps) => {
   return (
     <span
       {...props}
-      style={Object.assign({}, (tagColor ? {
-        color: `rgb(${tagColor.r}, ${tagColor.g}, ${tagColor.b})`,
-        backgroundColor: `rgba(${tagColor.r}, ${tagColor.g}, ${tagColor.b}, .2)`
-      } : {}), props.style)}
+      style={Object.assign(
+        {},
+        tagColor
+          ? {
+              color: `rgb(${tagColor.r}, ${tagColor.g}, ${tagColor.b})`,
+              backgroundColor: `rgba(${tagColor.r}, ${tagColor.g}, ${tagColor.b}, .2)`,
+            }
+          : {},
+        props.style
+      )}
       className={cn(
-        "inline-flex items-center h-[25px] px-2 text-sm font-medium rounded-[6px] flex-shrink-0",
-        tagColor ? "" : "text-gray-800 border border-gray-200",
+        "inline-flex items-center text-gray-800 dark:text-gray-500 h-[25px] px-2 text-sm font-medium rounded-[6px] flex-shrink-0",
+        tagColor ? "" : " border border-border  bg-gray-50 dark:bg-card ",
         className
       )}
     >
       {tag}
     </span>
-  )
+  );
 })
 
 // ChipsTag.displayName = "ChipsTag"

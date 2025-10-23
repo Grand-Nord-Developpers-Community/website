@@ -156,15 +156,24 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                 </FormItem>
               )}
             />
-            <FormItem>
-              <FormLabel>Tags</FormLabel>
-                <ChipsInput
-                  onChange={(e: string) => form.setValue("tags", e)}
-                  value={form.getValues("tags")}
-                  className="outline-none"
-                  disabled={loading}
-                />
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <ChipsInput
+                      {...field}
+                      className="outline-none !bg-transparent"
+                      disabled={loading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <Button
               className="w-full mt-3 text-white"
               variant="secondary"
