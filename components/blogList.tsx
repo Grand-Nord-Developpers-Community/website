@@ -40,16 +40,25 @@ const BlogList = () => {
   const [filterTags, setFilterTags] = React.useState<string[]>([]);
   const [filteredPosts, setFilteredPosts] = React.useState(blogs);
 
-  
   React.useEffect(() => {
     if (filterTags.length > 0) {
       setFilteredPosts(blogs?.filter(filterFn));
     } else {
-      setFilteredPosts(
-       blogs
-      );
+      setFilteredPosts(blogs);
     }
   }, [filterTags, blogs]);
+
+  React.useEffect(() => {
+    const loadViewData = async () => {
+      if (blogs.length === 0) return;
+      const res = await fetchPageViews(
+        blogs.map((p) => p.slug),
+        "blog"
+      );
+      setViews(res);
+    };
+    loadViewData();
+  }, [blogs]);
 
   function addFilter(tag: string) {
     if (filterTags.includes(tag)) {
@@ -77,7 +86,7 @@ const BlogList = () => {
 
   return (
     <>
-      {isLoading||isTagLoading ? (
+      {isLoading || isTagLoading ? (
         <div className="my-10 px-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {[...Array(8)].map((_, index) => (
             <Card key={index}>
