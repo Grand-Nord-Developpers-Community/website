@@ -4,10 +4,22 @@ import BlogList from "@/components/blogList";
 import { NewspaperIcon } from "lucide-react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  getAllBlogPostTags,
+  getBlogPostsPaginated,
+} from "@/actions/blog.actions";
+import { fetchPageViews } from "@/actions/utils.actions";
 //export const revalidate = 0;
 export const dynamic = "force-dynamic";
-const BlogPage = () => {
+const PAGE_SIZE = 12;
+const BlogPage = async () => {
   //const { data: blogs, isLoading, isError } = useGetListBlog();
+  const initialBlogs = await getBlogPostsPaginated(0, PAGE_SIZE);
+  const initialViews = await fetchPageViews(
+    initialBlogs?.map((b) => b.slug),
+    "blog",
+  );
+  const tags = await getAllBlogPostTags();
   return (
     <>
       <HeadingPage
@@ -43,7 +55,12 @@ const BlogPage = () => {
           </>
         }
       >
-        <BlogList />
+        <BlogList
+          initialBlogs={initialBlogs}
+          initialViews={initialViews}
+          pageSize={PAGE_SIZE}
+          tags={tags}
+        />
       </Suspense>
     </>
   );
