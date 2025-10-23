@@ -11,6 +11,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ChipsTag } from "@/components/ui/chips";
 
 import clsx from "clsx";
+import { getInfiniteBlogs } from "@/actions/queries/blogs";
+import { useInfiniteQuery } from "@tanstack/react-query";
 type Blog = Awaited<ReturnType<typeof getBlogPostsPaginated>>;
 interface BlogListProps {
   initialBlogs: Blog;
@@ -25,11 +27,14 @@ const BlogList: React.FC<BlogListProps> = ({
   tags,
   pageSize = 12,
 }) => {
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
+    getInfiniteBlogs(pageSize),
+  );
   const [blogs, setBlogs] = useState(initialBlogs);
   const [views, setViews] = useState(initialViews);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(initialBlogs.length === pageSize);
+  //const [page, setPage] = useState(1);
+  //const [loading, setLoading] = useState(false);
+  //const [hasMore, setHasMore] = useState(initialBlogs.length === pageSize);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   // Filter states
@@ -71,43 +76,11 @@ const BlogList: React.FC<BlogListProps> = ({
     }
   }, [filterTags, blogs]);
 
-  const loadMoreBlogs = useCallback(async () => {
-    if (loading || !hasMore) return;
-
-    setLoading(true);
-    try {
-      const newBlogs = await getBlogPostsPaginated(
-        page,
-        pageSize,
-        undefined,
-        false,
-      );
-
-      if (newBlogs.length > 0) {
-        const newViews = await fetchPageViews(
-          newBlogs.map((b) => b.slug),
-          "blog",
-        );
-
-        setBlogs((prev) => [...prev, ...newBlogs]);
-        setViews((prev) => ({ ...prev, ...newViews }));
-        setPage((prev) => prev + 1);
-        setHasMore(newBlogs.length === pageSize);
-      } else {
-        setHasMore(false);
-      }
-    } catch (error) {
-      console.error("Error loading more blogs:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [page, pageSize, loading, hasMore]);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMore && !loading) {
-          loadMoreBlogs();
+        if (entries[0].isIntersecting && hasNextPage && !isFetching) {
+          fetchNextPage();
         }
       },
       { threshold: 0.1 },
@@ -123,7 +96,14 @@ const BlogList: React.FC<BlogListProps> = ({
         observer.unobserve(currentTarget);
       }
     };
-  }, [loadMoreBlogs, hasMore, loading]);
+  }, [hasNextPage, isFetching]);
+
+  useEffect(() => {
+    const blogs = data?.pages.flatMap((page) => page) || [];
+    if (blogs.length > 0 && initialBlogs.length < blogs.length) {
+      setBlogs(blogs);
+    }
+  }, [data, initialBlogs]);
 
   if (blogs.length === 0) {
     return (
@@ -209,13 +189,13 @@ const BlogList: React.FC<BlogListProps> = ({
       {/* Intersection Observer Target */}
       {filteredPosts.length > 0 && (
         <div ref={observerTarget} className="w-full py-4 flex justify-center">
-          {loading && (
+          {isFetching && (
             <div className="flex items-center gap-2 text-gray-500">
               <Loader2 className="h-5 w-5 animate-spin" />
               <span>Chargement...</span>
             </div>
           )}
-          {!hasMore && blogs.length > 0 && (
+          {!hasNextPage && blogs.length > 0 && (
             <p className="text-gray-400 text-sm">Vous avez atteint la fin</p>
           )}
         </div>

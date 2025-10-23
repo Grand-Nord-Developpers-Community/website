@@ -1,4 +1,8 @@
-import { keepPreviousData, queryOptions,infiniteQueryOptions } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  queryOptions,
+  infiniteQueryOptions,
+} from "@tanstack/react-query";
 import { getAllBlogPostTags, getBlogPostsPaginated } from "../blog.actions";
 
 export const blogKeys = {
@@ -11,7 +15,7 @@ export const getPaginatedBlogs = (
   page: number,
   size: number,
   q: string = "",
-  isDraft: boolean | undefined = undefined
+  isDraft: boolean | undefined = undefined,
 ) =>
   queryOptions({
     queryKey: blogKeys.blogs(page, size, q, isDraft),
@@ -24,7 +28,7 @@ export const getInfiniteBlogs = (size: number) =>
   infiniteQueryOptions({
     queryKey: blogKeys.blogs(0, size),
     queryFn: async ({ pageParam = 0 }) =>
-      await getBlogPostsPaginated(pageParam, size,undefined,false),
+      await getBlogPostsPaginated(pageParam, size, undefined, false),
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
       if (!lastPage || lastPage.length < size) {
         return undefined; // No more pages
@@ -38,7 +42,6 @@ export const getInfiniteBlogs = (size: number) =>
     staleTime: 30_000,
     initialPageParam: 0,
   });
-
 
 export const getBlogTags = () =>
   queryOptions({

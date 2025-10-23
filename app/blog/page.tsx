@@ -1,9 +1,7 @@
-import React, { Suspense } from "react";
+import React from "react";
 import HeadingPage from "@/sections/common/HeadingPage";
 import BlogList from "@/components/blogList";
 import { NewspaperIcon } from "lucide-react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   getAllBlogPostTags,
   getBlogPostsPaginated,
@@ -41,32 +39,12 @@ const BlogPage = async () => {
           </div>
         }
       />
-      <Suspense
-        fallback={
-          <>
-            <div className="my-6 px-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {[...Array(8)].map((_, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <Skeleton className="h-3 w-1/2" />
-                    <Skeleton className="h-20 w-full" />
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="h-4 w-3/4" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </>
-        }
-      >
-        <BlogList
-          initialBlogs={initialBlogs}
-          initialViews={initialViews}
-          pageSize={PAGE_SIZE}
-          tags={tags}
-        />
-      </Suspense>
+      <BlogList
+        initialBlogs={initialBlogs}
+        initialViews={initialViews}
+        pageSize={PAGE_SIZE}
+        tags={tags}
+      />
     </>
   );
 };
