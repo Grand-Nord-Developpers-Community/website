@@ -14,7 +14,12 @@ export const dynamic = "force-dynamic";
 const PAGE_SIZE = 12;
 const BlogPage = async () => {
   //const { data: blogs, isLoading, isError } = useGetListBlog();
-  const initialBlogs = await getBlogPostsPaginated(0, PAGE_SIZE);
+  const initialBlogs = await getBlogPostsPaginated(
+    0,
+    PAGE_SIZE,
+    undefined,
+    false,
+  );
   const initialViews = await fetchPageViews(
     initialBlogs?.map((b) => b.slug),
     "blog",

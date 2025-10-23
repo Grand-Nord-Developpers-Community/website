@@ -76,7 +76,12 @@ const BlogList: React.FC<BlogListProps> = ({
 
     setLoading(true);
     try {
-      const newBlogs = await getBlogPostsPaginated(page, pageSize);
+      const newBlogs = await getBlogPostsPaginated(
+        page,
+        pageSize,
+        undefined,
+        false,
+      );
 
       if (newBlogs.length > 0) {
         const newViews = await fetchPageViews(
