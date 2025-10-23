@@ -48,7 +48,7 @@ const BlogList = () => {
     }
   }, [filterTags, blogs]);
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     const loadViewData = async () => {
       if (blogs.length === 0) return;
       const res = await fetchPageViews(
@@ -58,7 +58,7 @@ const BlogList = () => {
       setViews(res);
     };
     loadViewData();
-  }, [blogs]);
+  }, [blogs]);*/
 
   function addFilter(tag: string) {
     if (filterTags.includes(tag)) {
@@ -153,8 +153,10 @@ const BlogList = () => {
             {filteredPosts?.map((blog, i) => (
               <CardBlog {...blog} view={views ? views[blog.slug] : 0} key={i} />
             ))}
-            {isFetching && (
-              <>
+            
+          </div>
+          {isFetching && (
+              <div className="w-full grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
                 {[...Array(3)].map((_, index) => (
                   <Card key={index} className="w-full">
                     <CardHeader>
@@ -166,10 +168,8 @@ const BlogList = () => {
                     </CardContent>
                   </Card>
                 ))}
-              </>
+              </div>
             )}
-          </div>
-
           {blogs?.length === 0 && (
             <div className="flex flex-col h-[300px] justify-center items-center my-5">
               <EmptyBlog className="mx-auto lg:w-1/3 h-auto  max-md:w-1/2" />
