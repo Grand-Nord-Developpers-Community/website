@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
@@ -14,7 +14,6 @@ import {
   updateBlogPost,
 } from "@/actions/blog.actions";
 import { useSWRConfig } from "swr";
-import { Post } from "@/types";
 import { useRouter, usePathname } from "next/navigation";
 import { slugify } from "@/lib/utils";
 
@@ -62,6 +61,7 @@ const BlogFormContext: React.FC<{
       preview: post?.preview || "https://temp-image.com",
       previewHash: post?.previewHash || "",
       content: post?.content || "",
+      tags:post?.tags??""
     },
   });
   const { mutate } = useSWRConfig();
@@ -84,6 +84,7 @@ const BlogFormContext: React.FC<{
       setPreviewChanged(true);
     }
   }, [compressedFile]);
+
   const handleImageUpload = async () => {
     if (!compressedFile) {
       setError("preview", {
@@ -127,11 +128,12 @@ const BlogFormContext: React.FC<{
   };
 
   const onSubmit = async (data: BlogFormData) => {
+
     setLoading(true);
     try {
       const imageDataURL = isPreviewChanged ? await handleImageUpload() : img;
       const v = { ...data, preview: imageDataURL };
-      //toast.message(JSON.stringify(v));
+      
       const res = !isEdit
         ? await createBlogPost({ ...v, authorId: userId })
         : await updateBlogPost({ ...v, id: post?.id, authorId: userId });
@@ -143,7 +145,7 @@ const BlogFormContext: React.FC<{
         const currentSlug = pathname.split("/").pop();
         const newSlug = slugify(form.getValues("title") as string);
 
-        toast.success(res?.message);
+        toast.success(res.message);
         if (isEdit && currentSlug !== newSlug) {
           router.push(`/blog/${newSlug}/edit`);
           //return;
@@ -159,6 +161,7 @@ const BlogFormContext: React.FC<{
         }
       }
     } catch (e) {
+      console.log(e)
       toast.error(e as string);
     } finally {
       setLoading(false);

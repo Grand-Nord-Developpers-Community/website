@@ -8,6 +8,7 @@ import { Eye, MessageCircle, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Avatar from "./avatar";
+import { ChipsTag } from "./ui/chips";
 
 function PostStats({
   views,
@@ -45,6 +46,7 @@ export const CardBlog = ({
   title,
   description,
   slug,
+  tags,
   preview,
   previewHash,
   author,
@@ -57,7 +59,7 @@ export const CardBlog = ({
 }: BlogT) => {
   return (
     <div
-      className={clsx("w-full md:w-[49%] lg:w-[32.5%] xl:w-[24.2%]", className)}
+      className={clsx("w-full h-fit", className)}
     >
       <div className="w-full mx-auto rounded-xl bg-card overflow-hidden p-2 border pb-3  ">
         <div
@@ -93,6 +95,13 @@ export const CardBlog = ({
             <p className="text-sm leading-2 line-clamp-2">{description}</p>
           </div>
         </div>
+        {tags && (
+          <div className="flex flex-wrap gap-2 pt-2">
+            {tags.split(',').map((tag, index) => (
+              <ChipsTag key={index} tag={tag} className="" onClick={() => {console.log(tag + ' is clicked')}}/>
+            ))}
+          </div>
+        )}
         <div className="px-0">
           {/*<Button className="w-full rounded-lg" asChild>
             <Link href={`/blog/${slug}`}>Learn more</Link>
@@ -104,10 +113,7 @@ export const CardBlog = ({
           />
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-3">
-              <Link href={`/user/${author.username}`}>
-                <Avatar className="bg-gray-50 h-10 w-10" {...author!} />
-              </Link>
-
+              <Avatar className="bg-gray-50 h-10 w-10" {...author!} />
               <div>
                 <Link
                   className="text-sm hover:text-secondary font-medium"

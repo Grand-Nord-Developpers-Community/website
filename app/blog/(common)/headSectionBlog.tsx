@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import type { SessionUser } from "@/lib/db/schema";
 import Avatar from "@/components/avatar";
 import { Separator } from "@/components/ui/separator";
+import { ChipsTag } from "@/components/ui/chips";
 function renderStat({
   post,
   views,
@@ -87,6 +88,7 @@ function headSectionBlog({
               <h1 className="max-md:w-full text-4xl max-sm:text-2xl md:text-5xl font-bold tracking-tight text-secondary">
                 {post!.title}
               </h1>
+
               {post!.isDraft && (
                 <div className="flex gap-2 items-center mt-5">
                   <div className="text-white bg-secondary p-2 max-sm:p-2.5  w-fit text-sm max-sm:text-xs">
@@ -110,6 +112,18 @@ function headSectionBlog({
               <p className="text-lg text-gray-100 max-sm:text-base">
                 {post!.description}
               </p>
+              {post?.tags && (
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {post?.tags.split(",").map((tag, index) => (
+                    <ChipsTag
+                      key={index}
+                      tag={tag}
+                      className="!border !border-gray-500 text-stroke"
+                      
+                    />
+                  ))}
+                </div>
+              )}
               <div className="max-md:hidden flex max-sm:flex-col  sm:items-center sm:space-x-6">
                 <div className="flex items-center space-x-3">
                   <Avatar className="h-10 w-10 bg-gray-50" {...post?.author!} />

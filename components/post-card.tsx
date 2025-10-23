@@ -24,9 +24,11 @@ import {
 } from "lucide-react";
 import { calculateReadingTime, formatRelativeTime } from "@/lib/utils";
 import Link from "next/link";
+import { ChipsTag } from "./ui/chips";
 interface Post {
   id: string;
   slug?: string;
+  tags?: string | null;
   type: "blog" | "forum";
   title: string;
   views?: number;
@@ -44,6 +46,7 @@ export default function PostCard({
   id,
   title,
   slug,
+  tags,
   type,
   content,
   date,
@@ -116,6 +119,13 @@ export default function PostCard({
               <ThumbsUp className="w-4 h-4" />
               {likes ?? 0}
             </span>
+          </div>
+        )}
+        {tags && (
+          <div className="flex flex-wrap gap-2 pt-2">
+            {tags.split(',').map((tag, index) => (
+              <ChipsTag key={index} tag={tag} className="" onClick={() => {console.log(tag + ' is clicked')}}/>
+            ))}
           </div>
         )}
       </CardContent>

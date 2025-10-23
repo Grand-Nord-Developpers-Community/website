@@ -4,6 +4,7 @@ import {
   integer,
   pgTable,
   text,
+  varchar,
   timestamp,
 } from "drizzle-orm/pg-core";
 import { InferSelectModel } from "drizzle-orm";
@@ -19,6 +20,7 @@ export const blogPost = pgTable("blog_post", {
   description: text("description").notNull(),
   content: text("content").notNull(),
   slug: text("slug").notNull().unique(),
+  tags: varchar("tags"),
   authorId: text("authorId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
