@@ -24,12 +24,15 @@ export const getInfiniteBlogs = (size: number) =>
   infiniteQueryOptions({
     queryKey: blogKeys.blogs(0, size),
     queryFn: async ({ pageParam = 0 }) =>
-      await getBlogPostsPaginated(pageParam, size),
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length < size) {
-        return undefined;
+      await getBlogPostsPaginated(pageParam, size,undefined,false),
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (!lastPage || lastPage.length < size) {
+        return undefined; // No more pages
       }
-      return allPages.length;
+      return lastPageParam + 1;
+    },
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      return firstPageParam > 0 ? firstPageParam - 1 : undefined;
     },
     placeholderData: keepPreviousData,
     staleTime: 30_000,
