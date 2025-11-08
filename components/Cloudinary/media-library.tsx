@@ -11,9 +11,9 @@ const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_API_KEY = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
 
 const MediaLibrary = ({ children, onClose, onInsert, onOpen, options = {} }: MediaLibraryProps) => {
-  const cloudinary: any = useRef();
-  const widget: any = useRef();
-  const widgetContainerRef: any = useRef();
+  const cloudinary: any = useRef(null);
+  const widget: any = useRef(null);
+  const widgetContainerRef: any = useRef(null);
 
   const [isScriptLoading, setIsScriptLoading] = useState(true);
 

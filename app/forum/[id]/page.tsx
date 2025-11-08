@@ -58,10 +58,12 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 }
 export async function generateStaticParams() {
   const forums = await getForumPosts();
-  return forums.map((p) => p.id);
+  return forums.map((p) => ({
+    id: p.id
+  }));
 }
-export default async function QuestionPage({ params }: { params: any }) {
-  const { id } = params;
+export default async function QuestionPage({ params }:{params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const forum = await getForumPost(id as string);
   if (!forum) {
     return notFound();

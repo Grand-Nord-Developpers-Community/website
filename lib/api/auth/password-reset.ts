@@ -83,7 +83,7 @@ export const resetPassword = action(
 
     const session = await lucia.createSession(verificationToken.user_id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(sessionCookie);
+    (await cookies()).set(sessionCookie);
     return redirect("/protected");
   }
 );

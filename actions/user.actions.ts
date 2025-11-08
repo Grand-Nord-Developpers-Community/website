@@ -810,7 +810,7 @@ export async function refreshSession() {
   //create
   const s = await lucia.createSession(session?.user?.id!, {});
   const sessionCookie = lucia.createSessionCookie(s.id);
-  cookies().set(sessionCookie);
+  (await cookies()).set(sessionCookie);
   return s;
 }
 export async function updateUserStreak(userId: string) {

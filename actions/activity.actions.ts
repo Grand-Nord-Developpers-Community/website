@@ -21,7 +21,6 @@ export async function getActivity(userId: string) {
     },
     where: eq(userActivity.userId, userId),
   });
-
   const isOnline = await redis.get<boolean>(`user:${userId}:is_online`);
   const lastSeenRedis = await redis.get<number>(`user:${userId}:last_seen`);
 
@@ -97,7 +96,7 @@ export async function getAnalytics(userId: string) {
   }
 }
 export async function processActivity(userId: string) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const cookieKey = `activity_last_processed_${userId}`;
   const lastProcessed = cookieStore.get(cookieKey)?.value;
 

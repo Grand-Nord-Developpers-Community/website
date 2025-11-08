@@ -1,5 +1,5 @@
 // Via https://cloudinary.com/documentation/media_library_widget
-
+import { JSX } from "react";
 export interface MediaLibraryOptions {
   // Authentication
 

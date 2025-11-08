@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { ReactNode } from "react";
+import React, { ReactNode,JSX } from "react";
 
 interface LabelProps {
   as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;

@@ -14,7 +14,7 @@ import CodeMirrorEditor from "@/components/SourceEditor/Editor";
 
 type TiptapContextType = {
   editor: Editor;
-  contentElement: RefObject<Element>;
+  contentElement: RefObject<Element|null>;
   isFullScreen: boolean;
   isResizing: boolean;
   isSourceMode: boolean;

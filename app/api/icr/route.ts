@@ -29,7 +29,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const isMobile = /Mobi|Android|iPhone/i.test(userAgent);
   const deviceType = isMobile ? "mobile" : "desktop";
   const today = new Date().toISOString().split("T")[0];
-  const ip = req.ip;
+  const ip = req.headers.get('x-forwarded-for') ||
+    req.headers.get('x-real-ip') ||
+    //@ts-ignore
+    req?.ip ||
+    null;
   if (ip) {
     // Hash the IP for privacy
     const buf = await crypto.subtle.digest(

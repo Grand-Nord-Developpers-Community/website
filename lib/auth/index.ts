@@ -1,15 +1,13 @@
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
-import type { Session, User } from "lucia";
+import type { Session } from "lucia";
 import { Lucia } from "lucia";
 import { cookies } from "next/headers";
-import React from "react";
 import { db } from "../db";
 import { sessionTable } from "../db/schema/session";
 
 import { SessionUser, User as UserType } from "@/lib/db/schema/user";
 import { userTable } from "../db/schema/user";
-import { IRole, rolesTable } from "../db/schema";
-import { eq } from "drizzle-orm";
+import { IRole } from "../db/schema";
 import { getRoleById } from "@/actions/user.actions";
 
 export const adapter = new DrizzlePostgreSQLAdapter(
@@ -52,7 +50,8 @@ export const lucia = new Lucia(adapter, {
 export const auth = async (): Promise<
   { user: SessionUser; session: Session } | { user: null; session: null }
 > => {
-  const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get(lucia.sessionCookieName)?.value ?? null;
   if (!sessionId) {
     return {
       user: null,
@@ -65,7 +64,7 @@ export const auth = async (): Promise<
   try {
     if (result.session && result.session.fresh) {
       const sessionCookie = lucia.createSessionCookie(result.session.id);
-      cookies().set(
+      (await cookies()).set(
         sessionCookie.name,
         sessionCookie.value,
         sessionCookie.attributes
@@ -73,7 +72,7 @@ export const auth = async (): Promise<
     }
     if (!result.session) {
       const sessionCookie = lucia.createBlankSessionCookie();
-      cookies().set(
+      (await cookies()).set(
         sessionCookie.name,
         sessionCookie.value,
         sessionCookie.attributes

@@ -3,8 +3,12 @@ import { generateOgImageResponse } from "../../og";
 import { getForumPost } from "@/actions/forum.actions";
 import { formatRelativeTime } from "@/lib/utils";
 import { getUserProfileMeta } from "@/actions/user.actions";
-export async function GET(request: NextRequest, { params }: { params: any }) {
-  const user = await getUserProfileMeta(params.username);
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ username: string }> }
+) {
+  const { username } = await params;
+  const user = await getUserProfileMeta(username);
   if (!user) {
     return new Response("Not found", { status: 404 });
   }

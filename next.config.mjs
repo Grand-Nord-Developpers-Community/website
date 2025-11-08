@@ -5,6 +5,10 @@ import withPlaiceholder from "@plaiceholder/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Provide an (empty) turbopack config to opt into Turbopack defaults
+  // while keeping an existing webpack override. This silences the
+  // "webpack config with no turbopack config" error from Next.js.
+  turbopack: {},
   webpack(config, { webpack }) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>

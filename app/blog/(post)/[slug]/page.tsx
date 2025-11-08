@@ -56,23 +56,27 @@ export async function generateMetadata({
 }
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
-  return posts.map((p) => p.slug);
+  return posts.map((post) => ({
+    slug: post.slug
+  }));
 }
 export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const post = await getBlogPost(slug as string);
+  
+  // Handle non-existent post first
+  if (!post) {
+    notFound();
+  }
+
   const { user } = await auth();
   let views: Record<string, number> = {};
   try {
-    // views = (await redis.get<number>(["pageviews", "blogs", slug].join(":"))) ?? 0;
-    views = await fetchPageViews(post?.slug!, "blog");
+    views = await fetchPageViews(post.slug, "blog");
   } catch (error) {
     console.error("Failed to fetch views from Redis:", error);
   }
 
-  if (!post) {
-    notFound();
-  }
   const likes = post.likes.filter((l) => l.isLike === true).length;
   return (
     <div className="min-h-screen bg-background">

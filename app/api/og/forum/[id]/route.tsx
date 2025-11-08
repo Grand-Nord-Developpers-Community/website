@@ -2,8 +2,12 @@ import { NextRequest } from "next/server";
 import { generateOgImageResponse } from "../../og";
 import { getForumPost } from "@/actions/forum.actions";
 import { formatRelativeTime } from "@/lib/utils";
-export async function GET(request: NextRequest, { params }: { params: any }) {
-  const post = await getForumPost(params.id);
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const post = await getForumPost(id);
   if (!post) {
     return new Response("Not found", { status: 404 });
   }

@@ -127,20 +127,14 @@ export async function generateOgImageResponse({
   replies?: { id: string }[];
 }) {
   const fontData = await fetch(
-    new URL(
-      `${process.env.BASE_URL}/ogdata/Montserrat-Regular.ttf`,
-      import.meta.url
-    )
+    new URL('/ogdata/Montserrat-Regular.ttf', process.env.BASE_URL)
   ).then((res) => res.arrayBuffer());
 
   const extrafontData = await fetch(
-    new URL(
-      `${process.env.BASE_URL}/ogdata/Montserrat-ExtraBold.ttf`,
-      import.meta.url
-    )
+    new URL('/ogdata/Montserrat-ExtraBold.ttf', process.env.BASE_URL)
   ).then((res) => res.arrayBuffer());
   const imageBuffer = await fetch(
-    new URL(`${process.env.BASE_URL}/ogdata/logo.png`, import.meta.url)
+    new URL('/ogdata/logo.png', process.env.BASE_URL)
   ).then((res) => res.arrayBuffer());
   const imageData =
     "data:image/png;base64," + Buffer.from(imageBuffer).toString("base64");

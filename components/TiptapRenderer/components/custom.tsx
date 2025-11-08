@@ -1,13 +1,9 @@
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Components } from "rehype-react";
 import HeadingWithAnchor from "./HeadingWithAnchor";
 import CopyButton from "./CopyButton";
 import type { ReactElement } from "react";
-
-const SyntaxHighlighter = dynamic(() => import("./SyntaxHighlighter"), {
-  ssr: false,
-});
+import ClientSyntaxHighlighter from "./ClientSyntaxHighlighter";
 
 export const components: Partial<Components> = {
   h2: (props) => <HeadingWithAnchor level={2} {...props} />,
@@ -37,7 +33,7 @@ export const components: Partial<Components> = {
     //  </div>
   ),
   pre: ({ children, ...props }) => {
-    const code = (children as ReactElement).props.children;
+    const code = (children as ReactElement<{ children: string }>).props.children;
     return (
       <div className="relative group not-prose rounded-lg overflow-hidden border border-[#d1d9e0] dark:border-[#3d444d]">
         <CopyButton code={String(code)} />
@@ -49,7 +45,7 @@ export const components: Partial<Components> = {
     const match = /language-(\w+)/.exec(props.className || "");
     const code = String(children).replace(/\n$/, "");
     return match ? (
-      <SyntaxHighlighter language={match[1]} content={code} />
+      <ClientSyntaxHighlighter language={match[1]} content={code} />
     ) : (
       <code {...props}>{children}</code>
     );

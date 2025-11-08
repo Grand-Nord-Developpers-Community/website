@@ -2,8 +2,12 @@ import { getBlogPost, getBlogPostMeta } from "@/actions/blog.actions";
 import { NextRequest } from "next/server";
 import { generateOgImageResponse } from "../../og";
 
-export async function GET(request: NextRequest, { params }: { params: any }) {
-  const post = await getBlogPostMeta(params.slug);
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params;
+  const post = await getBlogPostMeta(slug);
   if (!post) {
     return new Response("Not found", { status: 404 });
   }

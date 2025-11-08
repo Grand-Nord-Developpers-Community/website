@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     const session = await lucia.createSession(validCode.user_id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(sessionCookie);
+    (await cookies()).set(sessionCookie);
     return NextResponse.redirect(new URL("/protected", request.url));
   } catch (error) {
     console.log("Failed to verify email");

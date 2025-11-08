@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { ReactNode } from "react";
+import React, { ReactNode ,JSX} from "react";
 
 interface HeadingWithAnchorProps {
   level: number;

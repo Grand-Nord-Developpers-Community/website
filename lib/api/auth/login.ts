@@ -47,7 +47,7 @@ export const loginWithGithub = async () => {
   const url = await github.createAuthorizationURL(state, {
     scopes: ["user:email"],
   });
-  cookies().set("github_oauth_state", state, {
+  (await cookies()).set("github_oauth_state", state, {
     path: "/",
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
@@ -67,14 +67,14 @@ export const loginWithGoogle = async () => {
     scopes: ["profile", "email"],
   });
 
-  cookies().set("google_oauth_state", state, {
+  (await cookies()).set("google_oauth_state", state, {
     path: "/",
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
     maxAge: 60 * 10,
     sameSite: "lax",
   });
-  cookies().set("google_oauth_code_verifier", codeVerifier, {
+  (await cookies()).set("google_oauth_code_verifier", codeVerifier, {
     path: "/",
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
@@ -147,7 +147,7 @@ export const loginWithPassword = action(
 
     const session = await lucia.createSession(existingUser.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(sessionCookie);
+    (await cookies()).set(sessionCookie);
     console.log(session);
     if (withoutRedirect) return;
     return {
