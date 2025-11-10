@@ -19,14 +19,15 @@ import { fetchPageViews } from "@/actions/utils.actions";
 import Avatar from "@/components/avatar";
 export const revalidate = 60;
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const post = await getForumPost(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const {id}=await params
+  const post = await getForumPost(id);
   if (!post) return {};
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-  const url = `${baseUrl}/blog/${params.id}`;
+  const url = `${baseUrl}/blog/${id}`;
   const description = post.textContent;
-  const ogImage = `/api/og/forum/${params.id}`;
+  const ogImage = `/api/og/forum/${id}`;
 
   return {
     title: post.title,

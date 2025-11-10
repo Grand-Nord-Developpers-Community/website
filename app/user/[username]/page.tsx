@@ -15,15 +15,16 @@ import ProfileSection from "@/components/profile/profil-section";
 export async function generateMetadata({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }) {
-  const user = await getUserProfileMeta(params.username);
+  const {username}=await params
+  const user = await getUserProfileMeta(username);
   if (!user) return {};
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-  const url = `${baseUrl}/user/${params.username}`;
+  const url = `${baseUrl}/user/${username}`;
   const description = user.bio || "Pas de bio";
-  const ogImage = `/api/og/user/${params.username}`;
+  const ogImage = `/api/og/user/${username}`;
 
   return {
     title: "Profil GNDC : " + user.name,
@@ -53,8 +54,9 @@ export async function generateMetadata({
     },
   };
 }
-const ProfilePage = async ({ params }: { params: { username: string } }) => {
-  const userprofile = await getUserProfile(params.username);
+const ProfilePage = async ({ params }: { params: Promise<{ username: string }> }) => {
+  const {username}=await params
+  const userprofile = await getUserProfile(username);
   if (!userprofile) {
     return notFound();
   }

@@ -20,9 +20,9 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: any;
+  params: Promise<any>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getBlogPostEdit(slug);
   if (!post) notFound();
 

@@ -6,8 +6,8 @@ import HeadSectionBlog from "../../../(common)/headSectionBlog";
 import { withAuth } from "@/lib/withAuth";
 
 export const revalidate = 60;
-export default async function Page({ params }: { params: any }) {
-  const { slug } = params;
+export default async function Page({ params }: { params: Promise<any> }) {
+  const { slug } = await params;
   const post = await getBlogPostPreview(slug as string);
   const { user } = await withAuth();
   if (!post) {

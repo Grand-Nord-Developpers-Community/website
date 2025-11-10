@@ -168,6 +168,7 @@ const BlogList: React.FC<BlogListProps> = ({
         {filteredPosts.map((blog, i) => (
           <CardBlog
             {...blog}
+            className={`order-[${i}]`}
             view={views[blog.slug]}
             key={`${blog.slug}-${i}`}
           />

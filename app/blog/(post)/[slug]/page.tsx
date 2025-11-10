@@ -13,18 +13,16 @@ import { auth } from "@/lib/auth";
 import { fetchPageViews } from "@/actions/utils.actions";
 
 //export const revalidate = 60;
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const post = await getBlogPostMeta(params.slug);
+export async function generateMetadata({ params }:{ params: Promise<{ slug: string }>}) {
+  const { slug } = await params;
+
+  const post = await getBlogPostMeta(slug);
   if (!post) return {};
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-  const url = `${baseUrl}/blog/${params.slug}`;
+  const url = `${baseUrl}/blog/${slug}`;
   const description = post.description;
-  const ogImage = `/api/og/blog/${params.slug}`;
+  const ogImage = `/api/og/blog/${slug}`;
 
   return {
     title: post.title,
@@ -60,8 +58,8 @@ export async function generateStaticParams() {
     slug: post.slug
   }));
 }
-export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function Page({ params }:{ params: Promise<{ slug: string }>}){
+  const { slug } = await params;
   const post = await getBlogPost(slug as string);
   
   // Handle non-existent post first

@@ -5,16 +5,17 @@ import { notFound } from "next/navigation";
 export async function generateMetadata({
   params,
 }: {
-  params: { eventId: string };
+  params: Promise<{ eventId: string }>;
 }) {
-  const event = await getEvent(params.eventId);
+  const {eventId}=await params
+  const event = await getEvent(eventId);
   if (!event) return {};
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-  const url = `${baseUrl}/events/${params.eventId}`;
+  const url = `${baseUrl}/events/${eventId}`;
   const description =
     event.description || `Détails de l'événement ${event.title}`;
-  const ogImage = `/api/og/event/${params.eventId}`;
+  const ogImage = `/api/og/event/${eventId}`;
 
   return {
     title: event.title,
@@ -48,9 +49,10 @@ export async function generateMetadata({
 export default async function EventPage({
   params,
 }: {
-  params: { eventId: string };
+  params: Promise<{ eventId: string }>;
 }) {
-  const activityOrEventRaw = await getEvent(params.eventId);
+  const {eventId}=await params
+  const activityOrEventRaw = await getEvent(eventId);
 
   if (!activityOrEventRaw) return notFound();
 

@@ -10,7 +10,7 @@ export default function Page({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const email = searchParams.email;
