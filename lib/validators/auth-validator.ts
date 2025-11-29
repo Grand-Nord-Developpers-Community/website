@@ -10,18 +10,15 @@ export const loginValidator = z
     code: z.optional(z.array(z.string())),
   })
   .superRefine((data, ctx) => {
-    if (data.withPassword) {
-      if (!data.password) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Password is required",
-          path: ["password"],
-        });
-        return false;
-      }
+    if (data.withPassword && !data.password) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Password is required",
+        path: ["password"],
+      });
     }
-    return true;
   });
+
 export type LoginValitor = z.infer<typeof loginValidator>;
 
 
