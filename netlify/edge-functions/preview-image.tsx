@@ -6,7 +6,7 @@ export default async (request: Request, context: Context) => {
   const post = await getBlogPostMeta(slug);
   if (!post) {
     return new Response("Not found", { status: 404 });
-  }
+  } 
   const title = post.title;
   const date = new Date(post.createdAt).toLocaleDateString();
   const image = await generateOgImageResponse({
