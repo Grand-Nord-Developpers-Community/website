@@ -2,7 +2,8 @@
 import { ImageResponse } from "https://deno.land/x/og_edge/mod.ts";
 //@ts-ignore
 import React from "https://esm.sh/react@18.2.0";
-import { ActiveDayIcon, BlogIcon, ForumIcon, XPIcon } from "./icons";
+//@ts-ignore
+import { ActiveDayIcon, BlogIcon, ForumIcon, XPIcon } from "./icons.tsx";
 
 const styles: Record<string, any> = {
   container: {

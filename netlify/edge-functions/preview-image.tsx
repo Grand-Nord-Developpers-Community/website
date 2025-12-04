@@ -1,6 +1,8 @@
 import type { Config, Context } from "@netlify/edge-functions";
-import { generateOgImageResponse } from "./common";
-import { getBlogPostMeta } from "@/actions/blog.actions";
+//@ts-ignore
+import { generateOgImageResponse } from "./common.tsx";
+//@ts-ignore
+import { getBlogPostMeta } from "@/actions/blog.actions.ts";
 export default async (request: Request, context: Context) => {
   const { slug } = context.params;
   const post = await getBlogPostMeta(slug);
