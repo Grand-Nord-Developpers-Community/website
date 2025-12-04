@@ -16,7 +16,9 @@ export const loginValidator = z
         message: "Password is required",
         path: ["password"],
       });
+      // return false;
     }
+    // return true;
   });
 
 export type LoginValitor = z.infer<typeof loginValidator>;
@@ -37,10 +39,10 @@ export const registerValidator = z
           message: "Password is required",
           path: ["password"],
         });
-        return false;
+        // return false;
       }
     }
-    return true;
+    // return true;
   });
 export type RegisterValidator = z.infer<typeof registerValidator>;
 
