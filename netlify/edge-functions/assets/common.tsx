@@ -162,7 +162,6 @@ export async function generateOgImageResponse({
   const imageBuffer = await fontFileResponse.arrayBuffer();
   const base64 = btoa(String.fromCharCode(...new Uint8Array(imageBuffer)));
   const imageData = `data:image/png;base64,${base64}`;
-  console.log(imageData);
 
   let contentToRender = null;
   if (type === "user") {
@@ -460,7 +459,7 @@ export async function generateOgImageResponse({
       <div style={styles.borderBottom} />
     </div>
   );
-  console.log(contentToRender);
+  console.log("generating image");
   return new ImageResponse(contentToRender, {
     width: 1200,
     height: 630,

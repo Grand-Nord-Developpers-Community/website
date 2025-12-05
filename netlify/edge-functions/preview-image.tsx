@@ -24,6 +24,32 @@ export default async (request: Request, context: Context) => {
     },
   });
 
+  console.log("Generated image response:", image);
+  if (!image) {
+    return new Response("Failed to generate image", { status: 500 });
+  }
+
+  console.log("Returning image response");
+  image.headers.set("Cache-Control", "public, max-age=31536000, immutable");
+  image.headers.set("Content-Type", "image/png");
+
+  // Set CORS headers
+  image.headers.set("Access-Control-Allow-Origin", "*");
+  image.headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+  image.headers.set("Access-Control-Allow-Headers", "Content-Type");
+
+  // Set security headers
+  image.headers.set("X-Content-Type-Options", "nosniff");
+  image.headers.set("X-Frame-Options", "DENY");
+  image.headers.set("X-XSS-Protection", "1; mode=block");
+
+  console.log("Image response headers:", image.headers);
+
+  // Return the generated image response
+  console.log("Returning image response with headers:", image.headers);
+  console.log("Image response status:", image.status);
+  console.log("Image response status text:", image.statusText);
+
   return image;
 };
 
