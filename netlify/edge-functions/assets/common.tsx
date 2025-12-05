@@ -1,5 +1,4 @@
-//@ts-ignore
-import { ImageResponse } from "https://deno.land/x/og_edge/mod.ts";
+
 //@ts-ignore
 import React from "https://esm.sh/react@18.2.0";
 //@ts-ignore
@@ -460,9 +459,8 @@ export async function generateOgImageResponse({
     </div>
   );
   console.log("generating image");
-  return new ImageResponse(contentToRender, {
-    width: 1200,
-    height: 630,
+  return {
+    contentToRender,
     fonts,
-  });
+  }
 }
