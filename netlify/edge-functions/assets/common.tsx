@@ -162,6 +162,8 @@ export async function generateOgImageResponse({
   const imageBuffer = await fontFileResponse.arrayBuffer();
   const base64 = btoa(String.fromCharCode(...new Uint8Array(imageBuffer)));
   const imageData = `data:image/png;base64,${base64}`;
+  console.log(imageData);
+
   let contentToRender = null;
   if (type === "user") {
     contentToRender = (
@@ -428,8 +430,7 @@ export async function generateOgImageResponse({
           width="70"
           height="70"
           src={
-            author.image ||
-            `${origin}/api/avatar?username=${author.username}`
+            author.image || `${origin}/api/avatar?username=${author.username}`
           }
           style={styles.authorAvatar}
         />
@@ -459,6 +460,7 @@ export async function generateOgImageResponse({
       <div style={styles.borderBottom} />
     </div>
   );
+  console.log(contentToRender);
   return new ImageResponse(contentToRender, {
     width: 1200,
     height: 630,
