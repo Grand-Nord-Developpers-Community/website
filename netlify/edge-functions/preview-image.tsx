@@ -1,6 +1,6 @@
 import type { Config, Context } from "@netlify/edge-functions";
 //@ts-ignore
-import { generateOgImageResponse } from "./common.tsx";
+import { generateOgImageResponse } from "./assets/common.tsx";
 
 export default async (request: Request, context: Context) => {
   const { origin } = new URL(request.url);
