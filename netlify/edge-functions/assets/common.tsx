@@ -157,14 +157,11 @@ export async function generateOgImageResponse({
 }) {
   const { origin } = new URL(request.url);
   const fonts = await loadFonts(origin);
-  console.log(fonts);
-  console.log(origin)
   const url = [origin, "ogdata", "logo.png"].join("/");
   const fontFileResponse = await fetch(url);
   const imageBuffer = await fontFileResponse.arrayBuffer();
-  const imageData =
-    "data:image/png;base64," + Buffer.from(imageBuffer).toString("base64");
-
+  const base64 = btoa(String.fromCharCode(...new Uint8Array(imageBuffer)));
+  const imageData = `data:image/png;base64,${base64}`;
   let contentToRender = null;
   if (type === "user") {
     contentToRender = (
