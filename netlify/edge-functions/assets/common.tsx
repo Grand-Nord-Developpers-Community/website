@@ -231,7 +231,7 @@ export async function generateOgImageResponse({
               <img
                 src={
                   author.image ||
-                  `${process.env.BASE_URL}/api/avatar?username=${author.username}`
+                  `${origin}/api/avatar?username=${author.username}`
                 }
                 alt="Logo"
                 width="200"
@@ -429,7 +429,7 @@ export async function generateOgImageResponse({
           height="70"
           src={
             author.image ||
-            `${process.env.BASE_URL}/api/avatar?username=${author.username}`
+            `${origin}/api/avatar?username=${author.username}`
           }
           style={styles.authorAvatar}
         />
