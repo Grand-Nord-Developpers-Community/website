@@ -19,7 +19,7 @@ export default async (request: Request, context: Context) => {
   const date = new Date(post.createdAt).toLocaleDateString();
   console.log("Generated image response:", { title, date, author: post.author });
 
-  const image = await generateOgImageResponse({
+  return await generateOgImageResponse({
     request: request,
     title,
     date,
@@ -30,10 +30,10 @@ export default async (request: Request, context: Context) => {
     },
   });
 
-  console.log("Generated image response:", image);
-  if (!image) {
-    return new Response("Failed to generate image", { status: 500 });
-  }
+  // console.log("Generated image response:", image);
+  // if (!image) {
+  //   return new Response("Failed to generate image", { status: 500 });
+  // }
 
   // console.log("Returning image response");
   // image.headers.set("Cache-Control", "public, max-age=31536000, immutable");
@@ -55,12 +55,12 @@ export default async (request: Request, context: Context) => {
   // console.log("Returning image response with headers:", image.headers);
   // console.log("Image response status:", image.status);
   // console.log("Image response status text:", image.statusText);
-  console.log("Returning image response");
-  return new ImageResponse(image.contentToRender, {
-    width: 1200,
-    height: 630,
-    fonts: image.fonts,
-  });
+  // console.log("Returning image response");
+  // return new ImageResponse(image.contentToRender, {
+  //   width: 1200,
+  //   height: 630,
+  //   fonts: image.fonts,
+  // });
   // return new ImageResponse(
   //   (
   //     <div
