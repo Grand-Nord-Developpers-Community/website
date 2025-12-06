@@ -1,4 +1,3 @@
-
 //@ts-ignore
 import React from "https://esm.sh/react@18.2.0";
 //@ts-ignore
@@ -157,310 +156,322 @@ export async function generateOgImageResponse({
   const { origin } = new URL(request.url);
   const fonts = await loadFonts(origin);
   const url = [origin, "ogdata", "logo.png"].join("/");
-  const fontFileResponse = await fetch(url);
-  const imageBuffer = await fontFileResponse.arrayBuffer();
+  const imageFileResponse = await fetch(url);
+  const imageBuffer = await imageFileResponse.arrayBuffer();
   const base64 = btoa(String.fromCharCode(...new Uint8Array(imageBuffer)));
   const imageData = `data:image/png;base64,${base64}`;
-
-  let contentToRender = null;
-  if (type === "user") {
-    contentToRender = (
-      <div
-        style={{
-          ...styles.container,
-          justifyContent: "space-between",
-          paddingTop: 80,
-        }}
-      >
-        {/* Header Section */}
+  console.log("Generating OG image for", type, author.username);
+  try {
+    let contentToRender = null;
+    if (type === "user") {
+      contentToRender = (
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "24px",
+            ...styles.container,
+            justifyContent: "space-between",
+            paddingTop: 80,
           }}
         >
-          {/* Title and Logo */}
+          {/* Header Section */}
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: "32px",
+              flexDirection: "column",
+              gap: "24px",
             }}
           >
+            {/* Title and Logo */}
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                gap: "12px",
-                flex: 1,
+                alignItems: "center",
+                gap: "32px",
               }}
             >
-              <h1
+              <div
                 style={{
-                  fontSize: "60px",
-                  fontWeight: "800",
-                  margin: 0,
-                  color: "#1f2328",
-                  lineHeight: 1.2,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                  flex: 1,
                 }}
               >
-                {author.name}
-              </h1>
-              <p
+                <h1
+                  style={{
+                    fontSize: "60px",
+                    fontWeight: "800",
+                    margin: 0,
+                    color: "#1f2328",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {author.name}
+                </h1>
+                <p
+                  style={{
+                    fontSize: "32px",
+                    margin: 0,
+                    color: "#656d76",
+                    fontWeight: "400",
+                  }}
+                >
+                  @{author.username}
+                </p>
+              </div>
+
+              {/* Logo */}
+
+              <div
+                style={{
+                  display: "flex",
+                  width: "180px",
+                  height: "180px",
+                }}
+              >
+                <img
+                  src={
+                    author.image ||
+                    `${origin}/api/avatar?username=${author.username}`
+                  }
+                  alt="Logo"
+                  width="200"
+                  height="200"
+                  style={{
+                    objectFit: "contain",
+                    borderRadius: 10,
+                  }}
+                />
+              </div>
+            </div>
+            <p
+              style={{
+                fontSize: "42px",
+                margin: 0,
+                color: "#656d76",
+                fontWeight: "400",
+              }}
+            >
+              {(() => {
+                const charsPerLine = 50;
+                const maxChars = charsPerLine * 2;
+                if (author.bio && author.bio.length > maxChars) {
+                  return author.bio.slice(0, maxChars - 1) + "…";
+                }
+                return author.bio || "Pas de bio!";
+              })()}
+            </p>
+          </div>
+
+          {/* Stats Section */}
+          <div
+            style={{
+              display: "flex",
+              gap: "48px",
+              width: "100%",
+            }}
+          >
+            {/* xp */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <XPIcon size={32} style={{ color: "#a16207" }} />
+              <span
                 style={{
                   fontSize: "32px",
-                  margin: 0,
-                  color: "#656d76",
-                  fontWeight: "400",
+                  fontWeight: "600",
+                  color: "#1f2328",
                 }}
               >
-                @{author.username}
-              </p>
+                {stats?.xp}
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  color: "#656d76",
+                }}
+              >
+                xp
+              </span>
             </div>
 
-            {/* Logo */}
-
+            {/* activity */}
             <div
               style={{
                 display: "flex",
-                width: "180px",
-                height: "180px",
+                alignItems: "center",
+                gap: "12px",
               }}
             >
-              <img
-                src={
-                  author.image ||
-                  `${origin}/api/avatar?username=${author.username}`
-                }
-                alt="Logo"
-                width="200"
-                height="200"
+              <ActiveDayIcon size={32} />
+              <span
                 style={{
-                  objectFit: "contain",
-                  borderRadius: 10,
+                  fontSize: "32px",
+                  fontWeight: "600",
+                  color: "#1f2328",
                 }}
-              />
+              >
+                {stats?.active_day}
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  color: "#656d76",
+                }}
+              >
+                jours
+              </span>
+            </div>
+
+            {/* forums */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <ForumIcon size={32} />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontWeight: "600",
+                  color: "#1f2328",
+                }}
+              >
+                {stats?.forums}
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  color: "#656d76",
+                }}
+              >
+                Discussions
+              </span>
+            </div>
+
+            {/* Blogs */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <BlogIcon size={32} />
+              <span
+                style={{
+                  fontSize: "32px",
+                  fontWeight: "600",
+                  color: "#1f2328",
+                }}
+              >
+                {stats?.blogs}
+              </span>
+              <span
+                style={{
+                  fontSize: "28px",
+                  color: "#656d76",
+                }}
+              >
+                Blogs
+              </span>
             </div>
           </div>
-          <p
-            style={{
-              fontSize: "42px",
-              margin: 0,
-              color: "#656d76",
-              fontWeight: "400",
-            }}
-          >
-            {(() => {
-              const charsPerLine = 50;
-              const maxChars = charsPerLine * 2;
-              if (author.bio && author.bio.length > maxChars) {
-                return author.bio.slice(0, maxChars - 1) + "…";
-              }
-              return author.bio || "Pas de bio!";
-            })()}
-          </p>
+          <div style={styles.borderBottom} />
         </div>
-
-        {/* Stats Section */}
-        <div
-          style={{
-            display: "flex",
-            gap: "48px",
-            width: "100%",
-          }}
-        >
-          {/* xp */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-          >
-            <XPIcon size={32} style={{ color: "#a16207" }} />
-            <span
-              style={{
-                fontSize: "32px",
-                fontWeight: "600",
-                color: "#1f2328",
-              }}
-            >
-              {stats?.xp}
-            </span>
-            <span
-              style={{
-                fontSize: "28px",
-                color: "#656d76",
-              }}
-            >
-              xp
-            </span>
+      );
+    }
+    contentToRender = (
+      <div style={styles.container}>
+        <>
+          <div style={styles.category}>
+            {type == "article" ? "Article" : "Question"}
           </div>
-
-          {/* activity */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-          >
-            <ActiveDayIcon size={32} />
-            <span
+          <div />
+        </>
+        <>
+          <img src={imageData} width={272} height={104} />
+          <div />
+        </>
+        {title && (
+          <>
+            <div
               style={{
-                fontSize: "32px",
-                fontWeight: "600",
-                color: "#1f2328",
+                ...styles.title,
+                overflow: "hidden",
+                display: "block",
+                maxHeight: "2.6em",
+                lineHeight: 1.3,
+                position: "relative",
+                whiteSpace: "pre-line",
               }}
             >
-              {stats?.active_day}
+              {(() => {
+                const charsPerLine = 50;
+                const maxChars = charsPerLine * 2;
+                if (title.length > maxChars) {
+                  return title.slice(0, maxChars - 1) + "…";
+                }
+                return title;
+              })()}
+            </div>
+            <div />
+          </>
+        )}
+        <div style={styles.author}>
+          <img
+            width="70"
+            height="70"
+            src={
+              author.image || `${origin}/api/avatar?username=${author.username}`
+            }
+            style={styles.authorAvatar}
+          />
+          <div style={styles.authorName}>{author.name}</div>
+          {date && (
+            <>
+              <div style={styles.divider}>&middot;</div>
+              <div style={styles.description}>{date}</div>
+            </>
+          )}
+          {type === "forum" && (
+            <>
+              <div style={styles.divider}>&middot;</div>
+            </>
+          )}
+          {type === "forum" && (
+            <span style={{ fontSize: 26, color: "#475569" }}>
+              {replies.length}
             </span>
-            <span
-              style={{
-                fontSize: "28px",
-                color: "#656d76",
-              }}
-            >
-              jours
-            </span>
-          </div>
-
-          {/* forums */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-          >
-            <ForumIcon size={32} />
-            <span
-              style={{
-                fontSize: "32px",
-                fontWeight: "600",
-                color: "#1f2328",
-              }}
-            >
-              {stats?.forums}
-            </span>
-            <span
-              style={{
-                fontSize: "28px",
-                color: "#656d76",
-              }}
-            >
-              Discussions
-            </span>
-          </div>
-
-          {/* Blogs */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-          >
-            <BlogIcon size={32} />
-            <span
-              style={{
-                fontSize: "32px",
-                fontWeight: "600",
-                color: "#1f2328",
-              }}
-            >
-              {stats?.blogs}
-            </span>
-            <span
-              style={{
-                fontSize: "28px",
-                color: "#656d76",
-              }}
-            >
-              Blogs
-            </span>
-          </div>
+          )}
+          {type === "forum" && (
+            <>
+              <div style={styles.divider}>réponses</div>
+            </>
+          )}
         </div>
         <div style={styles.borderBottom} />
       </div>
     );
-  }
-  contentToRender = (
-    <div style={styles.container}>
-      <>
-        <div style={styles.category}>
-          {type == "article" ? "Article" : "Question"}
+    console.log("return generating image");
+    return {
+      contentToRender,
+      fonts,
+    };
+  } catch (error) {
+    console.error("Error generating OG image:", error);
+    return {
+      contentToRender: (
+        <div style={styles.container}>
+          <h1 style={styles.title}>Error generating image</h1>
         </div>
-        <div />
-      </>
-      <>
-        <img src={imageData} width={272} height={104} />
-        <div />
-      </>
-      {title && (
-        <>
-          <div
-            style={{
-              ...styles.title,
-              overflow: "hidden",
-              display: "block",
-              maxHeight: "2.6em",
-              lineHeight: 1.3,
-              position: "relative",
-              whiteSpace: "pre-line",
-            }}
-          >
-            {(() => {
-              const charsPerLine = 50;
-              const maxChars = charsPerLine * 2;
-              if (title.length > maxChars) {
-                return title.slice(0, maxChars - 1) + "…";
-              }
-              return title;
-            })()}
-          </div>
-          <div />
-        </>
-      )}
-      <div style={styles.author}>
-        <img
-          width="70"
-          height="70"
-          src={
-            author.image || `${origin}/api/avatar?username=${author.username}`
-          }
-          style={styles.authorAvatar}
-        />
-        <div style={styles.authorName}>{author.name}</div>
-        {date && (
-          <>
-            <div style={styles.divider}>&middot;</div>
-            <div style={styles.description}>{date}</div>
-          </>
-        )}
-        {type === "forum" && (
-          <>
-            <div style={styles.divider}>&middot;</div>
-          </>
-        )}
-        {type === "forum" && (
-          <span style={{ fontSize: 26, color: "#475569" }}>
-            {replies.length}
-          </span>
-        )}
-        {type === "forum" && (
-          <>
-            <div style={styles.divider}>réponses</div>
-          </>
-        )}
-      </div>
-      <div style={styles.borderBottom} />
-    </div>
-  );
-  console.log("generating image");
-  return {
-    contentToRender,
-    fonts,
+      ),
+      fonts,
+    };
   }
 }

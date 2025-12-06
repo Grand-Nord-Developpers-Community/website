@@ -15,6 +15,8 @@ export default async (request: Request, context: Context) => {
   } 
   const title = post.title;
   const date = new Date(post.createdAt).toLocaleDateString();
+  console.log("Generated image response:", { title, date, author: post.author });
+
   const image = await generateOgImageResponse({
     request: request,
     title,
