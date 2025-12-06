@@ -3,6 +3,8 @@ import type { Config, Context } from "@netlify/edge-functions";
 import { ImageResponse } from "https://deno.land/x/og_edge/mod.ts";
 //@ts-ignore
 import { generateOgImageResponse } from "./assets/common.tsx";
+//@ts-ignore
+import React from "https://esm.sh/react@18.2.0";
 
 export default async (request: Request, context: Context) => {
   const { origin } = new URL(request.url);
