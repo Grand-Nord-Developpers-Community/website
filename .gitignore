@@ -23,6 +23,8 @@ yarn.lock
 # production
 /build
 
+.netlify/
+
 # misc
 .DS_Store
 *.pem
