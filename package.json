@@ -111,7 +111,7 @@
     "lucia": "^3.1.1",
     "lucide-react": "^0.399.0",
     "match-sorter": "^8.0.0",
-    "next": "^16.0.1",
+    "next": "16.0.10",
     "next-safe-action": "^6.2.0",
     "next-themes": "^0.3.0",
     "nodemailer": "^6.10.1",
