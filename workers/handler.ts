@@ -15,28 +15,28 @@ export type Handler<K extends keyof JobPayloads> = (
 
 export const handlers: { [K in keyof JobPayloads]: Handler<K> } = {
   BLOG_CREATED: async (data) => {
-    //await whenBlogCreated(data);
+    await whenBlogCreated(data);
   },
   BLOG_LIKED: async (data) => {
-    //await whenBlogLiked(data);
+    await whenBlogLiked(data);
   },
   COMMENT_ADDED: async (data) => {
-    //await whenCommentAdded(data);
+    await whenCommentAdded(data);
   },
   FORUM_CREATED: async (data) => {
-    //await whenForumCreated(data);
+    await whenForumCreated(data);
   },
   UPVOTED: async (data) => {
-    //await whenVoted(data);
+    await whenVoted(data);
   },
   USER_NEW: async (data) => {
-    //await whenNewUser(data);
+    await whenNewUser(data);
   },
   WEEKLY_LEADERBOARD: async (data) => {
     //await whenWeeklyLeaderBoard(data);
   },
   VALIDATED_BLOG: async (data) => {
-    //await whenBlogValidated(data);
+    await whenBlogValidated(data);
   },
   WEEKLY_DIGEST_BLOG: async (data) => {
     //await whenWeeklyNews(data);
