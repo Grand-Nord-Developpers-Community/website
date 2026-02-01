@@ -127,14 +127,14 @@ export async function generateOgImageResponse({
   replies?: { id: string }[];
 }) {
   const fontData = await fetch(
-    new URL('/ogdata/Montserrat-Regular.ttf', process.env.BASE_URL)
+    new URL("/ogdata/Montserrat-Regular.ttf", process.env.BASE_URL),
   ).then((res) => res.arrayBuffer());
 
   const extrafontData = await fetch(
-    new URL('/ogdata/Montserrat-ExtraBold.ttf', process.env.BASE_URL)
+    new URL("/ogdata/Montserrat-ExtraBold.ttf", process.env.BASE_URL),
   ).then((res) => res.arrayBuffer());
   const imageBuffer = await fetch(
-    new URL('/ogdata/logo.png', process.env.BASE_URL)
+    new URL("/ogdata/logo.png", process.env.BASE_URL),
   ).then((res) => res.arrayBuffer());
   const imageData =
     "data:image/png;base64," + Buffer.from(imageBuffer).toString("base64");
@@ -378,7 +378,7 @@ export async function generateOgImageResponse({
             weight: 800,
           },
         ],
-      }
+      },
     );
   }
   return new ImageResponse(
@@ -471,6 +471,6 @@ export async function generateOgImageResponse({
           weight: 800,
         },
       ],
-    }
+    },
   );
 }
