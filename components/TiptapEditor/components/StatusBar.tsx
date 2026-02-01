@@ -10,8 +10,8 @@ const StatusBar = () => {
   const counter = useEditorState({
     editor,
     selector: (ctx) => ({
-      words: ctx.editor.storage.characterCount.words(),
-      characters: ctx.editor.storage.characterCount.characters(),
+      words: (ctx.editor.storage as any).characterCount.words(),
+      characters: (ctx.editor.storage as any).characterCount.characters(),
     }),
   });
 

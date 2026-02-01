@@ -13,7 +13,7 @@ export const LinkMenu = () => {
   const link = useEditorState({
     editor,
     selector: (context) => {
-      mode.current = context.editor.storage.link.mode;
+      mode.current = (context.editor.storage as any).link.mode;
 
       if (!context.editor.isActive("link")) return null;
       const {

@@ -18,7 +18,7 @@ export default function EditorWrapper() {
     if (!loading && success) {
       const editor = editorRef.current?.getInstance();
       if (!editor) return;
-      editor.options.element.querySelector('[contenteditable="true"]');
+      (editor.options.element as HTMLElement).querySelector('[contenteditable="true"]');
 
       setValue("content", "", { shouldValidate: true });
       editor?.commands.clearContent();
