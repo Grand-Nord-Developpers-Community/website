@@ -54,7 +54,7 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-  .dark {
+  /*.dark {
     --background: 24 9.8039% 10%;
     --foreground: 60 4.7619% 95.8824%;
     --card: 12 6.4935% 15.098%;
@@ -106,6 +106,69 @@
     --shadow-xl: 0px 2px 3px 0px hsl(0 0% 5% / 0.18),
       0px 8px 10px -1px hsl(0 0% 5% / 0.18);
     --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 5% / 0.45);
+  }*/
+  .dark {
+    --background: 0 0% 6.6667%;
+    --foreground: 0 0% 93.3333%;
+    --card: 0 0% 9.8039%;
+    --card-foreground: 0 0% 93.3333%;
+    --popover: 0 0% 9.8039%;
+    --popover-foreground: 0 0% 93.3333%;
+    --primary: 205 83% 23%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 32 50% 50%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 13.3333%;
+    --muted-foreground: 0 0% 70.5882%;
+    --accent: 0 0% 16.4706%;
+    --accent-foreground: 0 0% 93.3333%;
+    --destructive: 10.1639 77.8723% 53.9216%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 45 14.2857% 10.9804%;
+    --input: 0 0% 28.2353%;
+    --ring: 29.5082 100% 88.0392%;
+    --chart-1: 29.5082 100% 88.0392%;
+    --chart-2: 28.2353 17.5258% 19.0196%;
+    --chart-3: 0 0% 16.4706%;
+    --chart-4: 30 17.8571% 21.9608%;
+    --chart-5: 30 100% 87.8431%;
+    --sidebar: 240 5.8824% 10%;
+    --sidebar-foreground: 240 4.7619% 95.8824%;
+    --sidebar-primary: 224.2781 76.3265% 48.0392%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7037% 15.8824%;
+    --sidebar-accent-foreground: 240 4.7619% 95.8824%;
+    --sidebar-border: 240 3.7037% 15.8824%;
+    --sidebar-ring: 240 4.878% 83.9216%;
+    --font-sans:
+      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+      "Noto Color Emoji";
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    --radius: 0.5rem;
+    --shadow-x: 0;
+    --shadow-y: 1px;
+    --shadow-blur: 3px;
+    --shadow-spread: 0px;
+    --shadow-opacity: 0.1;
+    --shadow-color: oklch(0 0 0);
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-sm:
+      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow:
+      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md:
+      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg:
+      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-xl:
+      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
   }
   .screen-wrapper {
     @apply max-w-[var(--max-width)] px-3 mx-auto;
@@ -113,8 +176,8 @@
   .article-content code:not(pre code) {
     @apply inline-block mx-1 rounded border border-[var(--mt-code-color)] bg-[var(--mt-code-background)] px-1 py-0.5 text-sm after:content-[''] before:content-[''];
   }
-  .text-stroke{
-    -webkit-text-stroke:0.5px rgba(255, 255, 255, .4);
+  .text-stroke {
+    -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.4);
   }
   @media only screen and (max-width: 1279px) {
     .screen-wrapper {

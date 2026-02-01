@@ -5,6 +5,12 @@ import withPlaiceholder from "@plaiceholder/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: [
+    "@node-rs/argon2",
+    "@node-rs/bcrypt",
+    "oslo",
+    "arctic",
+  ],
   // Provide an (empty) turbopack config to opt into Turbopack defaults
   // while keeping an existing webpack override. This silences the
   // "webpack config with no turbopack config" error from Next.js.
@@ -48,7 +54,6 @@ const nextConfig = {
     // // Modify the file loader rule to ignore *.svg, since we have it handled now.
     // fileLoaderRule.exclude = /\.svg$/i;
 
-    config.externals.push("@node-rs/argon2", "@node-rs/bcrypt");
     return config;
   },
 
