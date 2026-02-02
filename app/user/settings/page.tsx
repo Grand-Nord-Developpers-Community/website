@@ -73,7 +73,7 @@ export default function ProfilePage() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mb-5">
         <div>
           <h2 className="text-xl font-semibold mb-2">Profil</h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-muted-foreground mb-4">
             Vous trouverez ci-dessous les informations de votre profil pour
             votre compte.
           </p>
@@ -136,7 +136,7 @@ export default function ProfilePage() {
           <h2 className="text-xl font-semibold mb-2">
             Informations personnelles
           </h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-muted-foreground mb-4">
             Mettez à jour vos informations personnelles. Votre adresse ne sera
             jamais accessible au public.
           </p>
@@ -200,7 +200,7 @@ export default function ProfilePage() {
         />
         <div>
           <h2 className="text-xl font-semibold mb-2">Réseaux sociaux</h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-muted-foreground mb-4">
             Faites savoir à tout le monde où ils peuvent vous trouver.
           </p>
         </div>
@@ -251,7 +251,7 @@ export default function ProfilePage() {
         />
         <div>
           <h2 className="text-xl font-semibold mb-2">Vos compétences</h2>
-          <p className="text-gray-600 ">
+          <p className="text-muted-foreground ">
             Listez vos compétences. Votre compétence sera accessible au public.
           </p>
           <p className="text-green-500">

@@ -759,7 +759,16 @@ export async function updateUserProfileCompletion(
   data: z.infer<typeof completeProfileSchema>
 ) {
   try {
-    const validatedData = completeProfileSchema.parse(data);
+    const validated = completeProfileSchema.safeParse(data);
+
+    if (!validated.success) {
+      return {
+        success: false,
+        message: validated.error.errors[0].message,
+      };
+    }
+
+    const validatedData = validated.data;
 
     const userAccount = await db.query.userTable.findFirst({
       //@ts-ignore
@@ -907,7 +916,16 @@ export async function updateUser(
   userData: z.infer<typeof updateUserSchema>
 ) {
   // Validate input
-  const validatedData = updateUserSchema.parse(userData);
+  const validated = updateUserSchema.safeParse(userData);
+
+  if (!validated.success) {
+    return {
+      success: false,
+      message: validated.error.errors[0].message,
+    };
+  }
+
+  const validatedData = validated.data;
 
   // Fetch the current user data
   const currentUser = await db.query.userTable.findFirst({
@@ -984,7 +1002,16 @@ export async function updateUserPassword(
   userId: string,
   data: UpdatePasswordInput
 ) {
-  const validatedData = updatePasswordSchema.parse(data);
+  const validated = updatePasswordSchema.safeParse(data);
+
+  if (!validated.success) {
+    return {
+      success: false,
+      message: validated.error.errors[0].message,
+    };
+  }
+
+  const validatedData = validated.data;
 
   const currentUser = await db.query.userTable.findFirst({
     where: eq(user.id, userId),

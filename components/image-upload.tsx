@@ -204,9 +204,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               />
               <button
                 onClick={removeSelectedImage}
-                className="absolute top-0 right-2 p-2 z-10 rounded-full bg-gray-200"
+                className="absolute top-0 right-2 p-2 z-10 border border-border rounded-full bg-muted text-muted-foreground"
               >
-                <X />
+                <X  className="text-muted-foreground"/>
               </button>
             </div>
           )}

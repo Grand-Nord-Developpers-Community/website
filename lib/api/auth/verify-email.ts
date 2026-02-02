@@ -31,7 +31,9 @@ export const verifyEmail = action(verifyEmailSchema, async ({ code }) => {
   const sessionCookie = lucia.createSessionCookie(session.id);
   (await cookies()).set(sessionCookie);
 
-  return redirect("/protected");
+  return {
+    redirectUrl: "/protected",
+  };
 });
 
 export async function verifyVerificationCode(code: string) {

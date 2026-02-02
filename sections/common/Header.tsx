@@ -64,7 +64,7 @@ function AvatarMenuDropDown({
         <Button variant="ghost" className="relczative h-8 w-8 rounded-full">
           <Avatar
             asLink={false}
-            className="bg-none border-border h-11 w-11"
+            className="bg-muted border-border h-11 w-11"
             {...user!}
           />
         </Button>

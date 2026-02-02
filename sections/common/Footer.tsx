@@ -169,25 +169,25 @@ function Footer() {
 
         {/* Copyright and Social Icons */}
         <div className="mt-8 pt-4 border-t border-border flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted-foreground">
             © Grand Nord Developers Community - {new Date().getFullYear()}.
             Tous droits réservés
           </p>
           <div className="flex items-center gap-4 md:mt-0 max-sm:gap-2 max-sm:mt-4">
-            <Link href="#" className="text-gray-600">
-              <YoutubeIcon className="size-8 p-2 bg-card" />
+            <Link href="#" className="bg-muted p-2">
+              <YoutubeIcon className="size-4 fill-dark dark:fill-white" />
             </Link>
-            <Link href="#" className="text-gray-600">
-              <Xicon className="size-8 p-2 bg-card" />
+            <Link href="#" className="bg-muted p-2">
+              <Xicon className="size-4 fill-dark dark:fill-white" />
             </Link>
-            <Link href="#" className="text-gray-600">
-              <FacebookIcon className="size-8 p-2 bg-card" />
+            <Link href="#" className="bg-muted p-2">
+              <FacebookIcon className="size-4 fill-dark dark:fill-white" />
             </Link>
-            <Link href="#" className="text-gray-600">
-              <LinkedinIcon className="size-8 p-2 bg-card" />
+            <Link href="#" className="bg-muted p-2">
+              <LinkedinIcon className="size-4 fill-dark dark:fill-white" />
             </Link>
-            <Link href="#" className="text-gray-600">
-              <GithubIcon className="size-8 p-2 bg-card" />
+            <Link href="#" className="bg-muted p-2">
+              <GithubIcon className="size-4 fill-dark dark:fill-white" />
             </Link>
           </div>
         </div>

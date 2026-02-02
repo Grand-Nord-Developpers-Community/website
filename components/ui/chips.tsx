@@ -57,7 +57,7 @@ export const tagsColors: { [key: string]: IRGBColor } = {
 }
 
 export interface ChipsInputProps {
-  value: string;
+  value: string|undefined|null;
   className: string;
   onChange: any;
   onBlur?: any;
@@ -96,9 +96,9 @@ const ChipsInput = React.forwardRef<HTMLTextAreaElement, ChipsInputProps>(
 
     return (
       <div className={cn("w-full max-w-md mx-auto", props.disabled ? " opacity-50" : "")}>
-        <div className="flex flex-wrap gap-2 p-2 border border-border rounded-md bg-transparent">
+        <div className="flex flex-wrap gap-2 p-2 border border-border rounded-md bg-card">
           {tags.map((tag, index) => (
-            <span key={index} className="inline-flex items-center h-[25px] px-2 text-sm font-medium text-gray-800 bg-gray-200 rounded-[6px]">
+            <span key={index} className="inline-flex items-center h-[25px] px-2 text-sm font-medium text-muted-foreground bg-muted rounded-[6px]">
               {tag}
               <button
                 className="ml-2 text-red-500 text-[20px] hover:text-red-700" 

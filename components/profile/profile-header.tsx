@@ -41,14 +41,14 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
                 <h1 className="text-2xl font-bold text-primary truncate max-sm:max-w-[200px]">
                   {user?.name}
                 </h1>
-                <p className="text-sm text-gray-400">@{user?.username}</p>
+                <p className="text-sm text-muted-foreground">@{user?.username}</p>
                 <div className="flex gap-2 mt-2">
                   <Badge>{isAdmin ? "Moderateur" : "Membre"}</Badge>
                   <Badge variant={"secondary"}>
                     {user?.experiencePoints} xp
                   </Badge>
                 </div>
-                <p className="text-sm text-gray-400 mt-2">
+                <p className="text-sm text-muted-foreground mt-2">
                   Inscrit {formatRelativeTime(user?.createdAt!)}
                 </p>
               </div>
@@ -62,19 +62,19 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
                 {user?.activity?.totalDaysActive || 0}
                 <span className="text-xs"> j</span>
               </span>
-              <span className="text-sm text-blueGray-400">Activitées</span>
+              <span className="text-sm text-muted-foreground">Activitées</span>
             </div>
             <div className="mr-4 p-3 text-center">
               <span className="text-xl font-bold block uppercase tracking-wide text-primary">
                 {forums}
               </span>
-              <span className="text-sm text-blueGray-400">Forums</span>
+              <span className="text-sm text-muted-foreground">Forums</span>
             </div>
             <div className="lg:mr-4 p-3 text-center">
               <span className="text-xl font-bold block uppercase tracking-wide text-primary">
                 {blogs}
               </span>
-              <span className="text-sm text-blueGray-400">Blogs</span>
+              <span className="text-sm text-muted-foreground">Blogs</span>
             </div>
           </div>
         </div>
@@ -130,7 +130,7 @@ export default function ProfileHeader({ user }: { user: UserProfile }) {
             </div>
 
             {/* <p className="text-black">{user?.bio || "Pas de bio"}</p> */}
-            <p className="text-gray-400 text-xs">
+            <p className="text-muted-foreground text-xs">
               Inscrit {formatRelativeTime(user?.createdAt!)}
             </p>
             <div className="flex items-center">

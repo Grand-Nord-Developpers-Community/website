@@ -46,6 +46,7 @@ import { logout } from "@/lib/api/auth/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Avatar from "./avatar";
+import {AnimatedThemeToggler} from "@/components/ui/animated-theme-toggler"
 export function AppSidebar({ user }: { user: SessionUser }) {
   const {
     form,
@@ -72,7 +73,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <div className="flex flex-col gap-3">
+            <div className="flex justify-between items-center gap-3">
               <Link href="/">
                 <Image
                   className="block dark:hidden"
@@ -89,6 +90,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                   width={120}
                 />
               </Link>
+              <AnimatedThemeToggler/>
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -133,6 +135,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                       {...field}
                       placeholder="Blog title"
                       disabled={loading}
+                      className="bg-card"
                     />
                   </FormControl>
                   <FormMessage />
@@ -150,6 +153,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
                       {...field}
                       placeholder="Enter the blog description"
                       disabled={loading}
+                      className="bg-card"
                     />
                   </FormControl>
                   <FormMessage />

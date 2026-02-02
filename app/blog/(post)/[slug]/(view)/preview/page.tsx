@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import React from "react";
 import { getBlogPostPreview } from "@/actions/blog.actions";
-import BlogContent from "../../../(common)/blogContent";
-import HeadSectionBlog from "../../../(common)/headSectionBlog";
+import BlogContent from "../../../../(common)/blogContent";
+import HeadSectionBlog from "../../../../(common)/headSectionBlog";
 import { withAuth } from "@/lib/withAuth";
 
 export const revalidate = 60;

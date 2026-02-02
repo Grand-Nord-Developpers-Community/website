@@ -52,6 +52,7 @@ export default function SignIn({ className, props }: UserAuthFormProps) {
     setIsLoading(true);
     try {
       const res = await loginWithPassword(data);
+      console.log(res)
       if (!res.serverError) {
         toast.success("<Bienvenue/> !!");
         router.replace(res?.data?.redirectUrl ?? "/");
@@ -153,7 +154,7 @@ export default function SignIn({ className, props }: UserAuthFormProps) {
               if (error instanceof AuthError) {
                 return redirect(`/error-auth?error=${error.type}`)
               }
- 
+
               // Otherwise if a redirects happens Next.js can handle it
               // so you can just re-thrown the error and let Next.js handle it.
               // Docs:

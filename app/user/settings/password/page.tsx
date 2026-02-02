@@ -95,7 +95,7 @@ export default function PasswordForm() {
           </>
         )}
         <h2 className="text-xl font-semibold mb-2">Mot de passe</h2>
-        <p className="text-gray-600 mb-4">
+        <p className="text-muted-foreground mb-4">
           Vous devez renseigner votre mot de passe actuel pour changer de mot de
           passe.
         </p>

@@ -7,8 +7,8 @@ import {
 } from "@/actions/blog.actions";
 import { ReportView } from "@/components/ReportView";
 import { Redis } from "@upstash/redis";
-import BlogContent from "../../(common)/blogContent";
-import HeadSectionBlog from "../../(common)/headSectionBlog";
+import BlogContent from "../../../(common)/blogContent";
+import HeadSectionBlog from "../../../(common)/headSectionBlog";
 import { auth } from "@/lib/auth";
 import { fetchPageViews } from "@/actions/utils.actions";
 

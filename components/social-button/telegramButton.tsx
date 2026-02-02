@@ -2,7 +2,7 @@ import React from "react";
 
 const TelegramButton = () => {
   return (
-    <button className="flex items-center bg-card  py-2 px-2 rounded-lg pr-4 ">
+    <button className="flex items-center bg-muted  py-2 px-2 rounded-lg pr-4 ">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 496 512"
