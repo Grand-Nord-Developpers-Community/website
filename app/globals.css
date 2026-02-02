@@ -132,14 +132,14 @@
     --chart-3: 0 0% 16.4706%;
     --chart-4: 30 17.8571% 21.9608%;
     --chart-5: 30 100% 87.8431%;
-    --sidebar: 240 5.8824% 10%;
-    --sidebar-foreground: 240 4.7619% 95.8824%;
-    --sidebar-primary: 224.2781 76.3265% 48.0392%;
+       --sidebar: 12 6.4935% 15.098%;
+    --sidebar-background: 12 6.4935% 15.098%;
+    --sidebar-foreground: 60 4.7619% 95.8824%;
+    --sidebar-primary: 24.5815 94.9791% 53.1373%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7037% 15.8824%;
-    --sidebar-accent-foreground: 240 4.7619% 95.8824%;
-    --sidebar-border: 240 3.7037% 15.8824%;
-    --sidebar-ring: 240 4.878% 83.9216%;
+
+    --sidebar-border: 30 6.25% 25.098%;
+    --sidebar-ring: 24.5815 94.9791% 53.1373%;
     --font-sans:
       ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,

@@ -13,13 +13,13 @@ export default function UsernameInput({
   return (
     <div className="*:not-first:mt-2">
       <Label htmlFor={id}>Pseudo</Label>
-      <div className="flex rounded-md shadow-xs">
-        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-          gndc.cm/user/
-        </span>
+      <div className="flex items-center rounded-md shadow-xs">
+        <div className="block w-[15%] h-full break-keep items-center px-3 py-2.5 rounded-l-md  bg-muted text-muted-foreground text-sm">
+          {"gndc.tech/user/"}
+        </div>
         <Input
           id={id}
-          className="-ms-px rounded-s-none shadow-none"
+          className="grow -ms-px rounded-s-none shadow-none"
           placeholder="votre-pseudo"
           type="text"
           value={value}

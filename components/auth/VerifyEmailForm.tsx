@@ -44,6 +44,9 @@ export const VerifyEmailForm = () => {
         throw new Error(result.serverError);
       }
       toast.success("Email verified successfully");
+      if (result?.data?.redirectUrl) {
+        window.location.href = result.data.redirectUrl;
+      }
     } catch (error: any) {
       toast.error(error.message);
       form.setError("pin", { type: "manual", message: error.message });

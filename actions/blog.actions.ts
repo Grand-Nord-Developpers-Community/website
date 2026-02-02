@@ -19,7 +19,7 @@ type blogValueProps = {
   preview: string;
   previewHash: string;
   content: string;
-  tags?: string;
+  tags?: string|null;
   authorId: string;
 };
 // Blog actions
@@ -32,7 +32,7 @@ export async function createBlogPost({
   tags,
   authorId,
 }: blogValueProps) {
-  blogPublishSchema.parse({
+  const validated = blogPublishSchema.safeParse({
     title,
     description,
     preview,
@@ -40,6 +40,13 @@ export async function createBlogPost({
     tags,
     content,
   });
+
+  if (!validated.success) {
+    return {
+      success: false,
+      message: validated.error.errors[0].message,
+    };
+  }
   const slug = slugify(title);
   if (!slug) {
     return {
@@ -304,7 +311,7 @@ export async function updateBlogPost({
   authorId,
   tags
 }: blogValueProps) {
-  blogPublishSchema.parse({
+  const validated = blogPublishSchema.safeParse({
     title,
     description,
     preview,
@@ -312,6 +319,13 @@ export async function updateBlogPost({
     content,
     tags
   });
+
+  if (!validated.success) {
+    return {
+      success: false,
+      message: validated.error.errors[0].message,
+    };
+  }
   const slug = slugify(title);
   const post = await db.query.blogPost.findFirst({
     where: eq(blogPost.id, id!),

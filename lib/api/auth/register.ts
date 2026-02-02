@@ -12,19 +12,23 @@ import { sendEmailVerificationCode } from "./mails";
 import { useRateLimiting } from "@/lib/utils.server";
 import { cookies } from "next/headers";
 import { lucia } from "@/lib/auth";
+import { registerValidator } from "@/lib/validators/auth-validator";
 const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().optional(),
 });
-export const register = action(registerSchema, async ({ email, password }) => {
+// export const register = action(registerSchema, async ({ email, password }) => {
+export const register = async (data:z.infer<typeof registerValidator>) => {
   // check if user exists
   //await useRateLimiting();
+ console.log(data)
+ const {email,password}=registerValidator.parse(data)
 
   const existingUser = await db.query.userTable.findFirst({
     where: (user, { eq }) => eq(user.email, email),
   });
   if (existingUser) {
-    throw new Error("Email already exists");
+   return {serverError:"Email already exists"};
   }
 
   const userId = generateId(15);
@@ -56,5 +60,10 @@ export const register = action(registerSchema, async ({ email, password }) => {
   const sessionCookie = lucia.createSessionCookie(session.id);
   (await cookies()).set(sessionCookie);
   //console.log(session)
-  redirect("/account/complete");
-});
+  return {
+    data: {
+      redirectUrl: "/account/complete",
+    },
+  };
+
+}

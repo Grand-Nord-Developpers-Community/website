@@ -36,7 +36,7 @@ export default function SideBar({ onClose }: Props) {
             <div
               className={`flex items-center space-x-2 mb-2 w-full p-2 rounded transition ${
                 isActive
-                  ? "bg-[#F6EAD7] text-[#C38D3D]"
+                  ? "bg-secondary/60 text-secondary-foreground"
                   : "hover:bg-muted text-muted-foreground"
               }`}
             >

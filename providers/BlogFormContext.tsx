@@ -61,7 +61,7 @@ const BlogFormContext: React.FC<{
       preview: post?.preview || "https://temp-image.com",
       previewHash: post?.previewHash || "",
       content: post?.content || "",
-      tags:post?.tags??""
+      tags:post?.tags??null
     },
   });
   const { mutate } = useSWRConfig();

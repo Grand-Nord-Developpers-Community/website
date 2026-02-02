@@ -2,7 +2,7 @@ import React from "react";
 
 const DiscordButton = () => {
   return (
-    <button className="flex items-center bg-card font-normal py-2 px-2 rounded-lg">
+    <button className="flex items-center bg-muted font-normal py-2 px-2 rounded-lg">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 640 512"

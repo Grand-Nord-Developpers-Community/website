@@ -45,18 +45,25 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       .join("");
 
     // Deduplicate views for 24 hours
-    const isNew = await redis.set(
-      ["deduplicate", hash, type, id ?? "global"].join(":"),
-      true,
-      {
-        nx: true,
-        ex: 24 * 60 * 60,
-      }
-    );
+    let isNew: boolean | null = true;
+    try {
+      isNew = await redis.set(
+        ["deduplicate", hash, type, id ?? "global"].join(":"),
+        true,
+        {
+          nx: true,
+          ex: 24 * 60 * 60,
+        }
+      );
+    } catch (e) {
+      console.error("Redis deduplication failed (likely permission error):", e);
+      // Fallback: allow the view if we can't check deduplication
+      isNew = true; 
+    }
 
-    // if (!isNew) {
-    //   return new NextResponse(null, { status: 202 });
-    // }
+    if (!isNew) {
+      return new NextResponse(null, { status: 202 });
+    }
   }
   try {
     switch (type) {

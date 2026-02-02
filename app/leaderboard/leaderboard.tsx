@@ -142,7 +142,7 @@ export default function InfiniteLeaderboard({
                   "order-1": position === 2,
                   "order-2": position === 1,
                   "order-3": position === 3,
-                }
+                },
               )}
             >
               {/* Crown for 1st place */}
@@ -153,15 +153,15 @@ export default function InfiniteLeaderboard({
               )}
 
               {/* Avatar */}
-              <div className={`relative ${position === 1 ? "mb-4" : "mb-3"}`}>
+              <div className={`relative  ${position === 1 ? "mb-4" : "mb-3"}`}>
                 <Avatar
                   className={clsx(
-                    `${position === 1 ? "w-20 h-20" : "w-16 h-16"} border-4 `,
+                    `${position === 1 ? "w-20 h-20" : "w-16 h-16"} bg-muted border-4 `,
                     {
                       "border-cyan-400": position === 2,
                       "border-yellow-400": position === 1,
                       "border-green-400": position === 3,
-                    }
+                    },
                   )}
                   {...user}
                 />
@@ -174,7 +174,7 @@ export default function InfiniteLeaderboard({
                       "border-cyan-400 bg-cyan-400": position === 2,
                       "border-yellow-400 bg-yellow-400": position === 1,
                       "border-green-400 bg-green-400": position === 3,
-                    }
+                    },
                   )}
                 >
                   <span className="text-white text-xs font-bold">
@@ -211,15 +211,15 @@ export default function InfiniteLeaderboard({
         {allUsers.slice(3).map((user, i) => (
           <div
             key={user.username}
-            className="flex items-center justify-between py-4 px-2 sm:px-4 rounded-xl border border-border shadow-sm"
+            className="flex bg-card items-center justify-between py-4 px-2 sm:px-4 rounded-xl border border-border shadow-sm"
           >
-            <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="flex  items-center space-x-2 sm:space-x-4">
               <span className="text-secondary font-semibold text-lg w-6">
                 {i + 4}
               </span>
-              <Avatar className="w-12 h-12" {...user} />
+              <Avatar className="w-12 h-12 border-border border bg-muted" {...user} />
               <Link href={`/user/${user.username}`}>
-                <p className="font-semibold text-primary truncate max-sm:max-w-36">
+                <p className="font-semibold text-primary truncate max-sm:max-w-32">
                   {user.name}
                 </p>
                 <p className="text-muted-foreground text-sm">

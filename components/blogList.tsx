@@ -98,12 +98,22 @@ const BlogList: React.FC<BlogListProps> = ({
     };
   }, [hasNextPage, isFetching]);
 
+  const [columnCount, setColumnCount] = useState(1);
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
-    const blogs = data?.pages.flatMap((page) => page) || [];
-    if (blogs.length > 0 && initialBlogs.length < blogs.length) {
-      setBlogs(blogs);
-    }
-  }, [data, initialBlogs]);
+    setMounted(true);
+    const updateColumnCount = () => {
+      if (window.innerWidth >= 1280) setColumnCount(4);
+      else if (window.innerWidth >= 1024) setColumnCount(3);
+      else if (window.innerWidth >= 768) setColumnCount(2);
+      else setColumnCount(1);
+    };
+
+    updateColumnCount();
+    window.addEventListener("resize", updateColumnCount);
+    return () => window.removeEventListener("resize", updateColumnCount);
+  }, []);
 
   if (blogs.length === 0) {
     return (
@@ -164,15 +174,34 @@ const BlogList: React.FC<BlogListProps> = ({
       )}
 
       {/* Blog Cards Grid */}
-      <div className="w-full gap-4 space-y-4 columns-1 md:columns-2 lg:columns-3 xl:columns-4">
-        {filteredPosts.map((blog, i) => (
-          <CardBlog
-            {...blog}
-            className={`order-[${i}]`}
-            view={views[blog.slug]}
-            key={`${blog.slug}-${i}`}
-          />
-        ))}
+      <div className="flex flex-row gap-4 items-start">
+        {!mounted ? (
+          // Initial SSR/Hydration state: single column to avoid mismatch
+          <div className="flex flex-col gap-4 flex-1">
+            {filteredPosts.map((blog, i) => (
+              <CardBlog
+                {...blog}
+                view={views[blog.slug]}
+                key={`${blog.slug}-${i}`}
+              />
+            ))}
+          </div>
+        ) : (
+          // Stable Client-side Masonry
+          Array.from({ length: columnCount }).map((_, colIndex) => (
+            <div key={colIndex} className="flex flex-col gap-4 flex-1">
+              {filteredPosts
+                .filter((_, i) => i % columnCount === colIndex)
+                .map((blog, i) => (
+                  <CardBlog
+                    {...blog}
+                    view={views[blog.slug]}
+                    key={`${blog.slug}-${i}`}
+                  />
+                ))}
+            </div>
+          ))
+        )}
       </div>
 
       {/* Empty State for Filtered Results */}

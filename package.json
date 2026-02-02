@@ -24,7 +24,7 @@
     "@codemirror/language": "^6.12.1",
     "@codemirror/state": "^6.5.4",
     "@codemirror/view": "^6.39.12",
-    "@hookform/resolvers": "^3.9.1",
+    "@hookform/resolvers": "^5.2.2",
     "@lezer/highlight": "^1.2.3",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@lucia-auth/adapter-postgresql": "^3.1.2",
