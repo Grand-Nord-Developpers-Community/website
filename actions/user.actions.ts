@@ -768,7 +768,7 @@ export async function updateUserProfileCompletion(
       };
     }*/
 
-    const validatedData = validated.data;
+    //const validatedData = validated.data;
 
     const userAccount = await db.query.userTable.findFirst({
       //@ts-ignore
@@ -779,14 +779,14 @@ export async function updateUserProfileCompletion(
         ),
     });
 
-    if (userAccount || RESTRICTED_USERNAME.includes(validatedData.username)) {
+    if (userAccount || RESTRICTED_USERNAME.includes(data.username)) {
       const error = new Error("USERNAME_TAKEN");
       throw error;
     }
     const res = await db
       .update(user)
       .set({
-        ...validatedData,
+        ...data,
         isCompletedProfile: true,
         updatedAt: new Date(),
       })
@@ -925,7 +925,7 @@ export async function updateUser(
     };
   }*/
 
-  const validatedData = validated.data;
+  //const validatedData = validated.data;
 
   // Fetch the current user data
   const currentUser = await db.query.userTable.findFirst({
@@ -939,21 +939,21 @@ export async function updateUser(
   // Prepare update object
   const updateObject: Partial<typeof user.$inferInsert> = {};
 
-  if (validatedData.name) updateObject.name = validatedData.name;
+  if (userData.name) updateObject.name = userData.name;
   if (
-    validatedData.username &&
-    validatedData.username.toLowerCase() !==
+    userData.username &&
+    userData.username.toLowerCase() !==
       currentUser.username?.toLocaleLowerCase()
   ) {
     const userAccount = await db.query.userTable.findFirst({
       where: (user, { eq }) =>
         or(
-          eq(user.username, validatedData.username),
-          ilike(user.username, validatedData.username)
+          eq(user.username, userData.username),
+          ilike(user.username, userData.username)
         ),
     });
 
-    if (userAccount || RESTRICTED_USERNAME.includes(validatedData.username)) {
+    if (userAccount || RESTRICTED_USERNAME.includes(userData.username)) {
       return {
         sucess: false,
         message: "cet identifiant a été deja prise",
@@ -962,20 +962,20 @@ export async function updateUser(
       //const error = new Error("USERNAME_TAKEN");
       //throw error;
     } else {
-      updateObject.username = validatedData.username;
+      updateObject.username = userData.username;
     }
   }
-  if (validatedData.email) updateObject.email = validatedData.email;
+  if (userData.email) updateObject.email = userData.email;
 
-  updateObject.image = validatedData.image;
-  updateObject.bio = validatedData.bio;
-  updateObject.location = validatedData.location;
-  updateObject.phoneNumber = validatedData.phoneNumber;
-  updateObject.githubLink = validatedData.githubLink;
-  updateObject.twitterLink = validatedData.twitterLink;
-  updateObject.instagramLink = validatedData.instagramLink;
-  updateObject.websiteLink = validatedData.websiteLink;
-  updateObject.skills = validatedData.skills;
+  updateObject.image = userData.image;
+  updateObject.bio = userData.bio;
+  updateObject.location = userData.location;
+  updateObject.phoneNumber = userData.phoneNumber;
+  updateObject.githubLink = userData.githubLink;
+  updateObject.twitterLink = userData.twitterLink;
+  updateObject.instagramLink = userData.instagramLink;
+  updateObject.websiteLink = userData.websiteLink;
+  updateObject.skills = userData.skills;
 
   // Add updatedAt timestamp
   updateObject.updatedAt = new Date();
@@ -1011,7 +1011,7 @@ export async function updateUserPassword(
     };
   }*/
 
-  const validatedData = validated.data;
+  //const validatedData = validated.data;
 
   const currentUser = await db.query.userTable.findFirst({
     where: eq(user.id, userId),
@@ -1025,10 +1025,10 @@ export async function updateUserPassword(
   const updateObject: Partial<typeof user.$inferInsert> = {};
 
   // Handle password update
-  if (validatedData.newPassword) {
+  if (data.newPassword) {
     const isCurrentPasswordValid = await new Argon2id().verify(
       currentUser.password!,
-      validatedData.currentPassword!
+      data.currentPassword!
     );
     if (!isCurrentPasswordValid) {
       return {
