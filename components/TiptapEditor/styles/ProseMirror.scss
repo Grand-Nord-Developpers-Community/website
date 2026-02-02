@@ -1,10 +1,13 @@
+@use "variables" as vars;
+@use "mixins" as mix;
+
 .ProseMirror-selectednode {
   @at-root {
     &:has(iframe),
     img#{&} {
       box-shadow:
-        0 0 0 3px $bg-color,
-        0 0 0 5px $primary-color;
+        0 0 0 3px vars.$bg-color,
+        0 0 0 5px vars.$primary-color;
     }
   }
 }
@@ -23,8 +26,8 @@
     img.ProseMirror-selectednode,
     img:has(+ figcaption.ProseMirror-selectednode) {
       box-shadow:
-        0 0 0 3px $bg-color,
-        0 0 0 5px $primary-color;
+        0 0 0 3px vars.$bg-color,
+        0 0 0 5px vars.$primary-color;
     }
   }
 
@@ -52,7 +55,7 @@
   :where(& > p.is-editor-empty:first-child, figcaption.is-empty)::before {
     content: attr(data-placeholder);
     float: left;
-    color: $muted-fg-color;
+    color: vars.$muted-fg-color;
     pointer-events: none;
     width: 100%;
     height: 0;
@@ -61,7 +64,7 @@
   // Selection styles
   ::selection,
   .selection {
-    background-color: $editor-selection;
+    background-color: vars.$editor-selection;
   }
 
   .selectedCell:after {
@@ -69,7 +72,7 @@
     position: absolute;
     content: "";
     inset: 0;
-    background-color: $editor-selection;
+    background-color: vars.$editor-selection;
     pointer-events: none;
   }
 
@@ -109,7 +112,7 @@
 
   // Link styles
   a {
-    color: $editor-link;
+    color: vars.$editor-link;
     font-weight: 600;
 
     &:hover {
@@ -146,7 +149,7 @@
   blockquote {
     padding: 0.375rem 1.25rem;
     font-style: italic;
-    border-left: 0.25rem solid $border-color;
+    border-left: 0.25rem solid vars.$border-color;
     //  font-weight: 600;
   }
 
@@ -177,7 +180,7 @@
 
   figcaption {
     font-size: 90%;
-    color: $muted-fg-color;
+    color: vars.$muted-fg-color;
     text-align: center;
     line-height: 1.4;
     cursor: text;
@@ -190,15 +193,15 @@
   kbd,
   samp,
   pre {
-    font-family: $editor-code-font;
+    font-family: vars.$editor-code-font;
     font-feature-settings: normal;
     font-variation-settings: normal;
   }
 
   code {
-    background: $editor-code-bg;
-    border: 1px solid $border-color;
-    border-radius: $radius-sm;
+    background: vars.$editor-code-bg;
+    border: 1px solid vars.$border-color;
+    border-radius: vars.$radius-sm;
     padding: 0.15rem 0.3rem;
     font-size: 90%;
   }
@@ -208,10 +211,10 @@
     tab-size: 2;
     line-height: 1.55;
     padding: 0.75rem 1.25rem;
-    background: $editor-code-bg;
-    border: 1px solid $border-color;
-    color: $fg-color;
-    @include custom-scrollbar;
+    background: vars.$editor-code-bg;
+    border: 1px solid vars.$border-color;
+    color: vars.$fg-color;
+    @include mix.custom-scrollbar;
 
     code {
       background: transparent;
@@ -221,11 +224,11 @@
   }
 
   .tableWrapper {
-    @include custom-scrollbar;
+    @include mix.custom-scrollbar;
   }
 
   table {
-    border: 1px solid $border-color;
+    border: 1px solid vars.$border-color;
     font-size: 90%;
     overflow: hidden;
     border-collapse: collapse;
@@ -234,7 +237,7 @@
 
     th,
     td {
-      border: 1px solid $border-color;
+      border: 1px solid vars.$border-color;
       padding: 0.5rem 0.75rem;
       position: relative;
       vertical-align: top;
@@ -242,11 +245,11 @@
     }
 
     th {
-      background-color: $muted-color;
+      background-color: vars.$muted-color;
     }
 
     .column-resize-handle {
-      background-color: $primary-color;
+      background-color: vars.$primary-color;
       bottom: -2px;
       pointer-events: none;
       position: absolute;

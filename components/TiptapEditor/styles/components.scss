@@ -1,3 +1,7 @@
+@use "variables" as vars;
+@use "functions" as *;
+@use "mixins" as mix;
+
 // BUTTON
 .rte-button {
    all: unset;
@@ -6,7 +10,7 @@
    align-items: center;
    justify-content: center;
    font-weight: 500;
-   border-radius: $radius-sm;
+   border-radius: vars.$radius-sm;
    user-select: none;
    cursor: pointer;
    transition: all 0.15s ease-in;
@@ -17,7 +21,7 @@
    padding-inline: 0.75rem;
 
    border: 1px solid transparent;
-   @include font-size("sm");
+   @include mix.font-size("sm");
 
    &:disabled {
       opacity: 0.5;
@@ -43,32 +47,32 @@
 }
 
 .rte-button--primary {
-   color: $primary-fg-color;
-   background-color: $primary-color;
-   border-color: $primary-color;
+   color: vars.$primary-fg-color;
+   background-color: vars.$primary-color;
+   border-color: vars.$primary-color;
 
    &:not(:disabled):hover {
-      background-color: tint-color($primary-color, 0.85);
+      background-color: tint-color(vars.$primary-color, 0.85);
    }
 }
 
 .rte-button--secondary {
-   color: $secondary-fg-color;
-   background-color: $secondary-color;
-   border-color: $secondary-color;
+   color: vars.$secondary-fg-color;
+   background-color: vars.$secondary-color;
+   border-color: vars.$secondary-color;
 
    &:not(:disabled):hover {
-      background-color: shade-color($secondary-color, 0.08);
+      background-color: shade-color(vars.$secondary-color, 0.08);
    }
 }
 
 .rte-button--outline {
-   background-color: $bg-color;
-   border-color: $border-color;
+   background-color: vars.$bg-color;
+   border-color: vars.$border-color;
 
    &:not(:disabled):hover {
-      background-color: $muted-color;
-      color: $muted-fg-color;
+      background-color: vars.$muted-color;
+      color: vars.$muted-fg-color;
    }
 }
 
@@ -83,11 +87,11 @@
 // }
 
 .rte-button--ghost {
-   color: $accent-fg-color;
+   color: vars.$accent-fg-color;
 
    &:not(:disabled):hover {
-      background-color: $accent-color;
-      color: $fg-color;
+      background-color: vars.$accent-color;
+      color: vars.$fg-color;
    }
 }
 
@@ -97,11 +101,11 @@
    padding: 0.375rem 0.625rem;
    min-height: 1.75rem;
    text-wrap: nowrap;
-   border-radius: $radius-sm;
-   background-color: $tooltip-color;
-   color: $tooltip-fg-color;
+   border-radius: vars.$radius-sm;
+   background-color: vars.$tooltip-color;
+   color: vars.$tooltip-fg-color;
    font-weight: 500;
-   @include font-size("xs");
+   @include mix.font-size("xs");
    line-height: 1.5;
 }
 
@@ -112,9 +116,9 @@
    flex-direction: column;
    gap: 0.25rem;
    padding: 0.375rem 0.375rem;
-   background-color: $bg-color;
-   border-radius: $radius;
-   box-shadow: $shadow-1;
+   background-color: vars.$bg-color;
+   border-radius: vars.$radius;
+   box-shadow: vars.$shadow-1;
 }
 
 .rte-dropdown__indicator {
@@ -129,30 +133,30 @@
    gap: 0.5rem;
    align-items: center;
    padding: 0.375rem 0.5rem;
-   border-radius: $radius-sm;
+   border-radius: vars.$radius-sm;
    outline: none;
-   color: $fg-color;
+   color: vars.$fg-color;
    cursor: pointer;
-   @include font-size("sm");
+   @include mix.font-size("sm");
 
    &:hover {
-      background-color: $accent-color;
+      background-color: vars.$accent-color;
    }
 
    &[data-active],
    &[data-active]:hover {
-      color: $primary-color;
-      background-color: $accent-color;
+      color: vars.$primary-color;
+      background-color: vars.$accent-color;
    }
 }
 
 // POPOVER
 .rte-popover {
    z-index: 50;
-   background-color: $bg-color;
+   background-color: vars.$bg-color;
    padding: 0.25rem;
-   border-radius: $radius;
-   box-shadow: $shadow-1;
+   border-radius: vars.$radius;
+   box-shadow: vars.$shadow-1;
 }
 
 // TOOLBAR
@@ -176,7 +180,7 @@
 
 // TOOLBAR
 .rte-toolbar__divider {
-   border: 0px solid $border-color;
+   border: 0px solid vars.$border-color;
    border-right-width: thin;
    width: 1px;
    height: 1.25rem;
@@ -184,7 +188,7 @@
    flex-shrink: 0;
 
    &--horizontal {
-      border: 0px solid $border-color;
+      border: 0px solid vars.$border-color;
       border-bottom-width: thin;
       width: 100%;
       height: 1px;
@@ -198,19 +202,19 @@
    width: 100%;
    height: 2rem;
    padding: 0.375rem 0.625rem;
-   border-radius: $radius-sm;
-   border: 1px solid $border-color;
-   background-color: $muted-color;
+   border-radius: vars.$radius-sm;
+   border: 1px solid vars.$border-color;
+   background-color: vars.$muted-color;
    outline: transparent solid 2px;
-   color: $fg-color;
-   @include font-size("sm");
+   color: vars.$fg-color;
+   @include mix.font-size("sm");
 
    &::placeholder {
-      color: $muted-fg-color;
+      color: vars.$muted-fg-color;
    }
 
    &:focus-visible {
-      outline-color: $primary-color;
+      outline-color: vars.$primary-color;
    }
 }
 
@@ -220,7 +224,7 @@
    display: inline-block;
    line-height: 1.25rem;
    margin-bottom: 0.5rem;
-   color: $muted-fg-color;
+   color: vars.$muted-fg-color;
    font-weight: bold;
 }
 
@@ -235,9 +239,9 @@
    &__control {
       position: absolute;
       pointer-events: auto;
-      background-color: $primary-color;
+      background-color: vars.$primary-color;
       aspect-ratio: 1/1;
-      border: 2px solid $bg-color;
+      border: 2px solid vars.$bg-color;
       transition: none;
    }
 }
@@ -246,7 +250,7 @@
 .rte-dialog {
    position: fixed;
    inset: 0;
-   background-color: $overlay;
+   background-color: vars.$overlay;
    backdrop-filter: blur(3px);
    display: flex;
    align-items: center;
@@ -271,7 +275,7 @@
 .rte-color__btn {
    min-width: 1.25rem;
    height: 1.25rem;
-   border: 1px solid $border-color;
+   border: 1px solid vars.$border-color;
    border-radius: 4px;
    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
    transform: scale(1);
@@ -281,8 +285,8 @@
    }
 
    &[data-active] {
-      box-shadow: 0 0 0 1px $bg-color,
-      0 0 0 3px $primary-color;
+      box-shadow: 0 0 0 1px vars.$bg-color,
+      0 0 0 3px vars.$primary-color;
    }
 }
 
@@ -295,7 +299,7 @@
       display: flex;
       margin-inline: -0.25rem; // ignore-padding from parent
       margin-top: -0.25rem; // ignore-padding from parent
-      border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid vars.$border-color;
    }
 
    &__tab {
@@ -310,7 +314,7 @@
          right: -2px;
          width: 1px;
          height: 100%;
-         border-left: 1px solid $border-color;
+         border-left: 1px solid vars.$border-color;
       }
 
       &[data-active]::before {
@@ -320,7 +324,7 @@
          bottom: -0.125rem;
          inset-inline: 0;
          height: 2px;
-         background-color: $primary-color;
+         background-color: vars.$primary-color;
       }
    }
 
@@ -375,11 +379,11 @@
    &__cell {
       width: 1rem;
       height: 1rem;
-      background-color: $accent-color;
-      box-shadow: 0 0 0 1.5px $border-color;
+      background-color: vars.$accent-color;
+      box-shadow: 0 0 0 1.5px vars.$border-color;
 
       &--active {
-        box-shadow: 0 0 0 1.5px $primary-color;
+        box-shadow: 0 0 0 1.5px vars.$primary-color;
       }
    }
 }

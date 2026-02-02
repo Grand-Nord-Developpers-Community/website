@@ -1,7 +1,5 @@
 import { JSONContent } from "@tiptap/core";
 import { NodeSelection, Plugin, TextSelection } from "@tiptap/pm/state";
-// @ts-ignore : This import is necessary due to missing type definitions in the package.
-import { __serializeForClipboard as serializeForClipboard } from "@tiptap/pm/view";
 
 import Figure from "../Figure";
 import ImageCaption from "./ImageCaption";
@@ -179,7 +177,8 @@ export const ImageFigure = Figure.extend({
               // Set up drag data
               draggedNode = NodeSelection.create(view.state.doc, $pos.before($pos.depth));
               const draggedSlice = draggedNode.content();
-              const { dom, text, slice } = serializeForClipboard(view, draggedSlice);
+              // @ts-ignore
+              const { dom, text, slice } = view.serializeForClipboard(draggedSlice);
 
               event.dataTransfer.clearData();
               event.dataTransfer.setData("text/html", dom.innerHTML);
