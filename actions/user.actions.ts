@@ -1041,7 +1041,7 @@ export async function updateUserPassword(
 
     // Hash and set new password
     updateObject.password = await new Argon2id().hash(
-      validatedData.newPassword
+      data.newPassword
     );
   }
   await db.update(user).set(updateObject).where(eq(user.id, userId));
