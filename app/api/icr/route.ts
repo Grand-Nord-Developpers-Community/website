@@ -45,7 +45,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       .join("");
 
     // Deduplicate views for 24 hours
-    let isNew: boolean | null = true;
+    let isNew: boolean | null | "OK" = true;
     try {
       isNew = await redis.set(
         ["deduplicate", hash, type, id ?? "global"].join(":"),
