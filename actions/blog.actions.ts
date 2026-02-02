@@ -32,7 +32,7 @@ export async function createBlogPost({
   tags,
   authorId,
 }: blogValueProps) {
-  const validated = blogPublishSchema.safeParse({
+  const validated = blogPublishSchema.parse({
     title,
     description,
     preview,
@@ -41,12 +41,12 @@ export async function createBlogPost({
     content,
   });
 
-  if (!validated.success) {
+  /*if (!validated.success) {
     return {
       success: false,
       message: validated.error.errors[0].message,
     };
-  }
+  }*/
   const slug = slugify(title);
   if (!slug) {
     return {
@@ -311,7 +311,7 @@ export async function updateBlogPost({
   authorId,
   tags
 }: blogValueProps) {
-  const validated = blogPublishSchema.safeParse({
+  const validated = blogPublishSchema.parse({
     title,
     description,
     preview,
@@ -320,12 +320,12 @@ export async function updateBlogPost({
     tags
   });
 
-  if (!validated.success) {
+  /*if (!validated.success) {
     return {
       success: false,
       message: validated.error.errors[0].message,
     };
-  }
+  }*/
   const slug = slugify(title);
   const post = await db.query.blogPost.findFirst({
     where: eq(blogPost.id, id!),

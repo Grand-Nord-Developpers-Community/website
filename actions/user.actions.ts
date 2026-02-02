@@ -759,14 +759,14 @@ export async function updateUserProfileCompletion(
   data: z.infer<typeof completeProfileSchema>
 ) {
   try {
-    const validated = completeProfileSchema.safeParse(data);
+    const validated = completeProfileSchema.parse(data);
 
-    if (!validated.success) {
+    /*if (!validated.success) {
       return {
         success: false,
         message: validated.error.errors[0].message,
       };
-    }
+    }*/
 
     const validatedData = validated.data;
 
@@ -916,14 +916,14 @@ export async function updateUser(
   userData: z.infer<typeof updateUserSchema>
 ) {
   // Validate input
-  const validated = updateUserSchema.safeParse(userData);
+  const validated = updateUserSchema.parse(userData);
 
-  if (!validated.success) {
+  /*if (!validated.success) {
     return {
       success: false,
       message: validated.error.errors[0].message,
     };
-  }
+  }*/
 
   const validatedData = validated.data;
 
@@ -1002,14 +1002,14 @@ export async function updateUserPassword(
   userId: string,
   data: UpdatePasswordInput
 ) {
-  const validated = updatePasswordSchema.safeParse(data);
+  const validated = updatePasswordSchema.parse(data);
 
-  if (!validated.success) {
+  /*if (!validated.success) {
     return {
       success: false,
       message: validated.error.errors[0].message,
     };
-  }
+  }*/
 
   const validatedData = validated.data;
 
