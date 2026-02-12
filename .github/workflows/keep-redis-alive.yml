@@ -15,5 +15,5 @@ jobs:
     steps:
       - name: Ping Upstash
         run: |
-          curl -X POST "https://simple-escargot-41505.upstash.io/ping" \
+          curl -X POST "$UPSTASH_REDIS_REST_URL/ping" \
             -H "Authorization: Bearer $UPSTASH_REDIS_REST_TOKEN"
