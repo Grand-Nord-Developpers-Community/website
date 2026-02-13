@@ -21,8 +21,8 @@ export async function GET(
     "name-i5n2gabp7": user?.name || "",
     "username-3zf3ntmy6": "@ " + user?.username,
     "bio-e8n7pme45": user?.bio || "Pas de bio !",
-    "xp-g5uu8lpx0": `${user.experiencePoints || 0} xp`,
-    "streak-d6mamky2c": `${user.activity.totalDaysActive || 0} jours`,
+    "xp-g5uu8lpx0": `${user?.experiencePoints || 0} xp`,
+    "streak-d6mamky2c": `${user.activity?.activity || 0} jours`,
     "questioncount-jwknfkx19": `${user.blogPosts.length} discussions`,
     "blogcount-qwco488oz": `${user.blogPosts.length} blogs`,
   });
