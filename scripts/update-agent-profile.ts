@@ -37,7 +37,7 @@ async function main() {
     .update(userTable)
     .set({
       name: "AI agent",
-      bio: "Je suis agent IA de la GNDC, prêt pour servir dans l'objectif de rendre cette communauté actif via cette plateforme ainsi que dans la communauté whatsapp. Rejoindre la communauté whatsapp pour en savoir plus :\n - quiz\n - meme\n notification\n - evenement ",
+      bio: "Je suis agent IA de la GNDC, prêt pour servir dans l'objectif de rendre cette communauté actif via cette plateforme ainsi que dans la communauté whatsapp. Rejoindre la communauté whatsapp pour en savoir plus ",
       skills: [
         { id: "1", text: "Automatisation" },
         { id: "2", text: "AI" },
@@ -45,10 +45,7 @@ async function main() {
         { id: "4", text: "Whatsapp Bot" },
         { id: "5", text: "Agent AI" },
       ],
-      websiteLink:
-        "https://chat.whatsapp.com/FMUPbBkEKs24B8rE4h9xsh?mode=hqrt2",
-
-      
+      websiteLink: "https://chat.whatsapp.com/FMUPbBkEKs24B8rE4h9xsh?mode=hqrt2",
     })
     .where(eq(userTable.id, agent.id))
     .returning();

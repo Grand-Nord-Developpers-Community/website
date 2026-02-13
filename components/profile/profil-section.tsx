@@ -143,7 +143,7 @@ export default function ProfileSection({ user }: { user: UserProfile }) {
                     <Badge
                       key={index}
                       variant="secondary"
-                      className="bg-muted text-muted-foreground  px-3 py-1 text-sm font-normal"
+                      className="bg-muted text-muted-foreground hover:text-white  px-3 py-1 text-sm font-normal"
                     >
                       {skill.text}
                     </Badge>
