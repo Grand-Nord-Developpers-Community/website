@@ -5,7 +5,7 @@ export const rolesTable = pgTable("roles", {
   name: text("name")
     .notNull()
     .default("user")
-    .$type<"user" | "admin" | "manager">(),
+    .$type<"user" | "admin" | "manager" | "ai">(),
 });
 
 export const permissionsTable = pgTable("permissions", {

@@ -1,6 +1,7 @@
-import { oauthAccountTable, userTable as user } from "@/lib/db/schema";
+import {  oauthAccountTable, userTable as user } from "@/lib/db/schema";
 import { relations } from "drizzle-orm";
 import { blogPost } from "./blog";
+import { apiToken ,apiTokenPermission} from "./api_token";
 import { userVote } from "./vote";
 import { userLike } from "./like";
 import { postComment } from "./comment";
@@ -18,6 +19,7 @@ export const userRelations = relations(user, ({ many, one }) => ({
   blogPosts: many(blogPost),
   forumPosts: many(forumPost),
   postReplies: many(postComment),
+  apiTokens: many(apiToken),
   events: many(event),
   votes: many(userVote),
   likes: many(userLike),
@@ -111,6 +113,24 @@ export const userLikeRelations = relations(userLike, ({ one }) => ({
     references: [blogPost.id],
   }),
 }));
+
+export const userTokenRelations = relations(apiToken, ({ one }) => ({
+  user: one(user, {
+    fields: [apiToken.userId],
+    references: [user.id],
+  }),
+  permissions: one(apiTokenPermission),
+}));
+
+export const apiTokenPermissionRelations = relations(
+  apiTokenPermission,
+  ({ one }) => ({
+    token: one(apiToken, {
+      fields: [apiTokenPermission.apiTokenId],
+      references: [apiToken.id],
+    }),
+  })
+);
 
 export const userActivityRelations = relations(userActivity, ({ one }) => ({
   user: one(user, {
