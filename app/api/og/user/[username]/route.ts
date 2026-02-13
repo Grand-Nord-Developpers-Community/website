@@ -1,6 +1,4 @@
 import { NextRequest } from "next/server";
-import { generateOgImageResponse } from "../../og";
-import { getForumPost } from "@/actions/forum.actions";
 import { formatRelativeTime } from "@/lib/utils";
 import { getUserProfileMeta } from "@/actions/user.actions";
 
@@ -22,7 +20,7 @@ export async function GET(
     return new Response("Not found", { status: 404 });
   }
 
-  const date = formatRelativeTime(user.createdAt);
+  //const date = formatRelativeTime(user.createdAt);
   const p = new URLSearchParams({
     templateId: "E0fh07i6JOACradERRWC8",
     "profil-34fe00kcv":
