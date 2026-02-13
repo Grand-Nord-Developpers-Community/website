@@ -89,6 +89,29 @@ export async function createBlogPost({
     };
   }
 
+  // Webhook trigger for AI Agent
+  const webhookUrl = process.env.BLOG_WEBHOOK_URL;
+  if (webhookUrl && req[0]) {
+    try {
+      await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: "blog_post.created",
+          data: {
+            id: req[0].id,
+            title: req[0].title,
+            slug: req[0].slug,
+            content: req[0].content,
+            authorId: req[0].authorId,
+          },
+        }),
+      });
+    } catch (error) {
+      console.error("Failed to trigger blog webhook:", error);
+    }
+  }
+
   revalidatePath("/blog");
   revalidatePath("/user/dashboard");
   revalidatePath("/admin");

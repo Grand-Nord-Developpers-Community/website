@@ -15,3 +15,4 @@ export * from "./members";
 export * from "./device";
 export * from "./role-permission";
 export * from "./notification";
+export * from "./api_token";

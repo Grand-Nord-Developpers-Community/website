@@ -120,6 +120,13 @@
       "when": 1760849134700,
       "tag": "0016_tidy_thaddeus_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1770948649944,
+      "tag": "0017_regular_bastion",
+      "breakpoints": true
     }
   ]
 }
