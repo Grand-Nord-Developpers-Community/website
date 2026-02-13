@@ -13,7 +13,7 @@ async function main() {
   const transport = new SSEClientTransport(new URL(`${origin}/mcp/sse`), {
     requestInit: {
       headers: {
-        Authorization: `Bearer ${process.env.MCP_TOKEN}`,
+        Authorization: `Bearer ${process.env.READ_ONLY_TOKEN_MCP}`,
       },
     },
   });

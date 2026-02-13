@@ -127,6 +127,13 @@
       "when": 1770948649944,
       "tag": "0017_regular_bastion",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1770964417354,
+      "tag": "0018_stormy_lake",
+      "breakpoints": true
     }
   ]
 }

@@ -1,15 +1,14 @@
-import { createMcpHandler } from "mcp-handler";
+import { createMcpHandler, withMcpAuth } from "mcp-handler";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { apiToken, blogPost, forumPost, userTable } from "@/lib/db/schema";
-import { eq, desc, like, or } from "drizzle-orm";
-import { NextRequest, NextResponse } from "next/server";
-import { AsyncLocalStorage } from "node:async_hooks";
-
+import { eq, desc } from "drizzle-orm";
+import {marked} from "marked"
 import { updateBlogVisibility } from "@/actions/blog.actions";
+import { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 
 // Context storage for userId
-const authContext = new AsyncLocalStorage<string>();
+//const authContext = new AsyncLocalStorage<string>();
 
 function slugify(text: string): string {
   return text
@@ -78,14 +77,24 @@ const handler = createMcpHandler(
         inputSchema: z.object({
           title: z.string(),
           description: z.string(),
-          content: z.string(),
+          content: z
+            .string()
+            .describe("the mardown format content of the blog"),
           preview: z.string(),
           previewHash: z.string().default(""),
           tags: z.string().optional(),
         }),
       },
-      async (args) => {
-        const userId = authContext.getStore();
+      async (args, extra) => {
+        const userId = extra.authInfo?.extra?.userId as string | undefined;
+        const permissions = extra.authInfo?.extra?.permissions as
+          | string[]
+          | undefined;
+        if (!permissions?.includes("bot:write")) {
+          throw new Error(
+            "Forbidden: Insufficient permissions to create a blog post.",
+          );
+        }
         if (!userId) {
           throw new Error(
             "Unauthorized: No user context found. Please provide a valid API Token.",
@@ -101,12 +110,13 @@ const handler = createMcpHandler(
         });
         if (existing) throw new Error("A blog with this title already exists.");
 
+        const render=await marked(content)
         const result = await db
           .insert(blogPost)
           .values({
             title,
             description,
-            content,
+            content:render,
             preview,
             previewHash,
             tags: tags || null,
@@ -167,8 +177,13 @@ const handler = createMcpHandler(
           textContent: z.string(),
         }),
       },
-      async ({ title, content, textContent }) => {
-        const userId = authContext.getStore();
+      async ({ title, content, textContent },extra) => {
+        const userId = extra.authInfo?.extra?.userId as string | undefined
+        const permissions = extra.authInfo?.extra?.permissions as string[]|undefined
+        
+        if(!permissions?.includes("bot:write")){
+          throw new Error("Forbidden: Insufficient permissions to create a blog post.");
+        }
         if (!userId) throw new Error("Unauthorized");
 
         const result = await db
@@ -198,8 +213,10 @@ const handler = createMcpHandler(
             .describe("Set to true to make it a draft, false to publish"),
         }),
       },
-      async ({ id, isDraft }) => {
-        const userId = authContext.getStore();
+      async ({ id, isDraft },extra) => {
+        //const userId = authContext.getStore();
+        const userId = extra.authInfo?.extra?.userId as string | undefined;
+        
         if (!userId) throw new Error("Unauthorized");
 
         // We use the existing server action to benefit from XP and trigger side-effects
@@ -258,50 +275,104 @@ const handler = createMcpHandler(
       },
     );
   },
-  {},
   {
+    capabilities: {
+      experimental: {
+        auth: {
+          type: "bearer",
+          required: true,
+        },
+      },
+    },
+  },
+  {
+    streamableHttpEndpoint: "/mcp",
+    sseEndpoint: "/sse",
+    sseMessageEndpoint: "/message",
     basePath: "/api/mcp",
     maxDuration: 60,
-    redisUrl:process.env.REDIS_URL,
+    redisUrl: process.env.REDIS_URL,
   },
 );
+const verifyToken = async (
+  req: Request,
+  bearerToken?: string
+): Promise<AuthInfo | undefined> => {
+  if (!bearerToken) return undefined;
 
-async function handleRequest(
-  req: NextRequest,
-  { params }: { params: Promise<{ transport: string }> },
-) {
-  // Await params for Next.js 16
-  const resolvedParams = await params;
-
-  // Basic Auth Check via Header
-  const authHeader = req.headers.get("Authorization");
-  console.log("Auth Header:", authHeader);
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return new NextResponse("Unauthorized: Missing Bearer Token", {
-      status: 401,
-    });
-  }
-  const token = authHeader.split(" ")[1];
-
-  // Verify token in DB
+  // TODO: Replace with actual token verification logic
+  // This is just an example implementation
+  console.log(bearerToken)
   const tokenRecord = await db.query.apiToken.findFirst({
-    where: eq(apiToken.token, token),
+    where: eq(apiToken.token, bearerToken),
+    with:{
+      permissions:true
+    }
   });
+  //const isValid = bearerToken.startsWith("__TEST_VALUE__");
 
-  if (!tokenRecord) {
-    return new NextResponse("Forbidden: Invalid Token", { status: 403 });
-  }
+  if (!tokenRecord) return undefined;
+  const data=tokenRecord.permissions
 
-  if (tokenRecord.expiresAt && tokenRecord.expiresAt < new Date()) {
-    return new NextResponse("Forbidden: Token Expired", { status: 403 });
-  }
+  return {
+    token: bearerToken,
+    scopes: data?.scope||[],
+    clientId: tokenRecord.id,
+    extra: {
+      userId: tokenRecord.userId,
+      // Add any additional user/client information here
+      permissions: data?.permission||[],
+      timestamp: new Date().toISOString(),
+    },
+  };
+};
 
-  // Pass request to MCP handler with context
-  // We bind the userId to the AsyncLocalStorage store
-  return authContext.run(tokenRecord.userId, () =>
-    //@ts-ignore
-    handler(req, { params: resolvedParams }),
-  );
-}
+// Create the auth handler with required scopes
+const authHandler = withMcpAuth(handler, verifyToken, {
+  required: true,
+  requiredScopes: ["read:messages"],
+  resourceMetadataPath: "/.well-known/oauth-protected-resource",
+});
 
-export { handleRequest as GET, handleRequest as POST };
+// Export the handler for both GET and POST methods
+export { authHandler as GET, authHandler as POST };
+
+// async function handleRequest(
+//   req: NextRequest,
+//   { params }: { params: Promise<{ transport: string }> },
+// ) {
+//   // Await params for Next.js 16
+//   const resolvedParams = await params;
+
+//   // Basic Auth Check via Header
+//   const authHeader = req.headers.get("Authorization");
+//   console.log("Auth Header:", authHeader);
+//   if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//     return new NextResponse("Unauthorized: Missing Bearer Token", {
+//       status: 401,
+//     });
+//   }
+//   const token = authHeader.split(" ")[1];
+
+//   // Verify token in DB
+//   const tokenRecord = await db.query.apiToken.findFirst({
+//     where: eq(apiToken.token, token),
+//   });
+
+//   if (!tokenRecord) {
+//     return new NextResponse("Forbidden: Invalid Token", { status: 403 });
+//   }
+
+//   if (tokenRecord.expiresAt && tokenRecord.expiresAt < new Date()) {
+//     return new NextResponse("Forbidden: Token Expired", { status: 403 });
+//   }
+
+//   // Pass request to MCP handler with context
+//   // We bind the userId to the AsyncLocalStorage store
+//   return authContext.run(tokenRecord.userId, () =>
+//     //@ts-ignore
+//     handler(req, { params: resolvedParams }),
+//   );
+// }
+
+// export { handleRequest as GET, handleRequest as POST };

@@ -9,7 +9,7 @@
 #hex-grid {
   height: 100%;
   width: 100%;
-  background: hsl(var(--secondary));
+  background: hsl(var(--primary));
 }
 
 #hex-grid .grid {
