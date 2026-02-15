@@ -42,8 +42,17 @@ export const registerUserTools = (server: any) => {
           role: { columns: { name: true } },
         },
       });
+
+      const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+      const resultsWithUrl = results.map((user) => ({
+        ...user,
+        url: `${baseUrl}/user/${user.username}`,
+      }));
+
       return {
-        content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
+        content: [
+          { type: "text", text: JSON.stringify(resultsWithUrl, null, 2) },
+        ],
       };
     },
   );

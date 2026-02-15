@@ -56,12 +56,20 @@ export const registerBlogTools = (server: any) => {
           },
         },
       });
+
+      const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+      const resultsWithUrl = results.map((blog) => ({
+        ...blog,
+        url: `${baseUrl}/blog/${blog.slug}`,
+      }));
+
       return {
-        content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
+        content: [
+          { type: "text", text: JSON.stringify(resultsWithUrl, null, 2) },
+        ],
       };
     },
   );
-
   // Create Blog
   server.registerTool(
     "create_blog",
@@ -70,9 +78,7 @@ export const registerBlogTools = (server: any) => {
       inputSchema: z.object({
         title: z.string(),
         description: z.string(),
-        content: z
-          .string()
-          .describe("the mardown format content of the blog"),
+        content: z.string().describe("the mardown format content of the blog"),
         preview: z.string(),
         previewHash: z.string().default(""),
         tags: z.string().optional(),
@@ -94,8 +100,7 @@ export const registerBlogTools = (server: any) => {
         );
       }
 
-      const { title, description, content, preview, previewHash, tags } =
-        args;
+      const { title, description, content, preview, previewHash, tags } = args;
       const slug = slugify(title);
 
       const existing = await db.query.blogPost.findFirst({
@@ -139,7 +144,7 @@ export const registerBlogTools = (server: any) => {
     async ({ id, isDraft }: any, extra: any) => {
       //const userId = authContext.getStore();
       const userId = extra.authInfo?.extra?.userId as string | undefined;
-      
+
       if (!userId) throw new Error("Unauthorized");
 
       // We use the existing server action to benefit from XP and trigger side-effects

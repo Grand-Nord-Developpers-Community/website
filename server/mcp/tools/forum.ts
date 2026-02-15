@@ -34,8 +34,15 @@ export const registerForumTools = (server: any) => {
           author: { columns: { username: true, name: true } },
         },
       });
+
+      const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+      const resultsWithUrl = results.map((forum) => ({
+        ...forum,
+        url: `${baseUrl}/forum/${forum.id}`,
+      }));
+
       return {
-        content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
+        content: [{ type: "text", text: JSON.stringify(resultsWithUrl, null, 2) }],
       };
     },
   );
