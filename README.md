@@ -60,37 +60,48 @@ To set up a local copy of the GNDC website for development:
 
 ## Technology Stack
 
-- **Next.js**: React-based framework for server-side rendering and static site generation
-- **TypeScript**: Strongly-typed JavaScript for better code quality and maintainability
+- **Next.js 16**: React-based framework for server-side rendering and static site generation
+- **TypeScript**: Strongly-typed JavaScript for better code quality
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development
-- **Lucide Icons**: Icon set for React
-- **Radix UI**: Unstyled, accessible components for building high-quality design systems
-- **Drizzle ORM**: TypeScript ORM for SQL databases
-- **PostgreSQL**: Database support via adapters
-- **Other Libraries**: (see `package.json` for a comprehensive list)
-  - UI: framer-motion, cmdk, shadcn-ui, zustand, react-hook-form, react-toastify, recharts
-  - Auth: lucia, iron-session, @auth/drizzle-adapter
-  - Utilities: lodash, axios, dotenv, gray-matter, uuid
-  - Email: emailjs-com, resend
-  - Image: sharp, blurhash, react-blurhash
+- **Drizzle ORM**: TypeScript ORM for SQL databases (PostgreSQL)
+- **MCP (Model Context Protocol)**: Integrated support for AI agents via `mcp-handler` and `@modelcontextprotocol/sdk`
+- **Authentication**: Lucia Auth and Iron Session
+- **Background Jobs**: Trigger.dev for long-running and scheduled tasks
+- **Email**: Resend and React Email for transactional emails
+- **State Management**: Zustand and TanStack Query (SWR also used)
+- **UI Components**: Radix UI, Framer Motion, and Shadcn UI
+- **Other Libraries**:
+  - Content: Tiptap editor, Marked, Rehype, Remark
+  - Utilities: Zod, Axios, Lodash, Date-fns, Lucide Icons
+  - Image: Cloudinary, Sharp, Plaiceholder
+  - Database: Neon, PostgreSQL, Upstash Redis (for rate limiting)
 
 ---
 
 ## Project Structure
 
-- `app/` - Main application code (pages, routes, etc.)
-- `components/` - Reusable React components
-- `assets/` - Static assets such as images
-- `styles/` - Global and component-specific styles
-- `public/` - Publicly served static files
-- `constants/` - App-wide constant values
-- `lib/` - Utility/helper functions
-- `data/` - Sample or seed data
-- `schemas/` - Database or data validation schemas
+- `actions/` - Next.js Server Actions for mutations and side-effects
+- `app/` - Next.js App Router (pages, layouts, and API routes)
+- `assets/` - Static assets (images, SVGs)
+- `components/` - Reusable React components (UI, layout, features)
+- `constants/` - Application-wide constants and configurations
+- `data/` - Static data, seed data, and mocks
+- `emails/` - React Email templates and testing scripts
 - `hooks/` - Custom React hooks
-- `providers/` - Context and provider components
-- `emails/` - Email templates or logic
-- `sections/` - High-level page sections
+- `interfaces/` & `types/` - TypeScript interface and type definitions
+- `lib/` - Shared libraries, database client, and core utilities
+- `providers/` - React Context providers (Auth, Theme, QueryClient)
+- `public/` - Static files served directly
+- `schemas/` - Zod validation and database schemas
+- `scripts/` - Maintenance and automation scripts
+- `sections/` - Complex UI sections used across multiple pages
+- `server/` - Server-only logic, including MCP tools and WebPush
+- `services/` - External service integrations
+- `styles/` - Global CSS and Tailwind configurations
+- `test/` - Test suites and MCP client tests
+- `trigger/` - Trigger.dev background job definitions
+- `utils/` - Shared helper functions
+- `workers/` - Background workers and edge functions
 
 ---
 
@@ -98,16 +109,16 @@ To set up a local copy of the GNDC website for development:
 
 In the project directory, you can run:
 
-- `npm run dev` - Run the development server
+- `npm run dev` - Start development server
 - `npm run build` - Build the application for production
-- `npm run start` - Start the production server
-- `npm run lint` - Lint the codebase
-- `npm run generate` - Generate Drizzle ORM artifacts
-- `npm run push` - Push Drizzle ORM migration
-- `npm run introspect` - Introspect database schema with Drizzle ORM
-- `npm run studio` - Open Drizzle ORM studio
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint for code quality
+- `npm run db:generate` - Generate Drizzle ORM migrations
+- `npm run db:push` - Push migrations to the database
+- `npm run studio` - Open Drizzle Studio to explore data
+- `npm run test-emails` - Run email template tests
 
-See `package.json` for additional scripts.
+See `package.json` for additional utility and testing scripts.
 
 ---
 
