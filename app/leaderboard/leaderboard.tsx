@@ -11,12 +11,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 
 type User = Awaited<ReturnType<typeof getUsersListByRank>>;
-interface LeaderboardResponse {
-  //@ts-ignore
-  users: User[number];
-  hasMore: boolean;
-  nextCursor?: number;
-}
 
 interface LeaderboardResponse {
   //@ts-ignore
@@ -90,6 +84,8 @@ export default function InfiniteLeaderboard({
     queryKey: ["leaderboard"],
     queryFn: fetchLeaderboardUsers,
     initialPageParam: 0,
+    staleTime: 1000 * 60 * 5, // 5 minutes to prevent immediate refetch mismatch
+    refetchOnWindowFocus: false,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.hasMore ? lastPage.nextCursor : undefined;
     },
@@ -116,8 +112,16 @@ export default function InfiniteLeaderboard({
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  // Flatten all users from all pages
-  const allUsers = data?.pages.flatMap((page) => page.users) || [];
+  // Flatten all users from all pages and deduplicate
+  const allUsersRaw = data?.pages.flatMap((page) => page.users) || [];
+  const seenUsernames = new Set();
+  const allUsers = allUsersRaw.filter((user) => {
+    if (seenUsernames.has(user.username)) {
+      return false;
+    }
+    seenUsernames.add(user.username);
+    return true;
+  });
 
   if (error) {
     return (

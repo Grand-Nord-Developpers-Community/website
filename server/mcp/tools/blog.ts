@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { blogPost } from "@/lib/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, asc } from "drizzle-orm";
 import { marked } from "marked";
 import { updateBlogVisibility } from "@/actions/blog.actions";
 
@@ -28,15 +28,16 @@ export const registerBlogTools = (server: any) => {
         pageSize: z.number().default(10),
         query: z.string().optional(),
         isDraft: z.boolean().default(false),
+        sortOrder: z.enum(["asc", "desc"]).default("desc"),
       }),
     },
-    async ({ page, pageSize, query, isDraft }: any) => {
+    async ({ page, pageSize, query, isDraft, sortOrder }: any) => {
       const q = query;
       // @ts-ignore
       const results = await db.query.blogPost.findMany({
         limit: pageSize,
         offset: page * pageSize,
-        orderBy: [desc(blogPost.createdAt)],
+        orderBy: [sortOrder === "asc" ? asc(blogPost.createdAt) : desc(blogPost.createdAt)],
         // @ts-ignore
         where: (blogs, { and, eq, like, or }) => {
           const conds = [];

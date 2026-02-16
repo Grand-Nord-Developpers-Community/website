@@ -21,11 +21,11 @@ export async function GET(request: NextRequest) {
     const offset = parseInt(searchParams.get("offset") || "0");
     const limit = parseInt(searchParams.get("limit") || "10");
 
-    const users = await getUsersListByRank(offset, limit);
+    // Fetch limit + 1 items to check if there are more
+    const usersWithExtra = await getUsersListByRank(offset, limit, limit + 1);
 
-    // Check if there are more users by fetching one extra
-    const nextBatch = await getUsersListByRank(offset + 1, limit);
-    const hasMore = nextBatch && nextBatch.length > 0;
+    const hasMore = usersWithExtra ? usersWithExtra.length > limit : false;
+    const users = hasMore ? usersWithExtra!.slice(0, limit) : (usersWithExtra || []);
 
     return NextResponse.json({
       users,

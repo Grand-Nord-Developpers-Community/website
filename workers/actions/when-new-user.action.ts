@@ -66,7 +66,7 @@ export default async function whenNewUser(
     });
   }
   await sendBotMsg({
-    msg: `New GNDC User 🚀\n Bienvenue : *${user.name}*\n\nprofil : ${baseUrl}/user/${user.username}`,
+    msg: `New GNDC User 🚀\n Bienvenue : *${user.name?.trim()}*\n\nprofil : ${baseUrl}/user/${user.username}`,
   });
   console.log(data);
 }

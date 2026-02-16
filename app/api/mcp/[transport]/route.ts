@@ -3,6 +3,8 @@ import { registerBlogTools } from "@/server/mcp/tools/blog";
 import { registerForumTools } from "@/server/mcp/tools/forum";
 import { registerUserTools } from "@/server/mcp/tools/user";
 import { registerUnsplashTools } from "@/server/mcp/tools/unsplash";
+import { registerTimeTools } from "@/server/mcp/tools/time";
+import { registerEventTools } from "@/server/mcp/tools/event";
 import { verifyToken } from "@/server/mcp/auth";
 
 // Define the MCP Handler
@@ -13,6 +15,8 @@ const handler = createMcpHandler(
     registerForumTools(server);
     registerUserTools(server);
     registerUnsplashTools(server);
+    registerTimeTools(server);
+    registerEventTools(server);
   },
   {
     capabilities: {

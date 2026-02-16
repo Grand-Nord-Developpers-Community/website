@@ -375,12 +375,12 @@ export async function getUserProfile(userId: string) {
   return profile;
 }
 
-export async function getUsersListByRank(page = 0, pageSize = 5) {
+export async function getUsersListByRank(page = 0, pageSize = 5, fetchLimit?: number) {
   const offset = page * pageSize;
   try {
     const users = await db.query.userTable.findMany({
-      orderBy: [desc(user.experiencePoints)],
-      limit: pageSize,
+      orderBy: [desc(user.experiencePoints), desc(user.createdAt), desc(user.id)],
+      limit: fetchLimit || pageSize,
       offset: offset,
       columns: {
         image: true,

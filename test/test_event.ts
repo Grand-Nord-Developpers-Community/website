@@ -20,7 +20,7 @@ async function main() {
 
   const client = new Client(
     {
-      name: "unsplash-test-client",
+      name: "event-test-client",
       version: "1.0.0",
     },
     {
@@ -32,18 +32,15 @@ async function main() {
 
   console.log("Connected to MCP server");
 
-  console.log("\n🧪 Testing tool 'search_images'...");
+  console.log("\n🧪 Testing tool 'list_events'...");
   try {
-    const searchResult = await client.callTool({
-      name: "search_images",
-      arguments: { 
-        query: "c++ programming language",
-        perPage: 2
-      },
+    const result = await client.callTool({
+      name: "list_events",
+      arguments: { pageSize: 2 },
     });
-    console.log("Result of 'search_images':", JSON.stringify(searchResult.content, null, 2));
+    console.log("Result of 'list_events':", JSON.stringify(result.content, null, 2));
   } catch (error) {
-    console.error("Error calling 'search_images':", error);
+    console.error("Error calling 'list_events':", error);
   }
 
   await transport.close();

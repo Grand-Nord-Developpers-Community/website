@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { forumPost } from "@/lib/db/schema";
-import { desc } from "drizzle-orm";
+import { desc, asc } from "drizzle-orm";
 
 export const registerForumTools = (server: any) => {
   // List Forums
@@ -13,15 +13,16 @@ export const registerForumTools = (server: any) => {
         page: z.number().default(0),
         pageSize: z.number().default(10),
         query: z.string().optional(),
+        sortOrder: z.enum(["asc", "desc"]).default("desc"),
       }),
     },
-    async ({ page, pageSize, query }: any) => {
+    async ({ page, pageSize, query, sortOrder }: any) => {
       const q = query;
       // @ts-ignore
       const results = await db.query.forumPost.findMany({
         limit: pageSize,
         offset: page * pageSize,
-        orderBy: [desc(forumPost.createdAt)],
+        orderBy: [sortOrder === "asc" ? asc(forumPost.createdAt) : desc(forumPost.createdAt)],
         // @ts-ignore
         where: (forums, { like, or }) => {
           if (q)

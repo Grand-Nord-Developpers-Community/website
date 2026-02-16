@@ -10,6 +10,7 @@ import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
 const origin = process.argv[2] || `${process.env.BASE_URL}/api`;
 
 async function main() {
+  //console.log(new URL(`${origin}/mcp/sse`))
   const transport = new SSEClientTransport(new URL(`${origin}/mcp/sse`), {
     requestInit: {
       headers: {
@@ -20,7 +21,7 @@ async function main() {
 
   const client = new Client(
     {
-      name: "unsplash-test-client",
+      name: "time-test-client",
       version: "1.0.0",
     },
     {
@@ -32,18 +33,15 @@ async function main() {
 
   console.log("Connected to MCP server");
 
-  console.log("\n🧪 Testing tool 'search_images'...");
+  console.log("\n🧪 Testing tool 'get_current_time'...");
   try {
-    const searchResult = await client.callTool({
-      name: "search_images",
-      arguments: { 
-        query: "c++ programming language",
-        perPage: 2
-      },
+    const result = await client.callTool({
+      name: "get_current_time_and_date",
+      arguments: { timezone: 'Africa/Douala' },
     });
-    console.log("Result of 'search_images':", JSON.stringify(searchResult.content, null, 2));
+    console.log("Result of 'get_current_time':", JSON.stringify(result.content, null, 2));
   } catch (error) {
-    console.error("Error calling 'search_images':", error);
+    console.error("Error calling 'get_current_time':", error);
   }
 
   await transport.close();
