@@ -151,15 +151,15 @@ function Footer() {
             </p>
             <div className="w-full">
               <div className="flex gap-2 justify-between max-sm:justify-start">
-                <Link href="#">
+                <Link href="https://t.me/GrandNordDevelopersCommunity">
                   <TelegramButton />
                 </Link>
 
-                <Link href="#">
+                <Link href="https://chat.whatsapp.com/FMUPbBkEKs24B8rE4h9xsh">
                   <WhatsAppButton />
                 </Link>
 
-                <Link href="#">
+                <Link href="https://discord.gg/kvp5TtYxt">
                   <DiscordButton />
                 </Link>
               </div>
@@ -174,19 +174,19 @@ function Footer() {
             Tous droits réservés
           </p>
           <div className="flex items-center gap-4 md:mt-0 max-sm:gap-2 max-sm:mt-4">
-            <Link href="#" className="bg-muted p-2">
+            <Link href="https://www.youtube.com/@GrandNordDevelopersCommunity" className="bg-muted p-2">
               <YoutubeIcon className="size-4 fill-dark dark:fill-white" />
             </Link>
-            <Link href="#" className="bg-muted p-2">
+            <Link href="https://twitter.com/" className="bg-muted p-2">
               <Xicon className="size-4 fill-dark dark:fill-white" />
             </Link>
-            <Link href="#" className="bg-muted p-2">
+            <Link href="https://www.facebook.com/profile.php?id=61558885960388&mibextid=LQQJ4d" className="bg-muted p-2">
               <FacebookIcon className="size-4 fill-dark dark:fill-white" />
             </Link>
-            <Link href="#" className="bg-muted p-2">
+            <Link href="https://www.linkedin.com/company/grand-nord-developers-community/" className="bg-muted p-2">
               <LinkedinIcon className="size-4 fill-dark dark:fill-white" />
             </Link>
-            <Link href="#" className="bg-muted p-2">
+            <Link href="https://github.com/Grand-Nord-Developpers-Community" className="bg-muted p-2">
               <GithubIcon className="size-4 fill-dark dark:fill-white" />
             </Link>
           </div>
