@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
-import emailjs from "emailjs-com";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { sendContactEmail } from "@/actions/contact.action";
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -30,36 +30,26 @@ const ContactUs: React.FC = () => {
     }));
   };
 
-  const sendEmail = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSending(true);
 
-    const serviceID = "service_jsgqqtb"; // Replace with environment varibales later on deployment
-    const templateID = "template_5fsocvq"; // Replace with environment varibales later on deployment
-    const publicKey = "ODliIIToK3nyFsqod"; // Replace with environment varibales later on deployment
+    try {
+      const result = await sendContactEmail(formData);
 
-    emailjs
-      .send(serviceID, templateID, formData, publicKey)
-      .then(
-        (response) => {
-          console.log(
-            "Email successfully sent!",
-            response.status,
-            response.text
-          );
-          toast.success("Nous avons reçu votre message avec succès!");
-          setFormData({ name: "", email: "", phone: "", message: "" });
-        },
-        (error) => {
-          console.error("Failed to send the email. Error:", error);
-          toast.error(
-            "Une erreur s'est produite. Veuillez recommencer plutard."
-          );
-        }
-      )
-      .finally(() => {
-        setIsSending(false);
-      });
+      if (result.success) {
+        toast.success("Nous avons reçu votre message avec succès!");
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        toast.error(
+          result.error ?? "Une erreur s'est produite. Veuillez recommencer plus tard."
+        );
+      }
+    } catch {
+      toast.error("Une erreur s'est produite. Veuillez recommencer plus tard.");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -88,7 +78,7 @@ const ContactUs: React.FC = () => {
 
               <form
                 className="absolute w-full p-8 bg-card shadow-lg rounded-lg top-12 left-0 space-y-6"
-                onSubmit={sendEmail}
+                onSubmit={handleSubmit}
               >
                 <Input
                   name="name"

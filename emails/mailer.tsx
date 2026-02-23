@@ -14,6 +14,7 @@ import {
   NewsletterDigestLayout,
   NewsletterDigestLayoutProps,
 } from "./weekly-digest";
+import ContactEmail, { ContactEmailProps } from "./contact";
 
 export type Templates =
   | { type: "joined"; props: NewUserProps }
@@ -25,7 +26,8 @@ export type Templates =
   | { type: "blogPublished"; props: BlogPublishedProps }
   | { type: "notification"; props: NotificationProps }
   | { type: "validated"; props: ValidatedBlogProps }
-  | { type: "digest-blog"; props: NewsletterDigestLayoutProps };
+  | { type: "digest-blog"; props: NewsletterDigestLayoutProps }
+  | { type: "contact"; props: ContactEmailProps };
 
 export async function renderEmail(template: Templates): Promise<string> {
   switch (template.type) {
@@ -49,6 +51,8 @@ export async function renderEmail(template: Templates): Promise<string> {
       return render(<BlogPublished {...template.props} />);
     case "leaderboard":
       return render(<LeaderBoard {...template.props} />);
+    case "contact":
+      return render(<ContactEmail {...template.props} />);
     default:
       throw new Error("Unknown template type");
   }
