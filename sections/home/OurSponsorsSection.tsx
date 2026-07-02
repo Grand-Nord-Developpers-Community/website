@@ -28,14 +28,22 @@ const OurSponsors: FC = () => {
         <Marquee pauseOnHover className="[--duration:20s]">
           {sponsors.map((sponsor, index) => {
             return (
-              <a href={sponsor.url} key={sponsor.name + index}>
+              <a
+                href={sponsor.url}
+                key={sponsor.name + index}
+                className="flex items-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Image
                   loading="lazy"
                   src={sponsor.logo.url}
                   width={sponsor.logo.width}
                   height={sponsor.logo.height}
                   alt={"logo " + sponsor.name}
-                  className="w-auto h-10 mx-5 max-sm:h-9"
+                  className={
+                    sponsor.logoClassName ?? "w-auto h-10 mx-5 max-sm:h-9"
+                  }
                 />
               </a>
             );

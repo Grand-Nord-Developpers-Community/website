@@ -6,4 +6,5 @@ export default interface OurSponsors {
     height: number;
   };
   url: string;
+  logoClassName?: string;
 }
