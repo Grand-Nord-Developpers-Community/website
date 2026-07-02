@@ -1,4 +1,13 @@
-import IconCloud from "@/components/ui/icon-cloud";
+"use client";
+
+import dynamic from "next/dynamic";
+
+const IconCloud = dynamic(() => import("@/components/ui/icon-cloud"), {
+  ssr: false,
+  loading: () => (
+    <div className="relative flex size-full max-w-lg items-center justify-center" aria-hidden />
+  ),
+});
 
 const slugs = [
   "typescript",

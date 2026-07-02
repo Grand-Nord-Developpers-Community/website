@@ -1,5 +1,6 @@
 import { CalendarIcon, FileTextIcon } from "@radix-ui/react-icons";
 import { Building2Icon, NewspaperIcon } from "lucide-react";
+import Link from "next/link";
 import Safari from "@/components/ui/safari";
 import Globe from "@/components/Globe";
 import NumberTicker from "@/components/ui/number-ticker";
@@ -91,13 +92,13 @@ export default function BentoSection() {
         </div>
 
         <div className="col-span-12 md:col-span-6 lg:col-span-4 md:order-1 grid gap-4 xl:gap-6">
-          <a className="md:order-2 relative focus:outline-none" href="/members">
-            <div className="overflow-hidden p-6 max-sm:pt-4 flex flex-col justify-between items-center md:min-h-[480px] text-center rounded-xl before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500">
+          <div className="md:order-2 relative">
+            <div className="overflow-hidden p-6 max-sm:pt-4 flex flex-col justify-between items-center md:min-h-[480px] text-center rounded-xl before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus-within:border-2 before:focus-within:border-secondary before:hover:shadow-lg dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus-within:border-blue-500">
               <div className="flex justify-center relative w-full h-[258px] before:absolute before:top-0 before:-inset-x-6  before:bg-no-repeat before:bg-center before:bg-cover before:w-[calc(100%+48px)] before:h-full before:-z-[1] lg:before:bg-auto">
                 <Globe />
               </div>
 
-              <div className="mt-8">
+              <div className="mt-8 relative z-10">
                 <h3 className="text-lg md:text-xl font-semibold text-primary dark:text-neutral-200">
                   Notre expertise
                 </h3>
@@ -123,6 +124,12 @@ export default function BentoSection() {
                   </svg>
                 </p>
               </div>
+
+              <Link
+                href="/members"
+                className="absolute inset-0 z-20 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
+                aria-label="Voir les membres — Notre expertise"
+              />
             </div>
 
             <div className="absolute top-0 end-0 -z-[1] w-70 h-auto">
@@ -171,7 +178,7 @@ export default function BentoSection() {
                 </defs>
               </svg>
             </div>
-          </a>
+          </div>
 
           <a
             className="lg:mt-20 md:order-1 relative focus:outline-none p-6 flex flex-col justify-center items-center md:min-h-[230px] text-center rounded-xl before:absolute before:inset-0 before:z-10 before:border before:border-gray-200 before:rounded-xl before:transition before:hover:border-2 before:hover:border-secondary before:focus:border-2 before:focus:border-secondary before:hover:shadow-lg dark:before:border-neutral-800 dark:before:hover:border-blue-500 dark:before:focus:border-blue-500 dark:rounded-xl"

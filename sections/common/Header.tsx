@@ -131,6 +131,7 @@ function Header({
   const { is404 } = useIs404Store();
 
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const trackScrollProgress = () => {
     const winScroll = document.documentElement.scrollTop;
     const height =
@@ -141,6 +142,8 @@ function Header({
   };
 
   useEffect(() => {
+    setMounted(true);
+
     const handleScroll = () => {
       trackScrollProgress();
     };
@@ -223,19 +226,20 @@ function Header({
           )}
           <AnimatedThemeToggler />
         </div>
-        <Sheet>
-          <div className="flex items-center gap-3 lg:hidden">
-            <AnimatedThemeToggler />
-            <SheetTrigger asChild>
-              <Button className=" border" variant="outline">
-                <MenuIcon />
-              </Button>
-            </SheetTrigger>
-            {userObj && userObj.isCompletedProfile && (
-              <AvatarMenuDropDown user={userObj} role={role} />
-            )}
-          </div>
-          <SheetContent className="bg-card pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
+        {mounted ? (
+          <Sheet>
+            <div className="flex items-center gap-3 lg:hidden">
+              <AnimatedThemeToggler />
+              <SheetTrigger asChild>
+                <Button className=" border" variant="outline">
+                  <MenuIcon />
+                </Button>
+              </SheetTrigger>
+              {userObj && userObj.isCompletedProfile && (
+                <AvatarMenuDropDown user={userObj} role={role} />
+              )}
+            </div>
+            <SheetContent className="bg-card pt-5 mt-0 max-sm:w-[70%] w-[540px] max-sm:px-3 px-5">
             <SheetHeader>
               <SheetTitle>
                 <Image
@@ -315,6 +319,17 @@ function Header({
             </SheetFooter>
           </SheetContent>
         </Sheet>
+        ) : (
+          <div className="flex items-center gap-3 lg:hidden">
+            <AnimatedThemeToggler />
+            <Button className="border" variant="outline" aria-label="Menu">
+              <MenuIcon />
+            </Button>
+            {userObj && userObj.isCompletedProfile && (
+              <AvatarMenuDropDown user={userObj} role={role} />
+            )}
+          </div>
+        )}
       </div>
       <div className="absolute bottom-0 z-[41] left-0 w-full h-1 max-sm:h-[1px] bg-gray-200 dark:bg-black">
         <div
