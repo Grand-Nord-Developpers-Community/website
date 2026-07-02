@@ -149,6 +149,7 @@
     "react-day-picker": "^9.5.0",
     "react-dom": "^19.2.0",
     "react-dropzone": "^14.3.5",
+    "react-easy-crop": "^6.0.2",
     "react-hook-form": "^7.53.2",
     "react-hot-toast": "^2.6.0",
     "react-icon-cloud": "^4.1.4",
