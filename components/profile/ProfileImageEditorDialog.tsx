@@ -8,8 +8,9 @@ import {
   Palette,
   RotateCcw,
   RotateCw,
-  Sparkles,
+  Search,
   Sun,
+  ZoomIn,
 } from "lucide-react";
 import {
   Dialog,
@@ -259,7 +260,7 @@ export default function ProfileImageEditorDialog({
             <div className="space-y-3">
               <EditorSlider
                 label="Zoom"
-                icon={<Sparkles className="size-4" />}
+                icon={<ZoomIn className="size-4" />}
                 value={Math.round(zoom * 100)}
                 min={100}
                 max={300}
