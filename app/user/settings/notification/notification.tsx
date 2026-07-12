@@ -31,19 +31,19 @@ import { NotificationBanner } from "@/components/bannerNotification";
 
 const notificationFormSchema = z.object({
   // Email
-  emailBlogUpdates: z.boolean().default(true),
-  emailForumsQuestion: z.boolean().default(true),
-  emailNewsHebdomadaire: z.boolean().default(true),
-  emailLeaderboardHebdomadaire: z.boolean().default(true),
+  emailBlogUpdates: z.boolean(),
+  emailForumsQuestion: z.boolean(),
+  emailNewsHebdomadaire: z.boolean(),
+  emailLeaderboardHebdomadaire: z.boolean(),
 
   // Notifications
-  notifBlogUpdates: z.boolean().default(true),
-  notifForumsQuestion: z.boolean().default(true),
-  notifNewsHebdomadaire: z.boolean().default(true),
-  notifLeaderboardHebdomadaire: z.boolean().default(true),
-  notifUpvote: z.boolean().default(true),
-  notifComment: z.boolean().default(true),
-  notifBlogLike: z.boolean().default(true),
+  notifBlogUpdates: z.boolean(),
+  notifForumsQuestion: z.boolean(),
+  notifNewsHebdomadaire: z.boolean(),
+  notifLeaderboardHebdomadaire: z.boolean(),
+  notifUpvote: z.boolean(),
+  notifComment: z.boolean(),
+  notifBlogLike: z.boolean(),
 });
 
 type NotificationFormValues = z.infer<typeof notificationFormSchema>;
