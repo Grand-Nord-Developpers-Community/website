@@ -300,7 +300,7 @@ const ProfileCreateForm: React.FC<ProfileFormType> = ({
                       <FormLabel>Contact Number</FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
+                          type="tel"
                           placeholder="Enter you contact number"
                           disabled={loading}
                           {...field}

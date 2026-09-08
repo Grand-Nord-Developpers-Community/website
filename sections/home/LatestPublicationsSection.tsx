@@ -17,7 +17,7 @@ const LatestPublicationsSection: FC = async () => {
         <>
           <OurPublicationsGrid publications={publications} />
 
-          <p className="flex justify-center">
+          <div className="flex justify-center">
             <Button
               asChild
               Icon={<ArrowRightIcon className="size-4 " />}
@@ -27,7 +27,7 @@ const LatestPublicationsSection: FC = async () => {
             >
               <Link href="/blog">Voir toutes les publications</Link>
             </Button>
-          </p>
+          </div>
         </>
       )}
 

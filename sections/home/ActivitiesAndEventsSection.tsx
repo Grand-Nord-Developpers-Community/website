@@ -51,7 +51,7 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = async ({
             isHome={isHome}
           /> */}
           {isHome && (
-            <p className="flex justify-center">
+            <div className="flex justify-center">
               <ButtonX
                 asChild
                 variant="expandIcon"
@@ -61,7 +61,7 @@ const ActivitiesAndEventsSection: FC<ActivityAndEventProps> = async ({
               >
                 <Link href="/events">Voir tous les évènemenets</Link>
               </ButtonX>
-            </p>
+            </div>
           )}
         </>
       )}

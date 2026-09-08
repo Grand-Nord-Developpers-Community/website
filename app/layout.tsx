@@ -75,7 +75,7 @@ export default async function RootLayout({
   const userId = session?.user?.id || null;
 
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-title" content="GNDC" />
       </head>

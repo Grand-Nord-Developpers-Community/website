@@ -7,6 +7,7 @@ import logoGDG_Maroua from "@/assets/images/sponsors/logo_gdg_maroua.png";
 import logoMIT from "@/assets/images/sponsors/logo_MIT.png";
 import logoMountainHub from "@/assets/images/sponsors/logo_mountain_hub.png";
 import logoSamplex from "@/assets/images/sponsors/logo_samplex.png";
+import logoSAARETECH from "@/assets/images/sponsors/logo_saaretech.png";
 
 const date = new Date();
 
@@ -40,12 +41,22 @@ const ourSponsors: OurSponsors[] = [
   },
   {
     logo: {
+      height: logoSAARETECH.height,
+      url: logoSAARETECH.src,
+      width: logoSAARETECH.width,
+    },
+    name: "SAARE TECH",
+    url: "https://www.saaretech.com/",
+    logoClassName: "w-auto h-14 max-sm:h-12 mx-5",
+  },
+  {
+    logo: {
       height: logoSamplex.height,
       url: logoSamplex.src,
       width: logoSamplex.width,
     },
     name: "Samplex",
-    url: "https://samplex.com",
+    url: "https://www.samplex.cm",
   },
   {
     logo: {
